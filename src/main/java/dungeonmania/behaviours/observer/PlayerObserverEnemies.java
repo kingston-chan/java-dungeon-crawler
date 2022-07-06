@@ -1,5 +1,5 @@
 package dungeonmania.behaviours.observer;
 
-public interface ObserverBehaviour {
+public interface PlayerObserverEnemies {
 
 }
