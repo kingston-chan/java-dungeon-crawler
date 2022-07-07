@@ -6,9 +6,10 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class DungeonManiaController {
     public String getSkin() {
@@ -37,7 +38,50 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
+        try{
+            JSONObject resource = new JSONObject(FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json"));
+            JSONArray array = resource.getJSONArray("entities");
+
+            for(int i = 0; i < array.length(); i++){
+                JSONObject a = array.getJSONObject(i);
+                Integer x = (Integer) a.get("x");
+                Integer y = (Integer) a.get("y");
+                String type = (String) a.get("type");
+                // System.out.println(x + " " + y + " " + type);
+                // this should be added in some function
+            }
+
+            JSONObject goal = resource.getJSONObject("goal-condition");
+            String hello = getgoal(goal);
+            System.out.println(hello);
+        }
+        catch (IOException e){
+            e.printStackTrace();
+            return null;
+        }
+
         return null;
+    }
+    // helper fucntion(recursive) for reading goals
+    public String getgoal(JSONObject goal){
+        String all_goals = "";
+        if (goal.getString("goal").equals("AND")){
+            JSONArray iterate = goal.getJSONArray("subgoals");
+            for (int i = 0; i < iterate.length(); i++){
+                all_goals += getgoal((JSONObject) iterate.get(i));
+            }
+        } else if (goal.getString("goal").equals("OR")){
+            JSONArray iterate = goal.getJSONArray("subgoals");
+            for (int i = 0; i < iterate.length(); i++){
+                all_goals += getgoal((JSONObject) iterate.get(i));
+                all_goals += " or ";
+            }
+        }
+        else{
+            all_goals += ":" + goal.getString("goal");
+        }
+
+        return all_goals;
     }
 
     /**
