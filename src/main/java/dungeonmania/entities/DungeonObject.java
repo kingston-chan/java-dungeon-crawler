@@ -3,7 +3,7 @@ package dungeonmania.entities;
 import dungeonmania.behaviours.host.HostBehaviour;
 import dungeonmania.util.Position;
 
-public class DungeonObject {
+public abstract class DungeonObject {
     private HostBehaviour hostBehaviour;
     private Position position;
     private String uniqueId;
@@ -36,4 +36,6 @@ public class DungeonObject {
     public void setType(String type) {
         this.type = type;
     }
+
+    public abstract boolean isInteractable();
 }
