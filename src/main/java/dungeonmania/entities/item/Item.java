@@ -1,5 +1,7 @@
 package dungeonmania.entities.item;
 
-public abstract class Item {
+import dungeonmania.entities.DungeonObject;
+
+public abstract class Item extends DungeonObject {
 
 }
