@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Queue;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
 import dungeonmania.entities.actor.ally.Ally;
 import dungeonmania.entities.item.Item;
@@ -77,6 +78,10 @@ public class Player extends Actor {
 
     public void addAlly(Ally ally) {
 
+    }
+
+    public List<Ally> getAllies() {
+        return this.allies;
     }
 
     @Override
