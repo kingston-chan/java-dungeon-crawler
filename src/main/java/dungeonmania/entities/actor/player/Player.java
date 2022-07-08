@@ -18,6 +18,7 @@ public class Player extends Actor {
     private Queue<Potion> potionEffect;
     private Potion potionConsumed;
     private List<Ally> allies = new ArrayList<>();
+    private int enemiesDefeated = 0;
 
     public void addToInventory(Item item) {
 
@@ -28,7 +29,7 @@ public class Player extends Actor {
     }
 
     public List<Item> getInventory() {
-        return null;
+        return new ArrayList<>(this.inventory.values());
     }
 
     public Item getItem(String itemId) {
@@ -67,6 +68,10 @@ public class Player extends Actor {
 
     }
 
+    public boolean checkBuildables(String buildableItem) {
+        return false;
+    }
+
     public void build(Dungeon dungeon, String itemType) {
 
     }
@@ -77,6 +82,14 @@ public class Player extends Actor {
 
     public void addAlly(Ally ally) {
 
+    }
+
+    public int getEnemiesDefeated() {
+        return this.enemiesDefeated;
+    }
+
+    public void defeatedEnemy() {
+        this.enemiesDefeated++;
     }
 
     @Override
