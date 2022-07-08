@@ -83,4 +83,15 @@ public class Dungeon {
     public void setPlayer(Player player) {
     }
 
+    public int getConfig(String configKey) {
+        return -1;
+    }
+
+    public String getGoals() {
+        return null;
+    }
+
+    public List<Battle> getBattles() {
+        return null;
+    }
 }
