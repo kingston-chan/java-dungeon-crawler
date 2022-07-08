@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,7 +19,11 @@ import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
+import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
+import dungeonmania.response.models.ItemResponse;
+import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
@@ -27,12 +32,15 @@ public class Dungeon {
     private Map<String, Item> itemsInDungeon = new HashMap<>();
     private Map<String, Enemy> activeEnemies = new HashMap<>();
     private Map<String, StaticObject> staticObjects = new HashMap<>();
+    private String dungeonId = UUID.randomUUID().toString();
+    private String dungeonName = "";
     private Player player = null;
     private String config = "";
     private GoalTreeNode goals = null;
     private List<Battle> battles = new ArrayList<>();
     private FactoryChooser factoryChooser = new FactoryChooser();
     private GoalFactory goalFactory = new GoalFactory();
+    private String[] buildableItems = { "bow", "shield" };
 
     private GoalTreeNode addGoals(JSONObject goal) {
         GoalTreeNode goalTreeNode = new GoalTreeNode();
@@ -43,7 +51,6 @@ public class Dungeon {
             goalTreeNode.setLeftChild(addGoals(subgoals.getJSONObject(0)));
             goalTreeNode.setRightChild(addGoals(subgoals.getJSONObject(1)));
         } else if (goal.getString("goal").equals("OR")) {
-            JSONArray iterate = goal.getJSONArray("subgoals");
             JSONArray subgoals = goal.getJSONArray("subgoals");
             goalTreeNode.setSubGoalType("OR");
             goalTreeNode.setLeftChild(addGoals(subgoals.getJSONObject(0)));
@@ -80,6 +87,7 @@ public class Dungeon {
 
     public void initDungeon(String dungeonName, String configName) {
         this.config = configName;
+        this.dungeonName = dungeonName;
         try {
             JSONObject resource = new JSONObject(FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json"));
             JSONArray array = resource.getJSONArray("entities");
@@ -89,8 +97,16 @@ public class Dungeon {
                 int x = a.getInt("x");
                 int y = a.getInt("y");
                 String type = a.getString("type");
+                String portalColour = "";
+                int key = -1;
+                if (a.has("color")) {
+                    portalColour = a.getString("colour");
+                }
+                if (a.has("key")) {
+                    key = a.getInt("key");
+                }
                 DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, this);
+                dungeonObjectFactory.create(new Position(x, y), type, this, portalColour, key);
             }
 
             this.goals = addGoals(resource.getJSONObject("goal-condition"));
@@ -180,6 +196,60 @@ public class Dungeon {
         }
     }
 
+    public void addToBattles(Battle battle) {
+        this.battles.add(battle);
+    }
+
+    public DungeonResponse getDungeonResponse() {
+        // List<String> builables = new ArrayList<>();
+        // List<BattleResponse> battleResponses = new ArrayList<>();
+        // List<ItemResponse> inventory = new ArrayList<>();
+        // List<EntityResponse> entities = new ArrayList<>();
+
+        // for (DungeonObject d : this.dungeonObjects.values()) {
+        // entities.add(new EntityResponse(
+        // d.getUniqueId(),
+        // d.getType(),
+        // d.getPosition(),
+        // d.isInteractable()));
+        // }
+
+        // for (Item i : this.player.getInventory()) {
+        // inventory.add(new ItemResponse(i.getUniqueId(), i.getType()));
+        // }
+
+        // for (Battle b : this.battles) {
+        // List<RoundResponse> rounds = new ArrayList<>();
+
+        // for (Round r : b.getRounds()) {
+        // List<ItemResponse> itemsUsed = new ArrayList<>();
+
+        // for (Item i : r.getWeaponsUsed()) {
+        // itemsUsed.add(new ItemResponse(i.getUniqueId(), i.getType()));
+        // }
+
+        // rounds.add(new RoundResponse(r.getPlayerHealthChange(),
+        // r.getEnemyHealthChange(), itemsUsed));
+        // }
+
+        // battleResponses.add(new BattleResponse(b.getEnemyType(), rounds,
+        // b.getInitialPlayerHealth(),
+        // b.getInitialEnemyHealth()));
+        // }
+
+        // for (String s : buildableItems) {
+        // if (this.player.checkBuildables(s)) {
+        // builables.add(s);
+        // }
+        // }
+
+        // return new DungeonResponse(this.dungeonId, this.dungeonName, entities,
+        // inventory, battleResponses, builables,
+        // getGoals());
+
+        return null;
+    }
+
     public String getGoals() {
         if (goals.getLeftChild() == null && goals.getRightChild() == null) {
             StringBuilder allGoals = new StringBuilder("");
@@ -207,14 +277,6 @@ public class Dungeon {
         }
 
         return allGoals;
-    }
-
-    public List<Battle> getBattles() {
-        return null;
-    }
-
-    public DungeonResponse getDungeonResponse() {
-        return null;
     }
 
     public List<StaticObject> getStaticObjectsAtPosition(int x, int y) {
