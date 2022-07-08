@@ -100,10 +100,10 @@ public class DungeonTests {
         public void testGetGoals() {
             Dungeon testDungeon = new Dungeon();
             testDungeon.initDungeon("d_complexGoalsTest_andAll", "c_battleTests_basicMercenaryMercenaryDies");
-            assertEquals(testDungeon.getGoals(), ":exit:treasure:boulders:enemies");
+            assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) AND (:boulders AND :enemies)");
             Item treasure = testDungeon.getItemInDungeon(testDungeon.getDungeonObjects().get(4).getUniqueId());
             testDungeon.removeItemFromDungeon(treasure);
-            assertEquals(testDungeon.getGoals(), ":exit:boulders:enemies");
+            assertEquals(testDungeon.getGoals(), ":exit AND (:boulders AND :enemies)");
         }
 
         @Test
