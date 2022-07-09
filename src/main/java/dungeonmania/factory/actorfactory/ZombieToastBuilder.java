@@ -3,12 +3,13 @@ package dungeonmania.factory.actorfactory;
 import java.util.UUID;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.enemy.Enemy;
 import dungeonmania.util.Position;
 
 public class ZombieToastBuilder implements ActorBuilder {
     @Override
-    public void buildActor(Position position, String type, Dungeon dungeon) {
+    public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
         Enemy zombieToast = new Enemy();
         zombieToast.setUniqueId(UUID.randomUUID().toString());
         zombieToast.setPosition(position);
@@ -24,5 +25,6 @@ public class ZombieToastBuilder implements ActorBuilder {
         // set default movement
         // set current movement
         dungeon.addToActiveEnemies(zombieToast);
+        return zombieToast;
     }
 }

@@ -3,12 +3,13 @@ package dungeonmania.factory.actorfactory;
 import java.util.UUID;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.util.Position;
 
 public class PlayerBuilder implements ActorBuilder {
     @Override
-    public void buildActor(Position position, String type, Dungeon dungeon) {
+    public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
         Player player = new Player();
         player.setUniqueId(UUID.randomUUID().toString());
         player.setPosition(position);
@@ -19,5 +20,6 @@ public class PlayerBuilder implements ActorBuilder {
         player.setHostBehaviour(null);
         player.setVisitorBehaviour(null);
         dungeon.setPlayer(player);
+        return player;
     }
 }
