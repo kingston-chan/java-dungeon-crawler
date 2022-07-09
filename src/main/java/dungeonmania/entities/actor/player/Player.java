@@ -11,7 +11,7 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
 import dungeonmania.entities.actor.ally.Ally;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.potion.Potion;
+import dungeonmania.entities.item.potions.Potion;
 
 public class Player extends Actor {
     private Map<String, Item> inventory = new HashMap<>();
@@ -19,6 +19,7 @@ public class Player extends Actor {
     private Queue<Potion> potionEffect;
     private Potion potionConsumed;
     private List<Ally> allies = new ArrayList<>();
+    private int enemiesDefeated = 0;
 
     public void addToInventory(Item item) {
 
@@ -29,7 +30,7 @@ public class Player extends Actor {
     }
 
     public List<Item> getInventory() {
-        return null;
+        return new ArrayList<>(this.inventory.values());
     }
 
     public Item getItem(String itemId) {
@@ -68,6 +69,10 @@ public class Player extends Actor {
 
     }
 
+    public boolean checkBuildables(String buildableItem) {
+        return false;
+    }
+
     public void build(Dungeon dungeon, String itemType) {
 
     }
@@ -82,6 +87,14 @@ public class Player extends Actor {
 
     public List<Ally> getAllies() {
         return this.allies;
+    }
+
+    public int getEnemiesDefeated() {
+        return this.enemiesDefeated;
+    }
+
+    public void defeatedEnemy() {
+        this.enemiesDefeated++;
     }
 
     @Override

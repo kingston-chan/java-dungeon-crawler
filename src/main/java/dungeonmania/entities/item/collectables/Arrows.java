@@ -1,5 +1,5 @@
 package dungeonmania.entities.item.collectables;
 
-public class Wood extends Collectable{
+public class Arrows extends Collectable{
     
 }
