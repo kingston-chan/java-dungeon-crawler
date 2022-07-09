@@ -152,14 +152,37 @@ public class DungeonTests {
         }
 
         @Test
-        public void testGetGoals() {
+        public void testGetGoalsAnd() {
             Dungeon testDungeon = new Dungeon();
             testDungeon.initDungeon("d_complexGoalsTest_andAll", "c_battleTests_basicMercenaryMercenaryDies");
             assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) AND (:boulders AND :enemies)");
-            // Item treasure =
-            // testDungeon.getItemInDungeon(testDungeon.getDungeonObjects().get(4).getUniqueId());
-            // testDungeon.removeItemFromDungeon(treasure);
-            // assertEquals(testDungeon.getGoals(), ":exit AND (:boulders AND :enemies)");
+
+            Dungeon testDungeon2 = new Dungeon();
+            testDungeon2.initDungeon("d_halfComplexAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            assertEquals(testDungeon2.getGoals(), "(:exit AND :treasure) AND :boulders");
+
+            Dungeon testDungeon3 = new Dungeon();
+            testDungeon3.initDungeon("d_twoAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            assertEquals(testDungeon3.getGoals(), ":exit AND :boulders");
+
+            Dungeon testDungeon4 = new Dungeon();
+            testDungeon4.initDungeon("d_simpleActors", "c_battleTests_basicMercenaryMercenaryDies");
+            assertEquals(testDungeon4.getGoals(), ":enemies");
+        }
+
+        @Test
+        public void testGetGoalsOr() {
+            Dungeon testDungeon = new Dungeon();
+            testDungeon.initDungeon("d_complexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) OR (:boulders OR :enemies)");
+
+            Dungeon testDungeon2 = new Dungeon();
+            testDungeon2.initDungeon("d_halfComplexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            assertEquals(testDungeon2.getGoals(), "(:exit OR :treasure) OR :boulders");
+
+            Dungeon testDungeon3 = new Dungeon();
+            testDungeon3.initDungeon("d_twoOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            assertEquals(testDungeon3.getGoals(), ":exit OR :boulders");
         }
 
         @Test
@@ -212,6 +235,69 @@ public class DungeonTests {
             // assertEquals(entities.get(6).getPosition(), new Position(1, 2));
 
             // assertEquals(dres.getGoals(), ":exit");
+        }
+
+        @Test
+        public void testPlayerGoalsAnd() {
+            // DungeonManiaController dmc = new DungeonManiaController();
+            // dmc.newGame("d_complexGoalsTest_andAll",
+            // "c_complexGoalsTest_andAll");
+
+            // dmc.tick(Direction.RIGHT);
+            // DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+            // assertEquals(dres.getGoals(), "(:exit AND :treasure) AND :enemies");
+
+            // dres = dmc.tick(Direction.UP);
+
+            // assertEquals(dres.getGoals(), ":exit");
+
+            // dres = dmc.tick(Direction.UP);
+
+            // assertEquals(dres.getGoals(), "");
+        }
+
+        @Test
+        public void testPlayerGoalsOr() {
+            // DungeonManiaController dmc = new DungeonManiaController();
+            // dmc.newGame("d_complexGoalsTest_andAll",
+            // "c_complexGoalsTest_andAll");
+
+            // DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+            // assertEquals(dres.getGoals(), "(:exit OR :treasure) OR (:enemies AND
+            // :boulders)");
+
+            // dmc.tick(Direction.UP);
+            // dmc.tick(Direction.UP);
+            // dres = dmc.tick(Direction.RIGHT);
+
+            // assertEquals(dres.getGoals(), "");
+        }
+
+        @Test
+        public void tickSpawnSpiders() {
+            // DungeonManiaController dmc = new DungeonManiaController();
+            // DungeonResponse dres = dmc.newGame("d_complexGoalsTest_andAll",
+            // "c_spiderSpawnRateTest");
+
+            // assertTrue(dres.getEntities().size() == 6);
+
+            // dres = dmc.tick(Direction.DOWN);
+            // assertTrue(dres.getEntities().size() == 7);
+
+            // dres = dmc.tick(Direction.DOWN);
+            // assertTrue(dres.getEntities().size() == 8);
+
+            // dres = dmc.tick(Direction.DOWN);
+            // assertTrue(dres.getEntities().size() == 9);
+
+            // dres = dmc.tick(Direction.DOWN);
+            // assertTrue(dres.getEntities().size() == 10);
+
+            // dres = dmc.tick(Direction.DOWN);
+            // assertTrue(dres.getEntities().size() == 11);
+
         }
     }
 }
