@@ -17,7 +17,6 @@ public class KeyBuilder implements ItemBuilder{
         key.setType(type);
         key.setUniqueId(UUID.randomUUID().toString());
 
-        // TODO Auto-generated method stub
         return key;
     }
 }
