@@ -7,7 +7,6 @@ public abstract class Potion extends Item {
 
     @Override
     public boolean playerUse(Player player) {
-        player.addPotion(this);
         return true;
     }
 
