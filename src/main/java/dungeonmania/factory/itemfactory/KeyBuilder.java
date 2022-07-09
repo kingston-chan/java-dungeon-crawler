@@ -12,7 +12,6 @@ public class KeyBuilder implements ItemBuilder{
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
         Key key = new Key();
-        key.setDurability(-1);
         key.setHostBehaviour(null);
         key.setPosition(position);
         key.setType(type);
