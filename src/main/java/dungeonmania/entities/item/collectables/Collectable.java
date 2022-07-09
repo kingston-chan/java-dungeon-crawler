@@ -14,5 +14,9 @@ public abstract class Collectable extends Item{
     public boolean playerEquip(Player player) {
         return false;
     }
-    
+
+    @Override
+    public int getDurability() {
+        return -1;
+    }
 }

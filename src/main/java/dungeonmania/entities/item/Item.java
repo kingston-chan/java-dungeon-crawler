@@ -10,11 +10,11 @@ public abstract class Item extends DungeonObject {
     public abstract boolean playerEquip(Player player);
 
     public int getDurability() {
-        return Durability;
+        return this.Durability;
     }
 
     public void setDurability(int durability) {
-        Durability = durability;
+        this.Durability = durability;
     }
 
 
