@@ -85,7 +85,7 @@ public class PlayerTest {
         @Test
         public void testNoItemWithIdInInventory() {
             Player player = new Player();
-            assertEquals(player.hasInInventory("notanid"), null);
+            assertFalse(player.hasInInventory("notanid"));
         }
 
         @Test
