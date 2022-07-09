@@ -10,7 +10,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.Actor;
 import dungeonmania.entities.actor.ally.Ally;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.potion.Potion;
+import dungeonmania.entities.item.potions.Potion;
 
 public class Player extends Actor {
     private Map<String, Item> inventory = new HashMap<>();
