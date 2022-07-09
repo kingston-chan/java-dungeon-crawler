@@ -1,5 +1,7 @@
 package dungeonmania.entities.goal;
 
-public interface Goal {
+import dungeonmania.entities.Dungeon;
 
+public interface Goal {
+    public boolean hasAchieved(Dungeon dungeon, StringBuilder allGoals);
 }
