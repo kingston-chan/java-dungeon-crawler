@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import org.json.JSONArray;
@@ -13,6 +14,7 @@ import org.json.JSONObject;
 import dungeonmania.entities.actor.enemy.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
+import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.goal.GoalTreeNode;
 import dungeonmania.entities.item.Item;
@@ -28,6 +30,9 @@ import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
 public class Dungeon {
+    private final int MAX_SPIDER_SPAWN = 15;
+    private final int MIN_SPIDER_SPAWN = 0;
+
     private Map<String, DungeonObject> dungeonObjects = new HashMap<>();
     private Map<String, Item> itemsInDungeon = new HashMap<>();
     private Map<String, Enemy> activeEnemies = new HashMap<>();
@@ -41,23 +46,22 @@ public class Dungeon {
     private FactoryChooser factoryChooser = new FactoryChooser();
     private GoalFactory goalFactory = new GoalFactory();
     private String[] buildableItems = { "bow", "shield" };
+    private int tickCounter = 0;
 
     private GoalTreeNode addGoals(JSONObject goal) {
         GoalTreeNode goalTreeNode = new GoalTreeNode();
 
-        if (goal.getString("goal").equals("AND")) {
+        String goalStr = goal.getString("goal");
+
+        Goal goalType = goalFactory.createGoal(goalStr);
+
+        if (goalType == null) {
             JSONArray subgoals = goal.getJSONArray("subgoals");
-            goalTreeNode.setSubGoalType("AND");
-            goalTreeNode.setLeftChild(addGoals(subgoals.getJSONObject(0)));
-            goalTreeNode.setRightChild(addGoals(subgoals.getJSONObject(1)));
-        } else if (goal.getString("goal").equals("OR")) {
-            JSONArray subgoals = goal.getJSONArray("subgoals");
-            goalTreeNode.setSubGoalType("OR");
+            goalTreeNode.setSubGoalType(goalStr);
             goalTreeNode.setLeftChild(addGoals(subgoals.getJSONObject(0)));
             goalTreeNode.setRightChild(addGoals(subgoals.getJSONObject(1)));
         } else {
-            goalTreeNode.setSubGoalType("");
-            goalTreeNode.setGoal(goalFactory.createGoal(goal.getString("goal")));
+            goalTreeNode.setGoal(goalType);
         }
 
         return goalTreeNode;
@@ -69,7 +73,7 @@ public class Dungeon {
             StringBuilder rightString = new StringBuilder("");
             Boolean leftGoalAchieved = getAllGoals(dungeon, leftString, goalTreeNode.getLeftChild());
             Boolean rightGoalAchieved = getAllGoals(dungeon, rightString, goalTreeNode.getRightChild());
-            if (!(leftGoalAchieved && rightGoalAchieved)) {
+            if (leftGoalAchieved == false && rightGoalAchieved == false) {
                 allGoals.append("(" + leftString.toString() + " " + goalTreeNode.getSubGoalType() + " "
                         + rightString.toString() + ")");
                 return false;
@@ -251,7 +255,7 @@ public class Dungeon {
     }
 
     public String getGoals() {
-        if (goals.getLeftChild() == null && goals.getRightChild() == null) {
+        if (this.goals.getLeftChild() == null && this.goals.getRightChild() == null) {
             StringBuilder allGoals = new StringBuilder("");
             goals.getGoal().hasAchieved(this, allGoals);
             return allGoals.toString();
@@ -259,14 +263,14 @@ public class Dungeon {
 
         StringBuilder leftString = new StringBuilder("");
         StringBuilder rightString = new StringBuilder("");
-        Boolean leftGoalAchieved = getAllGoals(this, leftString, goals.getLeftChild());
-        Boolean rightGoalAchieved = getAllGoals(this, rightString, goals.getRightChild());
+        Boolean leftGoalAchieved = getAllGoals(this, leftString, this.goals.getLeftChild());
+        Boolean rightGoalAchieved = getAllGoals(this, rightString, this.goals.getRightChild());
 
-        if (!(leftGoalAchieved && rightGoalAchieved)) {
-            return leftString + " " + goals.getSubGoalType() + " " + rightString;
+        if (leftGoalAchieved == false && rightGoalAchieved == false) {
+            return leftString + " " + this.goals.getSubGoalType() + " " + rightString;
         }
 
-        if (goals.getSubGoalType().equals("OR")) {
+        if (this.goals.getSubGoalType().equals("OR")) {
             return "";
         }
 
@@ -297,5 +301,67 @@ public class Dungeon {
             }
         }
         return enemiesAtPosition;
+    }
+
+    public List<DungeonObject> getObjectsAtPosition(int x, int y) {
+        List<DungeonObject> objects = new ArrayList<>();
+        for (DungeonObject d : this.dungeonObjects.values()) {
+            if (d.getPosition().getX() == x && d.getPosition().getY() == y) {
+                objects.add(d);
+            }
+        }
+        return objects;
+    }
+
+    private boolean hasObjectAtPosition(Position position) {
+        for (DungeonObject d : this.dungeonObjects.values()) {
+            if (d.getPosition().equals(position)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public void updateSpawnSpider() {
+        // int spiderSpawnRate = getConfig("spider_spawn_rate");
+
+        // if (spiderSpawnRate == 0) {
+        // return;
+        // }
+
+        // tickCounter++;
+
+        // if (tickCounter % spiderSpawnRate != 0) {
+        // return;
+        // }
+
+        // DungeonObjectFactory spiderFactory =
+        // this.factoryChooser.getFactory("spider");
+        // Enemy newSpider = getActiveEnemy(
+        // spiderFactory.create(new Position(0, 0), "spider", this, "",
+        // -1).getUniqueId());
+
+        // Random rng = new Random();
+        // int spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+        // MIN_SPIDER_SPAWN;
+        // int spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+        // MIN_SPIDER_SPAWN;
+
+        // Position spiderPosition = new Position(spider_x, spider_y);
+
+        // while (hasObjectAtPosition(spiderPosition)) {
+        // if (getObjectsAtPosition(spider_x, spider_y).stream()
+        // .allMatch(o -> o.accept(this, newSpider, o.getUniqueId()) == true)) {
+        // return;
+        // }
+        // spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+        // MIN_SPIDER_SPAWN;
+        // spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+        // MIN_SPIDER_SPAWN;
+        // spiderPosition = new Position(spider_x, spider_y);
+        // }
+
+        // newSpider.setPosition(spiderPosition);
     }
 }
