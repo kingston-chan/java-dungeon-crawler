@@ -38,4 +38,17 @@ public abstract class DungeonObject {
     }
 
     public abstract boolean isInteractable();
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        DungeonObject other = (DungeonObject) obj;
+
+        return other.getUniqueId().equals(getUniqueId());
+    }
 }
