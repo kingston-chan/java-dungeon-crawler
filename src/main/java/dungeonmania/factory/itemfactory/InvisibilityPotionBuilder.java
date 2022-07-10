@@ -11,7 +11,7 @@ public class InvisibilityPotionBuilder implements ItemBuilder{
 
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
-        InvisibilityPotion invisibilityPotion = new InvisibilityPotion();
+        InvisibilityPotion invisibilityPotion = new InvisibilityPotion();// some behaviour needed
         invisibilityPotion.setHostBehaviour(null);
         invisibilityPotion.setPosition(position);
         invisibilityPotion.setType(type);

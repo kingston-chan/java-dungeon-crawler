@@ -12,7 +12,7 @@ public class InvincibilityPotionBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
         InvincibilityPotion invincibilityPotion = new InvincibilityPotion();
-        invincibilityPotion.setHostBehaviour(null);
+        invincibilityPotion.setHostBehaviour(null);// some behaviour needed
         invincibilityPotion.setPosition(position);
         invincibilityPotion.setType(type);
         invincibilityPotion.setUniqueId(UUID.randomUUID().toString());
