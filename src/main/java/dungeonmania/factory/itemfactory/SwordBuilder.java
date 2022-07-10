@@ -14,7 +14,7 @@ public class SwordBuilder implements ItemBuilder {
         Sword sword = new Sword(
                 dungeon.getConfig("sword_attack"),
                 dungeon.getConfig("sword_durability"));
-        sword.setHostBehaviour(null);
+        sword.setHostBehaviour(new ItemHost());
         sword.setPosition(position);
         sword.setType(type);
         sword.setUniqueId(UUID.randomUUID().toString());

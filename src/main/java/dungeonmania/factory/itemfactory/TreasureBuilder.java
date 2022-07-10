@@ -12,7 +12,7 @@ public class TreasureBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon, int keyNum) {
         Treasure treasure = new Treasure();
-        treasure.setHostBehaviour(null);
+        treasure.setHostBehaviour(new ItemHost());
         treasure.setPosition(position);
         treasure.setType(type);
         treasure.setUniqueId(UUID.randomUUID().toString());

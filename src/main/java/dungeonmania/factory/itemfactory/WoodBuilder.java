@@ -12,7 +12,7 @@ public class WoodBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon, int keyNum) {
         Wood wood = new Wood();
-        wood.setHostBehaviour(null);
+        wood.setHostBehaviour(new ItemHost());
         wood.setPosition(position);
         wood.setType(type);
         wood.setUniqueId(UUID.randomUUID().toString());

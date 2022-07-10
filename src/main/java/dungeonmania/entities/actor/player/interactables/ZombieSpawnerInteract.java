@@ -7,6 +7,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.equipment.Equipment;
+import dungeonmania.entities.item.equipment.Weapon;
 import dungeonmania.util.Position;
 
 public class ZombieSpawnerInteract implements InteractBehaviour {
@@ -17,7 +18,7 @@ public class ZombieSpawnerInteract implements InteractBehaviour {
             return false;
         }
 
-        List<Equipment> allEquipment = player.getInventory().stream()
+        List<Weapon> allWeapon = player.getInventory().stream()
                 .filter(item -> item instanceof Equipment)
                 .map(e -> (Equipment) e).collect(Collectors.toList());
 
