@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.equiments.Equipment;
+import dungeonmania.entities.item.equipment.Equipment;
 import dungeonmania.util.Position;
 
 public class ZombieSpawnerInteract implements InteractBehaviour {

@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.eclipse.jetty.io.ssl.SslConnection.DecryptedEndPoint;
+
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
@@ -18,8 +20,8 @@ import dungeonmania.entities.actor.player.interactables.InteractBehaviour;
 import dungeonmania.entities.actor.player.interactables.Interactables;
 import dungeonmania.entities.actor.player.interactables.ZombieSpawnerInteract;
 import dungeonmania.entities.item.Item;
+import dungeonmania.entities.item.Potion;
 import dungeonmania.entities.item.collectables.Key;
-import dungeonmania.entities.item.potions.Potion;
 import dungeonmania.entities.staticobject.StaticObject;
 
 public class Player extends Actor {
@@ -58,8 +60,8 @@ public class Player extends Actor {
      * @param itemId
      * @return
      */
-    public boolean use(String itemId) {
-        return this.inventory.get(itemId).playerUse(this);
+    public boolean use(String itemId, Dungeon dungeon) {
+        return this.inventory.get(itemId).playerUse(this, dungeon);
     }
 
     public Key getKey() {
@@ -112,8 +114,8 @@ public class Player extends Actor {
         notifyDungeon(dungeon);
     }
 
-    public void usePotion(Potion potion, int duration) {
-        for (int i = 0; i < duration; i++) {
+    public void usePotion(Potion potion) {
+        for (int i = 0; i < potion.getDuration(); i++) {
             this.potions.add(potion);
         }
     }
