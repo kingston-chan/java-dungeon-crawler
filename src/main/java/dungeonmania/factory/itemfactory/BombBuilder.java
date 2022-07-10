@@ -8,7 +8,6 @@ import dungeonmania.entities.item.Bomb;
 import dungeonmania.util.Position;
 
 public class BombBuilder implements ItemBuilder {
-
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon, int keyNum) {
         Bomb bomb = new Bomb();
@@ -16,8 +15,7 @@ public class BombBuilder implements ItemBuilder {
         bomb.setPosition(position);
         bomb.setType(type);
         bomb.setUniqueId(UUID.randomUUID().toString());
-
-        // TODO Auto-generated method stub
+        bomb.setHostBehaviour(new ItemHost());
         return bomb;
     }
 }

@@ -12,7 +12,7 @@ public class KeyBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon, int keyNum) {
         Key key = new Key(keyNum);
-        key.setHostBehaviour(null);
+        key.setHostBehaviour(new ItemHost());
         key.setPosition(position);
         key.setType(type);
         key.setUniqueId(UUID.randomUUID().toString());

@@ -31,6 +31,7 @@ public class Bomb extends Item {
     }
 
     @Override
+<<<<<<< HEAD
     public boolean playerUse(Player player, Dungeon dungeon) {
         // generate a new "static bomb" in that player's position
         // check static bomb's adjacent at the same time(method should be provided in
@@ -45,5 +46,14 @@ public class Bomb extends Item {
         dungeon.removeDungeonObject(this.getUniqueId());
         dungeon.addDungeonObject(newStaticBomb.getUniqueId(), newStaticBomb);
         return true;
+=======
+    public boolean provideAttack(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean provideDefense(Player player) {
+        return false;
+>>>>>>> dde6ed2eff588145557401c74e82e0ecae700137
     }
 }
