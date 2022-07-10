@@ -6,7 +6,8 @@ import dungeonmania.entities.actor.player.Player;
 public abstract class Item extends DungeonObject {
 
     public abstract boolean playerUse(Player player);
-    public abstract boolean playerEquip(Player player);
+    public abstract boolean provideAttack(Player player);
+    public abstract boolean provideDefense(Player player);
 
     @Override
     public boolean isInteractable() {

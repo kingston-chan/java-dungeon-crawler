@@ -24,7 +24,7 @@ public class ZombieToastBuilder implements ActorBuilder {
         // need to set observer
         // set default movement
         // set current movement
-        dungeon.addToActiveEnemies(zombieToast);
+        dungeon.addDungeonObject(zombieToast.getUniqueId(), zombieToast);
         return zombieToast;
     }
 }

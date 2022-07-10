@@ -14,7 +14,12 @@ public abstract class Potion extends Item {
     }
 
     @Override
-    public boolean playerEquip(Player player) {
+    public boolean provideAttack(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean provideDefense(Player player) {
         return false;
     }
 
@@ -25,4 +30,5 @@ public abstract class Potion extends Item {
     public void setBehaviour(AutomatedMovementBehaviour behaviour) {
         this.behaviour = behaviour;
     }
+
 }
