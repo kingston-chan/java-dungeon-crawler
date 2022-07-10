@@ -6,4 +6,4 @@ public interface AutomatedMovementBehaviour {
 
     public Position move(Position position);
 
-}
+}   
