@@ -5,6 +5,8 @@ import dungeonmania.entities.item.Item;
 
 public abstract class Equipment extends Item{
 
+    private int Durability;
+
     @Override
     public boolean playerUse(Player player) {
         return false;
@@ -13,5 +15,13 @@ public abstract class Equipment extends Item{
     @Override
     public boolean isInteractable() {
         return false;
+    }
+
+    public int getDurability() {
+        return this.Durability;
+    }
+
+    public void setDurability(int durability) {
+        this.Durability = durability;
     }
 }

@@ -15,8 +15,4 @@ public abstract class Potion extends Item {
         return false;
     }
 
-    @Override
-    public int getDurability() {
-        return -1;
-    }
 }

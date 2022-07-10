@@ -24,7 +24,7 @@ public class MercenaryBuilder implements ActorBuilder {
         // need to set observer
         // set default movement
         // set current movement
-        dungeon.addToActiveEnemies(mercenary);
+        dungeon.addDungeonObject(mercenary.getUniqueId(), mercenary);
         return mercenary;
     }
 }
