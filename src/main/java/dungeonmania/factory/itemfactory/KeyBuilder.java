@@ -7,11 +7,11 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.util.Position;
 
-public class KeyBuilder implements ItemBuilder{
+public class KeyBuilder implements ItemBuilder {
 
     @Override
-    public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
-        Key key = new Key();
+    public DungeonObject buildItem(Position position, String type, Dungeon dungeon, int keyNum) {
+        Key key = new Key(keyNum);
         key.setHostBehaviour(null);
         key.setPosition(position);
         key.setType(type);

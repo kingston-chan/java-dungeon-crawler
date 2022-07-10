@@ -10,7 +10,7 @@ import dungeonmania.util.Position;
 public class ArrowsBuilder implements ItemBuilder {
 
     @Override
-    public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
+    public DungeonObject buildItem(Position position, String type, Dungeon dungeon, int keyNum) {
         Arrows arrows = new Arrows();
         arrows.setHostBehaviour(null);
         arrows.setPosition(position);
