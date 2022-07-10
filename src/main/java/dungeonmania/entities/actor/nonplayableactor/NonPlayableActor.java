@@ -14,8 +14,4 @@ public abstract class NonPlayableActor extends Actor {
 
     public abstract void update(AutomatedMovementBehaviour movement, HostBehaviour hostBehaviour);
 
-    @Override
-    public boolean isInteractable() {
-        return false;
-    }
 }
