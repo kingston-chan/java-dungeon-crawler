@@ -11,7 +11,12 @@ public abstract class Collectable extends Item{
     }
 
     @Override
-    public boolean playerEquip(Player player) {
+    public boolean provideAttack(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean provideDefense(Player player) {
         return false;
     }
 }
