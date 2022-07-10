@@ -8,7 +8,7 @@ import java.util.Queue;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.Actor;
-import dungeonmania.entities.actor.ally.Ally;
+import dungeonmania.entities.actor.nonplayableactor.Ally;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.potions.Potion;
 
