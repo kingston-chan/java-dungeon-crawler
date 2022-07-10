@@ -1,8 +1,10 @@
 package dungeonmania.entities.actor.player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Queue;
 
 import dungeonmania.entities.Dungeon;
@@ -14,13 +16,14 @@ import dungeonmania.entities.actor.player.buildables.BuildableBlueprint;
 import dungeonmania.entities.actor.player.buildables.Buildables;
 import dungeonmania.entities.actor.player.interactables.InteractBehaviour;
 import dungeonmania.entities.actor.player.interactables.Interactables;
+import dungeonmania.entities.actor.player.interactables.ZombieSpawnerInteract;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.entities.item.potions.Potion;
 import dungeonmania.entities.staticobject.StaticObject;
 
 public class Player extends Actor {
-    private Inventory inventory = new Inventory();
+    private Map<String, Item> inventory = new HashMap<>();
     private Queue<Potion> potions = new LinkedList<>();
     private Potion potionConsumed = null;
     private List<Ally> allies = new ArrayList<>();
@@ -35,46 +38,53 @@ public class Player extends Actor {
     private int bonusAdditiveDefence = 0;
 
     public List<Item> getInventory() {
-        return inventory.getInventory();
+        return new ArrayList<>(this.inventory.values());
+    }
+
+    public void addToInventory(Item item) {
+        this.inventory.put(item.getUniqueId(), item);
     }
 
     public void removeFromInventory(Item item) {
-        this.inventory.removeItem(item.getUniqueId());
+        this.inventory.remove(item.getUniqueId());
     }
 
     public boolean hasInInventory(String itemId) {
-        return inventory.hasItem(itemId);
+        return this.inventory.get(itemId) != null;
     }
 
-    public boolean use(Item item) {
-        return item.playerUse(this);
-    }
-
-    public boolean removeTreasures(int numTreasures) {
-        return inventory.removeTreasures(numTreasures);
+    /**
+     * @precond itemId exists in inventory
+     * @param itemId
+     * @return
+     */
+    public boolean use(String itemId) {
+        return this.inventory.get(itemId).playerUse(this);
     }
 
     public Key getKey() {
-        return inventory.getKey();
+        try {
+            return this.inventory.values().stream()
+                    .filter(item -> item instanceof Key)
+                    .map(key -> (Key) key)
+                    .findFirst().get();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public void tryPickUpKey(Key key) {
         if (getKey() == null) {
-            inventory.addKey(key);
+            addToInventory(key);
         }
-    }
-
-    public void usedKey() {
-        inventory.addKey(null);
     }
 
     public void consumeQueuedPotionEffect() {
         this.potionConsumed = this.potions.poll();
-
     }
 
     private void notifyEnemies(Dungeon dungeon) {
-        // for (Enemy e : dungeon.getActiveEnemies()) {
+        // for (Enemy e : dungeon.getEnemies()) {
         // if (this.potionConsumed == null) {
         // e.update(e.getDefaultAutomatedMovementBehaviour(),
         // e.getDefaultHostBehaviour());
@@ -82,13 +92,14 @@ public class Player extends Actor {
         // e.update(this.potionConsumed.getMovementEffect(),
         // this.potionConsumed.getHostEffect());
         // }
+        // e.move(dungeon, e);
         // }
     }
 
-    private void notifyStaticObjects(Dungeon dungeon) {
-        // for (StaticObject s : dungeon.getStaticObjects()) {
-        // s.update();
-        // }
+    private void notifyZombieSpawners(Dungeon dungeon) {
+        // dungeon.getStaticObjects().stream()
+        // .filter(staticObject -> staticObject instanceof ZombieToastSpawner)
+        // .forEach(zombieSpawner -> (ZombieToastSpawner) zombieSpawner.update());
     }
 
     private void notifyDungeon(Dungeon dungeon) {
@@ -97,7 +108,7 @@ public class Player extends Actor {
 
     public void notifyAllObservers(Dungeon dungeon) {
         notifyEnemies(dungeon);
-        notifyStaticObjects(dungeon);
+        notifyZombieSpawners(dungeon);
         notifyDungeon(dungeon);
     }
 
@@ -130,7 +141,7 @@ public class Player extends Actor {
      */
     public boolean checkBuildables(String buildableItem) {
         BuildableBlueprint bp = buildables.getBlueprint(buildableItem);
-        return bp.isBuildable(this.inventory);
+        return bp.canPlayerBuild(this);
     }
 
     /**
@@ -140,7 +151,7 @@ public class Player extends Actor {
      */
     public void build(Dungeon dungeon, String itemType) {
         BuildableBlueprint bp = buildables.getBlueprint(itemType);
-        bp.buildItem(dungeon, this.inventory);
+        bp.playerBuild(dungeon, this);
     }
 
     public Potion getPotionConsumed() {

@@ -1,31 +1,37 @@
 package dungeonmania.entities.actor.player.buildables;
 
+import java.util.UUID;
+
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.DungeonObject;
-import dungeonmania.entities.actor.player.Inventory;
+import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.entities.item.Item;
-import dungeonmania.factory.DungeonObjectFactory;
-import dungeonmania.factory.FactoryChooser;
+import dungeonmania.entities.item.equiments.Bow;
 
 public class BowBlueprint implements BuildableBlueprint {
     private static final int NUM_ARROWS = 3;
     private static final int NUM_WOOD = 1;
     private static final String ITEM_TYPE = "bow";
 
-    @Override
-    public boolean isBuildable(Inventory inventory) {
-        return inventory.getNumArrows() >= NUM_ARROWS && inventory.getNumWood() >= NUM_WOOD;
+    private Item createNewBow(Dungeon dungeon) {
+        Bow bow = new Bow();
+        bow.setUniqueId(UUID.randomUUID().toString());
+        bow.setDurability(dungeon.getConfig("bow_durability"));
+        bow.setHostBehaviour(null);
+        bow.setPosition(null);
+        bow.setType(ITEM_TYPE);
+        return bow;
     }
 
     @Override
-    public void buildItem(Dungeon dungeon, Inventory inventory) {
-        FactoryChooser fc = new FactoryChooser();
-        DungeonObjectFactory dof = fc.getFactory(ITEM_TYPE);
-        DungeonObject d = dof.create(null, ITEM_TYPE, dungeon, "", -1);
-        Item bow = dungeon.getItemInDungeon(d.getUniqueId());
-        inventory.addItem(bow);
-        inventory.removeArrows(NUM_ARROWS);
-        inventory.removeWoods(NUM_WOOD);
-        dungeon.removeItemFromDungeon(bow);
+    public boolean canPlayerBuild(Player player) {
+        return ItemGetterHelpers.getNumArrows(player) >= NUM_ARROWS && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD;
+    }
+
+    @Override
+    public void playerBuild(Dungeon dungeon, Player player) {
+        player.addToInventory(createNewBow(dungeon));
+        ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROWS, player);
+        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
     }
 }

@@ -1,10 +1,10 @@
 package dungeonmania.entities.actor.player.buildables;
 
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.actor.player.Inventory;
+import dungeonmania.entities.actor.player.Player;
 
 public interface BuildableBlueprint {
-    public boolean isBuildable(Inventory inventory);
+    public boolean canPlayerBuild(Player player);
 
-    public void buildItem(Dungeon dungeon, Inventory inventory);
+    public void playerBuild(Dungeon dungeon, Player player);
 }

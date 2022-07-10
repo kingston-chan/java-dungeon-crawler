@@ -29,7 +29,6 @@ import dungeonmania.entities.actor.enemy.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.collectables.Arrows;
-import dungeonmania.entities.item.collectables.Bomb;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.entities.item.collectables.Wood;
@@ -101,12 +100,6 @@ public class PlayerTest {
         }
 
         @Test
-        public void testRemoveTreasurePlayerNoTreasure() {
-            Player player = new Player();
-            assertFalse(player.removeTreasures(3));
-        }
-
-        @Test
         public void testGetKeyPlayerHasKey() {
             // Player player = new Player();
             // Item key = new Key();
@@ -174,7 +167,7 @@ public class PlayerTest {
         public void testMercenaryInteractNotEnoughTreasures() {
             Dungeon testDungeon = new Dungeon();
             testDungeon.initDungeon("d_simpleMercenaryInteract", "c_battleTests_basicMercenaryMercenaryDies");
-            String mercId = testDungeon.getActiveEnemies().get(0).getUniqueId();
+            String mercId = testDungeon.getEnemies().get(0).getUniqueId();
             Player player = testDungeon.getPlayer();
             player.setPosition(new Position(3, 1));
             assertFalse(player.interact(testDungeon, mercId));

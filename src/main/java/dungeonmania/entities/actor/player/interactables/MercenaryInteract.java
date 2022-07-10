@@ -4,15 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.actor.enemy.Enemy;
+import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.util.Position;
 
 public class MercenaryInteract implements InteractBehaviour {
     @Override
     public boolean interact(Dungeon dungeon, Player player, String interactingWithId) {
 
-        Enemy merc = dungeon.getActiveEnemy(interactingWithId);
+        DungeonObject merc = dungeon.getDungeonObject(interactingWithId);
 
         List<Position> inRangePositions = new ArrayList<>();
 
@@ -33,6 +34,12 @@ public class MercenaryInteract implements InteractBehaviour {
             return false;
         }
 
-        return player.removeTreasures(bribeAmount);
+        if (ItemGetterHelpers.getNumTreasure(player) >= bribeAmount) {
+            ItemGetterHelpers.removeTreasuresFromInventory(bribeAmount, player);
+            // create and add to player's ally
+            return true;
+        }
+
+        return false;
     }
 }
