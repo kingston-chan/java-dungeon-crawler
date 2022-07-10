@@ -77,7 +77,7 @@ public class DungeonTests {
         public void testCreateActors() {
             Dungeon testDungeon = new Dungeon();
             testDungeon.initDungeon("d_simpleActors", "c_differentEnemyHealthAttack");
-            List<Enemy> enemies = testDungeon.getActiveEnemies();
+            List<Enemy> enemies = testDungeon.getEnemies();
             Player player = testDungeon.getPlayer();
 
             assertEquals(player.getPosition(), new Position(0, 1));
