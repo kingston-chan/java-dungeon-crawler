@@ -38,6 +38,10 @@ public class Player extends Actor {
         return inventory.getInventory();
     }
 
+    public void removeFromInventory(Item item) {
+        this.inventory.removeItem(item.getUniqueId());
+    }
+
     public boolean hasInInventory(String itemId) {
         return inventory.hasItem(itemId);
     }
