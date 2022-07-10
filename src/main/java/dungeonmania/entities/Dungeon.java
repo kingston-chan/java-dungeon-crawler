@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -34,15 +36,11 @@ public class Dungeon {
     private final int MIN_SPIDER_SPAWN = 0;
 
     private Map<String, DungeonObject> dungeonObjects = new HashMap<>();
-    private Map<String, Item> itemsInDungeon = new HashMap<>();
-    private Map<String, Enemy> activeEnemies = new HashMap<>();
-    private Map<String, StaticObject> staticObjects = new HashMap<>();
+    private List<Battle> battles = new ArrayList<>();
     private String dungeonId = UUID.randomUUID().toString();
     private String dungeonName = "";
-    private Player player = null;
     private String config = "";
     private GoalTreeNode goals = null;
-    private List<Battle> battles = new ArrayList<>();
     private FactoryChooser factoryChooser = new FactoryChooser();
     private GoalFactory goalFactory = new GoalFactory();
     private String[] buildableItems = { "bow", "shield" };
@@ -124,70 +122,43 @@ public class Dungeon {
         return this.dungeonObjects.get(uniqueId);
     }
 
+    public void removeDungeonObject(String uniqueId) {
+        this.dungeonObjects.remove(uniqueId);
+    }
+
+    public void addDungeonObject(String uniqueId, DungeonObject dungeonObject) {
+        this.dungeonObjects.put(uniqueId, dungeonObject);
+    }
+
     public List<DungeonObject> getDungeonObjects() {
         return new ArrayList<>(this.dungeonObjects.values());
     }
 
-    public Item getItemInDungeon(String uniqueId) {
-        return this.itemsInDungeon.get(uniqueId);
+    public List<Item> getItems() {
+        return this.dungeonObjects.values().stream()
+                .filter(dungeonObject -> dungeonObject instanceof Item)
+                .map(item -> (Item) item)
+                .collect(Collectors.toList());
     }
 
-    public List<Item> getItemsInDungeon() {
-        return new ArrayList<>(this.itemsInDungeon.values());
-    }
-
-    public void addItemToDungeon(Item item) {
-        this.itemsInDungeon.put(item.getUniqueId(), item);
-        this.dungeonObjects.put(item.getUniqueId(), item);
-    }
-
-    public void removeItemFromDungeon(Item item) {
-        this.dungeonObjects.remove(item.getUniqueId());
-        this.itemsInDungeon.remove(item.getUniqueId());
-    }
-
-    public Enemy getActiveEnemy(String uniqueId) {
-        return this.activeEnemies.get(uniqueId);
-    }
-
-    public List<Enemy> getActiveEnemies() {
-        return new ArrayList<>(this.activeEnemies.values());
-    }
-
-    public void addToActiveEnemies(Enemy enemy) {
-        this.activeEnemies.put(enemy.getUniqueId(), enemy);
-        this.dungeonObjects.put(enemy.getUniqueId(), enemy);
-    }
-
-    public void removeFromActiveEnemies(Enemy enemy) {
-        this.dungeonObjects.remove(enemy.getUniqueId());
-        this.activeEnemies.remove(enemy.getUniqueId());
-    }
-
-    public StaticObject getStaticObject(String uniqueId) {
-        return this.staticObjects.get(uniqueId);
+    public List<Enemy> getEnemies() {
+        return this.dungeonObjects.values().stream()
+                .filter(dungeonObject -> dungeonObject instanceof Enemy)
+                .map(enemy -> (Enemy) enemy)
+                .collect(Collectors.toList());
     }
 
     public List<StaticObject> getStaticObjects() {
-        return new ArrayList<>(this.staticObjects.values());
-    }
-
-    public void addStaticObject(StaticObject staticObject) {
-        this.staticObjects.put(staticObject.getUniqueId(), staticObject);
-        this.dungeonObjects.put(staticObject.getUniqueId(), staticObject);
-    }
-
-    public void removeFromStaticObjects(StaticObject staticObject) {
-        this.dungeonObjects.remove(staticObject.getUniqueId());
-        this.staticObjects.remove(staticObject.getUniqueId());
+        return this.dungeonObjects.values().stream()
+                .filter(dungeonObject -> dungeonObject instanceof StaticObject)
+                .map(staticObject -> (StaticObject) staticObject)
+                .collect(Collectors.toList());
     }
 
     public Player getPlayer() {
-        return player;
-    }
-
-    public void setPlayer(Player player) {
-        this.player = player;
+        return this.dungeonObjects.values().stream()
+                .filter(dungeonObject -> dungeonObject instanceof Player)
+                .map(player -> (Player) player).findFirst().get();
     }
 
     public int getConfig(String configKey) {
@@ -283,44 +254,27 @@ public class Dungeon {
         return allGoals;
     }
 
-    public List<StaticObject> getStaticObjectsAtPosition(int x, int y) {
-        List<StaticObject> staticObjectsAtPosition = new ArrayList<>();
-        for (StaticObject so : this.staticObjects.values()) {
-            if (so.getPosition().getX() == x && so.getPosition().getY() == y) {
-                staticObjectsAtPosition.add(so);
-            }
-        }
-        return staticObjectsAtPosition;
+    public List<StaticObject> getStaticObjectsAtPosition(Position position) {
+        return getStaticObjects().stream()
+                .filter(staticObject -> staticObject.getPosition().equals(position))
+                .collect(Collectors.toList());
     }
 
-    public List<Enemy> getEnemiesAtPosition(int x, int y) {
-        List<Enemy> enemiesAtPosition = new ArrayList<>();
-        for (Enemy e : this.activeEnemies.values()) {
-            if (e.getPosition().getX() == x && e.getPosition().getY() == y) {
-                enemiesAtPosition.add(e);
-            }
-        }
-        return enemiesAtPosition;
+    public List<Enemy> getEnemiesAtPosition(Position position) {
+        return getEnemies().stream()
+                .filter(enemy -> enemy.getPosition().equals(position))
+                .collect(Collectors.toList());
     }
 
-    public List<DungeonObject> getObjectsAtPosition(int x, int y) {
-        List<DungeonObject> objects = new ArrayList<>();
-        for (DungeonObject d : this.dungeonObjects.values()) {
-            if (d.getPosition().getX() == x && d.getPosition().getY() == y) {
-                objects.add(d);
-            }
-        }
-        return objects;
+    public List<DungeonObject> getObjectsAtPosition(Position position) {
+        return this.dungeonObjects.values().stream()
+                .filter(dungeonObject -> dungeonObject.getPosition().equals(position))
+                .collect(Collectors.toList());
     }
 
     private boolean hasObjectAtPosition(Position position) {
-        for (DungeonObject d : this.dungeonObjects.values()) {
-            if (d.getPosition().equals(position)) {
-                return true;
-            }
-        }
-
-        return false;
+        return getDungeonObjects().stream()
+                .anyMatch(dungeonObject -> dungeonObject.getPosition().equals(position));
     }
 
     public void updateSpawnSpider() {

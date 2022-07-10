@@ -19,7 +19,7 @@ public class PlayerBuilder implements ActorBuilder {
         player.setDefencePoints(0);
         player.setHostBehaviour(null);
         player.setVisitorBehaviour(null);
-        dungeon.setPlayer(player);
+        dungeon.addDungeonObject(player.getUniqueId(), player);
         return player;
     }
 }
