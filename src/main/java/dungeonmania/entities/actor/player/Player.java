@@ -12,8 +12,6 @@ import org.eclipse.jetty.io.ssl.SslConnection.DecryptedEndPoint;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
-import dungeonmania.entities.actor.nonplayableactor.Ally;
-import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.buildables.BuildableBlueprint;
 import dungeonmania.entities.actor.player.buildables.Buildables;
 import dungeonmania.entities.actor.player.interactables.InteractBehaviour;
@@ -28,7 +26,6 @@ public class Player extends Actor {
     private Map<String, Item> inventory = new HashMap<>();
     private Queue<Potion> potions = new LinkedList<>();
     private Potion potionConsumed = null;
-    private List<Ally> allies = new ArrayList<>();
 
     private Buildables buildables = new Buildables();
     private Interactables interactables = new Interactables();
@@ -160,14 +157,14 @@ public class Player extends Actor {
         return this.potionConsumed;
     }
 
-    public void addAlly(Ally ally) {
-        this.allies.add(ally);
-    }
-
-    public List<Ally> getAllies() {
-        return this.allies;
-    }
-
+    // public void addAlly(Ally ally) {
+    //     this.allies.add(ally);
+    // }
+ 
+    // public List<Ally> getAllies() {
+    //     return this.allies;
+    // }
+ 
     public int getEnemiesDefeated() {
         return this.enemiesDefeated;
     }

@@ -15,10 +15,9 @@ public class BowBlueprint implements BuildableBlueprint {
 
     private Item createNewBow(Dungeon dungeon) {
         Bow bow = new Bow(
-            2,
-            dungeon.getConfig("bow_durability"));
+                2,
+                dungeon.getConfig("bow_durability"));
         bow.setUniqueId(UUID.randomUUID().toString());
-        bow.setHostBehaviour(null);
         bow.setPosition(null);
         bow.setType(ITEM_TYPE);
         return bow;
