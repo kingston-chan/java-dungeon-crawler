@@ -48,12 +48,13 @@ public class DungeonManiaController {
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
         Dungeon newDungeon = new Dungeon();
+        currentDungeonInstance = newDungeon;
         String newDungeonId = newDungeon.initDungeon(dungeonName, configName);
         if (newDungeonId == null) {
+            currentDungeonInstance = null;
             throw new IllegalArgumentException();
         }
         dungeons.put(newDungeonId, newDungeon);
-        currentDungeonInstance = newDungeon;
         return newDungeon.getDungeonResponse();
     }
 
