@@ -17,7 +17,8 @@ public class Bomb extends Item {
     }
 
     private boolean checkActiveSwitches(Dungeon dungeon, Position currentPosition) {
-        return getAdjacentSwitches(dungeon, currentPosition).anyMatch(FloorSwitch::isActivated);
+        // return getAdjacentSwitches(dungeon, currentPosition).anyMatch(FloorSwitch::isActivated);
+        return true;
     }
 
     private StaticBomb createNewStaticBomb(Dungeon dungeon, Bomb itemBomb) {
@@ -25,8 +26,8 @@ public class Bomb extends Item {
         staticBomb.setPosition(itemBomb.getPosition());
         staticBomb.setType(itemBomb.getType());
         staticBomb.setUniqueId(itemBomb.getUniqueId());
-        staticBomb.setHostBehaviour(new DoesNothingHost);
-        getAdjacentSwitches(dungeon, itemBomb.getPosition()).forEach(floorSwtich -> floorSwitch.add(staticBomb));
+        // staticBomb.setHostBehaviour(new DoesNothingHost);
+        // getAdjacentSwitches(dungeon, itemBomb.getPosition()).forEach(floorSwtich -> floorSwitch.add(staticBomb));
         return staticBomb;
     }
 
