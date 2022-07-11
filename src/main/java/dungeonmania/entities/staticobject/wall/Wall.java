@@ -7,4 +7,16 @@ public class Wall extends StaticObject {
     public boolean isInteractable() {
         return false;
     }
+
+    public boolean accept(Player player) {
+        return false;
+    }
+
+    public boolean accept(NonPlayableActor enemy) {
+        return false;
+    }
+
+    public boolean accept(Boulder boulder) {
+        return false;
+    }
 }

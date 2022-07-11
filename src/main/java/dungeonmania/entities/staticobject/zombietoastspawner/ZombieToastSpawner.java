@@ -7,4 +7,13 @@ public class ZombieToastSpawner extends StaticObject {
     public boolean isInteractable() {
         return false;
     }
+
+    public boolean accept(Boulder boulder) {
+        return false;
+    }
+    
+    public void updateSpawnRate() {
+        //idk what this does either
+    }
+
 }
