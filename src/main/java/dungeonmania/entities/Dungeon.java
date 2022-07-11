@@ -65,26 +65,28 @@ public class Dungeon {
         return goalTreeNode;
     }
 
-    private boolean getAllGoals(Dungeon dungeon, StringBuilder allGoals, GoalTreeNode goalTreeNode) {
-        if (goalTreeNode.getGoal() == null) {
-            StringBuilder leftString = new StringBuilder("");
-            StringBuilder rightString = new StringBuilder("");
-            Boolean leftGoalAchieved = getAllGoals(dungeon, leftString, goalTreeNode.getLeftChild());
-            Boolean rightGoalAchieved = getAllGoals(dungeon, rightString, goalTreeNode.getRightChild());
-            if (leftGoalAchieved == false && rightGoalAchieved == false) {
-                allGoals.append("(" + leftString.toString() + " " + goalTreeNode.getSubGoalType() + " "
-                        + rightString.toString() + ")");
-                return false;
-            }
-
-            if (goalTreeNode.getSubGoalType().equals("OR")) {
-                return true;
-            } else {
-                allGoals.append(leftString.toString() + rightString.toString());
-                return false;
-            }
+    private boolean getAllGoals(StringBuilder allGoals, GoalTreeNode goalTreeNode) {
+        // base case
+        if (goalTreeNode.getGoal() != null) {
+            return goalTreeNode.getGoal().hasAchieved(allGoals);
         }
-        return goalTreeNode.getGoal().hasAchieved(dungeon, allGoals);
+
+        StringBuilder leftString = new StringBuilder("");
+        StringBuilder rightString = new StringBuilder("");
+        Boolean leftGoalAchieved = getAllGoals(leftString, goalTreeNode.getLeftChild());
+        Boolean rightGoalAchieved = getAllGoals(rightString, goalTreeNode.getRightChild());
+        if (leftGoalAchieved == false && rightGoalAchieved == false) {
+            allGoals.append("(" + leftString.toString() + " " + goalTreeNode.getSubGoalType() + " "
+                    + rightString.toString() + ")");
+            return false;
+        }
+
+        if (goalTreeNode.getSubGoalType().equals("OR")) {
+            return true;
+        }
+
+        allGoals.append(leftString.toString() + rightString.toString());
+        return false;
     }
 
     public String initDungeon(String dungeonName, String configName) {
@@ -108,7 +110,7 @@ public class Dungeon {
                     key = a.getInt("key");
                 }
                 DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, this, portalColour, key);
+                dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
             }
 
             this.goals = addGoals(resource.getJSONObject("goal-condition"));
@@ -227,16 +229,17 @@ public class Dungeon {
     }
 
     public String getGoals() {
+        // check if single goal
         if (this.goals.getLeftChild() == null && this.goals.getRightChild() == null) {
             StringBuilder allGoals = new StringBuilder("");
-            goals.getGoal().hasAchieved(this, allGoals);
+            goals.getGoal().hasAchieved(allGoals);
             return allGoals.toString();
         }
 
         StringBuilder leftString = new StringBuilder("");
         StringBuilder rightString = new StringBuilder("");
-        Boolean leftGoalAchieved = getAllGoals(this, leftString, this.goals.getLeftChild());
-        Boolean rightGoalAchieved = getAllGoals(this, rightString, this.goals.getRightChild());
+        Boolean leftGoalAchieved = getAllGoals(leftString, this.goals.getLeftChild());
+        Boolean rightGoalAchieved = getAllGoals(rightString, this.goals.getRightChild());
 
         if (leftGoalAchieved == false && rightGoalAchieved == false) {
             return leftString + " " + this.goals.getSubGoalType() + " " + rightString;
