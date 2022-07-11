@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
-import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
+import dungeonmania.entities.actor.nonplayableactor.ZombieEnemy;
 import dungeonmania.util.Position;
 
 public class ZombieToastBuilder implements ActorBuilder {
     @Override
     public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
-        ZombieToast zombieToast = new ZombieToast();
+        ZombieEnemy zombieToast = new ZombieEnemy();
         zombieToast.setUniqueId(UUID.randomUUID().toString());
         zombieToast.setPosition(position);
         zombieToast.setType(type);

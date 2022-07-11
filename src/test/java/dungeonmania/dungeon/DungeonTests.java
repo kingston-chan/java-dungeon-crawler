@@ -26,7 +26,7 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
-import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.response.models.BattleResponse;
@@ -77,7 +77,7 @@ public class DungeonTests {
         public void testCreateActors() {
             Dungeon testDungeon = new Dungeon();
             testDungeon.initDungeon("d_simpleActors", "c_differentEnemyHealthAttack");
-            List<NonPlayableActor> nonPlayableActors = testDungeon.getNonPlayableActors();
+            List<Enemy> enemies = testDungeon.getEnemies();
             Player player = testDungeon.getPlayer();
 
             assertEquals(player.getPosition(), new Position(0, 1));
@@ -86,11 +86,11 @@ public class DungeonTests {
             assertEquals(player.getDefencePoints(), 0);
             assertEquals(player.getHealthPoints(), 10);
 
-            assertTrue(nonPlayableActors.size() == 3);
+            assertTrue(enemies.size() == 3);
 
             int testedAllThree = 0;
 
-            for (NonPlayableActor e : nonPlayableActors) {
+            for (Enemy e : enemies) {
                 if (e.getType().equals("mercenary")) {
                     // mercenary
                     assertEquals(e.getPosition(), new Position(2, 1));

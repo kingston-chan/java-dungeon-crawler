@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Nested;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.collectables.Arrows;
@@ -166,7 +167,7 @@ public class PlayerTest {
         public void testMercenaryInteractNotEnoughTreasures() {
             Dungeon testDungeon = new Dungeon();
             testDungeon.initDungeon("d_simpleMercenaryInteract", "c_battleTests_basicMercenaryMercenaryDies");
-            String mercId = testDungeon.getNonPlayableActors().get(0).getUniqueId();
+            String mercId = testDungeon.getEnemies().get(0).getUniqueId();
             Player player = testDungeon.getPlayer();
             player.setPosition(new Position(3, 1));
             assertFalse(player.interact(testDungeon, mercId));

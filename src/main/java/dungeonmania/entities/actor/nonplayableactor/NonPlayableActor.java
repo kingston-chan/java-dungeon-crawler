@@ -1,32 +1,17 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
+import dungeonmania.behaviours.automatedmovement.AutomatedMovementBehaviour;
+import dungeonmania.behaviours.host.HostBehaviour;
 import dungeonmania.entities.actor.Actor;
 
 public abstract class NonPlayableActor extends Actor {
-    private MovementBehaviour defaultMovement;
-    private MovementBehaviour currentMovement;
+    
+    private AutomatedMovementBehaviour currentMovement;
 
-    public MovementBehaviour getDefaultMovement() {
-        return defaultMovement;
+    public void setCurrentMovement(AutomatedMovementBehaviour movement) {
+        this.currentMovement = movement;
     }
 
-    public void setDefaultMovement(MovementBehaviour movementBehaviour) {
-        this.defaultMovement = movementBehaviour;
-    }
-
-    public MovementBehaviour getCurrentMovement() {
-        return currentMovement;
-    }
-
-    public void setCurrentMovement(MovementBehaviour movementBehaviour) {
-        this.currentMovement = movementBehaviour;
-    }
-
-    public void doMove(NonPlayableActor npa) {
-        currentMovement.move(npa);
-    }
-
-    public abstract void update(MovementBehaviour movementBehaviour);
+    public abstract void update(AutomatedMovementBehaviour movement, HostBehaviour hostBehaviour);
 
 }
