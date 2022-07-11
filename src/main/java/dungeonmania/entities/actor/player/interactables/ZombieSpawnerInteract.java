@@ -18,17 +18,14 @@ public class ZombieSpawnerInteract implements InteractBehaviour {
             return false;
         }
 
-        List<Weapon> allWeapon = player.getInventory().stream()
-                .filter(item -> item instanceof Equipment)
-                .map(e -> (Equipment) e).collect(Collectors.toList());
-
-        // for (Equipment e : allEquipment) {
-        // if (e.provideAttack(player, null)) {
-        // dungeon.removeDungeonObject(interactingWithId);
-        // return true;
-        // }
-        // }
-
-        return false;
+        try {
+            Weapon weapon = player.getInventory().stream()
+                    .filter(item -> item instanceof Weapon)
+                    .map(e -> (Weapon) e).findFirst().get();
+            weapon.playerEquip(player);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
