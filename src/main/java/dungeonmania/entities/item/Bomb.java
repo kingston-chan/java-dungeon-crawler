@@ -2,6 +2,7 @@ package dungeonmania.entities.item;
 
 import java.util.stream.Stream;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
@@ -17,7 +18,9 @@ public class Bomb extends Item {
     }
 
     private boolean checkActiveSwitches(Dungeon dungeon, Position currentPosition) {
-        return getAdjacentSwitches(dungeon, currentPosition).anyMatch(FloorSwitch::isActivated);
+        // return getAdjacentSwitches(dungeon,
+        // currentPosition).anyMatch(FloorSwitch::isActivated);
+        return false;
     }
 
     private StaticBomb createNewStaticBomb(Dungeon dungeon, Bomb itemBomb) {
@@ -25,16 +28,15 @@ public class Bomb extends Item {
         staticBomb.setPosition(itemBomb.getPosition());
         staticBomb.setType(itemBomb.getType());
         staticBomb.setUniqueId(itemBomb.getUniqueId());
-        staticBomb.setHostBehaviour(new DoesNothingHost);
-        getAdjacentSwitches(dungeon, itemBomb.getPosition()).forEach(floorSwtich -> floorSwitch.add(staticBomb));
+        // getAdjacentSwitches(dungeon, itemBomb.getPosition()).forEach(floorSwtich ->
+        // floorSwitch.add(staticBomb));
         return staticBomb;
     }
 
     @Override
-    public boolean playerUse(Player player, Dungeon dungeon) {
-        // generate a new "static bomb" in that player's position
-        // check static bomb's adjacent at the same time(method should be provided in
-        // static bomb class)
+    public boolean playerUse(Player player) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+
         player.removeFromInventory(this);
 
         if (checkActiveSwitches(dungeon, this.getPosition())) {

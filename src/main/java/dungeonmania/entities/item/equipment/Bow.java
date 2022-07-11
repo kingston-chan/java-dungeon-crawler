@@ -16,5 +16,4 @@ public class Bow extends Weapon {
         }
         return this;
     }
-
 }

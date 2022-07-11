@@ -25,7 +25,7 @@ public abstract class Equipment extends Item {
     public abstract Item playerEquip(Player player);
 
     @Override
-    public boolean playerUse(Player player, Dungeon dungeon) {
+    public boolean playerUse(Player player) {
         return false;
     }
 

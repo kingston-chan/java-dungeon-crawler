@@ -1,34 +1,32 @@
 package dungeonmania.entities.item.potions;
 
-import dungeonmania.behaviours.automatedmovement.AutomatedMovementBehaviour;
+import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 
 public abstract class Potion extends Item {
-    AutomatedMovementBehaviour behaviour;
+    private MovementBehaviour enemyMovementBehaviour;
+    private int duration;
+
+    public Potion(MovementBehaviour enemyMovementBehaviour, int duration) {
+        this.enemyMovementBehaviour = enemyMovementBehaviour;
+        this.duration = duration;
+    }
+
+    public MovementBehaviour getEnemyMovementBehaviour() {
+        return enemyMovementBehaviour;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public abstract void consumedBy(Player player);
 
     @Override
     public boolean playerUse(Player player) {
-        player.addPotion(this);
+        player.usePotion(this);
+        player.removeFromInventory(this);
         return true;
     }
-
-    @Override
-    public boolean provideAttack(Player player) {
-        return false;
-    }
-
-    @Override
-    public boolean provideDefense(Player player) {
-        return false;
-    }
-
-    public AutomatedMovementBehaviour getBehaviour() {
-        return behaviour;
-    }
-
-    public void setBehaviour(AutomatedMovementBehaviour behaviour) {
-        this.behaviour = behaviour;
-    }
-
 }

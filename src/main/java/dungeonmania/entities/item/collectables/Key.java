@@ -1,5 +1,7 @@
 package dungeonmania.entities.item.collectables;
 
+import dungeonmania.entities.staticobject.door.Door;
+
 public class Key extends Collectable {
     private int keyNum;
 
@@ -7,7 +9,7 @@ public class Key extends Collectable {
         this.keyNum = keyNum;
     }
 
-    public int getKeyNum() {
-        return this.keyNum;
+    public boolean canOpenDoor(Door door) {
+        return this.keyNum == door.getKeyNum();
     }
 }
