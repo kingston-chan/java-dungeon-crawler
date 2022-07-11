@@ -3,14 +3,36 @@ package dungeonmania.factory;
 import java.util.HashMap;
 import java.util.Map;
 
+import dungeonmania.factory.actorfactory.ActorFactory;
+import dungeonmania.factory.itemfactory.ItemFactory;
+import dungeonmania.factory.staticobjectfactory.StaticObjectFactory;
+
 public class FactoryChooser {
     private Map<String, DungeonObjectFactory> factoryChooser = new HashMap<>();
 
     public FactoryChooser() {
-
+        this.factoryChooser.put("player", new ActorFactory());
+        this.factoryChooser.put("spider", new ActorFactory());
+        this.factoryChooser.put("mercenary", new ActorFactory());
+        this.factoryChooser.put("zombie_toast", new ActorFactory());
+        this.factoryChooser.put("wall", new StaticObjectFactory());
+        this.factoryChooser.put("exit", new StaticObjectFactory());
+        this.factoryChooser.put("boulder", new StaticObjectFactory());
+        this.factoryChooser.put("switch", new StaticObjectFactory());
+        this.factoryChooser.put("door", new StaticObjectFactory());
+        this.factoryChooser.put("portal", new StaticObjectFactory());
+        this.factoryChooser.put("zombie_toast_spawner", new StaticObjectFactory());
+        this.factoryChooser.put("treasure", new ItemFactory());
+        this.factoryChooser.put("key", new ItemFactory());
+        this.factoryChooser.put("invincibility_potion", new ItemFactory());
+        this.factoryChooser.put("invisibility_potion", new ItemFactory());
+        this.factoryChooser.put("wood", new ItemFactory());
+        this.factoryChooser.put("arrow", new ItemFactory());
+        this.factoryChooser.put("bomb", new ItemFactory());
+        this.factoryChooser.put("sword", new ItemFactory());
     }
 
     public DungeonObjectFactory getFactory(String type) {
-        return null;
+        return this.factoryChooser.get(type);
     }
 }
