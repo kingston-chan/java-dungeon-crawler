@@ -7,8 +7,8 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.util.Position;
 
-public class ArrowsBuilder implements ItemBuilder{
-        
+public class ArrowsBuilder implements ItemBuilder {
+
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
         Arrows arrows = new Arrows();
