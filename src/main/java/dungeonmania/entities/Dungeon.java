@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import dungeonmania.entities.actor.enemy.Enemy;
+import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.goal.Goal;
@@ -87,7 +87,7 @@ public class Dungeon {
         return goalTreeNode.getGoal().hasAchieved(dungeon, allGoals);
     }
 
-    public void initDungeon(String dungeonName, String configName) {
+    public String initDungeon(String dungeonName, String configName) {
         this.config = configName;
         this.dungeonName = dungeonName;
         try {
@@ -112,9 +112,10 @@ public class Dungeon {
             }
 
             this.goals = addGoals(resource.getJSONObject("goal-condition"));
+            return this.dungeonId;
         } catch (Exception e) {
             e.printStackTrace();
-            return;
+            return null;
         }
     }
 
