@@ -1,15 +1,12 @@
 package dungeonmania.behaviours.automatedmovement;
 
-import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
-import dungeonmania.util.Position;
 
-public class FollowPlayer implements AutomatedMovementBehaviour{
+public class FollowPlayer implements MovementBehaviour {
 
     @Override
-    public Position move(Position position, Dungeon dungeon, NonPlayableActor actor) {
-        return null;
+    public void move(NonPlayableActor npa) {
+        // TODO Auto-generated method stub
     }
 
-    
 }
