@@ -75,8 +75,9 @@ public class DungeonTests {
 
         @Test
         public void testCreateActors() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_simpleActors", "c_differentEnemyHealthAttack");
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_simpleActors", "c_differentEnemyHealthAttack");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             List<NonPlayableActor> nonPlayableActors = testDungeon.getNonPlayableActors();
             Player player = testDungeon.getPlayer();
 
@@ -153,35 +154,37 @@ public class DungeonTests {
 
         @Test
         public void testGetGoalsAnd() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_complexGoalsTest_andAll", "c_battleTests_basicMercenaryMercenaryDies");
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_complexGoalsTest_andAll", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) AND (:boulders AND :enemies)");
 
-            Dungeon testDungeon2 = new Dungeon();
-            testDungeon2.initDungeon("d_halfComplexAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            dmc.newGame("d_halfComplexAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon2 = DungeonManiaController.getDungeon();
             assertEquals(testDungeon2.getGoals(), "(:exit AND :treasure) AND :boulders");
 
-            Dungeon testDungeon3 = new Dungeon();
-            testDungeon3.initDungeon("d_twoAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            dmc.newGame("d_twoAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon3 = DungeonManiaController.getDungeon();
             assertEquals(testDungeon3.getGoals(), ":exit AND :boulders");
 
-            Dungeon testDungeon4 = new Dungeon();
-            testDungeon4.initDungeon("d_simpleActors", "c_battleTests_basicMercenaryMercenaryDies");
+            dmc.newGame("d_simpleActors", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon4 = DungeonManiaController.getDungeon();
             assertEquals(testDungeon4.getGoals(), ":enemies");
         }
 
         @Test
         public void testGetGoalsOr() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_complexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_complexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) OR (:boulders OR :enemies)");
 
-            Dungeon testDungeon2 = new Dungeon();
-            testDungeon2.initDungeon("d_halfComplexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            dmc.newGame("d_halfComplexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon2 = DungeonManiaController.getDungeon();
             assertEquals(testDungeon2.getGoals(), "(:exit OR :treasure) OR :boulders");
 
-            Dungeon testDungeon3 = new Dungeon();
-            testDungeon3.initDungeon("d_twoOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            dmc.newGame("d_twoOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon3 = DungeonManiaController.getDungeon();
             assertEquals(testDungeon3.getGoals(), ":exit OR :boulders");
         }
 

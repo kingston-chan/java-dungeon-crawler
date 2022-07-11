@@ -2,7 +2,6 @@ package dungeonmania.factory.itemfactory;
 
 import java.util.UUID;
 
-import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.potions.InvincibilityPotion;
 import dungeonmania.util.Position;
@@ -10,13 +9,12 @@ import dungeonmania.util.Position;
 public class InvincibilityPotionBuilder implements ItemBuilder {
 
     @Override
-    public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
+    public DungeonObject buildItem(Position position, String type, int keyNum) {
         InvincibilityPotion invincibilityPotion = new InvincibilityPotion();
         invincibilityPotion.setPosition(position);
         invincibilityPotion.setType(type);
         invincibilityPotion.setUniqueId(UUID.randomUUID().toString());
 
-        // TODO Auto-generated method stub
         return invincibilityPotion;
     }
 }
