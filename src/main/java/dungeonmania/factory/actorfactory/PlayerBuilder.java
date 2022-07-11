@@ -2,6 +2,7 @@ package dungeonmania.factory.actorfactory;
 
 import java.util.UUID;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
@@ -9,7 +10,8 @@ import dungeonmania.util.Position;
 
 public class PlayerBuilder implements ActorBuilder {
     @Override
-    public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
+    public DungeonObject buildActor(Position position, String type) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = new Player();
         player.setUniqueId(UUID.randomUUID().toString());
         player.setPosition(position);
@@ -17,8 +19,6 @@ public class PlayerBuilder implements ActorBuilder {
         player.setAttackPoints(dungeon.getConfig("player_attack"));
         player.setHealthPoints(dungeon.getConfig("player_health"));
         player.setDefencePoints(0);
-        player.setHostBehaviour(null);
-        player.setVisitorBehaviour(null);
         dungeon.addDungeonObject(player.getUniqueId(), player);
         return player;
     }

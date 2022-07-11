@@ -16,7 +16,6 @@ public class ShieldBlueprint implements BuildableBlueprint {
     private Item createNewShield(Dungeon dungeon) {
         Shield shield = new Shield();
         shield.setDurability(dungeon.getConfig("shield_durability"));
-        shield.setHostBehaviour(null);
         shield.setPosition(null);
         shield.setType(ITEM_TYPE);
         shield.setUniqueId(UUID.randomUUID().toString());

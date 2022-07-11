@@ -3,7 +3,6 @@ package dungeonmania.factory.itemfactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.util.Position;
@@ -19,9 +18,9 @@ public class ItemFactory implements DungeonObjectFactory {
     }
 
     @Override
-    public DungeonObject create(Position position, String type, Dungeon dungeon, String portalColour, int key) {
+    public DungeonObject create(Position position, String type, String portalColour, int key) {
         ItemBuilder ItemBuilder = this.ItemBuilders.get(type);
-        DungeonObject newDungeonObject = ItemBuilder.buildItem(position, type, dungeon);
+        DungeonObject newDungeonObject = ItemBuilder.buildItem(position, type, key);
         return newDungeonObject;
     }
 }
