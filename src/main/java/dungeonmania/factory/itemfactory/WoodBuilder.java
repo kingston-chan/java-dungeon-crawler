@@ -7,12 +7,11 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Wood;
 import dungeonmania.util.Position;
 
-public class WoodBuilder implements ItemBuilder{
+public class WoodBuilder implements ItemBuilder {
 
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
         Wood wood = new Wood();
-        wood.setHostBehaviour(null);
         wood.setPosition(position);
         wood.setType(type);
         wood.setUniqueId(UUID.randomUUID().toString());
@@ -20,5 +19,5 @@ public class WoodBuilder implements ItemBuilder{
         // TODO Auto-generated method stub
         return wood;
     }
-    
+
 }

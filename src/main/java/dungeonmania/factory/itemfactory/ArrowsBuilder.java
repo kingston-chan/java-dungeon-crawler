@@ -12,7 +12,6 @@ public class ArrowsBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
         Arrows arrows = new Arrows();
-        arrows.setHostBehaviour(null);
         arrows.setPosition(position);
         arrows.setType(type);
         arrows.setUniqueId(UUID.randomUUID().toString());

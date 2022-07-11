@@ -19,7 +19,6 @@ public class ZombieToastBuilder implements ActorBuilder {
         zombieToast.setDefencePoints(0);
 
         // set mercenary host and visitor behaviour
-        zombieToast.setHostBehaviour(null);
         zombieToast.setVisitorBehaviour(null);
         // need to set observer
         // set default movement

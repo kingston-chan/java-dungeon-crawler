@@ -17,7 +17,6 @@ public class BowBlueprint implements BuildableBlueprint {
         Bow bow = new Bow();
         bow.setUniqueId(UUID.randomUUID().toString());
         bow.setDurability(dungeon.getConfig("bow_durability"));
-        bow.setHostBehaviour(null);
         bow.setPosition(null);
         bow.setType(ITEM_TYPE);
         return bow;

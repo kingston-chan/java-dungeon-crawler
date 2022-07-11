@@ -19,7 +19,6 @@ public class SpiderBuilder implements ActorBuilder {
         spider.setDefencePoints(0);
 
         // set spider host and visitor behaviour
-        spider.setHostBehaviour(null);
         spider.setVisitorBehaviour(null);
         // need to set observer
         // set default movement

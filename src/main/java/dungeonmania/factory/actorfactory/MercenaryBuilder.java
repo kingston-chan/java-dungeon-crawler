@@ -19,7 +19,6 @@ public class MercenaryBuilder implements ActorBuilder {
         mercenary.setDefencePoints(0);
 
         // set mercenary host and visitor behaviour
-        mercenary.setHostBehaviour(null);
         mercenary.setVisitorBehaviour(null);
         // need to set observer
         // set default movement
