@@ -18,8 +18,8 @@ import dungeonmania.entities.actor.player.interactables.InteractBehaviour;
 import dungeonmania.entities.actor.player.interactables.Interactables;
 import dungeonmania.entities.actor.player.interactables.ZombieSpawnerInteract;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.Potion;
 import dungeonmania.entities.item.collectables.Key;
+import dungeonmania.entities.item.potions.Potion;
 import dungeonmania.entities.staticobject.StaticObject;
 
 public class Player extends Actor {
@@ -58,7 +58,7 @@ public class Player extends Actor {
      * @return
      */
     public boolean use(String itemId, Dungeon dungeon) {
-        return this.inventory.get(itemId).playerUse(this, dungeon);
+        return this.inventory.get(itemId).playerUse(this);
     }
 
     public Key getKey() {
@@ -158,13 +158,13 @@ public class Player extends Actor {
     }
 
     // public void addAlly(Ally ally) {
-    //     this.allies.add(ally);
+    // this.allies.add(ally);
     // }
- 
+
     // public List<Ally> getAllies() {
-    //     return this.allies;
+    // return this.allies;
     // }
- 
+
     public int getEnemiesDefeated() {
         return this.enemiesDefeated;
     }
