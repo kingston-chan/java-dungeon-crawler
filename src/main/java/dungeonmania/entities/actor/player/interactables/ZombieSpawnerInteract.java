@@ -1,12 +1,8 @@
 package dungeonmania.entities.actor.player.interactables;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.equipment.Equipment;
 import dungeonmania.entities.item.equipment.Weapon;
 import dungeonmania.util.Position;
 
