@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.goal.Goal;
@@ -142,10 +142,10 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
-    public List<NonPlayableActor> getNonPlayableActors() {
+    public List<Enemy> getEnemies() {
         return this.dungeonObjects.values().stream()
-                .filter(dungeonObject -> dungeonObject instanceof NonPlayableActor)
-                .map(enemy -> (NonPlayableActor) enemy)
+                .filter(dungeonObject -> dungeonObject instanceof Enemy)
+                .map(enemy -> (Enemy) enemy)
                 .collect(Collectors.toList());
     }
 
@@ -261,8 +261,8 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
-    public List<NonPlayableActor> getNonPlayableActorsAtPosition(Position position) {
-        return getNonPlayableActors().stream()
+    public List<Enemy> getEnemiesAtPosition(Position position) {
+        return getEnemies().stream()
                 .filter(enemy -> enemy.getPosition().equals(position))
                 .collect(Collectors.toList());
     }

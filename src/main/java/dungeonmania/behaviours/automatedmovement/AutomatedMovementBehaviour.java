@@ -4,8 +4,8 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.util.Position;
 
-public interface MovementBehaviour {
+public interface AutomatedMovementBehaviour {
 
-    public void move(NonPlayableActor npa);
+    public Position move(Position position, Dungeon dungeon, NonPlayableActor actor);
 
-}
+}   
