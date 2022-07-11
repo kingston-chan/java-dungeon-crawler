@@ -1,6 +1,6 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
-import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
+import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
 
 public class AllyState implements MercenaryState {
