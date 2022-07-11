@@ -25,7 +25,7 @@ import org.junit.jupiter.api.Nested;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.actor.enemy.Enemy;
+import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.collectables.Arrows;

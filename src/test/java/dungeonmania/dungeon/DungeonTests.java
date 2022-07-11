@@ -26,7 +26,7 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
-import dungeonmania.entities.actor.enemy.Enemy;
+import dungeonmania.entities.actor.nonplayableactor.Enemy;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.response.models.BattleResponse;
