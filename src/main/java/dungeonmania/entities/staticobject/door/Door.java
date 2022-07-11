@@ -1,6 +1,9 @@
 package dungeonmania.entities.staticobject.door;
 
+import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.boulder.Boulder;
 
 public class Door extends StaticObject {
     private int keyNum;

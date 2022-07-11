@@ -9,7 +9,7 @@ public class StaticBomb extends StaticObject {
         return false;
     }
 
-    public void update(Int state) {
+    public void update(int state) {
         // do something switch related.
     }
 }

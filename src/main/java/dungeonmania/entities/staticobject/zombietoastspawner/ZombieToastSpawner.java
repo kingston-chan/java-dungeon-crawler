@@ -1,6 +1,7 @@
 package dungeonmania.entities.staticobject.zombietoastspawner;
 
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.boulder.Boulder;
 
 public class ZombieToastSpawner extends StaticObject {
     @Override
