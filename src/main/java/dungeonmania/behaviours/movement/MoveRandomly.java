@@ -1,8 +1,9 @@
-package dungeonmania.behaviours.automatedmovement;
+package dungeonmania.behaviours.movement;
 
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.util.Position;
 
-public class FollowPlayer implements MovementBehaviour {
+public class MoveRandomly implements MovementBehaviour {
 
     @Override
     public void move(NonPlayableActor npa) {

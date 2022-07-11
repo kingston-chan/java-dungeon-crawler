@@ -1,6 +1,6 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
+import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 
 public class Mercenary extends NonPlayableActor {

@@ -7,12 +7,11 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.Bomb;
 import dungeonmania.util.Position;
 
-public class BombBuilder implements ItemBuilder{
-    
+public class BombBuilder implements ItemBuilder {
+
     @Override
     public DungeonObject buildItem(Position position, String type, Dungeon dungeon) {
         Bomb bomb = new Bomb();
-        bomb.setHostBehaviour(null);
         bomb.setPosition(position);
         bomb.setType(type);
         bomb.setUniqueId(UUID.randomUUID().toString());
