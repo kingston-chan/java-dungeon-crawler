@@ -13,7 +13,7 @@ public class Door extends StaticObject {
         return false;
     }
 
-    public void door(int key) {
+    public Door(int key) {
         this.keyNum = key;
     }
 

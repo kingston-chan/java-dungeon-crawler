@@ -2,6 +2,9 @@ package dungeonmania.entities.staticobject.portal;
 
 import javax.management.loading.PrivateClassLoader;
 
+import dungeonmania.entities.actor.Actor;
+import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
 
 public class Portal extends StaticObject {
