@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
-import dungeonmania.entities.actor.nonplayableactor.SpiderEnemy;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.util.Position;
 
 public class SpiderBuilder implements ActorBuilder {
     @Override
     public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
-        SpiderEnemy spider = new SpiderEnemy();
+        Spider spider = new Spider();
         spider.setUniqueId(UUID.randomUUID().toString());
         spider.setPosition(position);
         spider.setType(type);
