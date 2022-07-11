@@ -23,6 +23,7 @@ public class ZombieSpawnerInteract implements InteractBehaviour {
                     .filter(item -> item instanceof Weapon)
                     .map(e -> (Weapon) e).findFirst().get();
             weapon.playerEquip(player);
+            dungeon.removeDungeonObject(interactingWithId);
             return true;
         } catch (Exception e) {
             return false;
