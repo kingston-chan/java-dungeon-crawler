@@ -108,7 +108,7 @@ public class Dungeon {
                     key = a.getInt("key");
                 }
                 DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, this, portalColour, key);
+                dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
             }
 
             this.goals = addGoals(resource.getJSONObject("goal-condition"));

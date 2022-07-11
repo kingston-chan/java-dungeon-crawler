@@ -2,6 +2,8 @@ package dungeonmania.factory.actorfactory;
 
 import java.util.UUID;
 
+import dungeonmania.DungeonManiaController;
+import dungeonmania.behaviours.movement.SpiderMovement;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
@@ -9,7 +11,8 @@ import dungeonmania.util.Position;
 
 public class SpiderBuilder implements ActorBuilder {
     @Override
-    public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
+    public DungeonObject buildActor(Position position, String type) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         Spider spider = new Spider();
         spider.setUniqueId(UUID.randomUUID().toString());
         spider.setPosition(position);
@@ -17,7 +20,8 @@ public class SpiderBuilder implements ActorBuilder {
         spider.setAttackPoints(dungeon.getConfig("spider_attack"));
         spider.setHealthPoints(dungeon.getConfig("spider_health"));
         spider.setDefencePoints(0);
-        // set current movement
+        spider.setDefaultMovement(new SpiderMovement());
+        spider.setCurrentMovement(new SpiderMovement());
         dungeon.addDungeonObject(spider.getUniqueId(), spider);
         return spider;
     }
