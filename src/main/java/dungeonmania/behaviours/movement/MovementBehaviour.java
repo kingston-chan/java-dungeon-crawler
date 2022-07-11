@@ -1,4 +1,4 @@
-package dungeonmania.behaviours.automatedmovement;
+package dungeonmania.behaviours.movement;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;

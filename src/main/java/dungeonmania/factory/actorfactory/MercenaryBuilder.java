@@ -17,12 +17,6 @@ public class MercenaryBuilder implements ActorBuilder {
         mercenary.setAttackPoints(dungeon.getConfig("mercenary_attack"));
         mercenary.setHealthPoints(dungeon.getConfig("mercenary_health"));
         mercenary.setDefencePoints(0);
-
-        // set mercenary host and visitor behaviour
-        mercenary.setHostBehaviour(null);
-        mercenary.setVisitorBehaviour(null);
-        // need to set observer
-        // set default movement
         // set current movement
         dungeon.addDungeonObject(mercenary.getUniqueId(), mercenary);
         return mercenary;

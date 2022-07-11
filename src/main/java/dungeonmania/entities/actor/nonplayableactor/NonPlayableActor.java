@@ -1,6 +1,6 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
+import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.Actor;
 
 public abstract class NonPlayableActor extends Actor {
