@@ -1,5 +1,6 @@
 package dungeonmania;
 
+import dungeonmania.entities.Dungeon;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -8,9 +9,18 @@ import dungeonmania.util.FileLoader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DungeonManiaController {
+    private static Map<String, Dungeon> dungeons = new HashMap<>();
+    private static Dungeon currentDungeonInstance = null;
+
+    public static Dungeon getDungeon() {
+        return currentDungeonInstance;
+    }
+
     public String getSkin() {
         return "default";
     }
@@ -37,7 +47,14 @@ public class DungeonManiaController {
      * /game/new
      */
     public DungeonResponse newGame(String dungeonName, String configName) throws IllegalArgumentException {
-        return null;
+        Dungeon newDungeon = new Dungeon();
+        String newDungeonId = newDungeon.initDungeon(dungeonName, configName);
+        if (newDungeonId == null) {
+            throw new IllegalArgumentException();
+        }
+        dungeons.put(newDungeonId, newDungeon);
+        currentDungeonInstance = newDungeon;
+        return newDungeon.getDungeonResponse();
     }
 
     /**
