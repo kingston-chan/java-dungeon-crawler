@@ -4,13 +4,13 @@ import java.util.UUID;
 
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
-import dungeonmania.entities.actor.nonplayableactor.MercenaryEnemy;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.util.Position;
 
 public class MercenaryBuilder implements ActorBuilder {
     @Override
     public DungeonObject buildActor(Position position, String type, Dungeon dungeon) {
-        MercenaryEnemy mercenary = new MercenaryEnemy();
+        Mercenary mercenary = new Mercenary();
         mercenary.setUniqueId(UUID.randomUUID().toString());
         mercenary.setPosition(position);
         mercenary.setType(type);
