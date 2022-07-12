@@ -28,6 +28,7 @@ public class Player extends Actor {
     private Buildables buildables = new Buildables();
     private Interactables interactables = new Interactables();
 
+    private int numAllies = 0;
     private int enemiesDefeated = 0;
 
     private int bonusAdditiveAttack = 0;
@@ -155,14 +156,14 @@ public class Player extends Actor {
         return this.potionConsumed;
     }
 
-    // public void addAlly(Ally ally) {
-    //     this.allies.add(ally);
-    // }
- 
-    // public List<Ally> getAllies() {
-    //     return this.allies;
-    // }
- 
+    public void addAlly() {
+        this.numAllies++;
+    }
+
+    public int getNumAllies() {
+        return this.numAllies;
+    }
+
     public int getEnemiesDefeated() {
         return this.enemiesDefeated;
     }
