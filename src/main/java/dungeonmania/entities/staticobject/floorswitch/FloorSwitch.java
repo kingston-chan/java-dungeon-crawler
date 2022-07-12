@@ -22,16 +22,18 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
         return true;
     }
 
-    public boolean isActivated() {
-        if (currentState == deactivatedState) {
-            return false;
+    public boolean isActivated() {        
+        if (this.currentState == this.activatedState) {
+            return true;
         }
-        return true;
+        return false;
     }
     
     public boolean doActivate() {
-        this.currentState = this.activatedState;
-        return true;
+
+        // if bolder already on switch
+       
+        return this.currentState.activate();
     }
 
     public boolean doDeactivate() {
@@ -41,6 +43,14 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
 
     public void setState(SwitchState state) {
         this.currentState = state;
+    }
+
+    public SwitchState getActivatedState() {
+        return this.activatedState;
+    }
+
+    public SwitchState getDeactivatedState() {
+        return this.deactivatedState;
     }
 
     @Override
