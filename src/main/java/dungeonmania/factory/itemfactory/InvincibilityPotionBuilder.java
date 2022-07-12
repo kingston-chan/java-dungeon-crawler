@@ -15,7 +15,7 @@ public class InvincibilityPotionBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, int keyNum) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        InvincibilityPotion invincibilityPotion = new InvincibilityPotion(new MoveAwayFromPlayer(),
+        InvincibilityPotion invincibilityPotion = new InvincibilityPotion(
                 dungeon.getConfig("invincibility_potion_duration"));
         invincibilityPotion.setPosition(position);
         invincibilityPotion.setType(type);

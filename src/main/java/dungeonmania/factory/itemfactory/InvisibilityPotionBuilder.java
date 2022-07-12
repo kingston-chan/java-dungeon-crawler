@@ -14,7 +14,7 @@ public class InvisibilityPotionBuilder implements ItemBuilder {
     @Override
     public DungeonObject buildItem(Position position, String type, int keyNum) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        InvisibilityPotion invisibilityPotion = new InvisibilityPotion(new MoveAwayFromPlayer(),
+        InvisibilityPotion invisibilityPotion = new InvisibilityPotion(
                 dungeon.getConfig("invisibility_potion_duration"));
         invisibilityPotion.setPosition(position);
         invisibilityPotion.setType(type);

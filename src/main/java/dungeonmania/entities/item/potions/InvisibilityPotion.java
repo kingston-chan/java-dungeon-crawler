@@ -5,8 +5,8 @@ import dungeonmania.entities.actor.player.Player;
 
 public class InvisibilityPotion extends Potion {
 
-    public InvisibilityPotion(MovementBehaviour enemyMovementBehaviour, int duration) {
-        super(enemyMovementBehaviour, duration);
+    public InvisibilityPotion(int duration) {
+        super(duration);
         // TODO Auto-generated constructor stub
     }
 
