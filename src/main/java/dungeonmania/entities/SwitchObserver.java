@@ -1,4 +1,4 @@
-package main.java.dungeonmania.entities;
+package dungeonmania.entities;
 
 public interface SwitchObserver {
     

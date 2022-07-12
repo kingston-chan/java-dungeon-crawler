@@ -7,9 +7,10 @@ import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 
 
 public class Boulder extends StaticObject {
-    @Override
-    public boolean isInteractable() {
-        return false;
+    private FloorSwitch switchActivated = null;
+
+    public FloorSwitch getSwitchActivated() {
+        return this.switchActivated;
     }
 
     public boolean accept(Player player) {
@@ -26,5 +27,10 @@ public class Boulder extends StaticObject {
 
     public boolean visit(FloorSwitch floorSwitch) {
         return true;
+    }
+
+    @Override
+    public boolean isInteractable() {
+        return false;
     }
 }

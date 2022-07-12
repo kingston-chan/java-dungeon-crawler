@@ -1,4 +1,4 @@
-package main.java.dungeonmania.entities.staticobject.floorswitch;
+package dungeonmania.entities.staticobject.floorswitch;
 
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 

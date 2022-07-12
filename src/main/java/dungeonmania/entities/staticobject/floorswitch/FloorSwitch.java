@@ -3,10 +3,10 @@ package dungeonmania.entities.staticobject.floorswitch;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
-import main.java.dungeonmania.entities.staticobject.floorswitch.SwitchState;
-import main.java.dungeonmania.entities.staticobject.floorswitch.SwitchSubject;
+import dungeonmania.entities.staticobject.floorswitch.SwitchState;
+import dungeonmania.entities.staticobject.floorswitch.SwitchSubject;
 import dungeonmania.entities.actor.player.Player;
-import main.java.dungeonmania.entities.SwitchObserver;
+import dungeonmania.entities.SwitchObserver;
 
 public class FloorSwitch extends StaticObject implements SwitchSubject {
     private SwitchState activatedState;
@@ -16,10 +16,6 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     @Override
     public boolean isInteractable() {
         return false;
-    }
-
-    public boolean accept(Player player) {
-        return true;
     }
 
     public boolean accept(Boulder boulder) {
@@ -48,7 +44,7 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     @Override
-    public void add(SwitchObserver state) {
+    public void add(SwitchObserver switchObserver) {
         //idk what this is suppost to do rn
     }
 

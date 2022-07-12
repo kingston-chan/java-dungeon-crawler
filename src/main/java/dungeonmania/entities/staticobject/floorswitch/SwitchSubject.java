@@ -1,6 +1,6 @@
-package main.java.dungeonmania.entities.staticobject.floorswitch;
+package dungeonmania.entities.staticobject.floorswitch;
 
-import main.java.dungeonmania.entities.SwitchObserver;
+import dungeonmania.entities.SwitchObserver;
 
 public interface SwitchSubject {
     
