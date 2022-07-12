@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import dungeonmania.entities.actor.nonplayableactor.Enemy;
+import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.goal.Goal;
@@ -108,7 +108,7 @@ public class Dungeon {
                     key = a.getInt("key");
                 }
                 DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, this, portalColour, key);
+                dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
             }
 
             this.goals = addGoals(resource.getJSONObject("goal-condition"));
@@ -142,10 +142,10 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
-    public List<Enemy> getEnemies() {
+    public List<NonPlayableActor> getNonPlayableActors() {
         return this.dungeonObjects.values().stream()
-                .filter(dungeonObject -> dungeonObject instanceof Enemy)
-                .map(enemy -> (Enemy) enemy)
+                .filter(dungeonObject -> dungeonObject instanceof NonPlayableActor)
+                .map(enemy -> (NonPlayableActor) enemy)
                 .collect(Collectors.toList());
     }
 
@@ -261,8 +261,8 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
-    public List<Enemy> getEnemiesAtPosition(Position position) {
-        return getEnemies().stream()
+    public List<NonPlayableActor> getNonPlayableActorsAtPosition(Position position) {
+        return getNonPlayableActors().stream()
                 .filter(enemy -> enemy.getPosition().equals(position))
                 .collect(Collectors.toList());
     }
