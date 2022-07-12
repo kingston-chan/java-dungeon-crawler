@@ -16,6 +16,7 @@ public class BombBuilder implements ItemBuilder {
         bomb.setPosition(position);
         bomb.setType(type);
         bomb.setUniqueId(UUID.randomUUID().toString());
+        dungeon.addDungeonObject(bomb.getUniqueId(), bomb);
         return bomb;
     }
 }

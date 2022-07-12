@@ -1,6 +1,5 @@
 package dungeonmania.entities.item.equipment;
 
-import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 

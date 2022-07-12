@@ -4,7 +4,6 @@ import java.util.stream.Stream;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 import dungeonmania.entities.staticobject.staticbomb.StaticBomb;

@@ -1,6 +1,5 @@
 package dungeonmania.entities.item.potions;
 
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
 
 public class InvisibilityPotion extends Potion {
