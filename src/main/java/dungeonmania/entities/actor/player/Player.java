@@ -57,7 +57,7 @@ public class Player extends Actor {
      * @param itemId
      * @return
      */
-    public boolean use(String itemId, Dungeon dungeon) {
+    public boolean use(String itemId) {
         return this.inventory.get(itemId).playerUse(this);
     }
 
