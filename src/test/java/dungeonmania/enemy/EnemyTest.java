@@ -4,6 +4,8 @@ package dungeonmania.enemy;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.DungeonManiaController;
+
 public class EnemyTest {
 
     @Nested
@@ -15,7 +17,12 @@ public class EnemyTest {
         }
 
         @Test
-        public void testSpiderMovesAroundSpawn() {
+        public void testSpiderFirstMoveBourlder() {
+            // shouldn't move until boulder is moved
+        }
+
+        @Test
+        public void testSpiderMovesAround() {
 
         }
 
@@ -55,17 +62,12 @@ public class EnemyTest {
     }
 
     @Test
-    public void testZombiesCanMoveDiagonally() {
-
-    }
-
-    @Test
-    public void testMercenaryMovesCloserToPlayer() {
+    public void testMercenaryMovesTowardsPlayer() {
 
     }
     
     @Test
-    public void testMercAndZombieMoveAwayInvince() {
+    public void testMercAndZombieMoveAwayInvincible() {
 
     }
 
@@ -83,6 +85,28 @@ public class EnemyTest {
     public void testZombiesUnaffectedPortals() {
 
     }
+
+    @Test
+    public void testMercenaryPathWithPortals() {
+
+    }
+
+    @Test
+    public void testMercenaryIntoPortals() {
+
+    }
+
+    @Test
+    public void testAllyMovesWithPlayer() {
+
+    }
+
+    @Test
+    public void testMoreThanOneAlly() {
+        
+    }
+
+
 
 
 }
