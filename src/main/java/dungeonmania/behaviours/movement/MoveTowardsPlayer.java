@@ -2,7 +2,6 @@ package dungeonmania.behaviours.movement;
 
 import java.util.List;
 import java.util.Map;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
@@ -11,7 +10,6 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.util.Position;
 
 import java.util.Queue;
@@ -48,7 +46,6 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                             queue.add(pos);
                         }  
                     }
-                    
                 }
             }
         }
