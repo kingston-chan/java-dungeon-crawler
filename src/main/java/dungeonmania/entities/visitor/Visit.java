@@ -15,51 +15,39 @@ import dungeonmania.entities.staticobject.zombietoastspawner.ZombieToastSpawner;
 
 public interface Visit {
 
-    default boolean visit(Player player) {
-        return true;
+    default void visit(Player player) {
     }
 
-    default boolean visit(Item item) {
-        return true;
+    default void visit(Item item) {
     }
 
-    default boolean visit(Portal portal) {
-        return true;
+    default void visit(Portal portal) {
     }
 
-    default boolean visit(Boulder boulder) {
-        return true;
+    default void visit(Boulder boulder) {
     }
 
-    default boolean visit(Door door) {
-        return true;
+    default void visit(Door door) {
     }
 
-    default boolean visit(Exit exit) {
-        return true;
+    default void visit(Exit exit) {
     }
 
-    default boolean visit(ZombieToast zombieToast) {
-        return true;
+    default void visit(ZombieToast zombieToast) {
     }
 
-    default boolean visit(Spider spider) {
-        return true;
+    default void visit(Spider spider) {
     }
 
-    default boolean visit(Mercenary mercenary) {
-        return true;
+    default void visit(Mercenary mercenary) {
     }
 
-    default boolean visit(FloorSwitch fswitch) {
-        return true;
+    default void visit(FloorSwitch fswitch) {
     }
 
-    default boolean visit(ZombieToastSpawner spawner) {
-        return true;
+    default void visit(ZombieToastSpawner spawner) {
     }
 
-    default boolean visit(Bomb bomb) {
-        return true;
+    default void visit(Bomb bomb) {
     }
 }
