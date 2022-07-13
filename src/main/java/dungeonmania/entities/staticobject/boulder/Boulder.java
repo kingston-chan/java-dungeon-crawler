@@ -2,6 +2,8 @@ package dungeonmania.entities.staticobject.boulder;
 
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.floorswitch.ActivatedState;
@@ -27,7 +29,10 @@ public class Boulder extends StaticObject {
     }
 
     public boolean accept(NonPlayableActor enemy) {
-        return false;
+        if (enemy instanceof Spider) {
+            return false;
+        }
+        return true;
     }
 
     public boolean accept(Boulder boulder) {
