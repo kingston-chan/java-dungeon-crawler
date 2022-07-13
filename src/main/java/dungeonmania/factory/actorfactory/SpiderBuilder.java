@@ -11,7 +11,7 @@ import dungeonmania.util.Position;
 
 public class SpiderBuilder implements ActorBuilder {
     @Override
-    public DungeonObject buildActor(Position position, String type) {
+    public void buildActor(Position position, String type) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Spider spider = new Spider();
         spider.setUniqueId(UUID.randomUUID().toString());
@@ -23,6 +23,5 @@ public class SpiderBuilder implements ActorBuilder {
         spider.setDefaultMovement(new SpiderMovement());
         spider.setCurrentMovement(new SpiderMovement());
         dungeon.addDungeonObject(spider.getUniqueId(), spider);
-        return spider;
     }
 }

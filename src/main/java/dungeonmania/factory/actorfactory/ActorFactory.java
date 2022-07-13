@@ -18,9 +18,8 @@ public class ActorFactory implements DungeonObjectFactory {
     }
 
     @Override
-    public DungeonObject create(Position position, String type, String portalColour, int key) {
+    public void create(Position position, String type, String portalColour, int key) {
         ActorBuilder actorBuilder = this.actorBuilders.get(type);
-        DungeonObject newDungeonObject = actorBuilder.buildActor(position, type);
-        return newDungeonObject;
+        actorBuilder.buildActor(position, type);
     }
 }

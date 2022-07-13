@@ -11,7 +11,7 @@ import dungeonmania.util.Position;
 public class InvincibilityPotionBuilder implements ItemBuilder {
 
     @Override
-    public DungeonObject buildItem(Position position, String type, int keyNum) {
+    public void buildItem(Position position, String type, int keyNum) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         InvincibilityPotion invincibilityPotion = new InvincibilityPotion(
                 dungeon.getConfig("invincibility_potion_duration"));
@@ -19,6 +19,5 @@ public class InvincibilityPotionBuilder implements ItemBuilder {
         invincibilityPotion.setType(type);
         invincibilityPotion.setUniqueId(UUID.randomUUID().toString());
         dungeon.addDungeonObject(invincibilityPotion.getUniqueId(), invincibilityPotion);
-        return invincibilityPotion;
     }
 }

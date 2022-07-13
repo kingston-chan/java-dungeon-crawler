@@ -10,7 +10,7 @@ import dungeonmania.util.Position;
 
 public class PlayerBuilder implements ActorBuilder {
     @Override
-    public DungeonObject buildActor(Position position, String type) {
+    public void buildActor(Position position, String type) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = new Player();
         player.setUniqueId(UUID.randomUUID().toString());
@@ -20,6 +20,5 @@ public class PlayerBuilder implements ActorBuilder {
         player.setHealthPoints(dungeon.getConfig("player_health"));
         player.setDefencePoints(0);
         dungeon.addDungeonObject(player.getUniqueId(), player);
-        return player;
     }
 }

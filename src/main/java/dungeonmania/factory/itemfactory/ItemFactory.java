@@ -22,9 +22,8 @@ public class ItemFactory implements DungeonObjectFactory {
     }
 
     @Override
-    public DungeonObject create(Position position, String type, String portalColour, int key) {
-        ItemBuilder ItemBuilder = this.ItemBuilders.get(type);
-        DungeonObject newDungeonObject = ItemBuilder.buildItem(position, type, key);
-        return newDungeonObject;
+    public void create(Position position, String type, String portalColour, int key) {
+        ItemBuilder itemBuilder = this.ItemBuilders.get(type);
+        itemBuilder.buildItem(position, type, key);
     }
 }

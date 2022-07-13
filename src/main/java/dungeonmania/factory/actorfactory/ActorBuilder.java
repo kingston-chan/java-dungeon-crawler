@@ -4,5 +4,5 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.util.Position;
 
 public interface ActorBuilder {
-    public DungeonObject buildActor(Position position, String type);
+    public void buildActor(Position position, String type);
 }
