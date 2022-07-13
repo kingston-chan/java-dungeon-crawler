@@ -53,10 +53,7 @@ public class Boulder extends StaticObject implements Visit {
     @Override
     public boolean canAccept(Player player) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        Position dirPlayerVisitingFrom = Position.calculatePositionBetween(getPosition(), player.getPosition());
-        Position boulderNewPosition = new Position(getPosition().getX() - dirPlayerVisitingFrom.getX(),
-                getPosition().getY() - dirPlayerVisitingFrom.getY());
-        return dungeon.getObjectsAtPosition(boulderNewPosition).stream()
+        return dungeon.getObjectsAtPosition(BoulderHelper.getBoulderPushedPostion(this, player)).stream()
                 .allMatch(o -> o.canAccept(this));
     }
 

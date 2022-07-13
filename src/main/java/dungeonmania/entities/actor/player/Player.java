@@ -27,6 +27,7 @@ import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.entities.item.potions.Potion;
 import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.boulder.BoulderHelper;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.entities.staticobject.zombietoastspawner.ZombieToastSpawner;
 import dungeonmania.util.Position;
@@ -249,21 +250,19 @@ public class Player extends Actor {
     @Override
     public void visit(Portal portal) {
         // get portal destination
-        // check if any objects at portal destination
         // doAccept on all portal destination objects
         // if not set position to destination
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
+                .forEach(o -> o.doAccept(this));
     }
 
     @Override
     public void visit(Boulder boulder) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        int move_x = getPosition().getX() - boulder.getPosition().getX();
-        int move_y = getPosition().getY() - boulder.getPosition().getY();
-        Position boulderNewPosition = new Position(boulder.getPosition().getX() + move_x,
-                boulder.getPosition().getY() - move_y);
-        dungeon.getObjectsAtPosition(boulderNewPosition).stream()
+        dungeon.getObjectsAtPosition(BoulderHelper.getBoulderPushedPostion(boulder, this)).stream()
                 .forEach(dungeonObject -> dungeonObject.doAccept(boulder));
-        boulder.setPosition(boulderNewPosition);
+        boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
     }
 
     @Override

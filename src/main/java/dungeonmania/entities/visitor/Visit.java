@@ -38,4 +38,7 @@ public interface Visit {
 
     default void visit(FloorSwitch fswitch) {
     }
+
+    default void visit(Exit exit) {
+    }
 }
