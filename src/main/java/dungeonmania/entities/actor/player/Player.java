@@ -258,9 +258,6 @@ public class Player extends Actor {
         dungeon.getItems().stream().filter(i -> i.getPosition().equals(destination))
                 .forEach(o -> o.doAccept(this));
         setPosition(destination);
-        dungeon.getItems().stream().filter(i -> i.getPosition().equals(destination))
-                .forEach(o -> o.doAccept(this));
-        setPosition(destination);
     }
 
     @Override
