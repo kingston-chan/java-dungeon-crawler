@@ -158,7 +158,7 @@ public class DungeonTests {
             dmc.newGame("d_complexGoalsTest_andAll",
                     "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) AND (:boulders AND :enemies)");
+            assertEquals("(:exit AND :treasure) AND (:boulders AND :enemies)", testDungeon.getGoals());
 
             dmc.newGame("d_halfComplexAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon2 = DungeonManiaController.getDungeon();

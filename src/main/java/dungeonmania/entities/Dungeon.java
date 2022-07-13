@@ -184,8 +184,8 @@ public class Dungeon {
         return null;
     }
 
-    public Boolean getGoals() {
-        return this.goals.hasAchieved();
+    public String getGoals() {
+        return this.goals.toString().replaceAll("^\\(|\\)$", "");
     }
 
     public List<StaticObject> getStaticObjectsAtPosition(Position position) {
