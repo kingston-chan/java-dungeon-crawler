@@ -13,7 +13,6 @@ public class Spider extends NonPlayableActor {
 
     @Override
     public void update(MovementBehaviour movementBehaviour) {
-        this.setCurrentMovement(movementBehaviour);
         this.doMove(this);
     }
 
