@@ -12,22 +12,22 @@
             "colour": "RED"
         },
         {
-            "type": "key",
-            "x": 3,
-            "y": 2,
-            "key": 2
-        },
-        {
             "type": "portal",
             "x": 7,
             "y": 6,
             "colour": "RED"
         },
         {
-            "type": "door",
-            "x": 4,
-            "y": 3,
-            "key": 2
+            "type": "portal",
+            "x": 6,
+            "y": 7,
+            "colour": "BLUE"
+        },
+        {
+            "type": "portal",
+            "x": -4,
+            "y": 5,
+            "colour": "Blue"
         },
         {
             "type": "exit",
