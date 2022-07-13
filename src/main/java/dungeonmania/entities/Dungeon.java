@@ -1,13 +1,11 @@
 package dungeonmania.entities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
@@ -18,7 +16,6 @@ import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
-import dungeonmania.entities.goal.ComplexGoal;
 import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
@@ -234,8 +231,8 @@ public class Dungeon {
             spiderPosition = new Position(spider_x, spider_y);
         }
 
-        newSpider.setDefaultMovement(new SpiderMovement());
-        newSpider.setCurrentMovement(new SpiderMovement());
+        newSpider.setDefaultMovement(new SpiderMovement(spiderPosition));
+        newSpider.setCurrentMovement(new SpiderMovement(spiderPosition));
         newSpider.setPosition(spiderPosition);
 
         addDungeonObject(newSpider.getUniqueId(), newSpider);
