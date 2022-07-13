@@ -49,6 +49,11 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     @Override
+    public void doAccept(Boulder boulder) {
+        boulder.visit(this);
+    }
+
+    @Override
     public void add(SwitchObserver switchObserver) {
         switchObservers.add(switchObserver);
     }

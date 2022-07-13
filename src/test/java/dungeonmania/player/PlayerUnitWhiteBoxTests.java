@@ -218,7 +218,7 @@ public class PlayerUnitWhiteBoxTests {
         Player player = testDungeon.getPlayer();
         testDungeon.getItems().stream().forEach(i -> i.doAccept(player));
         assertEquals(4, player.getInventory().size());
-        assertTrue(player.isValidBuildable("bow"));
+        assertTrue(player.canBuild("bow"));
         assertTrue(player.checkBuildables("bow"));
         player.build("bow");
         assertEquals(1, player.getInventory().size());
@@ -235,7 +235,7 @@ public class PlayerUnitWhiteBoxTests {
         Player player = testDungeon.getPlayer();
         testDungeon.getItems().stream().forEach(i -> i.doAccept(player));
         assertEquals(3, player.getInventory().size());
-        assertTrue(player.isValidBuildable("shield"));
+        assertTrue(player.canBuild("shield"));
         assertTrue(player.checkBuildables("shield"));
         player.build("shield");
         assertEquals(1, player.getInventory().size());
@@ -252,7 +252,7 @@ public class PlayerUnitWhiteBoxTests {
         Player player = testDungeon.getPlayer();
         testDungeon.getItems().stream().forEach(i -> i.doAccept(player));
         assertEquals(3, player.getInventory().size());
-        assertTrue(player.isValidBuildable("shield"));
+        assertTrue(player.canBuild("shield"));
         assertTrue(player.checkBuildables("shield"));
         player.build("shield");
         assertEquals(1, player.getInventory().size());
@@ -266,7 +266,7 @@ public class PlayerUnitWhiteBoxTests {
                 "c_battleTests_basicMercenaryMercenaryDies");
         Dungeon testDungeon = DungeonManiaController.getDungeon();
         Player player = testDungeon.getPlayer();
-        assertFalse(player.isValidBuildable("notaboworshield"));
+        assertFalse(player.canBuild("notaboworshield"));
     }
 
     @Test

@@ -140,7 +140,7 @@ public class Player extends Actor {
         return interaction.interact(this, uniqueId);
     }
 
-    public boolean isValidBuildable(String itemName) {
+    public boolean canBuild(String itemName) {
         return buildables.getBlueprint(itemName) != null;
     }
 
