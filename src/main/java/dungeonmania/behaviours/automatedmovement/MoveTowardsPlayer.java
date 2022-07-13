@@ -39,6 +39,7 @@ public class MoveTowardsPlayer implements MovementBehaviour {
             //
             // for (DungeonObject obj : dungeon.getObjectsAtPosition(curr)) {
             //     if (obj instanceof Portal) {
+            //         obj = (Portal) obj;
             //         curr = obj.getDestination();
             //     }
             // }
@@ -48,28 +49,30 @@ public class MoveTowardsPlayer implements MovementBehaviour {
             } else {
                 // checks for all adjacent valid positions and adds to the queue and visited
                 for (Position pos : curr.getAdjacentPositions()) {
+                    if (Position.isAdjacent(pos, curr)) {
+                        // checking whether adj pos are valid or not
+                        //
+                        // List<DungeonObject> occupant = dungeon.getObjectsAtPosition(pos);
+                        // for (DungeonObject object : occupant) {
+                        //      if (!(visited.containsKey(pos)) && object.accept(npa)) {
+                        //          visited.put(pos, curr);
+                        //          queue.add(pos);
+                        //      }
+                        // }
 
-                    // checking whether adj pos are valid or not
-                    //
-                    // List<DungeonObject> occupant = dungeon.getObjectsAtPosition(pos);
-                    // for (DungeonObject object : occupant) {
-                    //      if (!(visited.containsKey(pos)) && object.accept(npa)) {
-                    //          visited.put(pos, curr);
-                    //          queue.add(pos);
-                    //      }
-                    // }
-
-                    // List<DungeonObject> occupants = dungeon.getObjectsAtPosition(pos);
-                    // if (occupants.stream().allMatch(obj -> obj.canAccept(npa)) && !(visited.containsKey(pos))) {
-                    //     visited.put(pos, curr);
-                    //     queue.add(pos);
-                    // }  
-                    
-                    // temporary
-                    if (!(visited.containsKey(pos))) {
-                        visited.put(pos, curr);
-                        queue.add(pos);
+                        // List<DungeonObject> occupants = dungeon.getObjectsAtPosition(pos);
+                        // if (occupants.stream().allMatch(obj -> obj.canAccept(npa)) && !(visited.containsKey(pos))) {
+                        //     visited.put(pos, curr);
+                        //     queue.add(pos);
+                        // }  
+                        
+                        // temporary
+                        if (!(visited.containsKey(pos))) {
+                            visited.put(pos, curr);
+                            queue.add(pos);
+                        }
                     }
+                    
                 }
             }
         }

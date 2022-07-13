@@ -11,8 +11,8 @@ public class ZombieToast extends NonPlayableActor {
 
     @Override
     public void update(MovementBehaviour movementBehaviour) {
-
-    }
+        this.setCurrentMovement(movementBehaviour);
+    }   
 
     @Override
     public boolean isInteractable() {
