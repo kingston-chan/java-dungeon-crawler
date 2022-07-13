@@ -29,10 +29,10 @@ public class Mercenary extends NonPlayableActor {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
                 .forEach(o -> o.doAccept(this));
+        setPosition(portal.getDestination());
         if (portal.getDestination() == getPosition()) {
             dungeon.getObjectsAtPosition(portal.getDestination()).stream()
                     .forEach(o -> o.doAccept(this));
-            setPosition(portal.getDestination());
         }
     }
 
