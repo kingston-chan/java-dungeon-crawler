@@ -18,7 +18,6 @@ public class PlayerBuilder implements ActorBuilder {
         player.setType(type);
         player.setAttackPoints(dungeon.getConfig("player_attack"));
         player.setHealthPoints(dungeon.getConfig("player_health"));
-        player.setDefencePoints(0);
         dungeon.addDungeonObject(player.getUniqueId(), player);
         return player;
     }
