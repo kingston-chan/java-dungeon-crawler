@@ -3,6 +3,7 @@ package dungeonmania.entities.actor.player.interactables;
 import java.util.List;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.behaviours.movement.FollowPlayer;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
@@ -36,7 +37,11 @@ public class MercenaryInteract implements InteractBehaviour {
             dungeon.getDungeonObjects().stream()
                     .filter(dungeonObject -> dungeonObject instanceof Mercenary)
                     .filter(dungeonObject -> dungeonObject.equals(merc))
-                    .forEach(m -> ((Mercenary) m).setMercenaryState(((Mercenary) m).getAllyState()));
+                    .forEach(m -> {
+                        ((Mercenary) m).setMercenaryState(((Mercenary) m).getAllyState());
+                        ((Mercenary) m).setCurrentMovement(new FollowPlayer());
+                        ((Mercenary) m).setDefaultMovement(new FollowPlayer());
+                    });
             return true;
         }
 
