@@ -1,7 +1,5 @@
 package dungeonmania.behaviours.movement;
 
-import java.util.ArrayList;
-
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;

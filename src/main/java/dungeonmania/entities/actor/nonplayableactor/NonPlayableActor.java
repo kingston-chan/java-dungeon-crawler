@@ -29,7 +29,7 @@ public abstract class NonPlayableActor extends Actor {
     }
 
     public void doMove(NonPlayableActor npa) {
-        currentMovement.move(npa);
+        this.currentMovement.move(npa);
     }
 
     public abstract boolean canVisitWall();
