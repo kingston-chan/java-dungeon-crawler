@@ -1,6 +1,8 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
+import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
+import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.portal.Portal;
@@ -11,6 +13,12 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState enemyState;
     MercenaryState allyState;
     MercenaryState currentState;
+
+    public Mercenary() {
+        this.enemyState = new EnemyState(this);
+        this.allyState = new AllyState(this);
+        this.currentState = enemyState;
+    }
 
     public void doAccept(Player player) {
         player.visit(this);
@@ -39,6 +47,7 @@ public class Mercenary extends NonPlayableActor {
     @Override
     public void update(MovementBehaviour movementBehaviour) {
         this.setCurrentMovement(movementBehaviour);
+        this.doMove(this);
     }
 
     @Override
