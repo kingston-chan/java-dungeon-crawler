@@ -3,14 +3,10 @@ package dungeonmania.entities.staticobject.portal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-<<<<<<< HEAD
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
-=======
-import dungeonmania.entities.actor.Actor;
->>>>>>> a27c47dd9425e0398f4397a78ef321e5db8fd525
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
