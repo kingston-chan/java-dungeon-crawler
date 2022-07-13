@@ -9,7 +9,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.equiments.Equipment;
+import dungeonmania.entities.item.equipment.Equipment;
 
 public class Battle {
     private List<Round> rounds;
@@ -45,23 +45,42 @@ public class Battle {
 
     public void simulateNormalBattle(Player player, NonPlayableActor npa) {
         player.resetBonusStats();
+
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        List<Item> weaponsUsed = player.getInventory().stream()
+        List<Item> equipmentUsed = player.getInventory().stream()
                 .filter(item -> item instanceof Equipment)
                 .collect(Collectors.toList());
-        weaponsUsed.forEach(item -> (Equipment) item.playerEquip(player));
+        equipmentUsed.forEach(item -> ((Equipment) item).playerEquip(player));
+
         int allyAttack = dungeon.getConfig("ally_attack");
         int allyDefence = dungeon.getConfig("ally_defence");
+
         int totalBonusAttack = player.getBonusMultiplicativeAttack()
                 * (player.getAttackPoints() + player.getBonusAdditiveAttack() + (player.getNumAllies() * allyAttack));
+
         double playerDamage = (totalBonusAttack / 5.0);
+
         int totalBonusDefence = player.getBonusAdditiveDefence() + (player.getNumAllies() * allyDefence);
+
         double npaDamage = (npa.getAttackPoints() - totalBonusDefence / 10.0);
+
         npaDamage = npaDamage < 0 ? 0 : npaDamage;
+
         while (player.getHealthPoints() > 0 || npa.getHealthPoints() > 0) {
             player.takeDamage(npaDamage);
             npa.takeDamage(playerDamage);
-            addRound(new Round(-npaDamage, -playerDamage, weaponsUsed));
+            addRound(new Round(-npaDamage, -playerDamage, equipmentUsed));
         }
+
+        if (npa.getHealthPoints() <= 0) {
+            dungeon.removeDungeonObject(npa.getUniqueId());
+            player.defeatedEnemy();
+        }
+
+        if (player.getHealthPoints() <= 0) {
+            dungeon.removeDungeonObject(player.getUniqueId());
+        }
+
+        dungeon.addToBattles(this);
     }
 }
