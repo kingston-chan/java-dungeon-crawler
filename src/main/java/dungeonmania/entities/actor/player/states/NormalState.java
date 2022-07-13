@@ -7,6 +7,7 @@ import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.battle.Battle;
 
 public class NormalState implements PlayerState {
     private Player player;
@@ -16,27 +17,30 @@ public class NormalState implements PlayerState {
     }
 
     @Override
-    public boolean visitSpider(Spider spider) {
-        // TODO Auto-generated method stub
-        return false;
+    public void visitSpider(Spider spider) {
+        Battle battle = new Battle(spider.getType(), spider.getHealthPoints(), player.getHealthPoints());
+        battle.simulateNormalBattle(player, spider);
     }
 
     @Override
-    public boolean visitMercenary(Mercenary mercenary) {
-        // TODO Auto-generated method stub
-        return false;
+    public void visitMercenary(Mercenary mercenary) {
+        if (mercenary.isAlly()) {
+            return;
+        }
+        Battle battle = new Battle(mercenary.getType(), mercenary.getHealthPoints(), player.getHealthPoints());
+        battle.simulateNormalBattle(player, mercenary);
     }
 
     @Override
-    public boolean visitZombieToast(ZombieToast zombieToast) {
-        // TODO Auto-generated method stub
-        return false;
+    public void visitZombieToast(ZombieToast zombieToast) {
+        Battle battle = new Battle(zombieToast.getType(), zombieToast.getHealthPoints(), player.getHealthPoints());
+        battle.simulateNormalBattle(player, zombieToast);
     }
 
     @Override
-    public boolean acceptNonPlayableActor(NonPlayableActor npa) {
-        // TODO Auto-generated method stub
-        return npa.visit(player);
+    public void acceptNonPlayableActor(NonPlayableActor npa) {
+        Battle battle = new Battle(npa.getType(), npa.getHealthPoints(), player.getHealthPoints());
+        battle.simulateNormalBattle(player, npa);
     }
 
     @Override

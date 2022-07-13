@@ -20,23 +20,19 @@ public class InvisibleState implements PlayerState {
     }
 
     @Override
-    public boolean visitSpider(Spider spider) {
-        return true;
+    public void visitSpider(Spider spider) {
     }
 
     @Override
-    public boolean visitMercenary(Mercenary mercenary) {
-        return true;
+    public void visitMercenary(Mercenary mercenary) {
     }
 
     @Override
-    public boolean visitZombieToast(ZombieToast zombieToast) {
-        return true;
+    public void visitZombieToast(ZombieToast zombieToast) {
     }
 
     @Override
-    public boolean acceptNonPlayableActor(NonPlayableActor npa) {
-        return true;
+    public void acceptNonPlayableActor(NonPlayableActor npa) {
     }
 
     @Override

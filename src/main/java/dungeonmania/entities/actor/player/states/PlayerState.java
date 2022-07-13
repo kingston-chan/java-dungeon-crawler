@@ -6,13 +6,13 @@ import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
 
 public interface PlayerState {
-    public boolean visitSpider(Spider spider);
+    public void visitSpider(Spider spider);
 
-    public boolean visitMercenary(Mercenary mercenary);
+    public void visitMercenary(Mercenary mercenary);
 
-    public boolean visitZombieToast(ZombieToast zombieToast);
+    public void visitZombieToast(ZombieToast zombieToast);
 
-    public boolean acceptNonPlayableActor(NonPlayableActor npa);
+    public void acceptNonPlayableActor(NonPlayableActor npa);
 
     public void notifyNonPlayableActors();
 }
