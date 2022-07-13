@@ -1,31 +1,34 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
 import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 
 public class EnemyState implements MercenaryState {
 
+    private Mercenary mercenary;
+
+    public EnemyState(Mercenary mercenary) {
+        this.mercenary = mercenary;
+    }
+    
     @Override
     public boolean visitPlayer(Player player) {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean acceptPlayer(Player player) {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public boolean canInteract() {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-        // TODO Auto-generated method stub
 
     }
 

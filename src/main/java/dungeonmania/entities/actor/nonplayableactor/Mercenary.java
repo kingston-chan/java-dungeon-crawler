@@ -2,12 +2,22 @@ package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
+import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.portal.Portal;
 
 public class Mercenary extends NonPlayableActor {
 
     MercenaryState enemyState;
     MercenaryState allyState;
     MercenaryState currentState;
+
+    public void doAccept(Player player) {
+        
+    }
+
+    public void visit(Portal portal) {
+        
+    }
 
     public void setMercenaryState(MercenaryState mercenaryState) {
         this.currentState = mercenaryState;
@@ -30,5 +40,11 @@ public class Mercenary extends NonPlayableActor {
     public boolean isInteractable() {
         return true;
     }
+
+    @Override
+    public boolean canVisitWall() {
+        return false;
+    }
+
 
 }
