@@ -11,16 +11,15 @@ public class DeactivatedState extends FloorSwitch implements SwitchState {
 
     @Override
     public boolean activate() {
+        this.notifySwitchObservers();
         this.floorSwitch.setState(this.floorSwitch.getActivatedState());
         return true;
     }
     public boolean deactivate() {
-        this.floorSwitch.setState(this.floorSwitch.getDeactivatedState());
-        return true;
+        return false;
     }
-    public boolean isActivated() {
-
-        return floorSwitch.isActivated();
+    public boolean isSwitchActivated() {
+        return false;
     }
 
 }

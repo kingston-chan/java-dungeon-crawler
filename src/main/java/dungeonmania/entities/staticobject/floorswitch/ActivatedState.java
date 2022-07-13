@@ -11,8 +11,7 @@ public class ActivatedState extends FloorSwitch implements SwitchState{
 
     @Override  
     public boolean activate() {
-        this.floorSwitch.setState(this.floorSwitch.getActivatedState());
-        return true;
+        return false;
     }
 
     @Override
@@ -21,7 +20,7 @@ public class ActivatedState extends FloorSwitch implements SwitchState{
         return true;
     }
     public boolean isSwitchActivated() {
-        return floorSwitch.isActivated();
+        return true;
     }
 
 }

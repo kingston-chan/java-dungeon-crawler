@@ -6,12 +6,18 @@ import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.staticobject.floorswitch.SwitchState;
 import dungeonmania.entities.staticobject.floorswitch.SwitchSubject;
 import dungeonmania.entities.actor.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import dungeonmania.entities.SwitchObserver;
 
 public class FloorSwitch extends StaticObject implements SwitchSubject {
     private SwitchState activatedState;
     private SwitchState deactivatedState;
     private SwitchState currentState;
+    private List<SwitchObserver> switchObservers = new ArrayList<SwitchObserver>();
+
 
     @Override
     public boolean isInteractable() {
@@ -23,10 +29,7 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     public boolean isActivated() {        
-        if (this.currentState == this.activatedState) {
-            return true;
-        }
-        return false;
+        return this.currentState.isSwitchActivated();
     }
     
     public boolean doActivate() {
@@ -37,8 +40,7 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     public boolean doDeactivate() {
-        this.currentState = this.deactivatedState;
-        return true;
+        return this.currentState.deactivate();
     }
 
     public void setState(SwitchState state) {
@@ -55,13 +57,17 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
 
     @Override
     public void add(SwitchObserver switchObserver) {
-        //idk what this is suppost to do rn
+        switchObservers.add(switchObserver);
+    }
+
+    @Override
+    public void remove(SwitchObserver switchObserver) {
+        switchObservers.remove(switchObserver);
     }
 
     @Override
     public void notifySwitchObservers() {
-        // TODO Auto-generated method stub
-        
+        switchObservers.stream().forEach(o -> o.update(this));      
     }
-
+    
 }

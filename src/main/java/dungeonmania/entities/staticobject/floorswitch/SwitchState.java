@@ -6,5 +6,5 @@ public interface SwitchState {
 
     public boolean deactivate();
 
-    public boolean isActivated();
+    public boolean isSwitchActivated();
 }
