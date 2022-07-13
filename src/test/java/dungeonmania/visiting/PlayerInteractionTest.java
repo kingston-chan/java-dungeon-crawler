@@ -93,6 +93,17 @@ public class PlayerInteractionTest {
     }
 
     @Test
+    public void playVisitsBlockedPortalTestBlackBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_unreachablePortalDestination",
+                "c_battleTests_basicMercenaryMercenaryDies");
+
+        DungeonResponse res = dmc.tick(Direction.DOWN);
+
+        assertEquals(new Position(2, 2), TestUtils.getEntities(res, "player").get(0).getPosition());
+    }
+
+    @Test
     public void playerVisitsDoorTest() {
 
     }
