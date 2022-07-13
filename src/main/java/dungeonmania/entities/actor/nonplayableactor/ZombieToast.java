@@ -7,7 +7,7 @@ import dungeonmania.behaviours.movement.MovementBehaviour;
 public class ZombieToast extends NonPlayableActor {
 
     public void doAccept(Player player) {
-        
+        player.visit(this);
     }
 
     @Override

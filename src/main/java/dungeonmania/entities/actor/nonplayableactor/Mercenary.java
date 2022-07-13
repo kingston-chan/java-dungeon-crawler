@@ -12,7 +12,7 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState currentState;
 
     public void doAccept(Player player) {
-        
+        player.visit(this);
     }
 
     public void visit(Portal portal) {

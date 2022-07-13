@@ -8,7 +8,7 @@ import dungeonmania.entities.actor.player.Player;
 public class Spider extends NonPlayableActor {
 
     public void doAccept(Player player) {
-        
+        player.visit(this);
     }
 
     @Override
