@@ -10,7 +10,7 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState currentState;
 
     public void setMercenaryState(MercenaryState mercenaryState) {
-
+        this.currentState = mercenaryState;
     }
 
     public MercenaryState getAllyState() {
