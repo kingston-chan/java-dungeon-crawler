@@ -7,8 +7,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import org.eclipse.jetty.io.ssl.SslConnection.DecryptedEndPoint;
-
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
@@ -21,7 +19,6 @@ import dungeonmania.entities.actor.player.buildables.BuildableBlueprint;
 import dungeonmania.entities.actor.player.buildables.Buildables;
 import dungeonmania.entities.actor.player.interactables.InteractBehaviour;
 import dungeonmania.entities.actor.player.interactables.Interactables;
-import dungeonmania.entities.actor.player.interactables.ZombieSpawnerInteract;
 import dungeonmania.entities.actor.player.states.InvinicibleState;
 import dungeonmania.entities.actor.player.states.InvisibleState;
 import dungeonmania.entities.actor.player.states.NormalState;
@@ -29,12 +26,9 @@ import dungeonmania.entities.actor.player.states.PlayerState;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.entities.item.potions.Potion;
-import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
-import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.entities.staticobject.zombietoastspawner.ZombieToastSpawner;
-import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 public class Player extends Actor {
@@ -110,6 +104,11 @@ public class Player extends Actor {
 
     public void consumeQueuedPotionEffect() {
         this.potionConsumed = this.potions.poll();
+        if (potionConsumed == null) {
+            this.currentState = this.normalState;
+            return;
+        }
+        this.potionConsumed.consumedBy(this);
     }
 
     public void notifyAllObservers() {
@@ -213,6 +212,30 @@ public class Player extends Actor {
         this.bonusAdditiveDefence = 0;
     }
 
+    public void setPlayerState(PlayerState playerState) {
+        this.currentState = playerState;
+    }
+
+    public PlayerState getNormalState() {
+        return this.normalState;
+    }
+
+    public PlayerState getInvincibleState() {
+        return this.invinicibleState;
+    }
+
+    public PlayerState getInvisibleState() {
+        return this.invisibleState;
+    }
+
+    public void setPreviousPosition(Position position) {
+        this.previousPosition = position;
+    }
+
+    public Position getPreviousPosition() {
+        return this.previousPosition;
+    }
+
     @Override
     public void doAccept(NonPlayableActor npa) {
         this.currentState.acceptNonPlayableActor(npa);
@@ -225,7 +248,10 @@ public class Player extends Actor {
 
     @Override
     public void visit(Portal portal) {
-
+        // get portal destination
+        // check if any objects at portal destination
+        // doAccept on all portal destination objects
+        // if not set position to destination
     }
 
     @Override
@@ -237,6 +263,7 @@ public class Player extends Actor {
                 boulder.getPosition().getY() - move_y);
         dungeon.getObjectsAtPosition(boulderNewPosition).stream()
                 .forEach(dungeonObject -> dungeonObject.doAccept(boulder));
+        boulder.setPosition(boulderNewPosition);
     }
 
     @Override
