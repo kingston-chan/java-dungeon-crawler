@@ -49,7 +49,7 @@ public class Portal extends StaticObject {
 
         for (Position position : adjacentPositions) {
             if (checkIfNoWallBoulder(position)) {
-                return this.getDestinationPortal().getPosition();
+                return position;
             }
         }
 
