@@ -2,31 +2,62 @@ package dungeonmania.entities.staticobject.boulder;
 
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.exit.Exit;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
+import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.entities.visitor.Visit;
+import dungeonmania.util.Position;
 
+import dungeonmania.DungeonManiaController;
+import dungeonmania.entities.Dungeon;
 
-public class Boulder extends StaticObject {
-    private FloorSwitch switchActivated = null;
-
-    public FloorSwitch getSwitchActivated() {
-        return this.switchActivated;
+public class Boulder extends StaticObject implements Visit {
+    @Override
+    public void visit(FloorSwitch floorSwitch) {
+        this.setPosition(floorSwitch.getPosition());
+        floorSwitch.doActivate();
     }
 
-    public boolean accept(Player player) {
-        return true;
+    @Override
+    public void visit(Exit exit) {
+        this.setPosition(exit.getPosition());
     }
 
-    public boolean accept(NonPlayableActor enemy) {
+    @Override
+    public void visit(Item item) {
+        this.setPosition(item.getPosition());
+    }
+
+    @Override
+    public void visit(Portal portal) {
+        this.setPosition(portal.getPosition());
+    }
+
+    @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
+
+    @Override
+    public boolean canAccept(Boulder boulder) {
         return false;
     }
 
-    public boolean accept(Boulder boulder) {
+    @Override
+    public boolean canAccept(NonPlayableActor enemy) {
         return false;
     }
 
-    public boolean visit(FloorSwitch floorSwitch) {
-        return true;
+    @Override
+    public boolean canAccept(Player player) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        Position dirPlayerVisitingFrom = Position.calculatePositionBetween(getPosition(), player.getPosition());
+        Position boulderNewPosition = new Position(getPosition().getX() - dirPlayerVisitingFrom.getX(),
+                getPosition().getY() - dirPlayerVisitingFrom.getY());
+        return dungeon.getObjectsAtPosition(boulderNewPosition).stream()
+                .allMatch(o -> o.canAccept(this));
     }
 
     @Override
