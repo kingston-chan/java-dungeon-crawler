@@ -255,9 +255,19 @@ public class Player extends Actor {
         Position destination = portal.getDestination(getPosition());
         dungeon.getNonPlayableActorsAtPosition(destination).stream()
                 .forEach(o -> o.doAccept(this));
+<<<<<<< HEAD
         dungeon.getItems().stream().filter(i -> i.getPosition().equals(destination))
                 .forEach(o -> o.doAccept(this));
         setPosition(destination);
+=======
+        setPosition(portal.getDestination());
+        if (portal.getDestination() == getPosition()) {
+            dungeon.getNonPlayableActorsAtPosition(portal.getDestination()).stream()
+                    .forEach(o -> o.doAccept(this));
+            dungeon.getItems().stream().filter(i -> i.getPosition().equals(portal.getDestination()))
+                    .forEach(i -> i.doAccept(this));
+        }
+>>>>>>> cb1f0c14ce662289c68413cb03cf25e223d910d5
     }
 
     @Override
