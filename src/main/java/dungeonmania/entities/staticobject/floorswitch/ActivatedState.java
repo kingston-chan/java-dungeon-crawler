@@ -1,6 +1,6 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
-public class ActivatedState extends FloorSwitch implements SwitchState {
+public class ActivatedState implements SwitchState {
     private FloorSwitch floorSwitch;
 
     public ActivatedState(FloorSwitch floorSwitch) {
