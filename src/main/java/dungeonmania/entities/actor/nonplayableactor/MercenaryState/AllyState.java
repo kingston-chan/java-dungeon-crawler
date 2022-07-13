@@ -34,4 +34,8 @@ public class AllyState implements MercenaryState {
         mercenary.update(movementBehaviour);
     }
 
+    @Override
+    public boolean isAlly() {
+        return true;
+    }
 }

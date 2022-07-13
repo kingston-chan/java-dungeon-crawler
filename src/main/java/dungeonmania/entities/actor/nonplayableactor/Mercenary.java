@@ -32,6 +32,10 @@ public class Mercenary extends NonPlayableActor {
         return this.enemyState;
     }
 
+    public boolean isAlly() {
+        return this.currentState.isAlly();
+    }
+
     @Override
     public void update(MovementBehaviour movementBehaviour) {
         this.setCurrentMovement(movementBehaviour);
@@ -39,19 +43,12 @@ public class Mercenary extends NonPlayableActor {
 
     @Override
     public boolean isInteractable() {
-        return true;
+        return this.currentState.canInteract();
     }
 
     @Override
     public boolean canVisitWall() {
         return false;
-    }
-
-    @Override
-    public void visit(Wall wall) {
-        // TODO Auto-generated method stub
-        // ???
-        wall.doAccept(this);
     }
 
 

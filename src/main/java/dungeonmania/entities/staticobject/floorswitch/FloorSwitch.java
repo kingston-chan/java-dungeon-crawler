@@ -1,16 +1,11 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
-import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
-import dungeonmania.entities.staticobject.floorswitch.SwitchState;
-import dungeonmania.entities.staticobject.floorswitch.SwitchSubject;
-import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.staticbomb.SwitchObserver;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import dungeonmania.entities.SwitchObserver;
 
 public class FloorSwitch extends StaticObject implements SwitchSubject {
     private SwitchState activatedState;
@@ -18,24 +13,17 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     private SwitchState currentState;
     private List<SwitchObserver> switchObservers = new ArrayList<SwitchObserver>();
 
-
-    @Override
-    public boolean isInteractable() {
-        return false;
+    public FloorSwitch() {
+        this.activatedState = new ActivatedState(this);
+        this.deactivatedState = new DeactivatedState(this);
+        this.currentState = deactivatedState;
     }
 
-    public boolean accept(Boulder boulder) {
-        return true;
-    }
-
-    public boolean isActivated() {        
+    public boolean isActivated() {
         return this.currentState.isSwitchActivated();
     }
-    
-    public boolean doActivate() {
 
-        // if bolder already on switch
-       
+    public boolean doActivate() {
         return this.currentState.activate();
     }
 
@@ -56,6 +44,11 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     @Override
+    public boolean canAccept(Boulder boulder) {
+        return !this.currentState.isSwitchActivated();
+    }
+
+    @Override
     public void add(SwitchObserver switchObserver) {
         switchObservers.add(switchObserver);
     }
@@ -67,7 +60,12 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
 
     @Override
     public void notifySwitchObservers() {
-        switchObservers.stream().forEach(o -> o.update(this));      
+        switchObservers.stream().forEach(o -> o.update(this));
     }
-    
+
+    @Override
+    public boolean isInteractable() {
+        return false;
+    }
+
 }

@@ -2,6 +2,7 @@ package dungeonmania.entities.actor.player.buildables;
 
 import java.util.UUID;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
@@ -13,7 +14,8 @@ public class ShieldBlueprint implements BuildableBlueprint {
     private static final int NUM_TREASURES = 1;
     private static final String ITEM_TYPE = "shield";
 
-    private Item createNewShield(Dungeon dungeon) {
+    private Item createNewShield() {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         Shield shield = new Shield(
                 dungeon.getConfig("shield_defence"),
                 dungeon.getConfig("shield_durability"));
@@ -43,11 +45,11 @@ public class ShieldBlueprint implements BuildableBlueprint {
     }
 
     @Override
-    public void playerBuild(Dungeon dungeon, Player player) {
+    public void playerBuild(Player player) {
         if (ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES) {
-            buildWithTreasure(player, createNewShield(dungeon));
+            buildWithTreasure(player, createNewShield());
         } else {
-            buildWithKey(player, createNewShield(dungeon));
+            buildWithKey(player, createNewShield());
         }
     }
 }
