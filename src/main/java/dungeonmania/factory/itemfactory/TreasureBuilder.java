@@ -2,6 +2,7 @@ package dungeonmania.factory.itemfactory;
 
 import java.util.UUID;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.util.Position;
@@ -14,7 +15,7 @@ public class TreasureBuilder implements ItemBuilder {
         treasure.setPosition(position);
         treasure.setType(type);
         treasure.setUniqueId(UUID.randomUUID().toString());
-
+        DungeonManiaController.getDungeon().addDungeonObject(treasure.getUniqueId(), treasure);
         return treasure;
     }
 }

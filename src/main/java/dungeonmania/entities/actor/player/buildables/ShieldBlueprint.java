@@ -6,7 +6,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.equiments.Shield;
+import dungeonmania.entities.item.equipment.Shield;
 
 public class ShieldBlueprint implements BuildableBlueprint {
     private static final int NUM_WOOD = 2;
@@ -14,8 +14,9 @@ public class ShieldBlueprint implements BuildableBlueprint {
     private static final String ITEM_TYPE = "shield";
 
     private Item createNewShield(Dungeon dungeon) {
-        Shield shield = new Shield();
-        shield.setDurability(dungeon.getConfig("shield_durability"));
+        Shield shield = new Shield(
+                dungeon.getConfig("shield_defence"),
+                dungeon.getConfig("shield_durability"));
         shield.setPosition(null);
         shield.setType(ITEM_TYPE);
         shield.setUniqueId(UUID.randomUUID().toString());
