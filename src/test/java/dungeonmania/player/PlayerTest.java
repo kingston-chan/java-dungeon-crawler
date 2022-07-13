@@ -31,7 +31,7 @@ import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.entities.item.collectables.Wood;
-import dungeonmania.entities.item.equiments.Sword;
+import dungeonmania.entities.item.equipment.Sword;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;

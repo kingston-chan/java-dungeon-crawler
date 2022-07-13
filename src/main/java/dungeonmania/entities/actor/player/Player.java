@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
+import org.eclipse.jetty.io.ssl.SslConnection.DecryptedEndPoint;
+
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
@@ -110,8 +112,8 @@ public class Player extends Actor {
         notifyDungeon(dungeon);
     }
 
-    public void usePotion(Potion potion, int duration) {
-        for (int i = 0; i < duration; i++) {
+    public void usePotion(Potion potion) {
+        for (int i = 0; i < potion.getDuration(); i++) {
             this.potions.add(potion);
         }
     }
