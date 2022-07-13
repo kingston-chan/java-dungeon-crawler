@@ -25,6 +25,7 @@ import org.junit.jupiter.api.Nested;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.Key;
@@ -44,68 +45,71 @@ import dungeonmania.util.Position;
 public class PlayerIntegrationWhiteBoxTests {
     @Test
     public void testUseUsableItem() {
-        // Dungeon testDungeon = new Dungeon();
-        // testDungeon.initDungeon("d_usableItemsTest",
-        // "c_battleTests_basicMercenaryMercenaryDies");
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_usableItemsTest",
+                "c_battleTests_basicMercenaryMercenaryDies");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
 
-        // Item item1 = testDungeon.getItemsInDungeon().get(0);
-        // Item item2 = testDungeon.getItemsInDungeon().get(1);
-        // Item item3 = testDungeon.getItemsInDungeon().get(2);
-        // Player player = testDungeon.getPlayer();
+        Item item1 = testDungeon.getItems().get(0);
+        Item item2 = testDungeon.getItems().get(1);
+        Item item3 = testDungeon.getItems().get(2);
+        Player player = testDungeon.getPlayer();
 
-        // item1.collectedBy(player);
-        // item2.collectedBy(player);
-        // item3.collectedBy(player);
+        item1.doAccept(player);
+        item2.doAccept(player);
+        item3.doAccept(player);
 
-        // assertTrue(player.use(item1));
-        // assertTrue(player.use(item2));
-        // assertTrue(player.use(item3));
+        assertTrue(player.use(item1.getUniqueId()));
+        assertTrue(player.use(item2.getUniqueId()));
+        assertTrue(player.use(item3.getUniqueId()));
     }
 
     @Test
     public void testUseUnusableItem() {
-        // Dungeon testDungeon = new Dungeon();
-        // testDungeon.initDungeon("d_unusableItems",
-        // "c_battleTests_basicMercenaryMercenaryDies");
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_unusableItems",
+                "c_battleTests_basicMercenaryMercenaryDies");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
 
-        // Item item1 = testDungeon.getItemsInDungeon().get(0);
-        // Item item2 = testDungeon.getItemsInDungeon().get(1);
-        // Item item3 = testDungeon.getItemsInDungeon().get(2);
-        // Item item4 = testDungeon.getItemsInDungeon().get(3);
-        // Item item5 = testDungeon.getItemsInDungeon().get(4);
+        Item item1 = testDungeon.getItems().get(0);
+        Item item2 = testDungeon.getItems().get(1);
+        Item item3 = testDungeon.getItems().get(2);
+        Item item4 = testDungeon.getItems().get(3);
+        Item item5 = testDungeon.getItems().get(4);
 
-        // Player player = testDungeon.getPlayer();
+        Player player = testDungeon.getPlayer();
 
-        // item1.collectedBy(player);
-        // item2.collectedBy(player);
-        // item3.collectedBy(player);
-        // item4.collectedBy(player);
-        // item5.collectedBy(player);
+        item1.doAccept(player);
+        item2.doAccept(player);
+        item3.doAccept(player);
+        item4.doAccept(player);
+        item5.doAccept(player);
 
-        // assertFalse(player.use(item1));
-        // assertFalse(player.use(item2));
-        // assertFalse(player.use(item3));
-        // assertFalse(player.use(item4));
-        // assertFalse(player.use(item5));
+        assertFalse(player.use(item1.getUniqueId()));
+        assertFalse(player.use(item2.getUniqueId()));
+        assertFalse(player.use(item3.getUniqueId()));
+        assertFalse(player.use(item4.getUniqueId()));
+        assertFalse(player.use(item5.getUniqueId()));
     }
 
     @Test
     public void testSuccessfullyNotifiesEnemiesToMove() {
-        // Dungeon testDungeon = new Dungeon();
-        // testDungeon.initDungeon("d_simpleActors",
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_simpleActors",
         // "c_battleTests_basicMercenaryMercenaryDies");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
 
         // Player player = testDungeon.getPlayer();
 
-        // Enemy enemy1 = testDungeon.getActiveEnemies().get(0);
-        // Enemy enemy2 = testDungeon.getActiveEnemies().get(1);
-        // Enemy enemy3 = testDungeon.getActiveEnemies().get(2);
+        // NonPlayableActor enemy1 = testDungeon.getNonPlayableActors().get(0);
+        // NonPlayableActor enemy2 = testDungeon.getNonPlayableActors().get(1);
+        // NonPlayableActor enemy3 = testDungeon.getNonPlayableActors().get(2);
 
         // Position enemyPosition1 = enemy1.getPosition();
         // Position enemyPosition2 = enemy2.getPosition();
         // Position enemyPosition3 = enemy3.getPosition();
 
-        // player.notifiyEnemies(testDungeon);
+        // player.notifyAllObservers();
 
         // assertNotEquals(enemyPosition1, enemy1.getPosition());
         // assertNotEquals(enemyPosition2, enemy2.getPosition());
@@ -114,27 +118,28 @@ public class PlayerIntegrationWhiteBoxTests {
 
     @Test
     public void testSuccessfullyNotifiesEnemiesWithInvincibilityPotion() {
-        // Dungeon testDungeon = new Dungeon();
-        // testDungeon.initDungeon("d_invinicibilityPotionActors",
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_invinicibilityPotionActors",
         // "c_battleTests_basicMercenaryMercenaryDies");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
 
         // Player player = testDungeon.getPlayer();
 
-        // Enemy enemy1 = testDungeon.getActiveEnemies().get(0);
-        // Enemy enemy2 = testDungeon.getActiveEnemies().get(1);
-        // Enemy enemy3 = testDungeon.getActiveEnemies().get(2);
+        // NonPlayableActor enemy1 = testDungeon.getNonPlayableActors().get(0);
+        // NonPlayableActor enemy2 = testDungeon.getNonPlayableActors().get(1);
+        // NonPlayableActor enemy3 = testDungeon.getNonPlayableActors().get(2);
+
+        // Item invincibilityPotion = testDungeon.getItems().get(0);
+        // invincibilityPotion.doAccept(player);
+
+        // player.use(invincibilityPotion.getUniqueId());
+        // player.consumeQueuedPotionEffect();
 
         // Position enemyPosition1 = enemy1.getPosition();
         // Position enemyPosition2 = enemy2.getPosition();
         // Position enemyPosition3 = enemy3.getPosition();
 
-        // Item invincibilityPotion = testDungeon.getItemsInDungeon().get(0);
-
-        // invincibilityPotion.collectedBy(player)
-
-        // player.use(invincibilityPotion);
-
-        // player.notifiyEnemies(testDungeon);
+        // player.notifyAllObservers();
 
         // assertNotEquals(enemyPosition1, enemy1.getPosition());
         // assertNotEquals(enemyPosition2, enemy2.getPosition());
@@ -143,27 +148,28 @@ public class PlayerIntegrationWhiteBoxTests {
 
     @Test
     public void testSuccessfullyNotifiesEnemiesWithInvisibilityPotion() {
-        // Dungeon testDungeon = new Dungeon();
-        // testDungeon.initDungeon("d_invisibilityPotionActors",
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_invinicibilityPotionActors",
         // "c_battleTests_basicMercenaryMercenaryDies");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
 
         // Player player = testDungeon.getPlayer();
 
-        // Enemy enemy1 = testDungeon.getActiveEnemies().get(0);
-        // Enemy enemy2 = testDungeon.getActiveEnemies().get(1);
-        // Enemy enemy3 = testDungeon.getActiveEnemies().get(2);
+        // NonPlayableActor enemy1 = testDungeon.getNonPlayableActors().get(0);
+        // NonPlayableActor enemy2 = testDungeon.getNonPlayableActors().get(1);
+        // NonPlayableActor enemy3 = testDungeon.getNonPlayableActors().get(2);
+
+        // Item invisibilityPotion = testDungeon.getItems().get(0);
+        // invisibilityPotion.doAccept(player);
+
+        // player.use(invisibilityPotion.getUniqueId());
+        // player.consumeQueuedPotionEffect();
 
         // Position enemyPosition1 = enemy1.getPosition();
         // Position enemyPosition2 = enemy2.getPosition();
         // Position enemyPosition3 = enemy3.getPosition();
 
-        // Item invisibilityPotion = testDungeon.getItemsInDungeon().get(0);
-
-        // invisibilityPotion.collectedBy(player);
-
-        // player.use(invisibilityPotion);
-
-        // player.notifiyEnemies(testDungeon);
+        // player.notifyAllObservers();
 
         // assertNotEquals(enemyPosition1, enemy1.getPosition());
         // assertNotEquals(enemyPosition2, enemy2.getPosition());
@@ -172,14 +178,17 @@ public class PlayerIntegrationWhiteBoxTests {
 
     @Test
     public void testSuccessfullyNotifiesZombieSpawners() {
-        // Dungeon testDungeon = new Dungeon();
-        // testDungeon.initDungeon("d_simpleZombieToastSpawner",
-        // "c_zombieSpawnRate");
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_simpleZombieToastSpawner",
+                "c_zombieSpawnRate");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
 
-        // Player player = testDungeon.getPlayer();
+        assertEquals(3, testDungeon.getDungeonObjects().size());
 
-        // player.notifyZombieToastSpawners();
+        Player player = testDungeon.getPlayer();
 
-        // assertTrue(testDungeon.getActiveEnemies().size() > 0);
+        player.notifyAllObservers();
+
+        assertEquals(4, testDungeon.getDungeonObjects().size());
     }
 }
