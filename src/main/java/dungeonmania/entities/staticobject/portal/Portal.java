@@ -21,26 +21,36 @@ public class Portal extends StaticObject {
         this.colour = colour;
     }
 
-    public Position getDestination() {
+    private static boolean checkIfNoWallBoulder(Position position) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
 
-        if (this.getDestinationPortal() == null) {
-            return null;
+        List<DungeonObject> walls = dungeon.getObjectsAtPosition(position).stream().filter(o -> o instanceof Wall)
+                .collect(Collectors.toList());
+        List<DungeonObject> boulders = dungeon.getObjectsAtPosition(position).stream()
+                .filter(o -> o instanceof Boulder).collect(Collectors.toList());
+
+        return boulders.isEmpty() && walls.isEmpty();
+    }
+
+    public Position getDestination(Position visitingFrom) {
+        Position dirVisitingFrom = Position.calculatePositionBetween(this.getPosition(), visitingFrom);
+
+        Position exitPosition = new Position(
+                this.getDestinationPortal().getPosition().getX() - dirVisitingFrom.getX(),
+                this.getDestinationPortal().getPosition().getY() - dirVisitingFrom.getY());
+
+        if (checkIfNoWallBoulder(exitPosition)) {
+            return exitPosition;
         }
 
         List<Position> adjacentPositions = this.getDestinationPortal().getPosition().getAdjacentCardinalPositions();
 
+        adjacentPositions.remove(exitPosition);
+
         for (Position position : adjacentPositions) {
-
-            List<DungeonObject> walls = dungeon.getObjectsAtPosition(position).stream().filter(o -> o instanceof Wall)
-                    .collect(Collectors.toList());
-            List<DungeonObject> boulders = dungeon.getObjectsAtPosition(position).stream()
-                    .filter(o -> o instanceof Boulder).collect(Collectors.toList());
-
-            if (walls.size() == 0 && boulders.size() == 0) {
+            if (checkIfNoWallBoulder(position)) {
                 return position;
             }
-
         }
 
         // no where to go = stay here
@@ -48,7 +58,7 @@ public class Portal extends StaticObject {
     }
 
     public boolean isDestination(Portal portal) {
-        return this.colour.equals(portal.getColour());
+        return this.colour.equals(portal.getColour()) && !this.equals(portal);
     }
 
     public String getColour() {
@@ -60,34 +70,21 @@ public class Portal extends StaticObject {
         List<Portal> portals = dungeon.getStaticObjects().stream()
                 .filter(o -> o instanceof Portal).map(o -> (Portal) o)
                 .collect(Collectors.toList());
-        try {
-            return portals.stream()
-                    .filter(o -> o.isDestination(this))
-                    .findFirst().get();
 
-        } catch (Exception e) {
-            // should never happen because all portals should have
-            // destination portal, unless destroyed by bomb
-            return null;
-        }
+        return portals.stream()
+                .filter(o -> o.isDestination(this))
+                .findFirst().get();
     }
 
     @Override
     public boolean canAccept(Player player) {
-        if (getDestination() == null) {
-            return false;
-        }
-        Dungeon dungeon = DungeonManiaController.getDungeon();
-        return dungeon.getStaticObjectsAtPosition(getDestination()).stream()
-                .allMatch(o -> o.canAccept(player));
+        return getDestination(player.getPosition()) != null;
     }
 
     @Override
     public boolean canAccept(NonPlayableActor enemy) {
         if (enemy instanceof Mercenary) {
-            Dungeon dungeon = DungeonManiaController.getDungeon();
-            return dungeon.getStaticObjectsAtPosition(getDestination()).stream()
-                    .allMatch(o -> o.canAccept(enemy));
+            return getDestination(enemy.getPosition()) != null;
         }
         return true;
     }
