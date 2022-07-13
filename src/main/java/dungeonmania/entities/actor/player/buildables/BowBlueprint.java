@@ -6,7 +6,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.equiments.Bow;
+import dungeonmania.entities.item.equipment.Bow;
 
 public class BowBlueprint implements BuildableBlueprint {
     private static final int NUM_ARROWS = 3;
@@ -14,9 +14,10 @@ public class BowBlueprint implements BuildableBlueprint {
     private static final String ITEM_TYPE = "bow";
 
     private Item createNewBow(Dungeon dungeon) {
-        Bow bow = new Bow();
+        Bow bow = new Bow(
+                2,
+                dungeon.getConfig("bow_durability"));
         bow.setUniqueId(UUID.randomUUID().toString());
-        bow.setDurability(dungeon.getConfig("bow_durability"));
         bow.setPosition(null);
         bow.setType(ITEM_TYPE);
         return bow;

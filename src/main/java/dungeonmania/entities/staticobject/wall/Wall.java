@@ -1,6 +1,11 @@
 package dungeonmania.entities.staticobject.wall;
 
+import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
 
 public class Wall extends StaticObject {
     @Override
@@ -8,15 +13,18 @@ public class Wall extends StaticObject {
         return false;
     }
 
-    public boolean accept(Player player) {
+    public boolean canAccept(Player player) {
         return false;
     }
 
-    public boolean accept(NonPlayableActor enemy) {
+    public boolean canAccept(NonPlayableActor enemy) {
+        if (enemy instanceof Spider) {
+            return true;
+        }
         return false;
     }
 
-    public boolean accept(Boulder boulder) {
+    public boolean canAccept(Boulder boulder) {
         return false;
     }
 }
