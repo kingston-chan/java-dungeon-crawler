@@ -1,5 +1,7 @@
 package dungeonmania.factory.staticobjectfactory;
 
-public interface StaticObjectBuilder {
+import dungeonmania.util.Position;
 
+public interface StaticObjectBuilder {
+    public void buildStaticObject(Position position, String type, String portalColour, int key);
 }

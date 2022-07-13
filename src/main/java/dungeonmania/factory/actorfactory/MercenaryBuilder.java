@@ -5,13 +5,12 @@ import java.util.UUID;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MoveTowardsPlayer;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.util.Position;
 
 public class MercenaryBuilder implements ActorBuilder {
     @Override
-    public DungeonObject buildActor(Position position, String type) {
+    public void buildActor(Position position, String type) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
 
         Mercenary mercenary = new Mercenary();
@@ -23,6 +22,5 @@ public class MercenaryBuilder implements ActorBuilder {
         mercenary.setDefaultMovement(new MoveTowardsPlayer());
         mercenary.setCurrentMovement(new MoveTowardsPlayer());
         dungeon.addDungeonObject(mercenary.getUniqueId(), mercenary);
-        return mercenary;
     }
 }
