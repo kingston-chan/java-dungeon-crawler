@@ -20,17 +20,17 @@ public class MoveTowardsPlayer implements MovementBehaviour {
     public void move(NonPlayableActor npa) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = dungeon.getPlayer();
-        
+
         // using BFS
-        Position playerPosition = player.getPosition();     
+        Position playerPosition = player.getPosition();
         Queue<Position> queue = new LinkedList<>();
-        Map<Position, Position> visited= new HashMap<>();    //adjList
-        boolean playerFound = false; 
+        Map<Position, Position> visited = new HashMap<>(); // adjList
+        boolean playerFound = false;
 
         visited.put(npa.getPosition(), null);
         queue.add(npa.getPosition());
 
-        while(!(queue.isEmpty()) && !(playerFound)) {
+        while (!(queue.isEmpty()) && !(playerFound)) {
             Position curr = queue.poll();
 
             if (curr.equals(playerPosition)) {
@@ -44,22 +44,25 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                         if (occupants.stream().allMatch(obj -> obj.canAccept(npa))) {
                             visited.put(pos, curr);
                             queue.add(pos);
-                        }  
+                        }
                     }
                 }
             }
         }
-        
+
         // get the step to the closest path
-        Position next = visited.get(playerPosition);
-        while (visited.get(next) != null) {
-            next = visited.get(next);
+        if (visited.get(playerPosition).equals(npa.getPosition())) {
+            npa.setPosition(playerPosition);
+        } else {
+            Position next = visited.get(playerPosition);
+            while (visited.get(next) != npa.getPosition()) {
+                next = visited.get(next);
+            }
+            npa.setPosition(next);
         }
 
-        // set Position  
-        Position diff = Position.calculatePositionBetween(next, npa.getPosition());
-        npa.setPosition(diff);
-
+        // set Position
+        dungeon.getObjectsAtPosition(npa.getPosition()).stream().forEach(o -> o.doAccept(npa));
     }
 
 }

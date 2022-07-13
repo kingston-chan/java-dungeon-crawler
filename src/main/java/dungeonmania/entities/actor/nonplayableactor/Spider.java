@@ -1,12 +1,11 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
 
-
 public class Spider extends NonPlayableActor {
 
+    @Override
     public void doAccept(Player player) {
         player.visit(this);
     }
