@@ -254,6 +254,7 @@ public class Player extends Actor {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Position destinationPortalPosition = portal.getDestination();
         Position exitPosition = portal.getExitPosition(getPosition());
+        setPreviousPosition(getPosition());
         setPosition(destinationPortalPosition);
         dungeon.getStaticObjectsAtPosition(exitPosition).stream()
                 .forEach(o -> o.doAccept(this));
