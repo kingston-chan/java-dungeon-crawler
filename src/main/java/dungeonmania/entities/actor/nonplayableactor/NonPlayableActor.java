@@ -2,10 +2,15 @@ package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.Actor;
+import dungeonmania.entities.staticobject.boulder.Boulder;
 
 public abstract class NonPlayableActor extends Actor {
     private MovementBehaviour defaultMovement;
     private MovementBehaviour currentMovement;
+
+    public boolean canAccept(Boulder boulder) {
+        return false;
+    }
 
     public MovementBehaviour getDefaultMovement() {
         return defaultMovement;
@@ -24,8 +29,10 @@ public abstract class NonPlayableActor extends Actor {
     }
 
     public void doMove(NonPlayableActor npa) {
-        currentMovement.move(npa);
+        this.currentMovement.move(npa);
     }
+
+    public abstract boolean canVisitWall();
 
     public abstract void update(MovementBehaviour movementBehaviour);
 
