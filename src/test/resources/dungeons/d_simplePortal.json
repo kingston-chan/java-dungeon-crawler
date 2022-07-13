@@ -18,21 +18,14 @@
             "colour": "RED"
         },
         {
-            "type": "portal",
-            "x": 6,
-            "y": 7,
-            "colour": "BLUE"
-        },
-        {
-            "type": "portal",
-            "x": -4,
-            "y": 5,
-            "colour": "Blue"
-        },
-        {
             "type": "exit",
-            "x": 4,
-            "y": 4
+            "x": 7,
+            "y": 7
+        },
+        {
+            "type": "sword",
+            "x": 7,
+            "y": 7
         }
     ],
     "goal-condition": {
