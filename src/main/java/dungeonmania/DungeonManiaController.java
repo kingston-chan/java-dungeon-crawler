@@ -1,10 +1,12 @@
 package dungeonmania;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
+import dungeonmania.util.Position;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,34 +64,89 @@ public class DungeonManiaController {
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
-        return null;
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Player player = currentDungeonInstance.getPlayer();
+        player.consumeQueuedPotionEffect();
+
+        if (!player.hasInInventory(itemUsedId)) {
+            throw new InvalidActionException(itemUsedId);
+        }
+
+        if (!player.use(itemUsedId)) {
+            player.notifyAllObservers();
+            throw new IllegalArgumentException();
+        }
+
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/tick/movement
      */
     public DungeonResponse tick(Direction movementDirection) {
-        return null;
+        Player player = currentDungeonInstance.getPlayer();
+
+        player.consumeQueuedPotionEffect();
+
+        Position moveTo = new Position(player.getPosition().getX() + movementDirection.getOffset().getX(),
+                player.getPosition().getY() + movementDirection.getOffset().getY());
+
+        if (currentDungeonInstance.getStaticObjectsAtPosition(moveTo).stream().allMatch(o -> o.canAccept(player))) {
+            Position playerOldPosition = player.getPosition();
+            currentDungeonInstance.getStaticObjectsAtPosition(moveTo).stream().forEach(o -> o.doAccept(player));
+            if (playerOldPosition == player.getPosition()) {
+                currentDungeonInstance.getNonPlayableActorsAtPosition(moveTo).stream().forEach(o -> o.doAccept(player));
+                currentDungeonInstance.getItems().stream().filter(i -> i.getPosition().equals(moveTo))
+                        .forEach(o -> o.doAccept(player));
+                player.setPreviousPosition(playerOldPosition);
+                player.setPosition(moveTo);
+            }
+        }
+
+        player.notifyAllObservers();
+
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/build
      */
     public DungeonResponse build(String buildable) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Player player = currentDungeonInstance.getPlayer();
+
+        if (!player.canBuild(buildable)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!player.checkBuildables(buildable)) {
+            throw new InvalidActionException(buildable);
+        }
+
+        player.build(buildable);
+
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/interact
      */
     public DungeonResponse interact(String entityId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+        Player player = currentDungeonInstance.getPlayer();
+
+        if (currentDungeonInstance.getDungeonObject(entityId) == null) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!player.interact(entityId)) {
+            throw new InvalidActionException(entityId);
+        }
+
+        return currentDungeonInstance.getDungeonResponse();
     }
 }

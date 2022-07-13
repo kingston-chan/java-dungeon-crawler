@@ -1,24 +1,23 @@
 package dungeonmania.entities;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import dungeonmania.behaviours.movement.SpiderMovement;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
-import dungeonmania.entities.goal.GoalTreeNode;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.factory.DungeonObjectFactory;
@@ -40,51 +39,14 @@ public class Dungeon {
     private String dungeonId = UUID.randomUUID().toString();
     private String dungeonName = "";
     private String config = "";
-    private GoalTreeNode goals = null;
+    private Goal goals = null;
     private FactoryChooser factoryChooser = new FactoryChooser();
-    private GoalFactory goalFactory = new GoalFactory();
     private String[] buildableItems = { "bow", "shield" };
     private int tickCounter = 0;
+    private Player player = null;
 
-    private GoalTreeNode addGoals(JSONObject goal) {
-        GoalTreeNode goalTreeNode = new GoalTreeNode();
-
-        String goalStr = goal.getString("goal");
-
-        Goal goalType = goalFactory.createGoal(goalStr);
-
-        if (goalType == null) {
-            JSONArray subgoals = goal.getJSONArray("subgoals");
-            goalTreeNode.setSubGoalType(goalStr);
-            goalTreeNode.setLeftChild(addGoals(subgoals.getJSONObject(0)));
-            goalTreeNode.setRightChild(addGoals(subgoals.getJSONObject(1)));
-        } else {
-            goalTreeNode.setGoal(goalType);
-        }
-
-        return goalTreeNode;
-    }
-
-    private boolean getAllGoals(Dungeon dungeon, StringBuilder allGoals, GoalTreeNode goalTreeNode) {
-        if (goalTreeNode.getGoal() == null) {
-            StringBuilder leftString = new StringBuilder("");
-            StringBuilder rightString = new StringBuilder("");
-            Boolean leftGoalAchieved = getAllGoals(dungeon, leftString, goalTreeNode.getLeftChild());
-            Boolean rightGoalAchieved = getAllGoals(dungeon, rightString, goalTreeNode.getRightChild());
-            if (leftGoalAchieved == false && rightGoalAchieved == false) {
-                allGoals.append("(" + leftString.toString() + " " + goalTreeNode.getSubGoalType() + " "
-                        + rightString.toString() + ")");
-                return false;
-            }
-
-            if (goalTreeNode.getSubGoalType().equals("OR")) {
-                return true;
-            } else {
-                allGoals.append(leftString.toString() + rightString.toString());
-                return false;
-            }
-        }
-        return goalTreeNode.getGoal().hasAchieved(dungeon, allGoals);
+    private String getGoals() {
+        return this.goals.hasAchieved() ? "" : this.goals.toString().replaceAll("^\\(|\\)$", "");
     }
 
     public String initDungeon(String dungeonName, String configName) {
@@ -111,7 +73,7 @@ public class Dungeon {
                 dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
             }
 
-            this.goals = addGoals(resource.getJSONObject("goal-condition"));
+            this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
             return this.dungeonId;
         } catch (Exception e) {
             e.printStackTrace();
@@ -156,10 +118,12 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public Player getPlayer() {
-        return this.dungeonObjects.values().stream()
-                .filter(dungeonObject -> dungeonObject instanceof Player)
-                .map(player -> (Player) player).findFirst().get();
+        return this.player;
     }
 
     public int getConfig(String configKey) {
@@ -177,82 +141,43 @@ public class Dungeon {
     }
 
     public DungeonResponse getDungeonResponse() {
-        // List<String> builables = new ArrayList<>();
-        // List<BattleResponse> battleResponses = new ArrayList<>();
-        // List<ItemResponse> inventory = new ArrayList<>();
-        // List<EntityResponse> entities = new ArrayList<>();
+        List<String> builables = new ArrayList<>();
+        List<BattleResponse> battleResponses = new ArrayList<>();
+        List<ItemResponse> inventory = new ArrayList<>();
+        List<EntityResponse> entities = new ArrayList<>();
 
-        // for (DungeonObject d : this.dungeonObjects.values()) {
-        // entities.add(new EntityResponse(
-        // d.getUniqueId(),
-        // d.getType(),
-        // d.getPosition(),
-        // d.isInteractable()));
-        // }
+        getDungeonObjects().forEach(d -> entities.add(new EntityResponse(
+                d.getUniqueId(),
+                d.getType(),
+                d.getPosition(),
+                d.isInteractable())));
 
-        // for (Item i : this.player.getInventory()) {
-        // inventory.add(new ItemResponse(i.getUniqueId(), i.getType()));
-        // }
+        getPlayer().getInventory().forEach(i -> inventory.add(new ItemResponse(i.getUniqueId(), i.getType())));
 
-        // for (Battle b : this.battles) {
-        // List<RoundResponse> rounds = new ArrayList<>();
+        this.battles.forEach(b -> {
+            List<RoundResponse> rounds = new ArrayList<>();
+            b.getRounds().forEach(r -> {
+                List<ItemResponse> itemsUsed = new ArrayList<>();
+                r.getPlayerWeaponsUsed().forEach(i -> {
+                    itemsUsed.add(new ItemResponse(i.getUniqueId(), i.getType()));
+                });
+                rounds.add(new RoundResponse(r.getPlayerHealthChange(),
+                        r.getEnemyHealthChange(), itemsUsed));
+            });
+            battleResponses.add(new BattleResponse(b.getEnemyType(), rounds,
+                    b.getInitialPlayerHealth(),
+                    b.getInitialEnemyHealth()));
+        });
 
-        // for (Round r : b.getRounds()) {
-        // List<ItemResponse> itemsUsed = new ArrayList<>();
-
-        // for (Item i : r.getWeaponsUsed()) {
-        // itemsUsed.add(new ItemResponse(i.getUniqueId(), i.getType()));
-        // }
-
-        // rounds.add(new RoundResponse(r.getPlayerHealthChange(),
-        // r.getEnemyHealthChange(), itemsUsed));
-        // }
-
-        // battleResponses.add(new BattleResponse(b.getEnemyType(), rounds,
-        // b.getInitialPlayerHealth(),
-        // b.getInitialEnemyHealth()));
-        // }
-
-        // for (String s : buildableItems) {
-        // if (this.player.checkBuildables(s)) {
-        // builables.add(s);
-        // }
-        // }
-
-        // return new DungeonResponse(this.dungeonId, this.dungeonName, entities,
-        // inventory, battleResponses, builables,
-        // getGoals());
-
-        return null;
-    }
-
-    public String getGoals() {
-        if (this.goals.getLeftChild() == null && this.goals.getRightChild() == null) {
-            StringBuilder allGoals = new StringBuilder("");
-            goals.getGoal().hasAchieved(this, allGoals);
-            return allGoals.toString();
+        for (String s : buildableItems) {
+            if (getPlayer().checkBuildables(s)) {
+                builables.add(s);
+            }
         }
 
-        StringBuilder leftString = new StringBuilder("");
-        StringBuilder rightString = new StringBuilder("");
-        Boolean leftGoalAchieved = getAllGoals(this, leftString, this.goals.getLeftChild());
-        Boolean rightGoalAchieved = getAllGoals(this, rightString, this.goals.getRightChild());
-
-        if (leftGoalAchieved == false && rightGoalAchieved == false) {
-            return leftString + " " + this.goals.getSubGoalType() + " " + rightString;
-        }
-
-        if (this.goals.getSubGoalType().equals("OR")) {
-            return "";
-        }
-
-        String allGoals = leftString.toString() + rightString.toString();
-
-        if (leftGoalAchieved && rightGoalAchieved && allGoals.contains(":exit")) {
-            return "";
-        }
-
-        return allGoals;
+        return new DungeonResponse(this.dungeonId, this.dungeonName, entities,
+                inventory, battleResponses, builables,
+                getGoals());
     }
 
     public List<StaticObject> getStaticObjectsAtPosition(Position position) {
@@ -273,50 +198,46 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
-    private boolean hasObjectAtPosition(Position position) {
-        return getDungeonObjects().stream()
-                .anyMatch(dungeonObject -> dungeonObject.getPosition().equals(position));
-    }
-
     public void updateSpawnSpider() {
-        // int spiderSpawnRate = getConfig("spider_spawn_rate");
+        int spiderSpawnRate = getConfig("spider_spawn_rate");
 
-        // if (spiderSpawnRate == 0) {
-        // return;
-        // }
+        if (spiderSpawnRate == 0) {
+            return;
+        }
 
-        // tickCounter++;
+        tickCounter++;
 
-        // if (tickCounter % spiderSpawnRate != 0) {
-        // return;
-        // }
+        if (tickCounter % spiderSpawnRate != 0) {
+            return;
+        }
 
-        // DungeonObjectFactory spiderFactory =
-        // this.factoryChooser.getFactory("spider");
-        // Enemy newSpider = getActiveEnemy(
-        // spiderFactory.create(new Position(0, 0), "spider", this, "",
-        // -1).getUniqueId());
+        Random rng = new Random();
+        int spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+                MIN_SPIDER_SPAWN;
+        int spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+                MIN_SPIDER_SPAWN;
 
-        // Random rng = new Random();
-        // int spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
-        // MIN_SPIDER_SPAWN;
-        // int spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
-        // MIN_SPIDER_SPAWN;
+        Position spiderPosition = new Position(spider_x, spider_y);
 
-        // Position spiderPosition = new Position(spider_x, spider_y);
+        Spider newSpider = new Spider();
+        newSpider.setAttackPoints(getConfig("spider_spawn_rate"));
+        newSpider.setHealthPoints(getConfig("spider_spawn_rate"));
+        newSpider.setType("spider");
+        newSpider.setUniqueId(UUID.randomUUID().toString());
 
-        // while (hasObjectAtPosition(spiderPosition)) {
-        // if (getObjectsAtPosition(spider_x, spider_y).stream()
-        // .allMatch(o -> o.accept(this, newSpider, o.getUniqueId()) == true)) {
-        // return;
-        // }
-        // spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
-        // MIN_SPIDER_SPAWN;
-        // spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
-        // MIN_SPIDER_SPAWN;
-        // spiderPosition = new Position(spider_x, spider_y);
-        // }
+        while (getObjectsAtPosition(spiderPosition).stream()
+                .allMatch(o -> o.canAccept(newSpider)) == false) {
+            spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+                    MIN_SPIDER_SPAWN;
+            spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
+                    MIN_SPIDER_SPAWN;
+            spiderPosition = new Position(spider_x, spider_y);
+        }
 
-        // newSpider.setPosition(spiderPosition);
+        newSpider.setDefaultMovement(new SpiderMovement(spiderPosition));
+        newSpider.setCurrentMovement(new SpiderMovement(spiderPosition));
+        newSpider.setPosition(spiderPosition);
+
+        addDungeonObject(newSpider.getUniqueId(), newSpider);
     }
 }

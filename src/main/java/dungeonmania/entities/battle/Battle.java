@@ -1,5 +1,6 @@
 package dungeonmania.entities.battle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
@@ -12,7 +13,7 @@ import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.equipment.Equipment;
 
 public class Battle {
-    private List<Round> rounds;
+    private List<Round> rounds = new ArrayList<>();
     private String enemyType;
     private double initialEnemyHealth;
     private double initialPlayerHealth;
@@ -62,14 +63,14 @@ public class Battle {
 
         int totalBonusDefence = player.getBonusAdditiveDefence() + (player.getNumAllies() * allyDefence);
 
-        double npaDamage = (npa.getAttackPoints() - totalBonusDefence / 10.0);
+        double npaDamage = (npa.getAttackPoints() - totalBonusDefence) / 10.0;
 
         npaDamage = npaDamage < 0 ? 0 : npaDamage;
 
-        while (player.getHealthPoints() > 0 || npa.getHealthPoints() > 0) {
+        while (player.getHealthPoints() > 0 && npa.getHealthPoints() > 0) {
             player.takeDamage(npaDamage);
             npa.takeDamage(playerDamage);
-            addRound(new Round(-npaDamage, -playerDamage, equipmentUsed));
+            this.addRound(new Round(-(npaDamage), -(playerDamage), equipmentUsed));
         }
 
         if (npa.getHealthPoints() <= 0) {
