@@ -45,4 +45,9 @@ public class Bomb extends Item {
         dungeon.addDungeonObject(newStaticBomb.getUniqueId(), newStaticBomb);
         return true;
     }
+
+    @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
 }

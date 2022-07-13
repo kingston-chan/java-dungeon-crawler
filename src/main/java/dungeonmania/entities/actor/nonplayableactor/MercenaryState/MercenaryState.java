@@ -11,4 +11,6 @@ public interface MercenaryState {
     public boolean canInteract();
 
     public void updateMovement(MovementBehaviour movementBehaviour);
+
+    public boolean isAlly();
 }
