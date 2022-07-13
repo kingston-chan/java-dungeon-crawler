@@ -8,7 +8,6 @@ import dungeonmania.entities.staticobject.exit.Exit;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.entities.visitor.Visit;
-import dungeonmania.util.Position;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;

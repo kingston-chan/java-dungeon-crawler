@@ -1,6 +1,5 @@
 package dungeonmania.entities.actor.player.interactables;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.DungeonManiaController;

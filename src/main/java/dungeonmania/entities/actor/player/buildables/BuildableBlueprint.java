@@ -1,6 +1,5 @@
 package dungeonmania.entities.actor.player.buildables;
 
-import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 
 public interface BuildableBlueprint {

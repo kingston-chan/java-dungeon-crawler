@@ -249,12 +249,14 @@ public class Player extends Actor {
 
     @Override
     public void visit(Portal portal) {
-        // get portal destination
-        // doAccept on all portal destination objects
-        // if not set position to destination
         Dungeon dungeon = DungeonManiaController.getDungeon();
         dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
                 .forEach(o -> o.doAccept(this));
+        if (portal.getDestination() == getPosition()) {
+            dungeon.getNonPlayableActorsAtPosition(portal.getDestination()).stream()
+                    .forEach(o -> o.doAccept(this));
+            setPosition(portal.getDestination());
+        }
     }
 
     @Override
