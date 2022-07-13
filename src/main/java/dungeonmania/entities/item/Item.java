@@ -7,8 +7,8 @@ public abstract class Item extends DungeonObject {
     public abstract boolean playerUse(Player player);
 
     @Override
-    public boolean accept(Player player) {
-        return player.visit(this);
+    public void doAccept(Player player) {
+        player.visit(this);
     }
 
     @Override
