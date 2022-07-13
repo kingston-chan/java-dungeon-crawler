@@ -72,27 +72,13 @@ public class DungeonManiaController {
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
+        Player player = currentDungeonInstance.getPlayer();
 
-        // throw InvalidActionException if item is not in player's inventory
-        if (!currentDungeonInstance.getPlayer()
-                                   .getInventory()
-                                   .stream()
-                                   .anyMatch(inventory_item -> inventory_item.getType().equals(itemUsedId))){
+        if (player.hasInInventory(itemUsedId)){
             throw new InvalidActionException("Item is not in player's inventory");
         }
 
-        Optional<Item> tmp = currentDungeonInstance.getItems()
-                                                    .stream()
-                                                    .filter(item -> item.getUniqueId().equals(itemUsedId))
-                                                    .findFirst();
-
-        if(!tmp.isPresent()){
-            throw new IllegalArgumentException("Item is not exist now");
-        }
-
-        Item object_item = tmp.get();
-        Player player = currentDungeonInstance.getPlayer();
-        if (!object_item.playerUse(player)){
+        if (!player.use(itemUsedId)){
             throw new IllegalArgumentException("Item cannot used by player");
         }
 
