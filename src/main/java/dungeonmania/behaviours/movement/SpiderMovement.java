@@ -12,6 +12,10 @@ import dungeonmania.util.Position;
 
 public class SpiderMovement implements MovementBehaviour {
 
+    // first move = (0, 1) (If blocked by boulder, spider should not move)
+    // https://edstem.org/au/courses/8675/discussion/929191?comment=2084281
+    // [(1, 0), (0, -1), (0, -1), (-1, 0), (-1, 0), (0, 1), (0, 1), (1, 0)]
+
     private final Direction firstMove = Direction.UP;
     private int nextMoveIndex;
     private boolean clockwise;
@@ -73,6 +77,4 @@ public class SpiderMovement implements MovementBehaviour {
     }
 
 }
-// first move = (0, 1) (If blocked by boulder, spider should not move)
-// https://edstem.org/au/courses/8675/discussion/929191?comment=2084281
-// [(1, 0), (0, -1), (0, -1), (-1, 0), (-1, 0), (0, 1), (0, 1), (1, 0)]
+
