@@ -1,6 +1,8 @@
 package dungeonmania;
 
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.item.Item;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -12,6 +14,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class DungeonManiaController {
     private static Map<String, Dungeon> dungeons = new HashMap<>();
@@ -62,14 +65,38 @@ public class DungeonManiaController {
      * /game/dungeonResponseModel
      */
     public DungeonResponse getDungeonResponseModel() {
-        return null;
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/tick/item
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
-        return null;
+
+        // throw InvalidActionException if item is not in player's inventory
+        if (!currentDungeonInstance.getPlayer()
+                                   .getInventory()
+                                   .stream()
+                                   .anyMatch(inventory_item -> inventory_item.getType().equals(itemUsedId))){
+            throw new InvalidActionException("Item is not in player's inventory");
+        }
+
+        Optional<Item> tmp = currentDungeonInstance.getItems()
+                                                    .stream()
+                                                    .filter(item -> item.getUniqueId().equals(itemUsedId))
+                                                    .findFirst();
+
+        if(!tmp.isPresent()){
+            throw new IllegalArgumentException("Item is not exist now");
+        }
+
+        Item object_item = tmp.get();
+        Player player = currentDungeonInstance.getPlayer();
+        if (!object_item.playerUse(player)){
+            throw new IllegalArgumentException("Item cannot used by player");
+        }
+
+        return getDungeonResponseModel();
     }
 
     /**
