@@ -11,6 +11,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.util.Position;
 
 import java.util.Queue;
@@ -33,11 +34,21 @@ public class MoveTowardsPlayer implements MovementBehaviour {
 
         while(!(queue.isEmpty()) && !(playerFound)) {
             Position curr = queue.poll();
+
+            // for portals
+            //
+            // for (DungeonObject obj : dungeon.getObjectsAtPosition(curr)) {
+            //     if (obj instanceof Portal) {
+            //         curr = obj.getDestination();
+            //     }
+            // }
+
             if (curr.equals(playerPosition)) {
                 playerFound = true;
             } else {
                 // checks for all adjacent valid positions and adds to the queue and visited
                 for (Position pos : curr.getAdjacentPositions()) {
+
                     // checking whether adj pos are valid or not
                     //
                     // List<DungeonObject> occupant = dungeon.getObjectsAtPosition(pos);
@@ -47,6 +58,12 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                     //          queue.add(pos);
                     //      }
                     // }
+
+                    // List<DungeonObject> occupants = dungeon.getObjectsAtPosition(pos);
+                    // if (occupants.stream().allMatch(obj -> obj.canAccept(npa)) && !(visited.containsKey(pos))) {
+                    //     visited.put(pos, curr);
+                    //     queue.add(pos);
+                    // }  
                     
                     // temporary
                     if (!(visited.containsKey(pos))) {
