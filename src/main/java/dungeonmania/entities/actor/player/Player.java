@@ -252,12 +252,18 @@ public class Player extends Actor {
     @Override
     public void visit(Portal portal) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        Position destination = portal.getDestination(getPosition());
-        dungeon.getNonPlayableActorsAtPosition(destination).stream()
+        Position destinationPortalPosition = portal.getDestination();
+        Position exitPosition = portal.getExitPosition(getPosition());
+        setPosition(destinationPortalPosition);
+        dungeon.getStaticObjectsAtPosition(exitPosition).stream()
                 .forEach(o -> o.doAccept(this));
-        dungeon.getItems().stream().filter(i -> i.getPosition().equals(destination))
-                .forEach(o -> o.doAccept(this));
-        setPosition(destination);
+        if (destinationPortalPosition == getPosition()) {
+            dungeon.getNonPlayableActorsAtPosition(exitPosition).stream()
+                    .forEach(o -> o.doAccept(this));
+            dungeon.getItems().stream().filter(i -> i.getPosition().equals(exitPosition))
+                    .forEach(o -> o.doAccept(this));
+            setPosition(exitPosition);
+        }
     }
 
     @Override

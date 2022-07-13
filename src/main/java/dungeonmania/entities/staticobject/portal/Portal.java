@@ -32,7 +32,7 @@ public class Portal extends StaticObject {
         return boulders.isEmpty() && walls.isEmpty();
     }
 
-    public Position getDestination(Position visitingFrom) {
+    public Position getExitPosition(Position visitingFrom) {
         Position dirVisitingFrom = Position.calculatePositionBetween(this.getPosition(), visitingFrom);
 
         Position exitPosition = new Position(
@@ -49,20 +49,11 @@ public class Portal extends StaticObject {
 
         for (Position position : adjacentPositions) {
             if (checkIfNoWallBoulder(position)) {
-                return position;
+                return this.getDestinationPortal().getPosition();
             }
         }
 
-        // no where to go = stay here
         return null;
-    }
-
-    public boolean isDestination(Portal portal) {
-        return this.colour.equals(portal.getColour()) && !this.equals(portal);
-    }
-
-    public String getColour() {
-        return this.colour;
     }
 
     private Portal getDestinationPortal() {
@@ -76,15 +67,27 @@ public class Portal extends StaticObject {
                 .findFirst().get();
     }
 
+    public Position getDestination() {
+        return getDestinationPortal().getPosition();
+    }
+
+    public boolean isDestination(Portal portal) {
+        return this.colour.equals(portal.getColour()) && !this.equals(portal);
+    }
+
+    public String getColour() {
+        return this.colour;
+    }
+
     @Override
     public boolean canAccept(Player player) {
-        return getDestination(player.getPosition()) != null;
+        return getExitPosition(player.getPosition()) != null;
     }
 
     @Override
     public boolean canAccept(NonPlayableActor enemy) {
         if (enemy instanceof Mercenary) {
-            return getDestination(enemy.getPosition()) != null;
+            return getExitPosition(enemy.getPosition()) != null;
         }
         return true;
     }

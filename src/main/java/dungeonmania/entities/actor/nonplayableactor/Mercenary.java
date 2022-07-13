@@ -28,10 +28,17 @@ public class Mercenary extends NonPlayableActor {
 
     public void visit(Portal portal) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        Position destination = portal.getDestination(getPosition());
-        dungeon.getObjectsAtPosition(destination).stream()
+        Position destinationPortalPosition = portal.getDestination();
+        Position exitPosition = portal.getExitPosition(getPosition());
+        setPosition(destinationPortalPosition);
+        dungeon.getStaticObjectsAtPosition(exitPosition).stream()
                 .forEach(o -> o.doAccept(this));
-        setPosition(destination);
+        if (destinationPortalPosition == getPosition()) {
+            if (dungeon.getPlayer().getPosition().equals(exitPosition)) {
+                dungeon.getPlayer().doAccept(this);
+            }
+            setPosition(exitPosition);
+        }
     }
 
     public void setMercenaryState(MercenaryState mercenaryState) {

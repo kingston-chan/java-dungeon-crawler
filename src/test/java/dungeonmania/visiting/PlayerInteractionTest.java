@@ -3,10 +3,16 @@ package dungeonmania.visiting;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
+import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import dungeonmania.TestUtils;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,7 +22,7 @@ import org.junit.jupiter.api.Nested;
 public class PlayerInteractionTest {
 
     @Test
-    public void playerVisitsSinglePortalTest() {
+    public void playerVisitsSinglePortalTestWhiteBox() {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame("d_simplePortal",
                 "c_battleTests_basicMercenaryMercenaryDies");
@@ -30,18 +36,31 @@ public class PlayerInteractionTest {
     }
 
     @Test
+    public void playerVisitsSinglePortalTestBlackBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_simplePortal",
+                "c_battleTests_basicMercenaryMercenaryDies");
+
+        DungeonResponse res = dmc.tick(Direction.DOWN);
+
+        assertEquals(new Position(7, 7), TestUtils.getEntities(res, "player").get(0).getPosition());
+        assertEquals("", TestUtils.getGoals(res));
+        assertEquals(1, TestUtils.getInventory(res, "sword").size());
+    }
+
+    @Test
     public void playerVisitsChainedPortalTest() {
-        // DungeonManiaController dmc = new DungeonManiaController();
-        // dmc.newGame("d_chainedPortals",
-        // "c_battleTests_basicMercenaryMercenaryDies");
-        // Dungeon testDungeon = DungeonManiaController.getDungeon();
-        // DungeonObject portal = testDungeon.getObjectsAtPosition(new Position(2,
-        // 3)).get(0);
-        // Player player = testDungeon.getPlayer();
-        // assertTrue(portal != null);
-        // assertTrue(portal.canAccept(player));
-        // portal.doAccept(player);
-        // assertEquals(new Position(5, 14), player.getPosition());
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_chainedPortals",
+                "c_battleTests_basicMercenaryMercenaryDies");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
+        Portal portal = testDungeon.getObjectsAtPosition(new Position(2, 3)).stream().filter(o -> o instanceof Portal)
+                .map(o -> (Portal) o).findFirst().get();
+        Player player = testDungeon.getPlayer();
+        assertTrue(portal != null);
+        assertTrue(portal.canAccept(player));
+        portal.doAccept(player);
+        assertEquals(new Position(5, 14), player.getPosition());
     }
 
     @Test
