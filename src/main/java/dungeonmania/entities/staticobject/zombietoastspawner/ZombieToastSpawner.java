@@ -12,15 +12,6 @@ import dungeonmania.util.Position;
 public class ZombieToastSpawner extends StaticObject {
     private int tickCounter = 0;
 
-    @Override
-    public boolean isInteractable() {
-        return false;
-    }
-
-    public boolean accept(Boulder boulder) {
-        return false;
-    }
-    
     public void updateSpawnRate() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         int spawnrate = dungeon.getConfig("zombie_spawn_rate");
@@ -31,9 +22,9 @@ public class ZombieToastSpawner extends StaticObject {
 
         tickCounter += 1;
         if (tickCounter % spawnrate == 0) {
-            //check cardional directions
+            // check cardional directions
             List<Position> adjacentCardinalPositions = this.getPosition().getAdjacentCardinalPositions();
-            
+
             for (Position position : adjacentCardinalPositions) {
 
                 if (dungeon.getObjectsAtPosition(position).size() == 0) {
@@ -44,6 +35,16 @@ public class ZombieToastSpawner extends StaticObject {
             }
         }
 
+    }
+
+    @Override
+    public boolean canAccept(Boulder boulder) {
+        return false;
+    }
+
+    @Override
+    public boolean isInteractable() {
+        return false;
     }
 
 }
