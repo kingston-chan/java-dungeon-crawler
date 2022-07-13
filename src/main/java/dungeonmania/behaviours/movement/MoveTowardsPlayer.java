@@ -37,9 +37,9 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                 playerFound = true;
             } else {
                 // checks for all adjacent valid positions and adds to the queue and visited
-                for (Position pos : curr.getAdjacentPositions()) {
-                    if (Position.isAdjacent(pos, curr) && !(visited.containsKey(pos))) {
-                        // checking whether adj pos are valid or not
+                for (Position pos : curr.getAdjacentCardinalPositions()) {
+                    if (!(visited.containsKey(pos))) {
+                        // checking whether cardinally adj pos are valid or not
                         List<DungeonObject> occupants = dungeon.getObjectsAtPosition(pos);
                         if (occupants.stream().allMatch(obj -> obj.canAccept(npa))) {
                             visited.put(pos, curr);
