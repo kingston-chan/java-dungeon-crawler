@@ -3,7 +3,6 @@ package dungeonmania.factory.staticobjectfactory;
 import java.util.HashMap;
 import java.util.Map;
 
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.util.Position;
 

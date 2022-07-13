@@ -3,7 +3,6 @@ package dungeonmania.factory.itemfactory;
 import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.util.Position;
 

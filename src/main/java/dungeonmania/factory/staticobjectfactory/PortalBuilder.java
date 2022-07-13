@@ -10,7 +10,7 @@ public class PortalBuilder implements StaticObjectBuilder {
 
     @Override
     public void buildStaticObject(Position position, String type, String portalColour, int key) {
-        Portal portal = new Portal();
+        Portal portal = new Portal(portalColour);
         portal.setPosition(position);
         portal.setType(type);
         portal.setUniqueId(UUID.randomUUID().toString());

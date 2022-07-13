@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.util.Position;
 

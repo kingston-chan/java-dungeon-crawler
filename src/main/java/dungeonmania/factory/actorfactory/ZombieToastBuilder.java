@@ -5,7 +5,6 @@ import java.util.UUID;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MoveRandomly;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
 import dungeonmania.util.Position;
 
