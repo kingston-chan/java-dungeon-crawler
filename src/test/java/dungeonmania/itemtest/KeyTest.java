@@ -8,16 +8,16 @@ import org.junit.jupiter.api.Test;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.collectables.Key;
+import dungeonmania.entities.item.Key;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.util.Position;
 
 public class KeyTest {
     @Test
-    public void testUsingKeyOpenMatchedDoor(){
+    public void testUsingKeyOpenMatchedDoor() {
         // Dungeon testDungeon = new Dungeon();
         // testDungeon.initDungeon("d_2door_test",
-        //                     "c_battleTests_basicMercenaryMercenaryDies");
+        // "c_battleTests_basicMercenaryMercenaryDies");
         // Player player =testDungeon.getPlayer();
         // player.setPosition(new Position(2, 3));
         // Item key1 = testDungeon.getItems().get(0);
@@ -33,10 +33,10 @@ public class KeyTest {
     }
 
     @Test
-    public void testUsingKeyTryToOpenNotmatchedDoor(){
+    public void testUsingKeyTryToOpenNotmatchedDoor() {
     }
 
     @Test
-    public void testTryToPickUpMultipleKey(){
+    public void testTryToPickUpMultipleKey() {
     }
 }

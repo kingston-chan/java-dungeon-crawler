@@ -6,7 +6,6 @@ import dungeonmania.entities.visitor.Visit;
 public abstract class Actor extends DungeonObject implements Visit {
     private double healthPoints;
     private int attackPoints;
-    private int defencePoints;
 
     public double getHealthPoints() {
         return healthPoints;
@@ -24,11 +23,7 @@ public abstract class Actor extends DungeonObject implements Visit {
         this.attackPoints = attackPoints;
     }
 
-    public int getDefencePoints() {
-        return defencePoints;
-    }
-
-    public void setDefencePoints(int defencePoints) {
-        this.defencePoints = defencePoints;
+    public void takeDamage(double damage) {
+        this.healthPoints -= damage;
     }
 }

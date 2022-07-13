@@ -10,6 +10,6 @@ public class InvincibilityPotion extends Potion {
 
     @Override
     public void consumedBy(Player player) {
-
+        player.setPlayerState(player.getInvincibleState());
     }
 }
