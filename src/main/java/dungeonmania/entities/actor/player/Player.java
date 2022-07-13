@@ -24,7 +24,7 @@ import dungeonmania.entities.actor.player.states.InvisibleState;
 import dungeonmania.entities.actor.player.states.NormalState;
 import dungeonmania.entities.actor.player.states.PlayerState;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.collectables.Key;
+import dungeonmania.entities.item.Key;
 import dungeonmania.entities.item.potions.Potion;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.staticobject.boulder.BoulderHelper;
@@ -133,7 +133,8 @@ public class Player extends Actor {
      * @param uniqueId
      * @return whether interact was successful
      */
-    public boolean interact(Dungeon dungeon, String uniqueId) {
+    public boolean interact(String uniqueId) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         DungeonObject dungeonObject = dungeon.getDungeonObject(uniqueId);
         InteractBehaviour interaction = interactables.getInteraction(dungeonObject.getType());
         return interaction.interact(this, uniqueId);
@@ -245,6 +246,7 @@ public class Player extends Actor {
     @Override
     public void visit(Item item) {
         addToInventory(item);
+        DungeonManiaController.getDungeon().removeDungeonObject(item.getUniqueId());
     }
 
     @Override
