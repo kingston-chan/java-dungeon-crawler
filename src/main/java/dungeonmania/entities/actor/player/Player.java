@@ -254,10 +254,12 @@ public class Player extends Actor {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
                 .forEach(o -> o.doAccept(this));
+        setPosition(portal.getDestination());
         if (portal.getDestination() == getPosition()) {
             dungeon.getNonPlayableActorsAtPosition(portal.getDestination()).stream()
                     .forEach(o -> o.doAccept(this));
-            setPosition(portal.getDestination());
+            dungeon.getItems().stream().filter(i -> i.getPosition().equals(portal.getDestination()))
+                    .forEach(i -> i.doAccept(this));
         }
     }
 
