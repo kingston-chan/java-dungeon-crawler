@@ -24,6 +24,7 @@ public class MoveRandomly implements MovementBehaviour {
         Position nextMove = possibleMoves.get(index);
         // checking whether can move to chosen position
         while (!(dungeon.getObjectsAtPosition(nextMove).stream().allMatch(obj -> obj.canAccept(npa)))) {
+            // if can't, choose another one
             possibleMoves.remove(index);
             index = rand.nextInt(possibleMoves.size());
             nextMove = possibleMoves.get(index);

@@ -7,8 +7,10 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import javassist.expr.NewArray;
 
 public class SpiderMovement implements MovementBehaviour {
 
@@ -16,20 +18,13 @@ public class SpiderMovement implements MovementBehaviour {
     private int nextMoveIndex;
     private boolean clockwise;
     private boolean firstMoved;
-    private ArrayList<Direction> moves = new ArrayList<>();
+    private List<Position> positions = new ArrayList<>();
 
-    public SpiderMovement() {
-        this.nextMoveIndex = 0;
+    public SpiderMovement(Spider spider) {
+        this.nextMoveIndex = 1;
         this.clockwise = true;
         this.firstMoved = false;
-        this.moves.add(Direction.RIGHT);
-        this.moves.add(Direction.DOWN);
-        this.moves.add(Direction.DOWN);
-        this.moves.add(Direction.LEFT);
-        this.moves.add(Direction.LEFT);
-        this.moves.add(Direction.UP);
-        this.moves.add(Direction.UP);
-        this.moves.add(Direction.RIGHT);
+        this.positions = spider.getPosition().getAdjacentPositions();
     }
 
     @Override
@@ -37,24 +32,31 @@ public class SpiderMovement implements MovementBehaviour {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Position nextMove;
         if (firstMoved) {
-            Direction moveDir = this.moves.get(nextMoveIndex);
 
-            Position newPos = spider.getPosition().translateBy(moveDir);
+            Position newPos = this.positions.get(nextMoveIndex);
 
             // checks if spider can move to next space (not a boulder)
             if (!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))) {
                 clockwise = !(clockwise);
+                if (clockwise) {
+                    nextMoveIndex -= 2;
+                } else {
+                nextMoveIndex += 2;
+                }
+                newPos = positions.get(nextMoveIndex);
             }
+
+            spider.setPosition(newPos);
 
             if (clockwise) {
                 nextMoveIndex += 1;
-                if (nextMoveIndex >= moves.size()) {
-                    nextMoveIndex -= moves.size();
+                if (nextMoveIndex >= positions.size()) {
+                    nextMoveIndex -= positions.size();
                 }
             } else {
                 nextMoveIndex -= 1;
                 if (nextMoveIndex <= -1) {
-                    nextMoveIndex += moves.size();
+                    nextMoveIndex += positions.size();
                 }
             }
             
