@@ -23,7 +23,7 @@ public class SpiderMovement implements MovementBehaviour {
     private List<Position> positions = new ArrayList<>();
 
     public SpiderMovement(Position spiderPos) {
-        this.nextMoveIndex = 1;
+        this.nextMoveIndex = 2;
         this.clockwise = true;
         this.firstMoved = false;
         this.positions = spiderPos.getAdjacentPositions();
@@ -43,11 +43,12 @@ public class SpiderMovement implements MovementBehaviour {
                 if (clockwise) {
                     nextMoveIndex -= 2;
                 } else {
-                nextMoveIndex += 2;
+                    nextMoveIndex += 2;
                 }
                 newPos = positions.get(nextMoveIndex);
             }
 
+            dungeon.getObjectsAtPosition(newPos).stream().forEach(obj -> obj.doAccept(spider));
             spider.setPosition(newPos);
 
             if (clockwise) {
@@ -61,14 +62,14 @@ public class SpiderMovement implements MovementBehaviour {
                     nextMoveIndex += positions.size();
                 }
             }
-            
 
-        } else {    // first tick move after spawn
+        } else { // first tick move after spawn
             nextMove = spider.getPosition().translateBy(firstMove);
             List<DungeonObject> occupants = dungeon.getObjectsAtPosition(nextMove);
 
             // checks whether chosen position can be moved unto, if not stay still
             if (occupants.stream().allMatch(obj -> obj.canAccept(spider))) {
+                occupants.stream().forEach(obj -> obj.doAccept(spider));
                 spider.setPosition(nextMove);
                 firstMoved = true;
             }
@@ -77,4 +78,3 @@ public class SpiderMovement implements MovementBehaviour {
     }
 
 }
-
