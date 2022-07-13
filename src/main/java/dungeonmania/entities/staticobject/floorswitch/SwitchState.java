@@ -2,9 +2,9 @@ package dungeonmania.entities.staticobject.floorswitch;
 
 public interface SwitchState {
     
-    public void activate();
+    public boolean activate();
 
-    public void deactivate();
+    public boolean deactivate();
 
-    public boolean isActivated();
+    public boolean isSwitchActivated();
 }
