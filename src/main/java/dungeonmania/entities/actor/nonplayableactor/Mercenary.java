@@ -1,6 +1,6 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
+import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.portal.Portal;

@@ -31,7 +31,7 @@ import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.entities.item.collectables.Key;
 import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.entities.item.collectables.Wood;
-import dungeonmania.entities.item.equiments.Sword;
+import dungeonmania.entities.item.equipment.Sword;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
@@ -164,8 +164,9 @@ public class PlayerTest {
 
         @Test
         public void testMercenaryInteractNotEnoughTreasures() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_simpleMercenaryInteract", "c_battleTests_basicMercenaryMercenaryDies");
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_simpleMercenaryInteract", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             String mercId = testDungeon.getNonPlayableActors().get(0).getUniqueId();
             Player player = testDungeon.getPlayer();
             player.setPosition(new Position(3, 1));
@@ -232,27 +233,30 @@ public class PlayerTest {
 
         @Test
         public void testBuildNotBowShield() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_simpleZombieToastSpawner",
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_simpleZombieToastSpawner",
                     "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             Player player = testDungeon.getPlayer();
             assertFalse(player.isValidBuildable("notaboworshield"));
         }
 
         @Test
         public void testBuildBowNotEnoughItems() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_simpleZombieToastSpawner",
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_simpleZombieToastSpawner",
                     "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             Player player = testDungeon.getPlayer();
             assertFalse(player.checkBuildables("bow"));
         }
 
         @Test
         public void testBuildShieldNotEnoughItems() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_simpleZombieToastSpawner",
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_simpleZombieToastSpawner",
                     "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             Player player = testDungeon.getPlayer();
             assertFalse(player.checkBuildables("shield"));
         }

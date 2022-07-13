@@ -1,4 +1,4 @@
-package dungeonmania.behaviours.automatedmovement;
+package dungeonmania.behaviours.movement;
 
 import java.util.ArrayList;
 

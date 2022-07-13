@@ -1,7 +1,8 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.automatedmovement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.behaviours.movement.MovementBehaviour;
+
 
 public class ZombieToast extends NonPlayableActor {
 
