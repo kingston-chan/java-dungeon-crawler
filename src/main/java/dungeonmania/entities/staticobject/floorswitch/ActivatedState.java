@@ -1,15 +1,13 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
-import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
-
-public class ActivatedState extends FloorSwitch implements SwitchState{
+public class ActivatedState extends FloorSwitch implements SwitchState {
     private FloorSwitch floorSwitch;
 
     public ActivatedState(FloorSwitch floorSwitch) {
         this.floorSwitch = floorSwitch;
     }
 
-    @Override  
+    @Override
     public boolean activate() {
         return false;
     }
@@ -19,6 +17,7 @@ public class ActivatedState extends FloorSwitch implements SwitchState{
         this.floorSwitch.setState(this.floorSwitch.getDeactivatedState());
         return true;
     }
+
     public boolean isSwitchActivated() {
         return true;
     }
