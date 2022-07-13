@@ -1,6 +1,5 @@
 package dungeonmania.factory;
 
-import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.util.Position;
 

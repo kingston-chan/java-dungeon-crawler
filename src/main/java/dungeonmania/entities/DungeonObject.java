@@ -1,17 +1,12 @@
 package dungeonmania.entities;
 
-import dungeonmania.behaviours.host.HostBehaviour;
+import dungeonmania.entities.host.Host;
 import dungeonmania.util.Position;
 
-public abstract class DungeonObject {
-    private HostBehaviour hostBehaviour;
+public abstract class DungeonObject implements Host {
     private Position position;
     private String uniqueId;
     private String type;
-
-    public void setHostBehaviour(HostBehaviour hostBehaviour) {
-        this.hostBehaviour = hostBehaviour;
-    }
 
     public Position getPosition() {
         return position;

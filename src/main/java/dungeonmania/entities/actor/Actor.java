@@ -1,17 +1,12 @@
 package dungeonmania.entities.actor;
 
-import dungeonmania.behaviours.visitor.VisitorBehaviour;
 import dungeonmania.entities.DungeonObject;
+import dungeonmania.entities.visitor.Visit;
 
-public abstract class Actor extends DungeonObject {
-    private VisitorBehaviour visitorBehaviour;
+public abstract class Actor extends DungeonObject implements Visit {
     private double healthPoints;
     private int attackPoints;
     private int defencePoints;
-
-    public void setVisitorBehaviour(VisitorBehaviour visitorBehaviour) {
-        this.visitorBehaviour = visitorBehaviour;
-    }
 
     public double getHealthPoints() {
         return healthPoints;
