@@ -8,6 +8,7 @@ import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.util.Position;
 
 public class Mercenary extends NonPlayableActor {
 
@@ -27,13 +28,10 @@ public class Mercenary extends NonPlayableActor {
 
     public void visit(Portal portal) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
+        Position destination = portal.getDestination(getPosition());
+        dungeon.getObjectsAtPosition(destination).stream()
                 .forEach(o -> o.doAccept(this));
-        setPosition(portal.getDestination());
-        if (portal.getDestination() == getPosition()) {
-            dungeon.getObjectsAtPosition(portal.getDestination()).stream()
-                    .forEach(o -> o.doAccept(this));
-        }
+        setPosition(destination);
     }
 
     public void setMercenaryState(MercenaryState mercenaryState) {
@@ -67,6 +65,5 @@ public class Mercenary extends NonPlayableActor {
     public boolean canVisitWall() {
         return false;
     }
-
 
 }
