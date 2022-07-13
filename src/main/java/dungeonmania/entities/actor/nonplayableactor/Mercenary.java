@@ -54,7 +54,7 @@ public class Mercenary extends NonPlayableActor {
 
     @Override
     public void update(MovementBehaviour movementBehaviour) {
-        this.setCurrentMovement(movementBehaviour);
+        this.currentState.updateMovement(movementBehaviour);
         this.doMove(this);
     }
 

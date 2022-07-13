@@ -15,23 +15,13 @@ public class AllyState implements MercenaryState {
     }
 
     @Override
-    public boolean visitPlayer(Player player) {
-        return false;
-    }
-
-    @Override
-    public boolean acceptPlayer(Player player) {
-        return true;
-    }
-
-    @Override
     public boolean canInteract() {
         return false;
     }
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-        mercenary.update(movementBehaviour);
+        // do nothing
     }
 
     @Override

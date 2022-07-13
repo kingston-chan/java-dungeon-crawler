@@ -13,16 +13,6 @@ public class EnemyState implements MercenaryState {
     public EnemyState(Mercenary mercenary) {
         this.mercenary = mercenary;
     }
-    
-    @Override
-    public boolean visitPlayer(Player player) {
-        return true;
-    }
-
-    @Override
-    public boolean acceptPlayer(Player player) {
-        return true;
-    }
 
     @Override
     public boolean canInteract() {
