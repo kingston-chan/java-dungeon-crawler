@@ -45,7 +45,7 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
 
     @Override
     public boolean canAccept(Boulder boulder) {
-        return this.currentState.isSwitchActivated();
+        return !this.currentState.isSwitchActivated();
     }
 
     @Override
