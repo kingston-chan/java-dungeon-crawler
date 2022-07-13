@@ -7,10 +7,8 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
-import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import javassist.expr.NewArray;
 
 public class SpiderMovement implements MovementBehaviour {
 
@@ -20,11 +18,11 @@ public class SpiderMovement implements MovementBehaviour {
     private boolean firstMoved;
     private List<Position> positions = new ArrayList<>();
 
-    public SpiderMovement(Spider spider) {
+    public SpiderMovement(Position spiderPos) {
         this.nextMoveIndex = 1;
         this.clockwise = true;
         this.firstMoved = false;
-        this.positions = spider.getPosition().getAdjacentPositions();
+        this.positions = spiderPos.getAdjacentPositions();
     }
 
     @Override
