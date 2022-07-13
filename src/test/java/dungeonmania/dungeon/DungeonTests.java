@@ -46,30 +46,30 @@ public class DungeonTests {
     public class DungeonUnitWhiteBoxTests {
         @Test
         public void testInitialiseDungeon() {
-            // Dungeon testDungeon = new Dungeon();
-            // testDungeon.initDungeon("d_battleTest_basicMercenary",
-            // "c_battleTests_basicMercenaryMercenaryDies");
-            // List<DungeonObject> dungeonObjects = testDungeon.getDungeonObjects();
+            Dungeon testDungeon = new Dungeon();
+            testDungeon.initDungeon("d_battleTest_basicMercenary",
+                    "c_battleTests_basicMercenaryMercenaryDies");
+            List<DungeonObject> dungeonObjects = testDungeon.getDungeonObjects();
 
-            // assertTrue(dungeonObjects.size() == 11);
-            // assertEquals(dungeonObjects.get(0).getPosition(), new Position(0, 1));
-            // assertEquals(dungeonObjects.get(0).getType(), "player");
-            // assertFalse(dungeonObjects.get(0).isInteractable());
-            // assertEquals(dungeonObjects.get(0).getUniqueId(),
-            // testDungeon.getPlayer().getUniqueId());
-            // assertEquals(testDungeon.getPlayer(), dungeonObjects.get(0));
+            assertTrue(dungeonObjects.size() == 11);
+            assertEquals(dungeonObjects.get(0).getPosition(), new Position(0, 1));
+            assertEquals(dungeonObjects.get(0).getType(), "player");
+            assertFalse(dungeonObjects.get(0).isInteractable());
+            assertEquals(dungeonObjects.get(0).getUniqueId(),
+                    testDungeon.getPlayer().getUniqueId());
+            assertEquals(testDungeon.getPlayer(), dungeonObjects.get(0));
 
-            // assertEquals(dungeonObjects.get(1).getPosition(), new Position(2, 1));
-            // assertEquals(dungeonObjects.get(1).getType(), "mercenary");
-            // assertTrue(dungeonObjects.get(1).isInteractable());
-            // assertEquals(testDungeon.getActiveEnemy(dungeonObjects.get(1).getUniqueId()),
-            // dungeonObjects.get(1));
+            assertEquals(dungeonObjects.get(1).getPosition(), new Position(2, 1));
+            assertEquals(dungeonObjects.get(1).getType(), "mercenary");
+            assertTrue(dungeonObjects.get(1).isInteractable());
+            assertEquals(testDungeon.getActiveEnemy(dungeonObjects.get(1).getUniqueId()),
+                    dungeonObjects.get(1));
 
-            // assertEquals(dungeonObjects.get(6).getPosition(), new Position(3, 1));
-            // assertEquals(dungeonObjects.get(1).getType(), "wall");
-            // assertFalse(dungeonObjects.get(6).isInteractable());
-            // assertEquals(testDungeon.getStaticObject(dungeonObjects.get(6).getUniqueId()),
-            // dungeonObjects.get(6));
+            assertEquals(dungeonObjects.get(6).getPosition(), new Position(3, 1));
+            assertEquals(dungeonObjects.get(1).getType(), "wall");
+            assertFalse(dungeonObjects.get(6).isInteractable());
+            assertEquals(testDungeon.getStaticObject(dungeonObjects.get(6).getUniqueId()),
+                    dungeonObjects.get(6));
 
         }
 
@@ -125,8 +125,9 @@ public class DungeonTests {
 
         @Test
         public void testGetConfigFile() {
-            Dungeon testDungeon = new Dungeon();
-            testDungeon.initDungeon("d_battleTest_basicMercenary", "c_battleTests_basicMercenaryMercenaryDies");
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_battleTest_basicMercenary", "c_battleTests_basicMercenaryMercenaryDies");
+            Dungeon testDungeon = DungeonManiaController.getDungeon();
             assertEquals(testDungeon.getConfig("ally_attack"), 3);
             assertEquals(testDungeon.getConfig("ally_defence"), 3);
             assertEquals(testDungeon.getConfig("bomb_radius"), 1);
@@ -162,27 +163,27 @@ public class DungeonTests {
 
             dmc.newGame("d_halfComplexAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon2 = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon2.getGoals(), "(:exit AND :treasure) AND :boulders");
+            assertEquals("(:exit AND :treasure) AND :boulders", testDungeon2.getGoals());
 
             dmc.newGame("d_twoAndGoals", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon3 = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon3.getGoals(), ":exit AND :boulders");
+            assertEquals(":exit AND :boulders", testDungeon3.getGoals());
 
             dmc.newGame("d_simpleActors", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon4 = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon4.getGoals(), ":enemies");
+            assertEquals(":enemies", testDungeon4.getGoals());
         }
 
         @Test
         public void testGetGoalsOr() {
             DungeonManiaController dmc = new DungeonManiaController();
-            dmc.newGame("d_complexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
+            dmc.newGame("d_complexOrGoals_andAll", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon.getGoals(), "(:exit AND :treasure) OR (:boulders OR :enemies)");
+            assertEquals(testDungeon.getGoals(), "(:exit OR :treasure) OR (:boulders AND :enemies)");
 
             dmc.newGame("d_halfComplexOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon2 = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon2.getGoals(), "(:exit OR :treasure) OR :boulders");
+            assertEquals(testDungeon2.getGoals(), "(:exit OR :treasure) OR :enemies");
 
             dmc.newGame("d_twoOrGoals", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon3 = DungeonManiaController.getDungeon();

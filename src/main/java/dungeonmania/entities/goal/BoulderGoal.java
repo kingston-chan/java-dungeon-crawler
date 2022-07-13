@@ -15,7 +15,7 @@ public class BoulderGoal implements Goal {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         List<DungeonObject> floorSwitches = dungeon.getDungeonObjects().stream()
                 .filter(o -> o instanceof FloorSwitch).collect(Collectors.toList());
-        return floorSwitches.stream().allMatch(o -> ((FloorSwitch) o).isActivated()) && floorSwitches.size() > 0;
+        return floorSwitches.stream().allMatch(o -> ((FloorSwitch) o).isActivated());
     }
 
     @Override
