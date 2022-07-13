@@ -191,4 +191,172 @@ public class PlayerIntegrationWhiteBoxTests {
 
         assertEquals(4, testDungeon.getDungeonObjects().size());
     }
+
+    @Test
+    public void testPlayerNormalBattleMercenary() {
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_mercenaryInteract",
+        // "c_battleTestsMultipleRounds");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
+        // Player player = testDungeon.getPlayer();
+
+        // testDungeon.getNonPlayableActors().forEach(o -> o.doAccept(player));
+
+        // assertEquals(1, testDungeon.getDungeonResponse().getBattles().size());
+        // BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+        // assertEquals(getValueFromConfigFile("player_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialPlayerHealth());
+        // assertEquals(getValueFromConfigFile("mercenary_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialEnemyHealth());
+        // assertEquals("mercenary", br.getEnemy());
+
+        // int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
+        // "c_battleTestsMultipleRounds"));
+        // int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
+        // "c_battleTestsMultipleRounds"));
+
+        // for (RoundResponse r : br.getRounds()) {
+        // assertEquals(-(enemyAttack / 10), r.getDeltaCharacterHealth());
+        // assertEquals(-(playerAttack / 5), r.getDeltaCharacterHealth());
+        // assertEquals(0, r.getWeaponryUsed().size());
+        // }
+
+        // assertEquals(0, testDungeon.getNonPlayableActors().size());
+    }
+
+    @Test
+    public void testPlayerNormalBattleSpider() {
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_spiderTest_basicMovement",
+        // "c_battleTestsMultipleRounds");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
+        // Player player = testDungeon.getPlayer();
+
+        // testDungeon.getNonPlayableActors().forEach(o -> o.doAccept(player));
+
+        // assertEquals(1, testDungeon.getDungeonResponse().getBattles().size());
+        // BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+        // assertEquals(getValueFromConfigFile("player_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialPlayerHealth());
+        // assertEquals(getValueFromConfigFile("spider_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialEnemyHealth());
+        // assertEquals("spider", br.getEnemy());
+
+        // int enemyAttack = Integer.parseInt(getValueFromConfigFile("spider_attack",
+        // "c_battleTestsMultipleRounds"));
+        // int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
+        // "c_battleTestsMultipleRounds"));
+
+        // for (RoundResponse r : br.getRounds()) {
+        // assertEquals(-(enemyAttack / 10), r.getDeltaCharacterHealth());
+        // assertEquals(-(playerAttack / 5), r.getDeltaCharacterHealth());
+        // assertEquals(0, r.getWeaponryUsed().size());
+        // }
+
+        // assertEquals(0, testDungeon.getNonPlayableActors().size());
+    }
+
+    @Test
+    public void testPlayerNormalBattleZombieToast() {
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_zombieBattle",
+        // "c_battleTestsMultipleRounds");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
+        // Player player = testDungeon.getPlayer();
+
+        // testDungeon.getNonPlayableActors().forEach(o -> o.doAccept(player));
+
+        // assertEquals(1, testDungeon.getDungeonResponse().getBattles().size());
+        // BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+        // assertEquals(getValueFromConfigFile("player_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialPlayerHealth());
+        // assertEquals(getValueFromConfigFile("zombie_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialEnemyHealth());
+        // assertEquals("zombie_toast", br.getEnemy());
+
+        // int enemyAttack = Integer.parseInt(getValueFromConfigFile("zombie_attack",
+        // "c_battleTestsMultipleRounds"));
+        // int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
+        // "c_battleTestsMultipleRounds"));
+
+        // for (RoundResponse r : br.getRounds()) {
+        // assertEquals(-(enemyAttack / 10), r.getDeltaCharacterHealth());
+        // assertEquals(-(playerAttack / 5), r.getDeltaCharacterHealth());
+        // assertEquals(0, r.getWeaponryUsed().size());
+        // }
+
+        // assertEquals(0, testDungeon.getNonPlayableActors().size());
+    }
+
+    @Test
+    public void testPlayerInvincibleBattle() {
+        // DungeonManiaController dmc = new DungeonManiaController();
+        // dmc.newGame("d_invinicibilityPotionActors",
+        // "c_battleTestsMultipleRounds");
+        // Dungeon testDungeon = DungeonManiaController.getDungeon();
+        // Player player = testDungeon.getPlayer();
+
+        // Item invincibilityPotion = testDungeon.getItems().get(0);
+
+        // invincibilityPotion.doAccept(player);
+
+        // player.use(invincibilityPotion.getUniqueId());
+
+        // player.consumeQueuedPotionEffect();
+
+        // testDungeon.getNonPlayableActors().forEach(o -> o.doAccept(player));
+
+        // assertEquals(3, testDungeon.getDungeonResponse().getBattles().size());
+        // BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+        // assertEquals(getValueFromConfigFile("player_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialPlayerHealth());
+        // assertEquals(getValueFromConfigFile("mercenary_health",
+        // "c_battleTestsMultipleRounds"),
+        // br.getInitialEnemyHealth());
+
+        // int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
+        // "c_battleTestsMultipleRounds"));
+        // int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
+        // "c_battleTestsMultipleRounds"));
+
+        // for (RoundResponse r : br.getRounds()) {
+        // assertEquals(-(enemyAttack / 10), r.getDeltaCharacterHealth());
+        // assertEquals(-(playerAttack / 5), r.getDeltaCharacterHealth());
+        // assertEquals(0, r.getWeaponryUsed().size());
+        // }
+
+        // assertEquals(0, testDungeon.getNonPlayableActors().size());
+    }
+
+    @Test
+    public void testPlayerInvisibleNoBattle() {
+
+    }
+
+    @Test
+    public void testPlayerSwordBattle() {
+
+    }
+
+    @Test
+    public void testPlayerBowBattle() {
+
+    }
+
+    @Test
+    public void testPlayerShieldBattle() {
+
+    }
+
+    @Test
+    public void testPlayerAllEquipmentBattle() {
+
+    }
 }
