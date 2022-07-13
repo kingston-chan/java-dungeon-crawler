@@ -9,4 +9,9 @@ public abstract class Collectable extends Item {
     public boolean playerUse(Player player) {
         return false;
     }
+
+    @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
 }

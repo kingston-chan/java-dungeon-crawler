@@ -20,7 +20,7 @@ public class EnemyState implements MercenaryState {
     @Override
     public boolean canInteract() {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
@@ -29,4 +29,8 @@ public class EnemyState implements MercenaryState {
 
     }
 
+    @Override
+    public boolean isAlly() {
+        return false;
+    }
 }

@@ -3,7 +3,7 @@ package dungeonmania.factory.itemfactory;
 import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.entities.item.collectables.Key;
+import dungeonmania.entities.item.Key;
 import dungeonmania.util.Position;
 
 public class KeyBuilder implements ItemBuilder {

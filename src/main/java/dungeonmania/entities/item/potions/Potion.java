@@ -22,4 +22,9 @@ public abstract class Potion extends Item {
         player.removeFromInventory(this);
         return true;
     }
+
+    @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
 }

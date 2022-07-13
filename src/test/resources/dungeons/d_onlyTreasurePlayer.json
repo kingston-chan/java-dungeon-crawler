@@ -11,25 +11,24 @@
             "y": 1
         },
         {
-            "type": "key",
+            "type": "treasure",
             "x": 3,
-            "y": 1,
-            "key": 1
+            "y": 1
         },
         {
-            "type": "wood",
+            "type": "treasure",
             "x": 4,
             "y": 1
         },
         {
-            "type": "arrow",
-            "x": 5,
+            "type": "treasure",
+            "x": 8,
             "y": 1
         },
         {
-            "type": "sword",
-            "x": 6,
-            "y": 1
+            "type": "treasure",
+            "x": 5,
+            "y": 5
         }
     ],
     "goal-condition": {

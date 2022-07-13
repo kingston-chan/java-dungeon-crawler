@@ -18,7 +18,6 @@ public class SpiderBuilder implements ActorBuilder {
         spider.setType(type);
         spider.setAttackPoints(dungeon.getConfig("spider_attack"));
         spider.setHealthPoints(dungeon.getConfig("spider_health"));
-        spider.setDefencePoints(0);
         spider.setDefaultMovement(new SpiderMovement());
         spider.setCurrentMovement(new SpiderMovement());
         dungeon.addDungeonObject(spider.getUniqueId(), spider);
