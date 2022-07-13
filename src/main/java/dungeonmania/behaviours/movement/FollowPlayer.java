@@ -15,7 +15,7 @@ public class FollowPlayer implements MovementBehaviour {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = dungeon.getPlayer();
 
-        // Position playerPrevPos = player.getPrevPosition();
+        // Position playerPrevPos = player.getPreviousPosition();
         // npa.setPosition(playerPrevPos);
 
     }

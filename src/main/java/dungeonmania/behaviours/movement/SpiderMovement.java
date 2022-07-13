@@ -7,10 +7,8 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
-import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
-import javassist.compiler.ast.Pair;
 
 public class SpiderMovement implements MovementBehaviour {
 
@@ -40,8 +38,14 @@ public class SpiderMovement implements MovementBehaviour {
         Position nextMove;
         if (firstMoved) {
             Direction moveDir = this.moves.get(nextMoveIndex);
-            spider.setPosition(spider.getPosition().translateBy(moveDir));
-            
+
+            Position newPos = spider.getPosition().translateBy(moveDir);
+
+            // checks if spider can move to next space (not a boulder)
+            if (!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))) {
+                clockwise = !(clockwise);
+            }
+
             if (clockwise) {
                 nextMoveIndex += 1;
                 if (nextMoveIndex >= moves.size()) {
@@ -53,19 +57,18 @@ public class SpiderMovement implements MovementBehaviour {
                     nextMoveIndex += moves.size();
                 }
             }
-        } else {
+            
+
+        } else {    // first tick move after spawn
             nextMove = spider.getPosition().translateBy(firstMove);
             List<DungeonObject> occupants = dungeon.getObjectsAtPosition(nextMove);
-            // checks whether chosen position can be moved unto, if not stay still
-            //
-            // if (occupants.stream().allMatch(obj -> obj.canAccept(spider))) {
-            //     spider.setPosition(nextMove);
-            //     firstMoved = true;
-            // }
 
-            // temporary
-            spider.setPosition(nextMove);
-            firstMoved = true;
+            // checks whether chosen position can be moved unto, if not stay still
+            if (occupants.stream().allMatch(obj -> obj.canAccept(spider))) {
+                spider.setPosition(nextMove);
+                firstMoved = true;
+            }
+
         }
     }
 
