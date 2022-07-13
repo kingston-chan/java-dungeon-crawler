@@ -30,7 +30,7 @@ public class Mercenary extends NonPlayableActor {
         dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
                 .forEach(o -> o.doAccept(this));
         if (portal.getDestination() == getPosition()) {
-            dungeon.getNonPlayableActorsAtPosition(portal.getDestination()).stream()
+            dungeon.getObjectsAtPosition(portal.getDestination()).stream()
                     .forEach(o -> o.doAccept(this));
             setPosition(portal.getDestination());
         }
