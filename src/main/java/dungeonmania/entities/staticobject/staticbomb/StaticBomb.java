@@ -1,7 +1,9 @@
 package dungeonmania.entities.staticobject.staticbomb;
 
-import dungeonmania.entities.SwitchObserver;
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.util.BombHelper;
+import dungeonmania.entities.staticobject.floorswitch.SwitchSubject;
 
 public class StaticBomb extends StaticObject implements SwitchObserver {
 
@@ -10,7 +12,9 @@ public class StaticBomb extends StaticObject implements SwitchObserver {
         return false;
     }
 
-    public void update(int state) {
-        // do something switch related.
+    @Override
+    public void update(SwitchSubject switchSubject) {
+        switchSubject.remove(this);
+        BombHelper.explode(DungeonManiaController.getDungeon(), this.getPosition());
     }
 }
