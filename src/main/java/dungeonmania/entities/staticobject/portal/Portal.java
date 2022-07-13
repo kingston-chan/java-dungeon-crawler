@@ -3,6 +3,8 @@ package dungeonmania.entities.staticobject.portal;
 import javax.management.loading.PrivateClassLoader;
 import javax.sound.sampled.Port;
 
+import org.eclipse.jetty.util.Retainable;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,6 +34,9 @@ public class Portal extends StaticObject {
     }
 
     public boolean canAccept(Player player) {
+        if (this.getDestination() == null) {
+            return false;
+        }
         return true;
     }
 
@@ -78,6 +83,10 @@ public class Portal extends StaticObject {
 
     public String getColour() {
         return this.colour;
+    }
+
+    public void setColour(String colour) {
+        this.colour = colour;
     }
 
     private Portal getDestinationPortal() {
