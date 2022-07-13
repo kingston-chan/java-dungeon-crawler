@@ -74,13 +74,20 @@ public class Portal extends StaticObject {
 
     @Override
     public boolean canAccept(Player player) {
-        return this.getDestination() != null;
+        if (getDestination() == null) {
+            return false;
+        }
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        return dungeon.getStaticObjectsAtPosition(getDestination()).stream()
+                .allMatch(o -> o.canAccept(player));
     }
 
     @Override
     public boolean canAccept(NonPlayableActor enemy) {
         if (enemy instanceof Mercenary) {
-            return this.getDestination() != null;
+            Dungeon dungeon = DungeonManiaController.getDungeon();
+            return dungeon.getStaticObjectsAtPosition(getDestination()).stream()
+                    .allMatch(o -> o.canAccept(enemy));
         }
         return true;
     }
