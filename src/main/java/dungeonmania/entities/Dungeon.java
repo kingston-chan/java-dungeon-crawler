@@ -63,7 +63,7 @@ public class Dungeon {
                 String type = a.getString("type");
                 String portalColour = "";
                 int key = -1;
-                if (a.has("color")) {
+                if (a.has("colour")) {
                     portalColour = a.getString("colour");
                 }
                 if (a.has("key")) {
