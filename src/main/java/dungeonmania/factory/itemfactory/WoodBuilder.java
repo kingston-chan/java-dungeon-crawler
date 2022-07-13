@@ -2,6 +2,7 @@ package dungeonmania.factory.itemfactory;
 
 import java.util.UUID;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.item.collectables.Wood;
 import dungeonmania.util.Position;
@@ -14,8 +15,7 @@ public class WoodBuilder implements ItemBuilder {
         wood.setPosition(position);
         wood.setType(type);
         wood.setUniqueId(UUID.randomUUID().toString());
-
-        // TODO Auto-generated method stub
+        DungeonManiaController.getDungeon().addDungeonObject(wood.getUniqueId(), wood);
         return wood;
     }
 }
