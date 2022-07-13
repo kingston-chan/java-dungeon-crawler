@@ -8,15 +8,13 @@ import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 
 public class Wall extends StaticObject {
-    @Override
-    public boolean isInteractable() {
-        return false;
-    }
 
+    @Override
     public boolean canAccept(Player player) {
         return false;
     }
 
+    @Override
     public boolean canAccept(NonPlayableActor enemy) {
         if (enemy instanceof Spider) {
             return true;
@@ -24,7 +22,13 @@ public class Wall extends StaticObject {
         return false;
     }
 
+    @Override
     public boolean canAccept(Boulder boulder) {
+        return false;
+    }
+
+    @Override
+    public boolean isInteractable() {
         return false;
     }
 }
