@@ -29,4 +29,8 @@ public class AllyState implements MercenaryState {
 
     }
 
+    @Override
+    public boolean isAlly() {
+        return true;
+    }
 }

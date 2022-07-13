@@ -21,6 +21,10 @@ public class Mercenary extends NonPlayableActor {
         return this.enemyState;
     }
 
+    public boolean isAlly() {
+        return this.currentState.isAlly();
+    }
+
     @Override
     public void update(MovementBehaviour movementBehaviour) {
 
@@ -28,7 +32,7 @@ public class Mercenary extends NonPlayableActor {
 
     @Override
     public boolean isInteractable() {
-        return true;
+        return this.currentState.canInteract();
     }
 
 }

@@ -7,20 +7,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.Queue;
 
-import org.eclipse.jetty.io.ssl.SslConnection.DecryptedEndPoint;
-
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
+import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
+import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
 import dungeonmania.entities.actor.player.buildables.BuildableBlueprint;
 import dungeonmania.entities.actor.player.buildables.Buildables;
 import dungeonmania.entities.actor.player.interactables.InteractBehaviour;
 import dungeonmania.entities.actor.player.interactables.Interactables;
-import dungeonmania.entities.actor.player.interactables.ZombieSpawnerInteract;
+import dungeonmania.entities.actor.player.states.InvinicibleState;
+import dungeonmania.entities.actor.player.states.InvisibleState;
+import dungeonmania.entities.actor.player.states.NormalState;
+import dungeonmania.entities.actor.player.states.PlayerState;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.collectables.Key;
+import dungeonmania.entities.item.Key;
 import dungeonmania.entities.item.potions.Potion;
-import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.boulder.BoulderHelper;
+import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.entities.staticobject.zombietoastspawner.ZombieToastSpawner;
+import dungeonmania.util.Position;
 
 public class Player extends Actor {
     private Map<String, Item> inventory = new HashMap<>();
@@ -30,11 +40,26 @@ public class Player extends Actor {
     private Buildables buildables = new Buildables();
     private Interactables interactables = new Interactables();
 
+    private int numAllies = 0;
     private int enemiesDefeated = 0;
 
     private int bonusAdditiveAttack = 0;
     private int bonusMultiplicativeAttack = 1;
     private int bonusAdditiveDefence = 0;
+
+    private PlayerState normalState;
+    private PlayerState invisibleState;
+    private PlayerState invinicibleState;
+    private PlayerState currentState;
+
+    private Position previousPosition;
+
+    public Player() {
+        this.normalState = new NormalState(this);
+        this.invisibleState = new InvisibleState(this);
+        this.invinicibleState = new InvinicibleState(this);
+        this.currentState = this.normalState;
+    }
 
     public List<Item> getInventory() {
         return new ArrayList<>(this.inventory.values());
@@ -80,35 +105,20 @@ public class Player extends Actor {
 
     public void consumeQueuedPotionEffect() {
         this.potionConsumed = this.potions.poll();
+        if (potionConsumed == null) {
+            this.currentState = this.normalState;
+            return;
+        }
+        this.potionConsumed.consumedBy(this);
     }
 
-    private void notifyEnemies(Dungeon dungeon) {
-        // for (Enemy e : dungeon.getEnemies()) {
-        // if (this.potionConsumed == null) {
-        // e.update(e.getDefaultAutomatedMovementBehaviour(),
-        // e.getDefaultHostBehaviour());
-        // } else {
-        // e.update(this.potionConsumed.getMovementEffect(),
-        // this.potionConsumed.getHostEffect());
-        // }
-        // e.move(dungeon, e);
-        // }
-    }
-
-    private void notifyZombieSpawners(Dungeon dungeon) {
-        // dungeon.getStaticObjects().stream()
-        // .filter(staticObject -> staticObject instanceof ZombieToastSpawner)
-        // .forEach(zombieSpawner -> (ZombieToastSpawner) zombieSpawner.update());
-    }
-
-    private void notifyDungeon(Dungeon dungeon) {
+    public void notifyAllObservers() {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        this.currentState.notifyNonPlayableActors();
+        dungeon.getStaticObjects().stream()
+                .filter(staticObject -> staticObject instanceof ZombieToastSpawner)
+                .forEach(zombieSpawner -> ((ZombieToastSpawner) zombieSpawner).updateSpawnRate());
         dungeon.updateSpawnSpider();
-    }
-
-    public void notifyAllObservers(Dungeon dungeon) {
-        notifyEnemies(dungeon);
-        notifyZombieSpawners(dungeon);
-        notifyDungeon(dungeon);
     }
 
     public void usePotion(Potion potion) {
@@ -121,12 +131,13 @@ public class Player extends Actor {
      * @precond unique id is interactable
      * @param dungeon
      * @param uniqueId
-     * @return
+     * @return whether interact was successful
      */
-    public boolean interact(Dungeon dungeon, String uniqueId) {
+    public boolean interact(String uniqueId) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         DungeonObject dungeonObject = dungeon.getDungeonObject(uniqueId);
         InteractBehaviour interaction = interactables.getInteraction(dungeonObject.getType());
-        return interaction.interact(dungeon, this, uniqueId);
+        return interaction.interact(this, uniqueId);
     }
 
     public boolean isValidBuildable(String itemName) {
@@ -148,22 +159,22 @@ public class Player extends Actor {
      * @param dungeon
      * @param itemType
      */
-    public void build(Dungeon dungeon, String itemType) {
+    public void build(String itemType) {
         BuildableBlueprint bp = buildables.getBlueprint(itemType);
-        bp.playerBuild(dungeon, this);
+        bp.playerBuild(this);
     }
 
     public Potion getPotionConsumed() {
         return this.potionConsumed;
     }
 
-    // public void addAlly(Ally ally) {
-    // this.allies.add(ally);
-    // }
+    public void addAlly() {
+        this.numAllies++;
+    }
 
-    // public List<Ally> getAllies() {
-    // return this.allies;
-    // }
+    public int getNumAllies() {
+        return this.numAllies;
+    }
 
     public int getEnemiesDefeated() {
         return this.enemiesDefeated;
@@ -201,6 +212,76 @@ public class Player extends Actor {
         this.bonusAdditiveAttack = 0;
         this.bonusMultiplicativeAttack = 1;
         this.bonusAdditiveDefence = 0;
+    }
+
+    public void setPlayerState(PlayerState playerState) {
+        this.currentState = playerState;
+    }
+
+    public PlayerState getNormalState() {
+        return this.normalState;
+    }
+
+    public PlayerState getInvincibleState() {
+        return this.invinicibleState;
+    }
+
+    public PlayerState getInvisibleState() {
+        return this.invisibleState;
+    }
+
+    public void setPreviousPosition(Position position) {
+        this.previousPosition = position;
+    }
+
+    public Position getPreviousPosition() {
+        return this.previousPosition;
+    }
+
+    @Override
+    public void doAccept(NonPlayableActor npa) {
+        this.currentState.acceptNonPlayableActor(npa);
+    }
+
+    @Override
+    public void visit(Item item) {
+        addToInventory(item);
+        DungeonManiaController.getDungeon().removeDungeonObject(item.getUniqueId());
+    }
+
+    @Override
+    public void visit(Portal portal) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
+                .forEach(o -> o.doAccept(this));
+        if (portal.getDestination() == getPosition()) {
+            dungeon.getNonPlayableActorsAtPosition(portal.getDestination()).stream()
+                    .forEach(o -> o.doAccept(this));
+            setPosition(portal.getDestination());
+        }
+    }
+
+    @Override
+    public void visit(Boulder boulder) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        dungeon.getObjectsAtPosition(BoulderHelper.getBoulderPushedPostion(boulder, this)).stream()
+                .forEach(dungeonObject -> dungeonObject.doAccept(boulder));
+        boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+    }
+
+    @Override
+    public void visit(Spider spider) {
+        this.currentState.visitSpider(spider);
+    }
+
+    @Override
+    public void visit(Mercenary mercenary) {
+        this.currentState.visitMercenary(mercenary);
+    }
+
+    @Override
+    public void visit(ZombieToast zombieToast) {
+        this.currentState.visitZombieToast(zombieToast);
     }
 
     @Override

@@ -18,7 +18,6 @@ public class ZombieToastBuilder implements ActorBuilder {
         zombieToast.setType(type);
         zombieToast.setAttackPoints(dungeon.getConfig("zombie_attack"));
         zombieToast.setHealthPoints(dungeon.getConfig("zombie_health"));
-        zombieToast.setDefencePoints(0);
         zombieToast.setDefaultMovement(new MoveRandomly());
         zombieToast.setCurrentMovement(new MoveRandomly());
         dungeon.addDungeonObject(zombieToast.getUniqueId(), zombieToast);

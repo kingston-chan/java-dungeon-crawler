@@ -84,7 +84,6 @@ public class DungeonTests {
             assertEquals(player.getPosition(), new Position(0, 1));
             assertEquals(player.getType(), "player");
             assertEquals(player.getAttackPoints(), 10);
-            assertEquals(player.getDefencePoints(), 0);
             assertEquals(player.getHealthPoints(), 10);
 
             assertTrue(nonPlayableActors.size() == 3);
@@ -97,7 +96,6 @@ public class DungeonTests {
                     assertEquals(e.getPosition(), new Position(2, 1));
                     assertEquals(e.getAttackPoints(), 7);
                     assertEquals(e.getHealthPoints(), 3);
-                    assertEquals(e.getDefencePoints(), 0);
                     testedAllThree++;
                 }
 
@@ -106,7 +104,6 @@ public class DungeonTests {
                     assertEquals(e.getPosition(), new Position(4, 5));
                     assertEquals(e.getAttackPoints(), 2);
                     assertEquals(e.getHealthPoints(), 8);
-                    assertEquals(e.getDefencePoints(), 0);
                     testedAllThree++;
                 }
 
@@ -115,7 +112,6 @@ public class DungeonTests {
                     assertEquals(e.getPosition(), new Position(3, 6));
                     assertEquals(e.getAttackPoints(), 9);
                     assertEquals(e.getHealthPoints(), 5);
-                    assertEquals(e.getDefencePoints(), 0);
                     testedAllThree++;
                 }
             }
