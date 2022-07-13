@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.DungeonObject;
-import dungeonmania.entities.item.collectables.Key;
+import dungeonmania.entities.item.Key;
 import dungeonmania.util.Position;
 
 public class KeyBuilder implements ItemBuilder {
