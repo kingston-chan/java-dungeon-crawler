@@ -31,7 +31,7 @@ public class EnemyState implements MercenaryState {
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-
+        mercenary.update(movementBehaviour);
     }
 
 }
