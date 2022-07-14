@@ -17,12 +17,9 @@ public class AndGoal extends ComplexGoal {
 
     @Override
     public String toString() {
-        if (this.subGoal1.hasAchieved() && this.subGoal2.hasAchieved()) {
-            return "";
-        } else if (this.subGoal1.hasAchieved() || this.subGoal2.hasAchieved()) {
-            return this.subGoal1.toString() + this.subGoal2.toString();
-        } else {
+        if (!this.subGoal1.toString().isEmpty() && !this.subGoal2.toString().isEmpty()) {
             return "(" + this.subGoal1.toString() + " AND " + this.subGoal2.toString() + ")";
         }
+        return this.subGoal1.toString() + this.subGoal2.toString();
     }
 }
