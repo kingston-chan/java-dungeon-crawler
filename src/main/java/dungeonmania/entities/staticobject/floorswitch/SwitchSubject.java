@@ -6,7 +6,5 @@ public interface SwitchSubject {
 
     public void add(SwitchObserver observer);
 
-    public void remove(SwitchObserver observer);
-
     public void notifySwitchObservers();
 }
