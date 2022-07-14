@@ -1,6 +1,5 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
-
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 
@@ -19,7 +18,7 @@ public class EnemyState implements MercenaryState {
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-        mercenary.update(movementBehaviour);
+        mercenary.setCurrentMovement(movementBehaviour);
     }
 
     @Override

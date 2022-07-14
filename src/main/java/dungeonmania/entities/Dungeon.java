@@ -43,6 +43,7 @@ public class Dungeon {
     private FactoryChooser factoryChooser = new FactoryChooser();
     private String[] buildableItems = { "bow", "shield" };
     private int tickCounter = 0;
+    private Player player = null;
 
     private String getGoals() {
         return this.goals.hasAchieved() ? "" : this.goals.toString().replaceAll("^\\(|\\)$", "");
@@ -62,7 +63,7 @@ public class Dungeon {
                 String type = a.getString("type");
                 String portalColour = "";
                 int key = -1;
-                if (a.has("color")) {
+                if (a.has("colour")) {
                     portalColour = a.getString("colour");
                 }
                 if (a.has("key")) {
@@ -117,10 +118,12 @@ public class Dungeon {
                 .collect(Collectors.toList());
     }
 
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
     public Player getPlayer() {
-        return this.dungeonObjects.values().stream()
-                .filter(dungeonObject -> dungeonObject instanceof Player)
-                .map(player -> (Player) player).findFirst().get();
+        return this.player;
     }
 
     public int getConfig(String configKey) {

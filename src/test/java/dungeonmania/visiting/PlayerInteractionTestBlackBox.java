@@ -20,21 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Nested;
 
-public class PlayerInteractionTest {
-
-    @Test
-    public void playerVisitsSinglePortalTestWhiteBox() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_simplePortal",
-                "c_battleTests_basicMercenaryMercenaryDies");
-        Dungeon testDungeon = DungeonManiaController.getDungeon();
-        DungeonObject portal = testDungeon.getObjectsAtPosition(new Position(2, 3)).get(0);
-        Player player = testDungeon.getPlayer();
-        assertTrue(portal != null);
-        portal.doAccept(player);
-
-        assertEquals(new Position(7, 7), player.getPosition());
-    }
+public class PlayerInteractionTestBlackBox {
 
     @Test
     public void playerVisitsSinglePortalTestBlackBox() {
@@ -50,21 +36,6 @@ public class PlayerInteractionTest {
     }
 
     @Test
-    public void playerVisitsChainedPortalTestWhiteBox() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_chainedPortals",
-                "c_battleTests_basicMercenaryMercenaryDies");
-        Dungeon testDungeon = DungeonManiaController.getDungeon();
-        Portal portal = testDungeon.getObjectsAtPosition(new Position(2, 3)).stream().filter(o -> o instanceof Portal)
-                .map(o -> (Portal) o).findFirst().get();
-        Player player = testDungeon.getPlayer();
-        assertTrue(portal != null);
-        assertTrue(portal.canAccept(player));
-        portal.doAccept(player);
-        assertEquals(new Position(5, 14), player.getPosition());
-    }
-
-    @Test
     public void playerVisitsChainedPortalTestBlackBox() {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame("d_chainedPortals",
@@ -73,23 +44,6 @@ public class PlayerInteractionTest {
         DungeonResponse res = dmc.tick(Direction.DOWN);
 
         assertEquals(new Position(5, 14), TestUtils.getEntities(res, "player").get(0).getPosition());
-    }
-
-    @Test
-    public void playVisitsBlockedPortalTestWhiteBox() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_unreachablePortalDestination",
-                "c_battleTests_basicMercenaryMercenaryDies");
-
-        Dungeon testDungeon = DungeonManiaController.getDungeon();
-        Portal portal = testDungeon.getObjectsAtPosition(new Position(2, 3)).stream().filter(o -> o instanceof Portal)
-                .map(o -> (Portal) o).findFirst().get();
-
-        Player player = testDungeon.getPlayer();
-
-        assertTrue(portal != null);
-        assertFalse(portal.canAccept(player));
-        assertEquals(new Position(2, 2), player.getPosition());
     }
 
     @Test
@@ -219,5 +173,4 @@ public class PlayerInteractionTest {
 
         }
     }
-
 }
