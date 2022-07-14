@@ -61,9 +61,9 @@ public class KeyIntegrationTest {
         controller.tick(Direction.RIGHT);
         // player position: 3,3
 
-        current_Dungeon = controller.tick(Direction.RIGHT);
-        current_Dungeon = controller.tick(Direction.RIGHT);
-        current_Dungeon = controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
         current_Dungeon = controller.tick(Direction.RIGHT);
         // player position: 3,3 becasue key1 not matched door2
 
@@ -89,7 +89,7 @@ public class KeyIntegrationTest {
         // Door1 position: 3,4
         // Door2 position: 4,3
 
-        controller.tick(Direction.RIGHT);
+        current_Dungeon = controller.tick(Direction.RIGHT);
         // player position: 3,4 open door1 with key1
 
         EntityResponse player = getPlayer(current_Dungeon).get();

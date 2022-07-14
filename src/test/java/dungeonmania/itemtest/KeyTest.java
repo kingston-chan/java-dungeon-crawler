@@ -18,7 +18,7 @@ public class KeyTest {
         Dungeon testDungeon = new Dungeon();
         testDungeon.initDungeon("d_2door_test",
         "c_battleTests_basicMercenaryMercenaryDies");
-        Player player =testDungeon.getPlayer();
+        Player player = testDungeon.getPlayer();
         player.setPosition(new Position(2, 3));
         Item key1 = testDungeon.getItems().get(0);
         player.tryPickUpKey((Key) key1);
