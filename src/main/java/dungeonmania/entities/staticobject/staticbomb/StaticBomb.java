@@ -14,7 +14,6 @@ public class StaticBomb extends StaticObject implements SwitchObserver {
 
     @Override
     public void update(SwitchSubject switchSubject) {
-        switchSubject.remove(this);
         BombHelper.explode(DungeonManiaController.getDungeon(), this.getPosition());
     }
 }
