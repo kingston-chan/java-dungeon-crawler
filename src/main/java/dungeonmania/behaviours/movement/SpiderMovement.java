@@ -78,7 +78,3 @@ public class SpiderMovement implements MovementBehaviour {
     }
 
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 807229d6391ef2899175e95cbeba1d242fa36231
