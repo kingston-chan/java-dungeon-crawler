@@ -22,11 +22,11 @@ public class MoveAwayFromPlayer implements MovementBehaviour {
             List<DungeonObject> objects = dungeon.getObjectsAtPosition(position);
             if (objects.isEmpty() || (objects.stream().allMatch(obj -> obj.canAccept(npa)))) {
                 Position best_cmp = Position.calculatePositionBetween(best_position, player.getPosition());
-                int cmpBest = best_cmp.getX() + best_cmp.getY();
+                int cmpBest = Math.abs(best_cmp.getX()) + Math.abs(best_cmp.getY());
                 // calculate distance between current best one and player's
 
                 Position current_cmp = Position.calculatePositionBetween(position, player.getPosition());
-                int cmpCurrent = current_cmp.getX() + current_cmp.getY();
+                int cmpCurrent = Math.abs(current_cmp.getX()) + Math.abs(current_cmp.getY());
                 // calculate distance between current one and player's
 
                 if (cmpBest < cmpCurrent){

@@ -9,4 +9,6 @@ public interface MercenaryState {
     public void updateMovement(MovementBehaviour movementBehaviour);
 
     public boolean isAlly();
+
+    public void recruit();
 }
