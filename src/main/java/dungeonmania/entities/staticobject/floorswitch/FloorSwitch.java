@@ -1,5 +1,6 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.staticobject.staticbomb.SwitchObserver;
@@ -46,6 +47,11 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     @Override
     public boolean canAccept(Boulder boulder) {
         return !this.currentState.isSwitchActivated();
+    }
+
+    @Override
+    public void doAccept(Player player) {
+        player.visit(this);
     }
 
     @Override
