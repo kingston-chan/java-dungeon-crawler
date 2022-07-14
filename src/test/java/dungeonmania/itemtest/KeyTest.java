@@ -19,7 +19,7 @@ public class KeyTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_2door_test",
         "c_battleTests_basicMercenaryMercenaryDies");
-        Dungeon testDungeon = controller.getDungeon();
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
         Player player = testDungeon.getPlayer();
         player.setPosition(new Position(2, 3));
         Item key1 = testDungeon.getItems().get(0);
