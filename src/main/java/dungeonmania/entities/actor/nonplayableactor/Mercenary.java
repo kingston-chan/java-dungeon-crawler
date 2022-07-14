@@ -57,6 +57,10 @@ public class Mercenary extends NonPlayableActor {
         return this.currentState.isAlly();
     }
 
+    public void recruitMercenary() {
+        this.currentState.recruit();
+    }
+
     @Override
     public void update(MovementBehaviour movementBehaviour) {
         this.currentState.updateMovement(movementBehaviour);
