@@ -7,12 +7,12 @@ import dungeonmania.entities.actor.player.Player;
 
 public class FollowPlayer implements MovementBehaviour {
 
-    @Override
-    public void move(NonPlayableActor npa) {
-        Dungeon dungeon = DungeonManiaController.getDungeon();
-        Player player = dungeon.getPlayer();
+	@Override
+	public void move(NonPlayableActor npa) {
+		Dungeon dungeon = DungeonManiaController.getDungeon();
+		Player player = dungeon.getPlayer();
 
-        npa.setPosition(player.getPreviousPosition());
-    }
+		npa.setPosition(player.getPreviousPosition());
+	}
 
 }
