@@ -98,8 +98,11 @@ public class Player extends Actor {
     }
 
     public void tryPickUpKey(Key key) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+
         if (getKey() == null) {
             addToInventory(key);
+            dungeon.removeDungeonObject(key.getUniqueId());
         }
     }
 

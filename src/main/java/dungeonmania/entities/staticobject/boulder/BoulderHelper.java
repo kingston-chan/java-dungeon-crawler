@@ -8,7 +8,7 @@ public class BoulderHelper {
         Position dirPlayerVisitingFrom = Position.calculatePositionBetween(player.getPosition(), boulder.getPosition());
 
         Position boulderNewPosition = new Position(boulder.getPosition().getX() + dirPlayerVisitingFrom.getX(),
-                boulder.getPosition().getY() - dirPlayerVisitingFrom.getY());
+                boulder.getPosition().getY() + dirPlayerVisitingFrom.getY());
         return boulderNewPosition;
     }
 }

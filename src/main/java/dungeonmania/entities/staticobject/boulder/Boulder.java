@@ -15,23 +15,7 @@ import dungeonmania.entities.Dungeon;
 public class Boulder extends StaticObject implements Visit {
     @Override
     public void visit(FloorSwitch floorSwitch) {
-        this.setPosition(floorSwitch.getPosition());
         floorSwitch.doActivate();
-    }
-
-    @Override
-    public void visit(Exit exit) {
-        this.setPosition(exit.getPosition());
-    }
-
-    @Override
-    public void visit(Item item) {
-        this.setPosition(item.getPosition());
-    }
-
-    @Override
-    public void visit(Portal portal) {
-        this.setPosition(portal.getPosition());
     }
 
     @Override

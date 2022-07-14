@@ -17,9 +17,9 @@ public class OrGoal extends ComplexGoal {
 
     @Override
     public String toString() {
-        if (this.subGoal1.hasAchieved() || this.subGoal2.hasAchieved()) {
-            return "";
+        if (!this.subGoal1.toString().isEmpty() && !this.subGoal2.toString().isEmpty()) {
+            return "(" + this.subGoal1.toString() + " OR " + this.subGoal2.toString() + ")";
         }
-        return "(" + this.subGoal1.toString() + " OR " + this.subGoal2.toString() + ")";
+        return this.subGoal1.toString() + this.subGoal2.toString();
     }
 }
