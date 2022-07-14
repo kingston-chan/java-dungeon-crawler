@@ -1,6 +1,5 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
-
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 
@@ -25,5 +24,10 @@ public class AllyState implements MercenaryState {
     @Override
     public boolean isAlly() {
         return true;
+    }
+
+    @Override
+    public void recruit() {
+
     }
 }
