@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.eclipse.jetty.server.handler.ContextHandler.StaticContext;
 import org.junit.jupiter.api.Test;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
@@ -15,9 +16,10 @@ import dungeonmania.util.Position;
 public class KeyTest {
     @Test
     public void testUsingKeyOpenMatchedDoor() {
-        Dungeon testDungeon = new Dungeon();
-        testDungeon.initDungeon("d_2door_test",
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_2door_test",
         "c_battleTests_basicMercenaryMercenaryDies");
+        Dungeon testDungeon = controller.getDungeon();
         Player player = testDungeon.getPlayer();
         player.setPosition(new Position(2, 3));
         Item key1 = testDungeon.getItems().get(0);
