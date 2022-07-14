@@ -7,8 +7,8 @@ import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.staticobject.portal.Portal;<<<<<<<HEAD=======
-import dungeonmania.util.Position;>>>>>>>252 b9a9d00046afce33422b39310af9083e72f4e
+import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.util.Position;
 
 public class Mercenary extends NonPlayableActor {
 
@@ -72,8 +72,4 @@ public class Mercenary extends NonPlayableActor {
     public boolean canVisitWall() {
         return false;
     }
-
-    <<<<<<<HEAD
-
-    =======>>>>>>>252 b9a9d00046afce33422b39310af9083e72f4e
 }
