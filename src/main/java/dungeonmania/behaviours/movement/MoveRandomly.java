@@ -16,7 +16,7 @@ public class MoveRandomly implements MovementBehaviour {
     public void move(NonPlayableActor npa) { 
         Dungeon dungeon = DungeonManiaController.getDungeon();
         
-        List<Position> possibleMoves = npa.getPosition().getAdjacentPositions();
+        List<Position> possibleMoves = npa.getPosition().getAdjacentCardinalPositions();
 
         Random rand = new Random();
 
