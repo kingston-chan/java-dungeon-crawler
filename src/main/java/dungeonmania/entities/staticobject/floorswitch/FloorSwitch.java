@@ -65,11 +65,6 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     @Override
-    public void remove(SwitchObserver switchObserver) {
-        switchObservers.remove(switchObserver);
-    }
-
-    @Override
     public void notifySwitchObservers() {
         switchObservers.stream().forEach(o -> o.update(this));
     }
