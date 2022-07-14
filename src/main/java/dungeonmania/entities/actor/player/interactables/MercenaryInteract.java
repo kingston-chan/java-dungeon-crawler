@@ -35,13 +35,9 @@ public class MercenaryInteract implements InteractBehaviour {
             player.addAlly();
             // mercenary is now in ally state
             dungeon.getDungeonObjects().stream()
-                    .filter(dungeonObject -> dungeonObject instanceof Mercenary)
                     .filter(dungeonObject -> dungeonObject.equals(merc))
-                    .forEach(m -> {
-                        ((Mercenary) m).setMercenaryState(((Mercenary) m).getAllyState());
-                        ((Mercenary) m).setCurrentMovement(new FollowPlayer());
-                        ((Mercenary) m).setDefaultMovement(new FollowPlayer());
-                    });
+                    .filter(dungeonObject -> dungeonObject instanceof Mercenary)
+                    .forEach(dungeonObject -> ((Mercenary) dungeonObject).recruitMercenary());
             return true;
         }
 
