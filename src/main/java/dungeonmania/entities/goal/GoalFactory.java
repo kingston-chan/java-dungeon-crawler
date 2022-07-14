@@ -1,19 +1,48 @@
 package dungeonmania.entities.goal;
 
-import java.util.HashMap;
-import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class GoalFactory {
-    private Map<String, Goal> goals = new HashMap<>();
-
-    public GoalFactory() {
-        goals.put("exit", new ExitGoal());
-        goals.put("treasure", new TreasureGoal());
-        goals.put("boulders", new BoulderGoal());
-        goals.put("enemies", new EnemyGoal());
+    private static Goal createGoals(String type) {
+        switch (type) {
+            case "enemies":
+                return new EnemyGoal();
+            case "boulders":
+                return new BoulderGoal();
+            case "treasure":
+                return new TreasureGoal();
+            case "exit":
+                return new ExitGoal();
+            default:
+                return null;
+        }
     }
 
-    public Goal createGoal(String goalType) {
-        return this.goals.get(goalType);
+    private static ComplexGoal createComplexGoals(String type) {
+        switch (type) {
+            case "AND":
+                return new AndGoal();
+            case "OR":
+                return new OrGoal();
+            default:
+                return null;
+        }
+    }
+
+    public static Goal parseJsonToGoals(JSONObject jsonGoal) {
+        String goalStr = jsonGoal.getString("goal");
+
+        Goal singleGoal = createGoals(goalStr);
+
+        if (singleGoal == null) {
+            JSONArray subgoals = jsonGoal.getJSONArray("subgoals");
+            ComplexGoal complexGoal = createComplexGoals(goalStr);
+            complexGoal.addSubgoals(parseJsonToGoals(subgoals.getJSONObject(0)),
+                    parseJsonToGoals(subgoals.getJSONObject(1)));
+            return complexGoal;
+        }
+
+        return singleGoal;
     }
 }

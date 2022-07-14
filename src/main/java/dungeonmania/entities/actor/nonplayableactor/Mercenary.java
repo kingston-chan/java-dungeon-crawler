@@ -7,7 +7,8 @@ import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.entities.staticobject.portal.Portal;<<<<<<<HEAD=======
+import dungeonmania.util.Position;>>>>>>>252 b9a9d00046afce33422b39310af9083e72f4e
 
 public class Mercenary extends NonPlayableActor {
 
@@ -27,12 +28,16 @@ public class Mercenary extends NonPlayableActor {
 
     public void visit(Portal portal) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
+        Position destinationPortalPosition = portal.getDestination();
+        Position exitPosition = portal.getExitPosition(getPosition());
+        setPosition(destinationPortalPosition);
+        dungeon.getStaticObjectsAtPosition(exitPosition).stream()
                 .forEach(o -> o.doAccept(this));
-        setPosition(portal.getDestination());
-        if (portal.getDestination() == getPosition()) {
-            dungeon.getObjectsAtPosition(portal.getDestination()).stream()
-                    .forEach(o -> o.doAccept(this));
+        if (destinationPortalPosition == getPosition()) {
+            if (dungeon.getPlayer().getPosition().equals(exitPosition)) {
+                dungeon.getPlayer().doAccept(this);
+            }
+            setPosition(exitPosition);
         }
     }
 
@@ -68,5 +73,7 @@ public class Mercenary extends NonPlayableActor {
         return false;
     }
 
+    <<<<<<<HEAD
 
+    =======>>>>>>>252 b9a9d00046afce33422b39310af9083e72f4e
 }

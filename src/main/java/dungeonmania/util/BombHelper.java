@@ -16,5 +16,6 @@ public class BombHelper {
                         .anyMatch(explosionPosition -> explosionPosition.equals(dungeonObject.getPosition())))
                 .filter(dungeonObject -> !(dungeonObject instanceof Player))
                 .forEach(dungeonObject -> dungeon.removeDungeonObject(dungeonObject.getUniqueId()));
+
     }
 }
