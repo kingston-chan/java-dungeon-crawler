@@ -109,6 +109,9 @@ public class BombIntegrationTest {
         DungeonResponse current_state = controller.tick(Direction.RIGHT);
         // player current position: 3,2
         // activate switch
+        controller.tick(Direction.DOWN);
+        // player currecnt position: 3,3
+        // player pick up bomb
 
         Optional<ItemResponse> object_item = current_state.getInventory()
                                     .stream()
@@ -117,10 +120,6 @@ public class BombIntegrationTest {
         // throw nothing if get bomb
         assertDoesNotThrow(() -> object_item.get());
         ItemResponse bomb = object_item.get();
-
-        controller.tick(Direction.DOWN);
-        // player currecnt position: 3,3
-        // player pick up bomb
 
         controller.tick(Direction.RIGHT);
         // player position: 4,3
