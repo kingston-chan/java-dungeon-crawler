@@ -21,6 +21,7 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 
+import static dungeonmania.TestUtils.getInventory;
 import static dungeonmania.TestUtils.getEntities;
 import static dungeonmania.TestUtils.countEntityOfType;
 
@@ -109,7 +110,7 @@ public class BombIntegrationTest {
         DungeonResponse current_state = controller.tick(Direction.RIGHT);
         // player current position: 3,2
         // activate switch
-        controller.tick(Direction.DOWN);
+        current_state = controller.tick(Direction.DOWN);
         // player currecnt position: 3,3
         // player pick up bomb
 
