@@ -10,7 +10,7 @@ public class BoxRadius {
         int start_y = startingPosition.getY() + radius;
 
         for (int i = start_y; i > start_y - (radius * 2 + 1); i--) {
-            for (int j = start_x; j < radius * 2 + 1; j++) {
+            for (int j = start_x; j < (radius * 2 + 1) + start_x; j++) {
                 positions.add(new Position(j, i));
             }
         }

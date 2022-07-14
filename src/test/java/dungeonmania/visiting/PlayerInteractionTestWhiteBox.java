@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Nested;
 
-public class PlayerInteractionTest {
+public class PlayerInteractionTestWhiteBox {
 
     @Test
     public void playerVisitsSinglePortalTestWhiteBox() {
@@ -34,19 +34,6 @@ public class PlayerInteractionTest {
         portal.doAccept(player);
 
         assertEquals(new Position(7, 7), player.getPosition());
-    }
-
-    @Test
-    public void playerVisitsSinglePortalTestBlackBox() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_simplePortal",
-                "c_battleTests_basicMercenaryMercenaryDies");
-
-        DungeonResponse res = dmc.tick(Direction.DOWN);
-
-        assertEquals(new Position(7, 7), TestUtils.getEntities(res, "player").get(0).getPosition());
-        assertEquals("", TestUtils.getGoals(res));
-        assertEquals(1, TestUtils.getInventory(res, "sword").size());
     }
 
     @Test
@@ -65,17 +52,6 @@ public class PlayerInteractionTest {
     }
 
     @Test
-    public void playerVisitsChainedPortalTestBlackBox() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_chainedPortals",
-                "c_battleTests_basicMercenaryMercenaryDies");
-
-        DungeonResponse res = dmc.tick(Direction.DOWN);
-
-        assertEquals(new Position(5, 14), TestUtils.getEntities(res, "player").get(0).getPosition());
-    }
-
-    @Test
     public void playVisitsBlockedPortalTestWhiteBox() {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame("d_unreachablePortalDestination",
@@ -90,17 +66,6 @@ public class PlayerInteractionTest {
         assertTrue(portal != null);
         assertFalse(portal.canAccept(player));
         assertEquals(new Position(2, 2), player.getPosition());
-    }
-
-    @Test
-    public void playVisitsBlockedPortalTestBlackBox() {
-        DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_unreachablePortalDestination",
-                "c_battleTests_basicMercenaryMercenaryDies");
-
-        DungeonResponse res = dmc.tick(Direction.DOWN);
-
-        assertEquals(new Position(2, 2), TestUtils.getEntities(res, "player").get(0).getPosition());
     }
 
     @Test

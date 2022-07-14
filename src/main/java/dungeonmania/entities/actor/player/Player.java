@@ -140,7 +140,7 @@ public class Player extends Actor {
         return interaction.interact(this, uniqueId);
     }
 
-    public boolean isValidBuildable(String itemName) {
+    public boolean canBuild(String itemName) {
         return buildables.getBlueprint(itemName) != null;
     }
 
@@ -252,14 +252,18 @@ public class Player extends Actor {
     @Override
     public void visit(Portal portal) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        dungeon.getStaticObjectsAtPosition(portal.getDestination()).stream()
+        Position destinationPortalPosition = portal.getDestination();
+        Position exitPosition = portal.getExitPosition(getPosition());
+        setPreviousPosition(getPosition());
+        setPosition(destinationPortalPosition);
+        dungeon.getStaticObjectsAtPosition(exitPosition).stream()
                 .forEach(o -> o.doAccept(this));
-        setPosition(portal.getDestination());
-        if (portal.getDestination() == getPosition()) {
-            dungeon.getNonPlayableActorsAtPosition(portal.getDestination()).stream()
+        if (destinationPortalPosition == getPosition()) {
+            dungeon.getNonPlayableActorsAtPosition(exitPosition).stream()
                     .forEach(o -> o.doAccept(this));
-            dungeon.getItems().stream().filter(i -> i.getPosition().equals(portal.getDestination()))
-                    .forEach(i -> i.doAccept(this));
+            dungeon.getItems().stream().filter(i -> i.getPosition().equals(exitPosition))
+                    .forEach(o -> o.doAccept(this));
+            setPosition(exitPosition);
         }
     }
 

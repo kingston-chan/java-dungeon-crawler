@@ -1,20 +1,26 @@
 package dungeonmania.entities.goal;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.DungeonObject;
+import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 
 public class BoulderGoal implements Goal {
-    @Override
-    public boolean hasAchieved(Dungeon dungeon, StringBuilder allGoals) {
-        // for (StaticObject so : dungeon.getStaticObjects()) {
-        // if (so.getType().equals("switch") && !so.isActivated()) {
-        // allGoals.append(":boulders");
-        // return false;
-        // }
-        // }
-        // return true;
 
-        allGoals.append(":boulders");
-        return false;
+    @Override
+    public boolean hasAchieved() {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        List<DungeonObject> floorSwitches = dungeon.getDungeonObjects().stream()
+                .filter(o -> o instanceof FloorSwitch).collect(Collectors.toList());
+        return floorSwitches.stream().allMatch(o -> ((FloorSwitch) o).isActivated());
     }
+
+    @Override
+    public String toString() {
+        return hasAchieved() ? "" : ":boulders";
+    }
+
 }
