@@ -2,21 +2,22 @@ package dungeonmania.entities.actor.player.buildables;
 
 import java.util.UUID;
 
-import dungeonmania.entities.Dungeon;
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.equiments.Bow;
+import dungeonmania.entities.item.equipment.Bow;
 
 public class BowBlueprint implements BuildableBlueprint {
     private static final int NUM_ARROWS = 3;
     private static final int NUM_WOOD = 1;
     private static final String ITEM_TYPE = "bow";
 
-    private Item createNewBow(Dungeon dungeon) {
-        Bow bow = new Bow();
+    private Item createNewBow() {
+        Bow bow = new Bow(
+                2,
+                DungeonManiaController.getDungeon().getConfig("bow_durability"));
         bow.setUniqueId(UUID.randomUUID().toString());
-        bow.setDurability(dungeon.getConfig("bow_durability"));
         bow.setPosition(null);
         bow.setType(ITEM_TYPE);
         return bow;
@@ -28,8 +29,8 @@ public class BowBlueprint implements BuildableBlueprint {
     }
 
     @Override
-    public void playerBuild(Dungeon dungeon, Player player) {
-        player.addToInventory(createNewBow(dungeon));
+    public void playerBuild(Player player) {
+        player.addToInventory(createNewBow());
         ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROWS, player);
         ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
     }

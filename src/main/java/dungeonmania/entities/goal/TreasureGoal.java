@@ -1,20 +1,21 @@
 package dungeonmania.entities.goal;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.item.Item;
+import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 
 public class TreasureGoal implements Goal {
+
     @Override
-    public boolean hasAchieved(Dungeon dungeon, StringBuilder allGoals) {
-        int treasureCount = 0;
-        for (Item i : dungeon.getPlayer().getInventory()) {
-            if (i.getType().equals("treasure"))
-                treasureCount++;
-        }
-        if (treasureCount >= dungeon.getConfig("treasure_goal")) {
-            return true;
-        }
-        allGoals.append(":treasure");
-        return false;
+    public boolean hasAchieved() {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        Player player = dungeon.getPlayer();
+        return ItemGetterHelpers.getNumTreasure(player) >= dungeon.getConfig("treasure_goal");
+    }
+
+    @Override
+    public String toString() {
+        return this.hasAchieved() ? "" : ":treasure";
     }
 }

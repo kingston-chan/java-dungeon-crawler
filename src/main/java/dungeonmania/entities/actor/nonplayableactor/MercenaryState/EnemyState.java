@@ -1,32 +1,37 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
+import dungeonmania.behaviours.movement.FollowPlayer;
 import dungeonmania.behaviours.movement.MovementBehaviour;
-import dungeonmania.entities.actor.player.Player;
 
 public class EnemyState implements MercenaryState {
 
-    @Override
-    public boolean visitPlayer(Player player) {
-        // TODO Auto-generated method stub
-        return false;
-    }
+    private Mercenary mercenary;
 
-    @Override
-    public boolean acceptPlayer(Player player) {
-        // TODO Auto-generated method stub
-        return false;
+    public EnemyState(Mercenary mercenary) {
+        this.mercenary = mercenary;
     }
 
     @Override
     public boolean canInteract() {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-        // TODO Auto-generated method stub
-
+        mercenary.setCurrentMovement(movementBehaviour);
     }
 
+    @Override
+    public boolean isAlly() {
+        return false;
+    }
+
+    @Override
+    public void recruit() {
+        mercenary.setMercenaryState(mercenary.getAllyState());
+        MovementBehaviour allyMovement = new FollowPlayer();
+        mercenary.setDefaultMovement(allyMovement);
+        mercenary.setCurrentMovement(allyMovement);
+    }
 }

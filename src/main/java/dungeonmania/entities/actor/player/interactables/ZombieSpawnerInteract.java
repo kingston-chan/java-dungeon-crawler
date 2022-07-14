@@ -1,33 +1,31 @@
 package dungeonmania.entities.actor.player.interactables;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.equiments.Equipment;
+import dungeonmania.entities.item.equipment.Weapon;
 import dungeonmania.util.Position;
 
 public class ZombieSpawnerInteract implements InteractBehaviour {
     @Override
-    public boolean interact(Dungeon dungeon, Player player, String interactingWithId) {
+    public boolean interact(Player player, String interactingWithId) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         DungeonObject zombieSpawner = dungeon.getDungeonObject(interactingWithId);
+
         if (!Position.isAdjacent(player.getPosition(), zombieSpawner.getPosition())) {
             return false;
         }
 
-        List<Equipment> allEquipment = player.getInventory().stream()
-                .filter(item -> item instanceof Equipment)
-                .map(e -> (Equipment) e).collect(Collectors.toList());
-
-        // for (Equipment e : allEquipment) {
-        // if (e.provideAttack(player, null)) {
-        // dungeon.removeDungeonObject(interactingWithId);
-        // return true;
-        // }
-        // }
-
-        return false;
+        try {
+            Weapon weapon = player.getInventory().stream()
+                    .filter(item -> item instanceof Weapon)
+                    .map(e -> (Weapon) e).findFirst().get();
+            weapon.playerEquip(player);
+            dungeon.removeDungeonObject(interactingWithId);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

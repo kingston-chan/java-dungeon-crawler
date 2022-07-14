@@ -2,19 +2,21 @@ package dungeonmania.factory.itemfactory;
 
 import java.util.UUID;
 
-import dungeonmania.entities.DungeonObject;
+import dungeonmania.DungeonManiaController;
+import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.item.potions.InvincibilityPotion;
 import dungeonmania.util.Position;
 
 public class InvincibilityPotionBuilder implements ItemBuilder {
 
     @Override
-    public DungeonObject buildItem(Position position, String type, int keyNum) {
-        InvincibilityPotion invincibilityPotion = new InvincibilityPotion();
+    public void buildItem(Position position, String type, int keyNum) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        InvincibilityPotion invincibilityPotion = new InvincibilityPotion(
+                dungeon.getConfig("invincibility_potion_duration"));
         invincibilityPotion.setPosition(position);
         invincibilityPotion.setType(type);
         invincibilityPotion.setUniqueId(UUID.randomUUID().toString());
-
-        return invincibilityPotion;
+        dungeon.addDungeonObject(invincibilityPotion.getUniqueId(), invincibilityPotion);
     }
 }
