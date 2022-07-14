@@ -125,7 +125,7 @@ public class BombIntegrationTest {
         controller.tick(Direction.RIGHT);
         // player position: 4,3
 
-        assertDoesNotThrow(() -> controller.tick(bomb.getId()));
+        current_state = assertDoesNotThrow(() -> controller.tick(bomb.getId()));
         // bomb position: 4,3
         // place bomb and it should be exploded now
 
