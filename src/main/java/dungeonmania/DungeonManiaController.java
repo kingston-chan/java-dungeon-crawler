@@ -72,16 +72,19 @@ public class DungeonManiaController {
      */
     public DungeonResponse tick(String itemUsedId) throws IllegalArgumentException, InvalidActionException {
         Player player = currentDungeonInstance.getPlayer();
-        player.consumeQueuedPotionEffect();
 
         if (!player.hasInInventory(itemUsedId)) {
             throw new InvalidActionException(itemUsedId);
         }
 
         if (!player.use(itemUsedId)) {
+            player.consumeQueuedPotionEffect();
             player.notifyAllObservers();
             throw new IllegalArgumentException();
         }
+        
+        player.consumeQueuedPotionEffect();
+        player.notifyAllObservers();
 
         return currentDungeonInstance.getDungeonResponse();
     }
