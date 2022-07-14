@@ -353,7 +353,7 @@ public class PlayerIntegrationWhiteBoxTests {
         assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
                 "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
 
-        int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
+        int enemyAttack = Integer.parseInt(getValueFromConfigFile("zombie_attack",
                 "c_battleTestsMultipleRounds"));
         int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
                 "c_battleTestsMultipleRounds")) + Integer.parseInt(
@@ -402,7 +402,7 @@ public class PlayerIntegrationWhiteBoxTests {
         assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
                 "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
 
-        int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
+        int enemyAttack = Integer.parseInt(getValueFromConfigFile("zombie_attack",
                 "c_battleTestsMultipleRounds"));
         int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
                 "c_battleTestsMultipleRounds")) * 2;
