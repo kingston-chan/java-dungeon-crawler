@@ -16,7 +16,7 @@ import dungeonmania.util.Position;
 
 public class PotionBlackBoxTests {
     @Test
-    public void testWinsBattleImmediatelyInvincibilityPotion() {
+    public void testWinsBattleImmediatelyInvincibilityPotionMercenary() {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame("d_invincibilityPotionSmallDungeon", "c_potionDurationHigh");
 
@@ -24,7 +24,16 @@ public class PotionBlackBoxTests {
 
         ItemResponse potion = TestUtils.getInventory(dres, "invincibility_potion").get(0);
 
-        assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+        EntityResponse merc = TestUtils.getEntities(dres, "mercenary").get(0);
+
+        // move towards player
+        assertEquals(new Position(6, 3), merc.getPosition());
+
+        assertDoesNotThrow(() -> {
+            DungeonResponse res = dmc.tick(potion.getId());
+            // moves away from player
+            assertEquals(new Position(7, 3), TestUtils.getEntities(res, "mercenary").get(0).getPosition());
+        });
 
         assertTrue(dres.getBattles().isEmpty());
 
@@ -47,6 +56,117 @@ public class PotionBlackBoxTests {
         assertEquals(1, dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().size());
         assertEquals(potion.getId(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getId());
         assertEquals(potion.getType(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getType());
+    }
+
+    @Test
+    public void testWinsBattleImmediatelyInvincibilityPotionSpider() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_invincibilityPotionSpider", "c_potionDurationHigh");
+
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        ItemResponse potion = TestUtils.getInventory(dres, "invincibility_potion").get(0);
+
+        assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+
+        assertTrue(dres.getBattles().isEmpty());
+
+        dres = dmc.tick(Direction.LEFT);
+
+        assertEquals(1, dres.getBattles().size());
+
+        double expectedPlayerHealth = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("player_health", "c_potionDurationHigh"));
+        assertEquals(expectedPlayerHealth,
+                dres.getBattles().get(0).getInitialPlayerHealth());
+        double expectedEnemyHealth = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("spider_health", "c_potionDurationHigh"));
+        assertEquals(expectedEnemyHealth,
+                dres.getBattles().get(0).getInitialEnemyHealth());
+        assertEquals(1, dres.getBattles().get(0).getRounds().size());
+        assertEquals(-(expectedEnemyHealth),
+                dres.getBattles().get(0).getRounds().get(0).getDeltaEnemyHealth());
+        assertEquals(0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
+        assertEquals(1, dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().size());
+        assertEquals(potion.getId(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getId());
+        assertEquals(potion.getType(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getType());
+    }
+
+    @Test
+    public void testWinsBattleImmediatelyInvincibilityPotionZombie() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_invincibilityPotionZombie", "c_potionDurationHigh");
+
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        ItemResponse potion = TestUtils.getInventory(dres, "invincibility_potion").get(0);
+
+        assertDoesNotThrow(() -> {
+            DungeonResponse res = dmc.tick(potion.getId());
+            assertEquals(new Position(7, 3), TestUtils.getEntities(res, "zombie_toast").get(0).getPosition());
+        });
+
+        assertTrue(dres.getBattles().isEmpty());
+
+        dres = dmc.tick(Direction.RIGHT);
+
+        assertEquals(1, dres.getBattles().size());
+
+        double expectedPlayerHealth = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("player_health", "c_potionDurationHigh"));
+        assertEquals(expectedPlayerHealth,
+                dres.getBattles().get(0).getInitialPlayerHealth());
+        double expectedEnemyHealth = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("zombie_health", "c_potionDurationHigh"));
+        assertEquals(expectedEnemyHealth,
+                dres.getBattles().get(0).getInitialEnemyHealth());
+        assertEquals(1, dres.getBattles().get(0).getRounds().size());
+        assertEquals(-(expectedEnemyHealth),
+                dres.getBattles().get(0).getRounds().get(0).getDeltaEnemyHealth());
+        assertEquals(0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
+        assertEquals(1, dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().size());
+        assertEquals(potion.getId(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getId());
+        assertEquals(potion.getType(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getType());
+    }
+
+    @Test
+    public void testNoBattlesInvisibilityPotionSpider() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_invisibilityPotionSpider", "c_potionDurationHigh");
+
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        ItemResponse potion = TestUtils.getInventory(dres, "invisibility_potion").get(0);
+
+        assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+
+        assertTrue(dres.getBattles().isEmpty());
+
+        dres = dmc.tick(Direction.LEFT);
+
+        assertEquals(0, dres.getBattles().size());
+    }
+
+    @Test
+    public void testNoBattlesInvisibilityPotionZombie() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_invisibilityPotionZombie", "c_potionDurationHigh");
+
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        ItemResponse potion = TestUtils.getInventory(dres, "invisibility_potion").get(0);
+
+        assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+
+        // wall wall wall wall wall wall
+        // wall [] player zombie [] wall
+        // wall wall wall wall wall wall
+
+        // since zombies move randomly, moving left guarantees that it will encounter
+        // zombie
+        dres = dmc.tick(Direction.LEFT);
+
+        assertEquals(0, dres.getBattles().size());
     }
 
     @Test
