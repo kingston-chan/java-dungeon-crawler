@@ -22,18 +22,13 @@ public class MoveTowardsPlayer implements MovementBehaviour {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = dungeon.getPlayer();
 
-        // don't need to check for a path if adjacent (i.e. mercenaries stop moving
-        // if cannot move any closer)
-        if (Position.isAdjacent(player.getPosition(), npa.getPosition())) {
-            return;
-        }
-
         // using BFS
         Position playerPosition = player.getPosition();
         Queue<Position> queue = new LinkedList<>();
         Map<Position, Position> visited = new HashMap<>(); // adjList
         boolean playerFound = false;
 
+        visited.put(npa.getPosition(), null);
         queue.add(npa.getPosition());
 
         while (!(queue.isEmpty()) && !(playerFound)) {
@@ -80,12 +75,16 @@ public class MoveTowardsPlayer implements MovementBehaviour {
             return;
         }
 
-        // get the first step in the path
-        Position next = visited.get(playerPosition);
-        while (visited.get(next) != npa.getPosition()) {
-            next = visited.get(next);
+        // get the step to the closest path
+        if (visited.get(playerPosition).equals(npa.getPosition())) {
+            npa.setPosition(playerPosition);
+        } else {
+            Position next = visited.get(playerPosition);
+            while (visited.get(next) != npa.getPosition()) {
+                next = visited.get(next);
+            }
+            npa.setPosition(next);
         }
-        npa.setPosition(next);
 
         // set Position
         dungeon.getObjectsAtPosition(npa.getPosition()).stream().forEach(o -> o.doAccept(npa));
