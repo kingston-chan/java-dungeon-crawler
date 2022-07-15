@@ -130,7 +130,7 @@ public class BoulderInteractionTests {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_boulder_test_spider", "simple");
 
-        //player at 2, 3, pushing down would hit the switch, but zombie in the way
+        //player at 2, 3, pushing down would hit the switch, but spider in the way
         assertEquals(":boulders", currentDungeon.getGoals());
         currentDungeon = controller.tick(Direction.DOWN);
 
