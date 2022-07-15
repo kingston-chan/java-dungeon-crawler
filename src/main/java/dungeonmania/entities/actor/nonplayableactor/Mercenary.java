@@ -76,4 +76,9 @@ public class Mercenary extends NonPlayableActor {
     public boolean canVisitWall() {
         return false;
     }
+
+    @Override
+    public boolean canVisitPortal(Portal portal) {
+        return portal.getExitPosition(getPosition()) != null;
+    }
 }

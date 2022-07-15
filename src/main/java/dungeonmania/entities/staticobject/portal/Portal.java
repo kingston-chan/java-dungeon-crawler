@@ -58,12 +58,10 @@ public class Portal extends StaticObject {
 
     private Portal getDestinationPortal() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        List<Portal> portals = dungeon.getStaticObjects().stream()
-                .filter(o -> o instanceof Portal).map(o -> (Portal) o)
-                .collect(Collectors.toList());
-
-        return portals.stream()
-                .filter(o -> o.isDestination(this))
+        return dungeon.getStaticObjects().stream()
+                .filter(o -> o instanceof Portal)
+                .map(p -> (Portal) p)
+                .filter(p -> p.isDestination(this))
                 .findFirst().get();
     }
 
@@ -86,10 +84,7 @@ public class Portal extends StaticObject {
 
     @Override
     public boolean canAccept(NonPlayableActor enemy) {
-        if (enemy instanceof Mercenary) {
-            return getExitPosition(enemy.getPosition()) != null;
-        }
-        return true;
+        return enemy.canVisitPortal(this);
     }
 
     @Override
