@@ -36,11 +36,9 @@ public class KeyBlackBoxTests {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_2door_test", "c_bombTest_placeBombRadius2");
 
-        assertTrue(TestUtils.getInventory(currentDungeon, "key").isEmpty());
         // player position: 2,2
         controller.tick(Direction.DOWN);
         // player position: 2,3 get key1
-
         // Door1 position: 3,4
         // Door2 position: 4,3
 
@@ -61,10 +59,9 @@ public class KeyBlackBoxTests {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_2door_test", "c_bombTest_placeBombRadius2");
 
-        assertTrue(TestUtils.getInventory(currentDungeon, "key").isEmpty());
         // player position: 2,2
-        controller.tick(Direction.DOWN);
         // player position: 2,3 get key1
+        controller.tick(Direction.DOWN);
 
         // Door1 position: 3,4
         // Door2 position: 4,3
