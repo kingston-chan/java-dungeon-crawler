@@ -58,9 +58,6 @@ public class SpiderMovement implements MovementBehaviour {
 
             if (clockwise) {
                 nextMoveIndex = (nextMoveIndex + 1) % 8;
-                if (nextMoveIndex >= positions.size()) {
-                    nextMoveIndex -= positions.size();
-                }
             } else {
                 nextMoveIndex = (nextMoveIndex - 1) % 8;
                 if (nextMoveIndex <= -1) {
