@@ -20,6 +20,7 @@ import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
 import dungeonmania.response.models.BattleResponse;
@@ -49,6 +50,14 @@ public class Dungeon {
         return this.goals.hasAchieved() ? "" : this.goals.toString().replaceAll("^\\(|\\)$", "");
     }
 
+    private void initialiseAnySwitches() {
+        getStaticObjects().stream().forEach(o1 -> {
+            getStaticObjectsAtPosition(o1.getPosition()).stream()
+                    .filter(o2 -> o2 instanceof Boulder)
+                    .forEach(o2 -> o1.doAccept((Boulder) o2));
+        });
+    }
+
     public String initDungeon(String dungeonName, String configName) {
         this.config = configName;
         this.dungeonName = dungeonName;
@@ -74,6 +83,7 @@ public class Dungeon {
             }
 
             this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
+            initialiseAnySwitches();
             return this.dungeonId;
         } catch (Exception e) {
             e.printStackTrace();
