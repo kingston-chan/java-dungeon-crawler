@@ -98,9 +98,42 @@ public class BoulderInteractionTests {
         currentDungeon = controller.tick(Direction.DOWN);
         currentDungeon = controller.tick(Direction.DOWN);
 
-        assertEquals("", currentDungeon.getGoals());
+        assertEquals("", currentDungeon.getGoals()); 
+  }
 
+  @Test
+  public void blouderVisitsMerc() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse currentDungeon = controller.newGame("d_boulder_test_mercenary", "simple");
 
-        
+        //player at 2, 3, pushing down would hit the switch, but merc in the way
+        assertEquals(":boulders", currentDungeon.getGoals());
+        currentDungeon = controller.tick(Direction.DOWN);
+
+        assertEquals(":boulders", currentDungeon.getGoals()); 
+  }
+
+  @Test
+  public void blouderVisitsZombie() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse currentDungeon = controller.newGame("d_boulder_test_zombie", "simple");
+
+        //player at 2, 3, pushing down would hit the switch, but zombie in the way
+        assertEquals(":boulders", currentDungeon.getGoals());
+        currentDungeon = controller.tick(Direction.DOWN);
+
+        assertEquals(":boulders", currentDungeon.getGoals()); 
+  }
+
+  @Test
+  public void blouderVisitsSpider() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse currentDungeon = controller.newGame("d_boulder_test_spider", "simple");
+
+        //player at 2, 3, pushing down would hit the switch, but zombie in the way
+        assertEquals(":boulders", currentDungeon.getGoals());
+        currentDungeon = controller.tick(Direction.DOWN);
+
+        assertEquals(":boulders", currentDungeon.getGoals()); 
   }
 }
