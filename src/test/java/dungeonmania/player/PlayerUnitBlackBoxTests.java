@@ -2,11 +2,8 @@ package dungeonmania.player;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import static dungeonmania.TestUtils.getValueFromConfigFile;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +13,6 @@ import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
-import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.Direction;
 
 public class PlayerUnitBlackBoxTests {
