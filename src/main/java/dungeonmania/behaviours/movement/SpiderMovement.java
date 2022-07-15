@@ -42,7 +42,7 @@ public class SpiderMovement implements MovementBehaviour {
                 clockwise = !(clockwise);
                 int currentMoveIndex = nextMoveIndex;
                 if (!clockwise) {
-                    nextMoveIndex = (nextMoveIndex - 2) % 8;
+                    nextMoveIndex = (nextMoveIndex - 2 + 8) % 8;
                 } else {
                     nextMoveIndex = (nextMoveIndex + 2) % 8;
                 }
@@ -59,10 +59,7 @@ public class SpiderMovement implements MovementBehaviour {
             if (clockwise) {
                 nextMoveIndex = (nextMoveIndex + 1) % 8;
             } else {
-                nextMoveIndex = (nextMoveIndex - 1) % 8;
-                if (nextMoveIndex <= -1) {
-                    nextMoveIndex += positions.size();
-                }
+                nextMoveIndex = (nextMoveIndex - 1 + 8) % 8;
             }
 
         } else { // first tick move after spawn
