@@ -1,30 +1,21 @@
 package dungeonmania.item;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static dungeonmania.TestUtils.getPlayer;
-import static dungeonmania.TestUtils.getInventory;
 import static dungeonmania.TestUtils.countEntityOfType;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.TestUtils;
-import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.Item;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
-import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
-public class KeyIntegrationTest {
+public class KeyBlackBoxTests {
     @Test
     public void testPickUpKey() {
         DungeonManiaController controller = new DungeonManiaController();
