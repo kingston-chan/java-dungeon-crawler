@@ -43,6 +43,13 @@ public class BoulderInteractionTests {
         assertEquals(":boulders", currentDungeon.getGoals());
         
   }
+  @Test
+  public void blouderSpawnsOnSwitch() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse currentDungeon = controller.newGame("d_boulder_test_spawnsonswitch", "simple");
+
+        assertEquals("", currentDungeon.getGoals());
+  }
 
   @Test
   public void blouderVisitsWallAndDoorTest() {
