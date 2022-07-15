@@ -40,24 +40,29 @@ public class SpiderMovement implements MovementBehaviour {
             // checks if spider can move to next space (not a boulder)
             if (!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))) {
                 clockwise = !(clockwise);
+                int currentMoveIndex = nextMoveIndex;
                 if (!clockwise) {
-                    nextMoveIndex -= 2;
+                    nextMoveIndex = (nextMoveIndex - 2) % 8;
                 } else {
-                    nextMoveIndex += 2;
+                    nextMoveIndex = (nextMoveIndex + 2) % 8;
                 }
                 newPos = positions.get(nextMoveIndex);
+                if(!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))){
+                    newPos = spider.getPosition();
+                    nextMoveIndex = currentMoveIndex;
+                }
             }
 
             dungeon.getObjectsAtPosition(newPos).stream().forEach(obj -> obj.doAccept(spider));
             spider.setPosition(newPos);
 
             if (clockwise) {
-                nextMoveIndex += 1;
+                nextMoveIndex = (nextMoveIndex + 1) % 8;
                 if (nextMoveIndex >= positions.size()) {
                     nextMoveIndex -= positions.size();
                 }
             } else {
-                nextMoveIndex -= 1;
+                nextMoveIndex = (nextMoveIndex - 1) % 8;
                 if (nextMoveIndex <= -1) {
                     nextMoveIndex += positions.size();
                 }
