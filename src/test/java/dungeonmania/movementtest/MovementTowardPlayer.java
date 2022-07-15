@@ -41,8 +41,22 @@ public class MovementTowardPlayer {
     }
 
     @Test
-    public void test_no_player_in_map(){
-        // DungeonManiaController controller = new DungeonManiaController();
-        // controller.newGame("d_test_no_player_movement_to_player", "simple");
+    public void test_no_player_path_in_map(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_player_push_boulder_to_stuck_mercenary", "simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.LEFT);
+        // push boulder to block mercenary's path
+
+        controller.tick(Direction.LEFT);
+        controller.tick(Direction.LEFT);
+        DungeonResponse current_dungeon = controller.tick(Direction.LEFT);
+        // player can't push if there is a mercenary next to the boulder
+
+        EntityResponse player = getPlayer(current_dungeon).get();
+        assertEquals(player.getPosition(), new Position(6, 1));
+
+        EntityResponse mercenary = getEntities(current_dungeon, "mercenary").get(0);
+        assertEquals(mercenary.getPosition(), new Position(4, 1));
     }
 }

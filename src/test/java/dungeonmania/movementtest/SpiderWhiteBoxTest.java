@@ -23,7 +23,6 @@ public class SpiderWhiteBoxTest {
         DungeonResponse current_dungeon = controller.tick(Direction.UP);
         Optional<EntityResponse> tmp = current_dungeon.getEntities().stream().filter(entity -> entity.getType().equals("spider")).findFirst();
         EntityResponse spider = tmp.get();
-        System.out.println(spider.getPosition());
         assertEquals(spider.getPosition(), new Position(3,3));
     }
 
@@ -35,7 +34,17 @@ public class SpiderWhiteBoxTest {
         DungeonResponse current_dungeon = controller.tick(Direction.UP);
         Optional<EntityResponse> tmp = current_dungeon.getEntities().stream().filter(entity -> entity.getType().equals("spider")).findFirst();
         EntityResponse spider = tmp.get();
-        System.out.println(spider.getPosition());
         assertEquals(spider.getPosition(), new Position(2,2));
+    }
+
+    @Test
+    public void testTwoBoulderStuckSpider(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("spider_white_box_test3", "simple");
+        controller.tick(Direction.DOWN);
+        DungeonResponse current_dungeon = controller.tick(Direction.UP);
+        Optional<EntityResponse> tmp = current_dungeon.getEntities().stream().filter(entity -> entity.getType().equals("spider")).findFirst();
+        EntityResponse spider = tmp.get();
+        assertEquals(spider.getPosition(), new Position(3,2));
     }
 }
