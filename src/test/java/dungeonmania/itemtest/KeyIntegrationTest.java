@@ -24,22 +24,22 @@ import dungeonmania.util.Direction;
 public class KeyIntegrationTest {
     @Test
     public void testPickUpKey(){
-        // DungeonManiaController controller = new DungeonManiaController();
-        // DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
-        //                                 , "c_bombTest_placeBombRadius2");
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
+                                        , "c_bombTest_placeBombRadius2");
 
-        // assertFalse(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
-        // // player position: 2,2
-        // controller.tick(Direction.DOWN);
-        // // player position: 2,3
-        // assertTrue(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
+        assertFalse(current_Dungeon.getInventory()
+                            .stream()
+                            .anyMatch(item -> item.getType().equals("key")));
+        // player position: 2,2
+        controller.tick(Direction.DOWN);
+        // player position: 2,3
+        assertTrue(current_Dungeon.getInventory()
+                            .stream()
+                            .anyMatch(item -> item.getType().equals("key")));
 
-        // // check only exist 1 key in inventory
-        // assertTrue(countEntityOfType(current_Dungeon, "key") == 1);
+        // check only exist 1 key in inventory
+        assertTrue(countEntityOfType(current_Dungeon, "key") == 1);
     }
 
     @Test
