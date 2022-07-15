@@ -7,6 +7,11 @@ public abstract class Item extends DungeonObject {
     public abstract boolean playerUse(Player player);
 
     @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
+
+    @Override
     public boolean isInteractable() {
         return false;
     }

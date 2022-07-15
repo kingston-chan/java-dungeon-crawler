@@ -44,7 +44,7 @@ public class ZombieToastSpawner extends StaticObject {
 
     @Override
     public boolean isInteractable() {
-        return false;
+        return true;
     }
 
 }

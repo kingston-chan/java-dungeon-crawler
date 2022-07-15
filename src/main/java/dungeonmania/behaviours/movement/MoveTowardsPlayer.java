@@ -10,6 +10,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.util.Position;
 
 import java.util.Queue;
@@ -45,9 +46,33 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                             visited.put(pos, curr);
                             queue.add(pos);
                         }
+
+                        // Checks for portal aswell
+                        try {
+                            Portal portal = occupants.stream().filter(o -> o instanceof Portal).map(o -> (Portal) o)
+                                    .findFirst().get();
+                            Position destination = portal.getDestination();
+                            for (Position p : destination.getAdjacentCardinalPositions()) {
+                                if (!(visited.containsKey(p))) {
+                                    List<DungeonObject> dungeonObjects = dungeon.getObjectsAtPosition(p);
+                                    if (dungeonObjects.stream().allMatch(obj -> obj.canAccept(npa))) {
+                                        visited.put(p, curr);
+                                        queue.add(p);
+                                    }
+                                }
+                            }
+                        } catch (Exception e) {
+                            continue;
+                        }
                     }
+
                 }
             }
+        }
+
+        // no path found
+        if (!playerFound) {
+            return;
         }
 
         // get the step to the closest path

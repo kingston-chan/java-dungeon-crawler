@@ -28,6 +28,7 @@ import dungeonmania.entities.item.Key;
 import dungeonmania.entities.item.potions.Potion;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.staticobject.boulder.BoulderHelper;
+import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.entities.staticobject.zombietoastspawner.ZombieToastSpawner;
 import dungeonmania.util.Position;
@@ -192,7 +193,7 @@ public class Player extends Actor {
     }
 
     public void increaseMultiplicativeAttack(int attackPoints) {
-        this.bonusAdditiveAttack *= attackPoints;
+        this.bonusMultiplicativeAttack *= attackPoints;
     }
 
     public void increaseAdditiveDefence(int defencePoints) {
@@ -291,6 +292,11 @@ public class Player extends Actor {
     @Override
     public void visit(ZombieToast zombieToast) {
         this.currentState.visitZombieToast(zombieToast);
+    }
+
+    @Override
+    public void visit(FloorSwitch fswitch) {
+        fswitch.doDeactivate();
     }
 
     @Override

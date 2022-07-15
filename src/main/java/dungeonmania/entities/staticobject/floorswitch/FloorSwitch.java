@@ -1,5 +1,6 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.staticobject.staticbomb.SwitchObserver;
@@ -49,6 +50,11 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     }
 
     @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
+
+    @Override
     public void doAccept(Boulder boulder) {
         boulder.visit(this);
     }
@@ -56,11 +62,6 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     @Override
     public void add(SwitchObserver switchObserver) {
         switchObservers.add(switchObserver);
-    }
-
-    @Override
-    public void remove(SwitchObserver switchObserver) {
-        switchObservers.remove(switchObserver);
     }
 
     @Override

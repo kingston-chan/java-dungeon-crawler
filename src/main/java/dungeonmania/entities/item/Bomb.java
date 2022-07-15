@@ -28,7 +28,7 @@ public class Bomb extends Item {
         staticBomb.setPosition(currentPosition);
         staticBomb.setType(itemBomb.getType());
         staticBomb.setUniqueId(itemBomb.getUniqueId());
-        getAdjacentSwitches(dungeon, itemBomb.getPosition()).stream()
+        getAdjacentSwitches(dungeon, currentPosition).stream()
                 .forEach(floorSwitch -> floorSwitch.add(staticBomb));
         return staticBomb;
     }
