@@ -41,9 +41,9 @@ public class SpiderMovement implements MovementBehaviour {
             if (!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))) {
                 clockwise = !(clockwise);
                 if (clockwise) {
-                    nextMoveIndex -= 2;
-                } else {
                     nextMoveIndex += 2;
+                } else {
+                    nextMoveIndex -= 2;
                 }
                 newPos = positions.get(nextMoveIndex);
             }

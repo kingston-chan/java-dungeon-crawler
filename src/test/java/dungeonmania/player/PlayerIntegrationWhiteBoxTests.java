@@ -1,45 +1,26 @@
 package dungeonmania.player;
 
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import static dungeonmania.TestUtils.getPlayer;
-import static dungeonmania.TestUtils.getEntities;
-import static dungeonmania.TestUtils.getInventory;
-import static dungeonmania.TestUtils.getGoals;
-import static dungeonmania.TestUtils.countEntityOfType;
 import static dungeonmania.TestUtils.getValueFromConfigFile;
-import static dungeonmania.TestUtils.assertListAreEqualIgnoringOrder;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Nested;
-
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.DungeonObject;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
-import dungeonmania.entities.item.Key;
-import dungeonmania.entities.item.collectables.Arrows;
-import dungeonmania.entities.item.collectables.Treasure;
-import dungeonmania.entities.item.collectables.Wood;
-import dungeonmania.entities.item.equipment.Sword;
-import dungeonmania.exceptions.InvalidActionException;
+
 import dungeonmania.response.models.BattleResponse;
-import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
-import dungeonmania.response.models.ItemResponse;
+
 import dungeonmania.response.models.RoundResponse;
-import dungeonmania.util.Direction;
+
 import dungeonmania.util.Position;
 
 public class PlayerIntegrationWhiteBoxTests {
@@ -441,11 +422,144 @@ public class PlayerIntegrationWhiteBoxTests {
 
     @Test
     public void testPlayerShieldBattle() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_shieldBattle",
+                "c_battleTestsMultipleRounds");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
+        Player player = testDungeon.getPlayer();
 
+        testDungeon.getItems().forEach(i -> i.doAccept(player));
+
+        assertTrue(player.checkBuildables("shield"));
+
+        player.build("shield");
+
+        assertEquals(1, player.getInventory().size());
+
+        Item shield = player.getInventory().get(0);
+
+        testDungeon.getNonPlayableActors().forEach(o -> o.doAccept(player));
+
+        assertEquals(1, testDungeon.getDungeonResponse().getBattles().size());
+
+        BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+
+        assertEquals((double) Integer.parseInt(getValueFromConfigFile("player_health",
+                "c_battleTestsMultipleRounds")), br.getInitialPlayerHealth());
+        assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
+                "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
+
+        int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
+                "c_battleTestsMultipleRounds")) - 1;
+        int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
+                "c_battleTestsMultipleRounds"));
+
+        for (RoundResponse r : br.getRounds()) {
+            assertEquals(-(enemyAttack / 10.0), r.getDeltaCharacterHealth());
+            assertEquals(-(playerAttack / 5.0), r.getDeltaEnemyHealth());
+            assertEquals(1, r.getWeaponryUsed().size());
+            assertEquals(shield.getUniqueId(), r.getWeaponryUsed().get(0).getId());
+            assertEquals(shield.getType(), r.getWeaponryUsed().get(0).getType());
+        }
+
+        assertEquals(0, testDungeon.getNonPlayableActors().size());
+        // 1 durability
+        assertEquals(0, player.getInventory().size());
     }
 
     @Test
-    public void testPlayerAllEquipmentBattle() {
+    public void testMercenaryAllyBattle() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_simpleAllyBattle",
+                "c_battleTestsMultipleRounds");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
+        Player player = testDungeon.getPlayer();
 
+        testDungeon.getItems().forEach(i -> i.doAccept(player));
+
+        DungeonObject dungeonObject = testDungeon.getObjectsAtPosition(new Position(2, 1)).get(0);
+
+        assertTrue(player.interact(dungeonObject.getUniqueId()));
+
+        testDungeon.getNonPlayableActors().stream().map(o -> (Mercenary) o).filter(o -> !o.isAlly())
+                .forEach(o -> player.visit(o));
+
+        assertEquals(1, testDungeon.getDungeonResponse().getBattles().size());
+
+        BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+
+        assertEquals((double) Integer.parseInt(getValueFromConfigFile("player_health",
+                "c_battleTestsMultipleRounds")), br.getInitialPlayerHealth());
+        assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
+                "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
+
+        int enemyAttack = 0;
+        int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
+                "c_battleTestsMultipleRounds")) + 3;
+
+        for (RoundResponse r : br.getRounds()) {
+            assertEquals(-(enemyAttack / 10.0), r.getDeltaCharacterHealth());
+            assertEquals(-(playerAttack / 5.0), r.getDeltaEnemyHealth());
+            assertEquals(0, r.getWeaponryUsed().size());
+        }
+
+        // ally
+        assertEquals(1, testDungeon.getNonPlayableActors().size());
+    }
+
+    @Test
+    public void testPlayerAllEquipmentAllyBattle() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_allEquipmentAllyBattle",
+                "c_battleTestsMultipleRounds");
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
+        Player player = testDungeon.getPlayer();
+
+        testDungeon.getItems().forEach(i -> i.doAccept(player));
+
+        assertTrue(player.checkBuildables("shield"));
+        assertTrue(player.checkBuildables("bow"));
+
+        player.build("bow");
+        player.build("shield");
+
+        assertEquals(4, player.getInventory().size());
+
+        player.setPosition(new Position(2, 1));
+
+        player.notifyAllObservers();
+
+        DungeonObject dungeonObject = testDungeon.getObjectsAtPosition(new Position(2, 2)).get(0);
+
+        assertTrue(player.interact(dungeonObject.getUniqueId()));
+
+        testDungeon.getNonPlayableActors().stream().map(o -> (Mercenary) o).filter(o -> !o.isAlly())
+                .forEach(o -> player.visit(o));
+
+        testDungeon.getNonPlayableActors().forEach(o -> o.doAccept(player));
+
+        assertEquals(1, testDungeon.getDungeonResponse().getBattles().size());
+
+        BattleResponse br = testDungeon.getDungeonResponse().getBattles().get(0);
+
+        assertEquals((double) Integer.parseInt(getValueFromConfigFile("player_health",
+                "c_battleTestsMultipleRounds")), br.getInitialPlayerHealth());
+        assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
+                "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
+
+        int enemyAttack = 0;
+        int playerAttack = (Integer.parseInt(getValueFromConfigFile("player_attack",
+                "c_battleTestsMultipleRounds")) + 2 + 3) * 2;
+
+        for (RoundResponse r : br.getRounds()) {
+            assertEquals(-(enemyAttack / 10.0), r.getDeltaCharacterHealth());
+            assertEquals(-(playerAttack / 5.0), r.getDeltaEnemyHealth());
+            assertEquals(3, r.getWeaponryUsed().size());
+        }
+
+        // ally
+        assertEquals(1, testDungeon.getNonPlayableActors().size());
+        // bow has 2 durability
+        assertEquals(1, player.getInventory().size());
     }
 }
