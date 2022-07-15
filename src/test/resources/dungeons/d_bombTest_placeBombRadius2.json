@@ -16,11 +16,7 @@
       "type" : "boulder",
       "x" : 3,
       "y" : 2
-    }, {
-      "type": "exit",
-      "x": 8,
-      "y": 8
-    }, {
+    },  {
       "type" : "wall",
       "x" : 5,
       "y" : 2

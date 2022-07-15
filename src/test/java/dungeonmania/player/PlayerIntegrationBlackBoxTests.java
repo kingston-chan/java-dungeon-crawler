@@ -49,14 +49,14 @@ import dungeonmania.util.Position;
 public class PlayerIntegrationBlackBoxTests {
     @Test
     public void testSuccessfullyNotifiesZombieSpawners() {
-        // DungeonManiaController dmc = new DungeonManiaController();
-        // DungeonResponse dres = dmc.newGame("d_zombieSpawnerInteract",
-        // "c_zombieSpawnRate");
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse dres = dmc.newGame("d_zombieSpawnerInteract",
+                "c_zombieSpawnRate");
 
-        // assertTrue(dres.getEntities().size() == 3);
+        assertTrue(dres.getEntities().size() == 3);
 
-        // dres = dmc.tick(Direction.UP);
+        dres = dmc.tick(Direction.UP);
 
-        // assertTrue(dres.getEntities().size() == 4);
+        assertTrue(dres.getEntities().size() == 4);
     }
 }
