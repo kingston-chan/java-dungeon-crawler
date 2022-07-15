@@ -1,8 +1,8 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.behaviours.movement.MovementBehaviour;
-
 
 public class ZombieToast extends NonPlayableActor {
 
@@ -14,7 +14,7 @@ public class ZombieToast extends NonPlayableActor {
     public void update(MovementBehaviour movementBehaviour) {
         this.setCurrentMovement(movementBehaviour);
         this.doMove(this);
-    }   
+    }
 
     @Override
     public boolean isInteractable() {
@@ -26,5 +26,9 @@ public class ZombieToast extends NonPlayableActor {
         return false;
     }
 
+    @Override
+    public boolean canVisitPortal(Portal portal) {
+        return true;
+    }
 
 }
