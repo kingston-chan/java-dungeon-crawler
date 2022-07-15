@@ -50,7 +50,7 @@ public class AllyMovementTest {
     }
 
     @Test
-    public void testAllyPlayerItemUse() {
+    public void testAllyPlayerUseItem() {
         // DungeonManiaController controller = new DungeonManiaController();
         // controller.newGame("d_movementtest_AllyItemUse", "simple");
 
