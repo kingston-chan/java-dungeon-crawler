@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
-import javax.swing.text.html.parser.Entity;
-
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
