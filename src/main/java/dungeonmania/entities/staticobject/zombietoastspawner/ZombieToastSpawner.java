@@ -39,7 +39,7 @@ public class ZombieToastSpawner extends StaticObject {
 
     @Override
     public boolean canAccept(Boulder boulder) {
-        return false;
+        return true;
     }
 
     @Override
