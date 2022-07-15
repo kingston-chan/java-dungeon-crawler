@@ -16,6 +16,10 @@ public class MoveAwayFromPlayer implements MovementBehaviour {
         Player player = dungeon.getPlayer();
         List<Position> moveablePositions = MovementHelper.getMovableAdjacentPositions(npa);
 
+        if (moveablePositions.isEmpty()) {
+            return;
+        }
+
         Position best_position = moveablePositions.get(0);
         for (Position position : moveablePositions) {
             Position best_cmp = Position.calculatePositionBetween(best_position, player.getPosition());
