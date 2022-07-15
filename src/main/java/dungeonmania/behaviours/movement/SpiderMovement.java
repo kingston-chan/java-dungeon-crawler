@@ -40,27 +40,26 @@ public class SpiderMovement implements MovementBehaviour {
             // checks if spider can move to next space (not a boulder)
             if (!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))) {
                 clockwise = !(clockwise);
-                if (clockwise) {
-                    nextMoveIndex += 2;
+                int currentMoveIndex = nextMoveIndex;
+                if (!clockwise) {
+                    nextMoveIndex = (nextMoveIndex - 2 + 8) % 8;
                 } else {
-                    nextMoveIndex -= 2;
+                    nextMoveIndex = (nextMoveIndex + 2) % 8;
                 }
                 newPos = positions.get(nextMoveIndex);
+                if(!(dungeon.getObjectsAtPosition(newPos).stream().allMatch(obj -> obj.canAccept(spider)))){
+                    newPos = spider.getPosition();
+                    nextMoveIndex = currentMoveIndex;
+                }
             }
 
             dungeon.getObjectsAtPosition(newPos).stream().forEach(obj -> obj.doAccept(spider));
             spider.setPosition(newPos);
 
             if (clockwise) {
-                nextMoveIndex += 1;
-                if (nextMoveIndex >= positions.size()) {
-                    nextMoveIndex -= positions.size();
-                }
+                nextMoveIndex = (nextMoveIndex + 1) % 8;
             } else {
-                nextMoveIndex -= 1;
-                if (nextMoveIndex <= -1) {
-                    nextMoveIndex += positions.size();
-                }
+                nextMoveIndex = (nextMoveIndex - 1 + 8) % 8;
             }
 
         } else { // first tick move after spawn
