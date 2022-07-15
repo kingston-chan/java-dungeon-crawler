@@ -1,4 +1,4 @@
-package dungeonmania.itemtest;
+package dungeonmania.item;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

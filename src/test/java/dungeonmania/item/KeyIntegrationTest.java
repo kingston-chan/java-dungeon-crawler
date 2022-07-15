@@ -1,4 +1,4 @@
-package dungeonmania.itemtest;
+package dungeonmania.item;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -23,34 +23,34 @@ import dungeonmania.util.Direction;
 
 public class KeyIntegrationTest {
     @Test
-    public void testPickUpKey(){
+    public void testPickUpKey() {
         // DungeonManiaController controller = new DungeonManiaController();
         // DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
-        //                                 , "c_bombTest_placeBombRadius2");
+        // , "c_bombTest_placeBombRadius2");
 
         // assertFalse(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
+        // .stream()
+        // .anyMatch(item -> item.getType().equals("key")));
         // // player position: 2,2
         // controller.tick(Direction.DOWN);
         // // player position: 2,3
         // assertTrue(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
+        // .stream()
+        // .anyMatch(item -> item.getType().equals("key")));
 
         // // check only exist 1 key in inventory
         // assertTrue(countEntityOfType(current_Dungeon, "key") == 1);
     }
 
     @Test
-    public void testKeyOpenNotMatchedDoor(){
+    public void testKeyOpenNotMatchedDoor() {
         // DungeonManiaController controller = new DungeonManiaController();
         // DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
-        //                                 , "c_bombTest_placeBombRadius2");
+        // , "c_bombTest_placeBombRadius2");
 
         // assertFalse(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
+        // .stream()
+        // .anyMatch(item -> item.getType().equals("key")));
         // // player position: 2,2
         // controller.tick(Direction.DOWN);
         // // player position: 2,3 get key1
@@ -74,14 +74,14 @@ public class KeyIntegrationTest {
     }
 
     @Test
-    public void testKeyOpenMatchedDoor(){
+    public void testKeyOpenMatchedDoor() {
         // DungeonManiaController controller = new DungeonManiaController();
         // DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
-        //                                 , "c_bombTest_placeBombRadius2");
+        // , "c_bombTest_placeBombRadius2");
 
         // assertFalse(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
+        // .stream()
+        // .anyMatch(item -> item.getType().equals("key")));
         // // player position: 2,2
         // controller.tick(Direction.DOWN);
         // // player position: 2,3 get key1
