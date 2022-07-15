@@ -44,57 +44,57 @@ public class KeyIntegrationTest {
 
     @Test
     public void testKeyOpenNotMatchedDoor(){
-        // DungeonManiaController controller = new DungeonManiaController();
-        // DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
-        //                                 , "c_bombTest_placeBombRadius2");
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
+                                        , "c_bombTest_placeBombRadius2");
 
-        // assertFalse(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
-        // // player position: 2,2
-        // controller.tick(Direction.DOWN);
-        // // player position: 2,3 get key1
+        assertFalse(current_Dungeon.getInventory()
+                            .stream()
+                            .anyMatch(item -> item.getType().equals("key")));
+        // player position: 2,2
+        controller.tick(Direction.DOWN);
+        // player position: 2,3 get key1
 
-        // // Door1 position: 3,4
-        // // Door2 position: 4,3
+        // Door1 position: 3,4
+        // Door2 position: 4,3
 
-        // controller.tick(Direction.RIGHT);
-        // // player position: 3,3
+        controller.tick(Direction.RIGHT);
+        // player position: 3,3
 
-        // current_Dungeon = controller.tick(Direction.RIGHT);
-        // current_Dungeon = controller.tick(Direction.RIGHT);
-        // current_Dungeon = controller.tick(Direction.RIGHT);
-        // current_Dungeon = controller.tick(Direction.RIGHT);
-        // // player position: 3,3 becasue key1 not matched door2
+        current_Dungeon = controller.tick(Direction.RIGHT);
+        current_Dungeon = controller.tick(Direction.RIGHT);
+        current_Dungeon = controller.tick(Direction.RIGHT);
+        current_Dungeon = controller.tick(Direction.RIGHT);
+        // player position: 3,3 becasue key1 not matched door2
 
-        // EntityResponse player = getPlayer(current_Dungeon).get();
+        EntityResponse player = getPlayer(current_Dungeon).get();
 
-        // assertTrue(player.getPosition().getX() == 3);
-        // assertTrue(player.getPosition().getY() == 3);
+        assertTrue(player.getPosition().getX() == 3);
+        assertTrue(player.getPosition().getY() == 3);
     }
 
     @Test
     public void testKeyOpenMatchedDoor(){
-        // DungeonManiaController controller = new DungeonManiaController();
-        // DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
-        //                                 , "c_bombTest_placeBombRadius2");
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse current_Dungeon = controller.newGame("d_2door_test"
+                                        , "c_bombTest_placeBombRadius2");
 
-        // assertFalse(current_Dungeon.getInventory()
-        //                     .stream()
-        //                     .anyMatch(item -> item.getType().equals("key")));
-        // // player position: 2,2
-        // controller.tick(Direction.DOWN);
-        // // player position: 2,3 get key1
+        assertFalse(current_Dungeon.getInventory()
+                            .stream()
+                            .anyMatch(item -> item.getType().equals("key")));
+        // player position: 2,2
+        controller.tick(Direction.DOWN);
+        // player position: 2,3 get key1
 
-        // // Door1 position: 3,4
-        // // Door2 position: 4,3
+        // Door1 position: 3,4
+        // Door2 position: 4,3
 
-        // controller.tick(Direction.RIGHT);
-        // // player position: 3,4 open door1 with key1
+        controller.tick(Direction.RIGHT);
+        // player position: 3,4 open door1 with key1
 
-        // EntityResponse player = getPlayer(current_Dungeon).get();
+        EntityResponse player = getPlayer(current_Dungeon).get();
 
-        // assertTrue(player.getPosition().getX() == 3);
-        // assertTrue(player.getPosition().getY() == 3);
+        assertTrue(player.getPosition().getX() == 3);
+        assertTrue(player.getPosition().getY() == 3);
     }
 }
