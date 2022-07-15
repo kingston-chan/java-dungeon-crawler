@@ -27,12 +27,6 @@ public interface Visit {
     default void visit(Boulder boulder) {
     }
 
-    default void visit(Door door) {
-    }
-
-    default void visit(Exit exit) {
-    }
-
     default void visit(ZombieToast zombieToast) {
     }
 
@@ -45,9 +39,6 @@ public interface Visit {
     default void visit(FloorSwitch fswitch) {
     }
 
-    default void visit(ZombieToastSpawner spawner) {
-    }
-
-    default void visit(Bomb bomb) {
+    default void visit(Exit exit) {
     }
 }

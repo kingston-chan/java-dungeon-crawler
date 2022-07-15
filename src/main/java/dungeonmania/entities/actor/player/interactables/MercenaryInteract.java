@@ -1,18 +1,22 @@
 package dungeonmania.entities.actor.player.interactables;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import dungeonmania.DungeonManiaController;
+import dungeonmania.behaviours.movement.FollowPlayer;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.util.BoxRadius;
 import dungeonmania.util.Position;
 
 public class MercenaryInteract implements InteractBehaviour {
+
     @Override
-    public boolean interact(Dungeon dungeon, Player player, String interactingWithId) {
+    public boolean interact(Player player, String interactingWithId) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
 
         DungeonObject merc = dungeon.getDungeonObject(interactingWithId);
 
@@ -28,7 +32,12 @@ public class MercenaryInteract implements InteractBehaviour {
 
         if (ItemGetterHelpers.getNumTreasure(player) >= bribeAmount) {
             ItemGetterHelpers.removeTreasuresFromInventory(bribeAmount, player);
-            // create and add to player's ally
+            player.addAlly();
+            // mercenary is now in ally state
+            dungeon.getDungeonObjects().stream()
+                    .filter(dungeonObject -> dungeonObject.equals(merc))
+                    .filter(dungeonObject -> dungeonObject instanceof Mercenary)
+                    .forEach(dungeonObject -> ((Mercenary) dungeonObject).recruitMercenary());
             return true;
         }
 

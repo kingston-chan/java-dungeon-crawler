@@ -1,5 +1,6 @@
 package dungeonmania.entities.actor.player.interactables;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
@@ -8,8 +9,10 @@ import dungeonmania.util.Position;
 
 public class ZombieSpawnerInteract implements InteractBehaviour {
     @Override
-    public boolean interact(Dungeon dungeon, Player player, String interactingWithId) {
+    public boolean interact(Player player, String interactingWithId) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
         DungeonObject zombieSpawner = dungeon.getDungeonObject(interactingWithId);
+
         if (!Position.isAdjacent(player.getPosition(), zombieSpawner.getPosition())) {
             return false;
         }

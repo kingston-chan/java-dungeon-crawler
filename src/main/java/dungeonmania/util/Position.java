@@ -107,4 +107,14 @@ public final class Position {
         adjacentPositions.add(new Position(x-1, y));
         return adjacentPositions;
     }
+
+    public List<Position> getAdjacentCardinalPositions() {
+        List<Position> adjacentCardinalPositions = new ArrayList<>();
+        adjacentCardinalPositions.add(new Position(x  , y-1));
+        adjacentCardinalPositions.add(new Position(x+1, y));
+        adjacentCardinalPositions.add(new Position(x  , y+1));
+        adjacentCardinalPositions.add(new Position(x-1, y));
+        return adjacentCardinalPositions;
+    }
 }
+ 

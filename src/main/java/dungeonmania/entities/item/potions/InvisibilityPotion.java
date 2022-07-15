@@ -6,13 +6,11 @@ public class InvisibilityPotion extends Potion {
 
     public InvisibilityPotion(int duration) {
         super(duration);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
     public void consumedBy(Player player) {
-        // TODO Auto-generated method stub
-
+        player.setPlayerState(player.getInvisibleState());
     }
 
 }

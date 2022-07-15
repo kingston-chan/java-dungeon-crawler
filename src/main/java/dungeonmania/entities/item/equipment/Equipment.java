@@ -33,4 +33,8 @@ public abstract class Equipment extends Item {
         return false;
     }
 
+    @Override
+    public void doAccept(Player player) {
+        player.visit(this);
+    }
 }
