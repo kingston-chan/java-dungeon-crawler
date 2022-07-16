@@ -45,25 +45,21 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                         if (occupants.stream().allMatch(obj -> obj.canAccept(npa))) {
                             visited.put(pos, curr);
                             queue.add(pos);
+
+                            // Checks for portal aswell
+                            try {
+                                Portal portal = occupants.stream().filter(o -> o instanceof Portal).map(o -> (Portal) o)
+                                        .findFirst().get();
+                                Position destination = portal.getExitPosition(curr);
+                                if (!(visited.containsKey(destination))) {
+                                    visited.put(destination, pos);
+                                    queue.add(destination);
+                                }
+                            } catch (Exception e) {
+                                continue;
+                            }
                         }
 
-                        // Checks for portal aswell
-                        try {
-                            Portal portal = occupants.stream().filter(o -> o instanceof Portal).map(o -> (Portal) o)
-                                    .findFirst().get();
-                            Position destination = portal.getDestination();
-                            for (Position p : destination.getAdjacentCardinalPositions()) {
-                                if (!(visited.containsKey(p))) {
-                                    List<DungeonObject> dungeonObjects = dungeon.getObjectsAtPosition(p);
-                                    if (dungeonObjects.stream().allMatch(obj -> obj.canAccept(npa))) {
-                                        visited.put(p, curr);
-                                        queue.add(p);
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            continue;
-                        }
                     }
 
                 }
@@ -85,6 +81,7 @@ public class MoveTowardsPlayer implements MovementBehaviour {
             Position next = visited.get(playerPosition);
             while (visited.get(next) != npa.getPosition()) {
                 next = visited.get(next);
+                System.out.println(next);
             }
             // npa.setPosition(next);
             newPosition = next;
