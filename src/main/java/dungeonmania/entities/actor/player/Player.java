@@ -193,7 +193,7 @@ public class Player extends Actor {
     }
 
     public void increaseMultiplicativeAttack(int attackPoints) {
-        this.bonusAdditiveAttack *= attackPoints;
+        this.bonusMultiplicativeAttack *= attackPoints;
     }
 
     public void increaseAdditiveDefence(int defencePoints) {

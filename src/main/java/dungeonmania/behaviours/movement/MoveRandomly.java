@@ -13,24 +13,25 @@ public class MoveRandomly implements MovementBehaviour {
     // actor should be able to move randomly (cardinal and diagonal) by one space
 
     @Override
-    public void move(NonPlayableActor npa) { 
+    public void move(NonPlayableActor npa) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        
-        List<Position> possibleMoves = npa.getPosition().getAdjacentPositions();
+
+        // collect a list of moves to adjacent positions that is valid
+        List<Position> possibleMoves = MovementHelper.getMovableAdjacentPositions(npa);
+
+        if (possibleMoves.isEmpty()) {
+            return;
+        }
 
         Random rand = new Random();
 
-        int index = rand.nextInt(possibleMoves.size());
-        Position nextMove = possibleMoves.get(index);
-        // checking whether can move to chosen position
-        while (!(dungeon.getObjectsAtPosition(nextMove).stream().allMatch(obj -> obj.canAccept(npa)))) {
-            // if can't, choose another one
-            possibleMoves.remove(index);
-            index = rand.nextInt(possibleMoves.size());
-            nextMove = possibleMoves.get(index);
+        Position randPos = possibleMoves.get(rand.nextInt(possibleMoves.size()));
+        Position oldPos = npa.getPosition();
+        dungeon.getObjectsAtPosition(randPos).forEach(o -> o.doAccept(npa));
+
+        // for merc, if they teleport
+        if (npa.getPosition().equals(oldPos)) {
+            npa.setPosition(randPos);
         }
-
-        npa.setPosition(nextMove);
-
     }
 }

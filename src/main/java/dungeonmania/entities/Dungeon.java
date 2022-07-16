@@ -20,6 +20,7 @@ import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
 import dungeonmania.response.models.BattleResponse;
@@ -49,6 +50,14 @@ public class Dungeon {
         return this.goals.hasAchieved() ? "" : this.goals.toString().replaceAll("^\\(|\\)$", "");
     }
 
+    private void initialiseAnySwitches() {
+        getStaticObjects().stream().forEach(o1 -> {
+            getStaticObjectsAtPosition(o1.getPosition()).stream()
+                    .filter(o2 -> o2 instanceof Boulder)
+                    .forEach(o2 -> o1.doAccept((Boulder) o2));
+        });
+    }
+
     public String initDungeon(String dungeonName, String configName) {
         this.config = configName;
         this.dungeonName = dungeonName;
@@ -74,6 +83,7 @@ public class Dungeon {
             }
 
             this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
+            initialiseAnySwitches();
             return this.dungeonId;
         } catch (Exception e) {
             e.printStackTrace();
@@ -220,13 +230,13 @@ public class Dungeon {
         Position spiderPosition = new Position(spider_x, spider_y);
 
         Spider newSpider = new Spider();
-        newSpider.setAttackPoints(getConfig("spider_spawn_rate"));
-        newSpider.setHealthPoints(getConfig("spider_spawn_rate"));
+        newSpider.setAttackPoints(getConfig("spider_attack"));
+        newSpider.setHealthPoints(getConfig("spider_health"));
         newSpider.setType("spider");
         newSpider.setUniqueId(UUID.randomUUID().toString());
 
-        while (getObjectsAtPosition(spiderPosition).stream()
-                .allMatch(o -> o.canAccept(newSpider)) == false) {
+        while (!getObjectsAtPosition(spiderPosition).stream()
+                .allMatch(o -> o.canAccept(newSpider))) {
             spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
                     MIN_SPIDER_SPAWN;
             spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
