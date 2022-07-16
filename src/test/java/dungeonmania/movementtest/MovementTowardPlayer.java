@@ -1,10 +1,13 @@
 package dungeonmania.movementtest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
@@ -60,5 +63,53 @@ public class MovementTowardPlayer {
 
         EntityResponse mercenary = getEntities(current_dungeon, "mercenary").get(0);
         assertEquals(mercenary.getPosition(), new Position(4, 1));
+    }
+
+    @Test
+    public void testMercenaryMovesIntoPortalPlayerAtExit() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_portalMercenaryOnePath", "simple");
+        DungeonResponse dres = controller.tick(Direction.RIGHT);
+
+        // Should move towards the portal
+        assertEquals(new Position(2, 1), getEntities(dres, "mercenary").get(0).getPosition());
+
+        dres = controller.tick(Direction.LEFT);
+
+        // next to portal
+        assertEquals(new Position(3, 1), getEntities(dres, "mercenary").get(0).getPosition());
+
+        dres = controller.tick(Direction.LEFT);
+
+        // merc should have teleported onto player and player wins
+        assertEquals(0, TestUtils.countEntityOfType(dres, "mercenary"));
+        assertFalse(dres.getBattles().isEmpty());
+        assertEquals("", dres.getGoals());
+    }
+
+    @Test
+    public void testNoPathButPlayerUnlocksDoorForPath() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse dres = controller.newGame("d_mercenaryNoPathUntilPlayerUnlocksDoor", "simple");
+        Position mercStartPos = getEntities(dres, "mercenary").get(0).getPosition();
+
+        dres = controller.tick(Direction.RIGHT);
+
+        // should not move because no path to player, blocked by door
+        assertEquals(mercStartPos, getEntities(dres, "mercenary").get(0).getPosition());
+
+        dres = controller.tick(Direction.RIGHT);
+
+        // should move because door is now unlocked
+        assertNotEquals(mercStartPos, getEntities(dres, "mercenary").get(0).getPosition());
+
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        dres = controller.tick(Direction.UP);
+
+        // battle should have occured and player wins
+        assertEquals("", dres.getGoals());
+        assertEquals(1, dres.getBattles().size());
+        assertEquals(0, getEntities(dres, "mercenary").size());
     }
 }

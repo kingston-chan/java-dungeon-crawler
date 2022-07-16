@@ -2,13 +2,13 @@
     "entities": [
         {
             "type": "player",
-            "x": 1,
-            "y": 1
+            "x": 4,
+            "y": 0
         },
         {
             "type": "boulder",
             "x": 4,
-            "y": 2
+            "y": 1
         },
         {
             "type": "spider",
