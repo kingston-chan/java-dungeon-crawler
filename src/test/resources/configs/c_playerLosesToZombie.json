@@ -20,7 +20,7 @@
     "sword_attack": 2,
     "sword_durability": 1,
     "treasure_goal": 1,
-    "zombie_attack": 1,
-    "zombie_health": 6,
+    "zombie_attack": 999,
+    "zombie_health": 999,
     "zombie_spawn_rate": 0
 }

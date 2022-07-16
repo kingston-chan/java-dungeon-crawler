@@ -15,7 +15,7 @@ import static dungeonmania.TestUtils.getEntities;
 
 public class MovementTowardPlayer {
     @Test
-    public void testMercenaryPortal(){
+    public void testMercenaryPortal() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_enemy_portal_test", "simple");
 
@@ -35,13 +35,15 @@ public class MovementTowardPlayer {
         assertEquals(mercenary.getPosition(), new Position(4, 3));
 
         // mercenary teleported by portal
-        current_dungeon =  controller.tick(Direction.UP);
+        current_dungeon = controller.tick(Direction.UP);
         mercenary = getEntities(current_dungeon, "mercenary").get(0);
-        assertEquals(mercenary.getPosition(), new Position(2, 0));
+        // since it moved left into entry portal it should move out left of destination
+        // portal
+        assertEquals(new Position(1, 1), mercenary.getPosition());
     }
 
     @Test
-    public void test_no_player_path_in_map(){
+    public void test_no_player_path_in_map() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_player_push_boulder_to_stuck_mercenary", "simple");
         controller.tick(Direction.RIGHT);

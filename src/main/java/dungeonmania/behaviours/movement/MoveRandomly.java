@@ -26,7 +26,12 @@ public class MoveRandomly implements MovementBehaviour {
         Random rand = new Random();
 
         Position randPos = possibleMoves.get(rand.nextInt(possibleMoves.size()));
-        npa.setPosition(randPos);
+        Position oldPos = npa.getPosition();
         dungeon.getObjectsAtPosition(randPos).forEach(o -> o.doAccept(npa));
+
+        // for merc, if they teleport
+        if (npa.getPosition().equals(oldPos)) {
+            npa.setPosition(randPos);
+        }
     }
 }
