@@ -145,7 +145,6 @@ public class DungeonManiaController {
         if (currentDungeonInstance.getDungeonObject(entityId) == null) {
             throw new IllegalArgumentException();
         }
-
         boolean check = player.interact(entityId);
         if (!check) {
             throw new InvalidActionException(entityId);
