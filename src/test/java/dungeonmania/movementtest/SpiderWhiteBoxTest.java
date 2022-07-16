@@ -23,48 +23,44 @@ public class SpiderWhiteBoxTest {
         DungeonManiaController controller = new DungeonManiaController();
 
         DungeonResponse response = controller.newGame("d_test_spider_movement", "simple");
-        Position current_positoin = get_spider_position(response);
+        Position current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(3, 3));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(3, 2));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(4, 2));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(4, 3));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(4, 4));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(3, 4));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(2, 4));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(2, 3));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(2, 2));
 
         response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(3, 2));
-
-        response = controller.tick(Direction.UP);
-        current_positoin = get_spider_position(response);
-        assertEquals(current_positoin, new Position(4, 2));
         // a loop here
     }
 
@@ -99,10 +95,5 @@ public class SpiderWhiteBoxTest {
         Optional<EntityResponse> tmp = current_dungeon.getEntities().stream().filter(entity -> entity.getType().equals("spider")).findFirst();
         EntityResponse spider = tmp.get();
         assertEquals(spider.getPosition(), new Position(3,2));
-    }
-
-    private Position get_spider_position(DungeonResponse response){
-        Position current = getEntities(response, "spider").get(0).getPosition();
-        return current;
     }
 }
