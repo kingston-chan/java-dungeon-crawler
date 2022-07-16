@@ -1,5 +1,8 @@
 package dungeonmania;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +29,7 @@ public class TestUtils {
     public static int countEntityOfType(DungeonResponse res, String type) {
         return getEntities(res, type).size();
     }
-    
+
     public static Optional<EntityResponse> getPlayer(DungeonResponse res) {
         return getEntitiesStream(res, "player").findFirst();
     }
@@ -37,8 +40,8 @@ public class TestUtils {
 
     public static List<ItemResponse> getInventory(DungeonResponse res, String type) {
         return res.getInventory().stream()
-                                 .filter(it -> it.getType().startsWith(type))
-                                 .collect(Collectors.toList());
+                .filter(it -> it.getType().startsWith(type))
+                .collect(Collectors.toList());
     }
 
     public static String getGoals(DungeonResponse dr) {
@@ -49,7 +52,7 @@ public class TestUtils {
     public static String getValueFromConfigFile(String fieldName, String configFilePath) {
         try {
             JSONObject config = new JSONObject(FileLoader.loadResourceFile("/configs/" + configFilePath + ".json"));
-            
+
             if (!config.isNull(fieldName)) {
                 return config.get(fieldName).toString();
             }
@@ -57,9 +60,17 @@ public class TestUtils {
             e.printStackTrace();
             return null;
         }
-        
+
         return null;
     }
 
-    
+    public static void assertListAreEqualIgnoringOrder(List<?> a, List<?> b) {
+        // containsAll both ways is important to handle dupes
+        assertTrue(a.size() == b.size() && a.containsAll(b) && b.containsAll(a));
+    }
+
+    public static void assertListAreNotEqualIgnoringOrder(List<?> a, List<?> b) {
+        // containsAll both ways is important to handle dupes
+        assertFalse(a.size() == b.size() && a.containsAll(b) && b.containsAll(a));
+    }
 }
