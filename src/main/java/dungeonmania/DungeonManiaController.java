@@ -82,7 +82,7 @@ public class DungeonManiaController {
             player.notifyAllObservers();
             throw new IllegalArgumentException();
         }
-        
+
         player.consumeQueuedPotionEffect();
         player.notifyAllObservers();
 
@@ -145,8 +145,9 @@ public class DungeonManiaController {
         if (currentDungeonInstance.getDungeonObject(entityId) == null) {
             throw new IllegalArgumentException();
         }
-        boolean check = player.interact(entityId);
-        if (!check) {
+        
+
+        if (!player.interact(entityId)) {
             throw new InvalidActionException(entityId);
         }
 
