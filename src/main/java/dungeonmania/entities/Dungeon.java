@@ -59,9 +59,9 @@ public class Dungeon {
     }
 
     public String initDungeon(String dungeonName, String configName) {
-        this.config = configName;
         this.dungeonName = dungeonName;
         try {
+            this.config = FileLoader.loadResourceFile("/configs/" + configName + ".json");
             JSONObject resource = new JSONObject(FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json"));
             JSONArray array = resource.getJSONArray("entities");
 
@@ -138,7 +138,7 @@ public class Dungeon {
 
     public int getConfig(String configKey) {
         try {
-            JSONObject resource = new JSONObject(FileLoader.loadResourceFile("/configs/" + this.config + ".json"));
+            JSONObject resource = new JSONObject(this.config);
             return resource.getInt(configKey);
         } catch (Exception e) {
             e.printStackTrace();
