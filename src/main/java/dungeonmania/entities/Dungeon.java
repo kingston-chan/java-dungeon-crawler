@@ -230,13 +230,13 @@ public class Dungeon {
         Position spiderPosition = new Position(spider_x, spider_y);
 
         Spider newSpider = new Spider();
-        newSpider.setAttackPoints(getConfig("spider_spawn_rate"));
-        newSpider.setHealthPoints(getConfig("spider_spawn_rate"));
+        newSpider.setAttackPoints(getConfig("spider_attack"));
+        newSpider.setHealthPoints(getConfig("spider_health"));
         newSpider.setType("spider");
         newSpider.setUniqueId(UUID.randomUUID().toString());
 
-        while (getObjectsAtPosition(spiderPosition).stream()
-                .allMatch(o -> o.canAccept(newSpider)) == false) {
+        while (!getObjectsAtPosition(spiderPosition).stream()
+                .allMatch(o -> o.canAccept(newSpider))) {
             spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
                     MIN_SPIDER_SPAWN;
             spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +

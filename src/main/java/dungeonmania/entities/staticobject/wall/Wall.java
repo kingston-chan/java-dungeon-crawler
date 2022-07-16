@@ -16,10 +16,7 @@ public class Wall extends StaticObject {
 
     @Override
     public boolean canAccept(NonPlayableActor enemy) {
-        if (enemy instanceof Spider) {
-            return true;
-        }
-        return false;
+        return enemy.canVisitWall();
     }
 
     @Override

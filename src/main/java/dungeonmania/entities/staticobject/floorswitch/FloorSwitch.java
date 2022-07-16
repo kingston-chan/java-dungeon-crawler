@@ -66,7 +66,7 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
 
     @Override
     public void notifySwitchObservers() {
-        switchObservers.stream().forEach(o -> o.update(this));
+        switchObservers.stream().forEach(o -> o.update());
     }
 
     @Override

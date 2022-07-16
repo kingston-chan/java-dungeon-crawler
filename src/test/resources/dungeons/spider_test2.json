@@ -1,0 +1,27 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 4,
+            "y": 0
+        },
+        {
+            "type": "boulder",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "type": "spider",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "type": "wood",
+            "x": 4,
+            "y": 1
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

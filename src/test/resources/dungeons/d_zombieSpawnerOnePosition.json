@@ -6,19 +6,24 @@
             "y": 1
         },
         {
-            "type": "boulder",
+            "type": "wall",
             "x": 4,
+            "y": 1
+        },
+        {
+            "type": "zombie_toast_spawner",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": 3,
             "y": 2
         },
         {
-            "type": "spider",
+            "type": "wall",
             "x": 3,
-            "y": 3
-        },
-        {
-            "type": "wood",
-            "x": 4,
-            "y": 1
+            "y": 0
         }
     ],
     "goal-condition": {

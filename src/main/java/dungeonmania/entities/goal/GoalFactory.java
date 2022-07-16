@@ -19,12 +19,12 @@ public class GoalFactory {
         }
     }
 
-    private static ComplexGoal createComplexGoals(String type) {
+    private static ComplexGoal createComplexGoals(String type, Goal subGoal1, Goal subGoal2) {
         switch (type) {
             case "AND":
-                return new AndGoal();
+                return new AndGoal(subGoal1, subGoal2);
             case "OR":
-                return new OrGoal();
+                return new OrGoal(subGoal1, subGoal2);
             default:
                 return null;
         }
@@ -37,9 +37,9 @@ public class GoalFactory {
 
         if (singleGoal == null) {
             JSONArray subgoals = jsonGoal.getJSONArray("subgoals");
-            ComplexGoal complexGoal = createComplexGoals(goalStr);
-            complexGoal.addSubgoals(parseJsonToGoals(subgoals.getJSONObject(0)),
-                    parseJsonToGoals(subgoals.getJSONObject(1)));
+            Goal subgoal1 = parseJsonToGoals(subgoals.getJSONObject(0));
+            Goal subgoal2 = parseJsonToGoals(subgoals.getJSONObject(1));
+            ComplexGoal complexGoal = createComplexGoals(goalStr, subgoal1, subgoal2);
             return complexGoal;
         }
 
