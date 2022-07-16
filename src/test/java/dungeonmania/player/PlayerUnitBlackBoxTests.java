@@ -86,6 +86,22 @@ public class PlayerUnitBlackBoxTests {
     }
 
     @Test
+    public void testItemUsedIdNotInInventory() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse dres = dmc.newGame("d_usableItemsTest",
+                "c_zombieSpawnRate");
+
+        EntityResponse bomb = TestUtils.getEntities(dres, "bomb").get(0);
+        EntityResponse invincibilityPotion = TestUtils.getEntities(dres, "invincibility_potion").get(0);
+        EntityResponse invisibilityPotion = TestUtils.getEntities(dres, "invisibility_potion").get(0);
+
+        assertThrows(InvalidActionException.class, () -> dmc.tick(bomb.getId()));
+        assertThrows(InvalidActionException.class, () -> dmc.tick(invincibilityPotion.getId()));
+        assertThrows(InvalidActionException.class, () -> dmc.tick(invisibilityPotion.getId()));
+
+    }
+
+    @Test
     public void testSuccessfullyBuildsBow() {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame("d_bow",
