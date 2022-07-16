@@ -69,120 +69,33 @@ public class PlayerInteractionTestWhiteBox {
     }
 
     @Test
-    public void playerVisitsDoorTest() {
-
-    }
-
-    @Test
     public void playerVisitsWallTest() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_visitWall",
+                "c_battleTests_basicMercenaryMercenaryDies");
 
-    }
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
 
-    @Test
-    public void playerVisitsBoulderTest() {
+        Player player = testDungeon.getPlayer();
 
+        DungeonObject wall = testDungeon.getStaticObjectsAtPosition(new Position(1, 0)).get(0);
+
+        assertFalse(wall.canAccept(player));
     }
 
     @Test
     public void playerVisitsFloorSwitchTest() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_visitFloorSwitch",
+                "c_battleTests_basicMercenaryMercenaryDies");
 
-    }
+        Dungeon testDungeon = DungeonManiaController.getDungeon();
 
-    @Nested
-    public class collectableItemTests {
-        @Test
-        public void playerVisitsTreasureTest() {
+        Player player = testDungeon.getPlayer();
 
-        }
+        DungeonObject floorSwitch = testDungeon.getStaticObjectsAtPosition(new Position(1, 0)).get(0);
 
-        @Test
-        public void playerVisitsWoodTest() {
-
-        }
-
-        @Test
-        public void playerVisitsArrowTest() {
-
-        }
-
-        @Test
-        public void playerVisitsBombTest() {
-
-        }
-
-        @Test
-        public void playerVisitsKeyTest() {
-
-        }
-
-        @Test
-        public void playerVisitsSwordTest() {
-
-        }
-
-        @Test
-        public void playerVisitsInvisibilityPotionTest() {
-
-        }
-
-        @Test
-        public void playerVisitsInvincibilityPotionTest() {
-
-        }
-
-    }
-
-    @Nested
-    public class hostileEntityTests {
-        @Test
-        public void playerZombieSpawnerSpiderTest() {
-
-        }
-
-        @Test
-        public void playerNormalVisitsSpiderTest() {
-
-        }
-
-        @Test
-        public void playerNormalVisitsZombieTest() {
-
-        }
-
-        @Test
-        public void playerNormalVisitsMercenaryTest() {
-
-        }
-
-        @Test
-        public void playerInvisibleVisitsSpiderTest() {
-
-        }
-
-        @Test
-        public void playerInvisibleVisitsZombieTest() {
-
-        }
-
-        @Test
-        public void playerInvisibleVisitsMercenaryTest() {
-
-        }
-
-        @Test
-        public void playerInvincableVisitsSpiderTest() {
-
-        }
-
-        @Test
-        public void playerInvincableVisitsZombieTest() {
-
-        }
-
-        @Test
-        public void playerInvincableVisitsMercenaryTest() {
-
-        }
+        assertTrue(floorSwitch.canAccept(player));
     }
 
 }
