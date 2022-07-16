@@ -58,119 +58,29 @@ public class PlayerInteractionTestBlackBox {
     }
 
     @Test
-    public void playerVisitsDoorTest() {
-
-    }
-
-    @Test
     public void playerVisitsWallTest() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_visitWall",
+                "c_battleTests_basicMercenaryMercenaryDies");
 
-    }
+        Position playerStartPos = TestUtils.getPlayer(res).get().getPosition();
 
-    @Test
-    public void playerVisitsBoulderTest() {
+        res = dmc.tick(Direction.UP);
 
+        assertEquals(playerStartPos, TestUtils.getPlayer(res).get().getPosition());
     }
 
     @Test
     public void playerVisitsFloorSwitchTest() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_visitFloorSwitch",
+                "c_battleTests_basicMercenaryMercenaryDies");
 
+        Position switchPos = TestUtils.getEntities(res, "switch").get(0).getPosition();
+
+        res = dmc.tick(Direction.UP);
+
+        assertEquals(switchPos, TestUtils.getPlayer(res).get().getPosition());
     }
 
-    @Nested
-    public class collectableItemTests {
-        @Test
-        public void playerVisitsTreasureTest() {
-
-        }
-
-        @Test
-        public void playerVisitsWoodTest() {
-
-        }
-
-        @Test
-        public void playerVisitsArrowTest() {
-
-        }
-
-        @Test
-        public void playerVisitsBombTest() {
-
-        }
-
-        @Test
-        public void playerVisitsKeyTest() {
-
-        }
-
-        @Test
-        public void playerVisitsSwordTest() {
-
-        }
-
-        @Test
-        public void playerVisitsInvisibilityPotionTest() {
-
-        }
-
-        @Test
-        public void playerVisitsInvincibilityPotionTest() {
-
-        }
-
-    }
-
-    @Nested
-    public class hostileEntityTests {
-        @Test
-        public void playerZombieSpawnerSpiderTest() {
-
-        }
-
-        @Test
-        public void playerNormalVisitsSpiderTest() {
-
-        }
-
-        @Test
-        public void playerNormalVisitsZombieTest() {
-
-        }
-
-        @Test
-        public void playerNormalVisitsMercenaryTest() {
-
-        }
-
-        @Test
-        public void playerInvisibleVisitsSpiderTest() {
-
-        }
-
-        @Test
-        public void playerInvisibleVisitsZombieTest() {
-
-        }
-
-        @Test
-        public void playerInvisibleVisitsMercenaryTest() {
-
-        }
-
-        @Test
-        public void playerInvincableVisitsSpiderTest() {
-
-        }
-
-        @Test
-        public void playerInvincableVisitsZombieTest() {
-
-        }
-
-        @Test
-        public void playerInvincableVisitsMercenaryTest() {
-
-        }
-    }
 }

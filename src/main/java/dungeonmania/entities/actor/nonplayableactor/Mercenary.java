@@ -18,7 +18,7 @@ public class Mercenary extends NonPlayableActor {
 
     public Mercenary() {
         this.enemyState = new EnemyState(this);
-        this.allyState = new AllyState(this);
+        this.allyState = new AllyState();
         this.currentState = enemyState;
     }
 
