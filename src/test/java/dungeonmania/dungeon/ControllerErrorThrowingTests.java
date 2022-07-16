@@ -18,4 +18,10 @@ public class ControllerErrorThrowingTests {
         DungeonManiaController dmc = new DungeonManiaController();
         assertThrows(IllegalArgumentException.class, () -> dmc.newGame("d_2keys", "notaconfig"));
     }
+
+    @Test
+    public void testBothDungeonConfigInvalid() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        assertThrows(IllegalArgumentException.class, () -> dmc.newGame("notadungeonname", "notaconfig"));
+    }
 }
