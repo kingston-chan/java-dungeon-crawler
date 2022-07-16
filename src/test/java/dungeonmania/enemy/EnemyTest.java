@@ -30,17 +30,17 @@ public class EnemyTest {
             DungeonManiaController controller = new DungeonManiaController();
 
             DungeonResponse response = controller.newGame("spider_unaffectedtest1", "c_spider_spawn_rate_0");
-            Position current_positoin = getEntities(response, "spider").get(0).getPosition();
+            Position current_position = getEntities(response, "spider").get(0).getPosition();
 
-            assertEquals(current_positoin, new Position(3, 3));
-
-            response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(3, 2));
+            assertEquals(current_position, new Position(3, 3));
 
             response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(4, 2));
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(3, 2));
+
+            response = controller.tick(Direction.UP);
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(4, 2));
         }
 
         @Test
@@ -48,17 +48,17 @@ public class EnemyTest {
             DungeonManiaController controller = new DungeonManiaController();
 
             DungeonResponse response = controller.newGame("spider_unaffectedtest2", "c_spider_spawn_rate_0");
-            Position current_positoin = getEntities(response, "spider").get(0).getPosition();
+            Position current_position = getEntities(response, "spider").get(0).getPosition();
 
-            assertEquals(current_positoin, new Position(3, 3));
-
-            response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(3, 2));
+            assertEquals(current_position, new Position(3, 3));
 
             response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(4, 2));
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(3, 2));
+
+            response = controller.tick(Direction.UP);
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(4, 2));
 
         }
 
@@ -67,17 +67,17 @@ public class EnemyTest {
             DungeonManiaController controller = new DungeonManiaController();
 
             DungeonResponse response = controller.newGame("spider_unaffectedtest3", "c_spider_spawn_rate_0");
-            Position current_positoin = getEntities(response, "spider").get(0).getPosition();
+            Position current_position = getEntities(response, "spider").get(0).getPosition();
 
-            assertEquals(current_positoin, new Position(3, 3));
-
-            response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(3, 2));
+            assertEquals(current_position, new Position(3, 3));
 
             response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(4, 2));
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(3, 2));
+
+            response = controller.tick(Direction.UP);
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(4, 2));
         }
 
         @Test
@@ -85,17 +85,17 @@ public class EnemyTest {
             DungeonManiaController controller = new DungeonManiaController();
 
             DungeonResponse response = controller.newGame("spider_unaffectedtest4", "c_spider_spawn_rate_0");
-            Position current_positoin = getEntities(response, "spider").get(0).getPosition();
+            Position current_position = getEntities(response, "spider").get(0).getPosition();
 
-            assertEquals(current_positoin, new Position(3, 3));
-
-            response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(3, 2));
+            assertEquals(current_position, new Position(3, 3));
 
             response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(4, 2));
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(3, 2));
+
+            response = controller.tick(Direction.UP);
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(4, 2));
         }
 
         @Test
@@ -103,17 +103,17 @@ public class EnemyTest {
             DungeonManiaController controller = new DungeonManiaController();
 
             DungeonResponse response = controller.newGame("spider_unaffectedtest5", "c_spider_spawn_rate_0");
-            Position current_positoin = getEntities(response, "spider").get(0).getPosition();
+            Position current_position = getEntities(response, "spider").get(0).getPosition();
 
-            assertEquals(current_positoin, new Position(3, 3));
-
-            response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(3, 2));
+            assertEquals(current_position, new Position(3, 3));
 
             response = controller.tick(Direction.UP);
-            current_positoin = getEntities(response, "spider").get(0).getPosition();
-            assertEquals(current_positoin, new Position(4, 2));
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(3, 2));
+
+            response = controller.tick(Direction.UP);
+            current_position = getEntities(response, "spider").get(0).getPosition();
+            assertEquals(current_position, new Position(4, 2));
         }
     }
 
@@ -122,24 +122,24 @@ public class EnemyTest {
         DungeonManiaController controller = new DungeonManiaController();
 
         DungeonResponse response = controller.newGame("d_mercenary_move_player_test", "c_spider_spawn_rate_0");
-        Position current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(6, 1));
+        Position current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(6, 1));
 
         response = controller.tick(Direction.LEFT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(5, 1));
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(5, 1));
 
         response = controller.tick(Direction.LEFT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(4, 1));
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(4, 1));
 
         response = controller.tick(Direction.LEFT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(3, 1));
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(3, 1));
 
         response = controller.tick(Direction.LEFT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(2, 1));
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(2, 1));
     }
     
     @Test
@@ -147,46 +147,46 @@ public class EnemyTest {
         DungeonManiaController controller = new DungeonManiaController();
 
         DungeonResponse response = controller.newGame("d_player_invincible_test", "c_long_potion_duration");
-        Position current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        Position current_position = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         Position player_position = getPlayer(response).get().getPosition();
-        Integer distance = check_distance(current_positoin ,player_position);
+        Integer distance = check_distance(current_position ,player_position);
         assertEquals(5, distance);
 
         // closer
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(3, distance);
 
         // away
         String itemUsedId = getInventory(response, "invincibility_potion").get(0).getId();
         response = controller.tick(itemUsedId);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(4, distance);
 
         // away (move relatively stationary, so no change on distance)
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(4, distance);
 
         // away
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(4, distance);
 
         // away
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(4, distance);
     }
 
@@ -195,17 +195,17 @@ public class EnemyTest {
         DungeonManiaController controller = new DungeonManiaController();
 
         DungeonResponse response = controller.newGame("d_player_invisible_test", "c_long_potion_duration");
-        Position current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(6, 1));
+        Position current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(6, 1));
 
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertEquals(current_positoin, new Position(5, 1));
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertEquals(current_position, new Position(5, 1));
 
         String itemUsedId = getInventory(response, "invisibility_potion").get(0).getId();
         response = controller.tick(itemUsedId);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        assertNotEquals(current_positoin, new Position(5, 1));
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
+        assertNotEquals(current_position, new Position(5, 1));
     }
 
     @Test
@@ -213,32 +213,32 @@ public class EnemyTest {
         DungeonManiaController controller = new DungeonManiaController();
 
         DungeonResponse response = controller.newGame("d_player_invincible_test", "simple");
-        Position current_positoin = getEntities(response, "mercenary").get(0).getPosition();
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        Position current_position = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         Position player_position = getPlayer(response).get().getPosition();
-        Integer distance = check_distance(current_positoin ,player_position);
+        Integer distance = check_distance(current_position ,player_position);
         assertEquals(5, distance);
 
         // closer
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(3, distance);
 
         // away
         String itemUsedId = getInventory(response, "invincibility_potion").get(0).getId();
         response = controller.tick(itemUsedId);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(4, distance);
 
         // closer (back to default behavior)
         response = controller.tick(Direction.RIGHT);
-        current_positoin = getEntities(response, "mercenary").get(0).getPosition();
+        current_position = getEntities(response, "mercenary").get(0).getPosition();
         player_position = getPlayer(response).get().getPosition();
-        distance = check_distance(current_positoin ,player_position);
+        distance = check_distance(current_position ,player_position);
         assertEquals(2, distance);
     }
 
