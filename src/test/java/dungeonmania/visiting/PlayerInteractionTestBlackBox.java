@@ -58,6 +58,18 @@ public class PlayerInteractionTestBlackBox {
     }
 
     @Test
+    public void playBlockedAlonePortalBlackBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_alone_portal",
+                "simple");
+
+        DungeonResponse res = dmc.tick(Direction.DOWN);
+
+        assertEquals(new Position(2, 2), TestUtils.getEntities(res, "player").get(0).getPosition());
+    }
+
+
+    @Test
     public void playerVisitsWallTest() {
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse res = dmc.newGame("d_visitWall",
