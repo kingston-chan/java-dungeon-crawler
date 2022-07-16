@@ -39,7 +39,6 @@ public class Dungeon {
     private List<Battle> battles = new ArrayList<>();
     private String dungeonId = UUID.randomUUID().toString();
     private String dungeonName = "";
-    private String configName = "";
     private String config = "";
     private Goal goals = null;
     private FactoryChooser factoryChooser = new FactoryChooser();
@@ -60,7 +59,6 @@ public class Dungeon {
     }
 
     public String initDungeon(String dungeonName, String configName) {
-        this.configName = configName;
         this.dungeonName = dungeonName;
         try {
             this.config = FileLoader.loadResourceFile("/configs/" + configName + ".json");
