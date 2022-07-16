@@ -6,11 +6,25 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.wall.Wall;
 import dungeonmania.factory.actorfactory.ZombieToastBuilder;
 import dungeonmania.util.Position;
 
 public class ZombieToastSpawner extends StaticObject {
     private int tickCounter = 0;
+
+    private Position findOpenPosition() {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+
+        try {
+            return getPosition().getAdjacentCardinalPositions().stream()
+                    .filter(p -> !dungeon.getStaticObjectsAtPosition(p)
+                            .stream().anyMatch(o -> o instanceof Wall))
+                    .findFirst().get();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public void updateSpawnRate() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
@@ -21,17 +35,13 @@ public class ZombieToastSpawner extends StaticObject {
         }
 
         tickCounter += 1;
+
         if (tickCounter % spawnrate == 0) {
             // check cardional directions
-            List<Position> adjacentCardinalPositions = this.getPosition().getAdjacentCardinalPositions();
-
-            for (Position position : adjacentCardinalPositions) {
-
-                if (dungeon.getObjectsAtPosition(position).size() == 0) {
-                    ZombieToastBuilder builder = new ZombieToastBuilder();
-                    builder.buildActor(position, "zombie_toast");
-                    return;
-                }
+            Position spawnPosition = findOpenPosition();
+            if (spawnPosition != null) {
+                ZombieToastBuilder builder = new ZombieToastBuilder();
+                builder.buildActor(spawnPosition, "zombie_toast");
             }
         }
 

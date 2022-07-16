@@ -59,9 +59,9 @@ public class Dungeon {
     }
 
     public String initDungeon(String dungeonName, String configName) {
-        this.config = configName;
         this.dungeonName = dungeonName;
         try {
+            this.config = FileLoader.loadResourceFile("/configs/" + configName + ".json");
             JSONObject resource = new JSONObject(FileLoader.loadResourceFile("/dungeons/" + dungeonName + ".json"));
             JSONArray array = resource.getJSONArray("entities");
 
@@ -138,7 +138,7 @@ public class Dungeon {
 
     public int getConfig(String configKey) {
         try {
-            JSONObject resource = new JSONObject(FileLoader.loadResourceFile("/configs/" + this.config + ".json"));
+            JSONObject resource = new JSONObject(this.config);
             return resource.getInt(configKey);
         } catch (Exception e) {
             e.printStackTrace();
@@ -230,13 +230,13 @@ public class Dungeon {
         Position spiderPosition = new Position(spider_x, spider_y);
 
         Spider newSpider = new Spider();
-        newSpider.setAttackPoints(getConfig("spider_spawn_rate"));
-        newSpider.setHealthPoints(getConfig("spider_spawn_rate"));
+        newSpider.setAttackPoints(getConfig("spider_attack"));
+        newSpider.setHealthPoints(getConfig("spider_health"));
         newSpider.setType("spider");
         newSpider.setUniqueId(UUID.randomUUID().toString());
 
-        while (getObjectsAtPosition(spiderPosition).stream()
-                .allMatch(o -> o.canAccept(newSpider)) == false) {
+        while (!getObjectsAtPosition(spiderPosition).stream()
+                .allMatch(o -> o.canAccept(newSpider))) {
             spider_x = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
                     MIN_SPIDER_SPAWN;
             spider_y = rng.nextInt(MAX_SPIDER_SPAWN - MIN_SPIDER_SPAWN + 1) +
