@@ -45,25 +45,21 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                         if (occupants.stream().allMatch(obj -> obj.canAccept(npa))) {
                             visited.put(pos, curr);
                             queue.add(pos);
+
+                            // Checks for portal aswell
+                            try {
+                                Portal portal = occupants.stream().filter(o -> o instanceof Portal).map(o -> (Portal) o)
+                                        .findFirst().get();
+                                Position destination = portal.getExitPosition(curr);
+                                if (!(visited.containsKey(destination))) {
+                                    visited.put(destination, pos);
+                                    queue.add(destination);
+                                }
+                            } catch (Exception e) {
+                                continue;
+                            }
                         }
 
-                        // Checks for portal aswell
-                        try {
-                            Portal portal = occupants.stream().filter(o -> o instanceof Portal).map(o -> (Portal) o)
-                                    .findFirst().get();
-                            Position destination = portal.getDestination();
-                            for (Position p : destination.getAdjacentCardinalPositions()) {
-                                if (!(visited.containsKey(p))) {
-                                    List<DungeonObject> dungeonObjects = dungeon.getObjectsAtPosition(p);
-                                    if (dungeonObjects.stream().allMatch(obj -> obj.canAccept(npa))) {
-                                        visited.put(p, curr);
-                                        queue.add(p);
-                                    }
-                                }
-                            }
-                        } catch (Exception e) {
-                            continue;
-                        }
                     }
 
                 }
@@ -74,20 +70,26 @@ public class MoveTowardsPlayer implements MovementBehaviour {
         if (!playerFound) {
             return;
         }
+        Position newPosition;
+        Position currPosition = npa.getPosition();
 
         // get the step to the closest path
         if (visited.get(playerPosition).equals(npa.getPosition())) {
-            npa.setPosition(playerPosition);
+            newPosition = playerPosition;
         } else {
             Position next = visited.get(playerPosition);
             while (visited.get(next) != npa.getPosition()) {
                 next = visited.get(next);
             }
-            npa.setPosition(next);
+            newPosition = next;
         }
+        // visit objects at new position
+        dungeon.getObjectsAtPosition(newPosition).stream().forEach(o -> o.doAccept(npa));
 
-        // set Position
-        dungeon.getObjectsAtPosition(npa.getPosition()).stream().forEach(o -> o.doAccept(npa));
+        // checks if it took another portal in above for each
+        if (npa.getPosition().equals(currPosition)) {
+            npa.setPosition(newPosition);
+        }
     }
 
 }
