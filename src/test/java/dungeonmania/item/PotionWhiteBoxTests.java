@@ -25,7 +25,6 @@ public class PotionWhiteBoxTests {
 
         for (int i = 0; i < 5; i++) {
             player.consumeQueuedPotionEffect();
-            System.out.println(player.getPotionConsumed());
         }
 
         assertEquals(player.getPotionConsumed(), invincibilityPotion);
