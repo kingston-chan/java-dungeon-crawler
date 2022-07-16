@@ -299,7 +299,8 @@ public class PlayerIntegrationWhiteBoxTests {
                     "c_battleTestsMultipleRounds")), br.getInitialPlayerHealth());
             assertEquals(1, br.getRounds().size());
             assertEquals(1, br.getRounds().get(0).getWeaponryUsed().size());
-            assertEquals(invincibilityPotion.getUniqueId(), br.getRounds().get(0).getWeaponryUsed().get(0).getId());
+            assertEquals(invincibilityPotion.getUniqueId(),
+                    br.getRounds().get(0).getWeaponryUsed().get(0).getId());
         }
 
         assertEquals(0, testDungeon.getNonPlayableActors().size());
@@ -353,7 +354,7 @@ public class PlayerIntegrationWhiteBoxTests {
         assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
                 "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
 
-        int enemyAttack = Integer.parseInt(getValueFromConfigFile("zombie_attack",
+        int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
                 "c_battleTestsMultipleRounds"));
         int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
                 "c_battleTestsMultipleRounds")) + Integer.parseInt(
@@ -402,7 +403,7 @@ public class PlayerIntegrationWhiteBoxTests {
         assertEquals((double) Integer.parseInt(getValueFromConfigFile("mercenary_health",
                 "c_battleTestsMultipleRounds")), br.getInitialEnemyHealth());
 
-        int enemyAttack = Integer.parseInt(getValueFromConfigFile("zombie_attack",
+        int enemyAttack = Integer.parseInt(getValueFromConfigFile("mercenary_attack",
                 "c_battleTestsMultipleRounds"));
         int playerAttack = Integer.parseInt(getValueFromConfigFile("player_attack",
                 "c_battleTestsMultipleRounds")) * 2;
