@@ -2,15 +2,13 @@ package dungeonmania.entities.goal;
 
 public class OrGoal extends ComplexGoal {
 
-    @Override
-    public boolean hasAchieved() {
-        return getSubGoal1().hasAchieved() || getSubGoal2().hasAchieved();
+    public OrGoal(Goal subGoal1, Goal subGoal2) {
+        super(subGoal1, subGoal2);
     }
 
     @Override
-    public void addSubgoals(Goal subGoal1, Goal subGoal2) {
-        setSubGoal1(subGoal1);
-        setSubGoal2(subGoal2);
+    public boolean hasAchieved() {
+        return getSubGoal1().hasAchieved() || getSubGoal2().hasAchieved();
     }
 
     @Override
