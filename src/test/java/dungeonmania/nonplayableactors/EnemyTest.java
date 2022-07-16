@@ -1,5 +1,4 @@
-package dungeonmania.enemy;
-
+package dungeonmania.nonplayableactors;
 
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,7 @@ public class EnemyTest {
 
     @Nested
     public class testSpiderUnaffected {
-        
+
         @Test
         public void testSpiderWalls() {
 
@@ -42,22 +41,22 @@ public class EnemyTest {
 
         @Test
         public void testSpiderDoors() {
-            
+
         }
 
         @Test
         public void testSpiderPortals() {
-            
+
         }
 
         @Test
         public void testSpiderSwitches() {
-            
+
         }
 
         @Test
         public void testSpiderExits() {
-            
+
         }
     }
 
@@ -65,7 +64,7 @@ public class EnemyTest {
     public void testMercenaryMovesTowardsPlayer() {
 
     }
-    
+
     @Test
     public void testMercAndZombieMoveAwayInvincible() {
 
@@ -73,7 +72,7 @@ public class EnemyTest {
 
     @Test
     public void testMercMoveRandomPlayerInvis() {
-        
+
     }
 
     @Test
@@ -103,10 +102,7 @@ public class EnemyTest {
 
     @Test
     public void testMoreThanOneAlly() {
-        
+
     }
-
-
-
 
 }
