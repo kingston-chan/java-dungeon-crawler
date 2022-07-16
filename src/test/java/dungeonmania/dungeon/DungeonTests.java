@@ -270,16 +270,13 @@ public class DungeonTests {
             assertEquals(":exit AND :boulders", dres.getGoals());
 
             dmc.tick(Direction.UP);
-            dmc.tick(Direction.RIGHT);
+            dres = dmc.tick(Direction.RIGHT);
             //boulder in positon 
-            assertEquals(":exit AND :boulders", dres.getGoals());
+            assertEquals(":exit", dres.getGoals());
             dmc.tick(Direction.LEFT);
             dres = dmc.tick(Direction.DOWN);
             assertEquals("", dres.getGoals());
         }
-
-
-
 
         @Test
         public void tickSpawnSpiders() {
