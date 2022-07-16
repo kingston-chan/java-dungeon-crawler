@@ -76,13 +76,11 @@ public class MoveTowardsPlayer implements MovementBehaviour {
         // get the step to the closest path
         if (visited.get(playerPosition).equals(npa.getPosition())) {
             newPosition = playerPosition;
-            // npa.setPosition(playerPosition);
         } else {
             Position next = visited.get(playerPosition);
             while (visited.get(next) != npa.getPosition()) {
                 next = visited.get(next);
             }
-            // npa.setPosition(next);
             newPosition = next;
         }
         // visit objects at new position
