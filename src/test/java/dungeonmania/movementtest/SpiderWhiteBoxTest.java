@@ -22,7 +22,7 @@ public class SpiderWhiteBoxTest {
     public void testSpiderNormalPath() {
         DungeonManiaController controller = new DungeonManiaController();
 
-        DungeonResponse response = controller.newGame("d_test_spider_movement", "simple");
+        DungeonResponse response = controller.newGame("d_test_spider_movement", "c_spider_spawn_rate_0");
         Position current_positoin = getEntities(response, "spider").get(0).getPosition();
         assertEquals(current_positoin, new Position(3, 3));
 
