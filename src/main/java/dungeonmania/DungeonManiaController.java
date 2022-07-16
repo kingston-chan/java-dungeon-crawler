@@ -146,7 +146,8 @@ public class DungeonManiaController {
             throw new IllegalArgumentException();
         }
 
-        if (!player.interact(entityId)) {
+        Boolean check = player.interact(entityId);
+        if (!check) {
             throw new InvalidActionException(entityId);
         }
 
