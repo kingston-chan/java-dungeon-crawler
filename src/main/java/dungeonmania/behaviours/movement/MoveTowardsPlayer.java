@@ -81,12 +81,11 @@ public class MoveTowardsPlayer implements MovementBehaviour {
             Position next = visited.get(playerPosition);
             while (visited.get(next) != npa.getPosition()) {
                 next = visited.get(next);
-                System.out.println(next);
             }
             // npa.setPosition(next);
             newPosition = next;
         }
-        // set Position
+        // visit objects at new position
         dungeon.getObjectsAtPosition(newPosition).stream().forEach(o -> o.doAccept(npa));
 
         // checks if it took another portal in above for each

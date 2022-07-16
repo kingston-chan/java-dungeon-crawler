@@ -39,8 +39,9 @@ public class MoveAwayFromPlayer implements MovementBehaviour {
 
         dungeon.getObjectsAtPosition(best_position).forEach(o -> o.doAccept(npa));
 
+        // for merc, if they teleport
         if (oldPos.equals(npa.getPosition())) {
-            npa.setPosition(oldPos);
+            npa.setPosition(best_position);
         }
     }
 }
