@@ -7,6 +7,7 @@ import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.util.Position;
 
@@ -80,5 +81,10 @@ public class Mercenary extends NonPlayableActor {
     @Override
     public boolean canVisitPortal(Portal portal) {
         return portal.getExitPosition(getPosition()) != null;
+    }
+
+    @Override
+    public boolean canVisitDoor(Door door) {
+        return door.isOpened();
     }
 }

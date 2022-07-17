@@ -18,6 +18,10 @@ public class Door extends StaticObject {
         return this.keyNum;
     }
 
+    public boolean isOpened() {
+        return this.isOpened;
+    }
+
     @Override
     public boolean canAccept(Player player) {
         if (this.isOpened) {
@@ -39,7 +43,7 @@ public class Door extends StaticObject {
 
     @Override
     public boolean canAccept(NonPlayableActor nonplayableactor) {
-        return this.isOpened;
+        return nonplayableactor.canVisitDoor(this);
     }
 
     @Override
