@@ -1,0 +1,65 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "type": "zombie_toast",
+            "x": 5,
+            "y": 5
+        },
+        {
+            "type": "portal",
+            "x": 4,
+            "y": 5,
+            "colour":"RED"
+        },
+        {
+            "type": "portal",
+            "x": 4,
+            "y": 4,
+            "colour":"RED"
+        },
+        {
+            "type": "portal",
+            "x": 5,
+            "y": 4,
+            "colour":"BLACK"
+        },
+        {
+            "type": "portal",
+            "x": 6,
+            "y": 4,
+            "colour":"BLACK"
+        },
+        {
+            "type": "portal",
+            "x": 6,
+            "y": 5,
+            "colour":"YELLOW"
+        },
+        {
+            "type": "portal",
+            "x": 6,
+            "y": 6,
+            "colour":"YELLOW"
+        },
+        {
+            "type": "portal",
+            "x": 5,
+            "y": 6,
+            "colour":"BLUE"
+        },
+        {
+            "type": "portal",
+            "x": 4,
+            "y": 6,
+            "colour":"BLUE"
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}
