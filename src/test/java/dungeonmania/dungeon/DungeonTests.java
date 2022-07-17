@@ -192,6 +192,7 @@ public class DungeonTests {
             Dungeon testDungeon = DungeonManiaController.getDungeon();
             assertEquals("", testDungeon.getDungeonResponse().getGoals());
         }
+
     }
 
     @Nested
@@ -255,6 +256,26 @@ public class DungeonTests {
             dres = dmc.tick(Direction.RIGHT);
 
             assertEquals(dres.getGoals(), "");
+        }
+
+        @Test
+        public void checkExitGoalLast() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            DungeonResponse dres = dmc.newGame("d_exitLast", "simple");
+
+            assertEquals(":exit AND :boulders", dres.getGoals());
+        
+            // now on exit, but exit must be done last
+            dres = dmc.tick(Direction.DOWN);
+            assertEquals(":exit AND :boulders", dres.getGoals());
+
+            dmc.tick(Direction.UP);
+            dres = dmc.tick(Direction.RIGHT);
+            //boulder in positon 
+            assertEquals(":exit", dres.getGoals());
+            dmc.tick(Direction.LEFT);
+            dres = dmc.tick(Direction.DOWN);
+            assertEquals("", dres.getGoals());
         }
 
         @Test

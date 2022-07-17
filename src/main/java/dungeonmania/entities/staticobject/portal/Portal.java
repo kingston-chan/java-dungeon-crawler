@@ -33,6 +33,9 @@ public class Portal extends StaticObject {
     }
 
     public Position getExitPosition(Position visitingFrom) {
+        if (getDestinationPortal() == null) {
+            return null;
+        }
         Position dirVisitingFrom = Position.calculatePositionBetween(this.getPosition(), visitingFrom);
 
         Position exitPosition = new Position(
@@ -58,11 +61,15 @@ public class Portal extends StaticObject {
 
     private Portal getDestinationPortal() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        return dungeon.getStaticObjects().stream()
-                .filter(o -> o instanceof Portal)
-                .map(p -> (Portal) p)
-                .filter(p -> p.isDestination(this))
-                .findFirst().get();
+        try {
+            return dungeon.getStaticObjects().stream()
+                    .filter(o -> o instanceof Portal)
+                    .map(p -> (Portal) p)
+                    .filter(p -> p.isDestination(this))
+                    .findFirst().get();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public Position getDestination() {
