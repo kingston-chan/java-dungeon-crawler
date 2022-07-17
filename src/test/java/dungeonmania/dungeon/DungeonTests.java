@@ -259,6 +259,13 @@ public class DungeonTests {
         }
 
         @Test
+        public void testPlayerDisjunctionInConjunctionGoal() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            DungeonResponse dres = dmc.newGame("d_halfComplexAndOrGoals",
+                    "c_complexGoalsTest_andAll");
+        }
+
+        @Test
         public void testPlayerExitDisjunctionInConjunctionGoal() {
             DungeonManiaController dmc = new DungeonManiaController();
             DungeonResponse dres = dmc.newGame("d_halfComplexExitOrAndGoals",
@@ -284,10 +291,9 @@ public class DungeonTests {
 
             dmc.tick(Direction.LEFT);
             dmc.tick(Direction.DOWN);
-            dmc.tick(Direction.DOWN);
             dres = dmc.tick(Direction.RIGHT);
 
-            // exit in disjunction goal so all goals achieved
+            // treasure goal achieved in disjunction goal so all goals achieved
             assertEquals("", dres.getGoals());
         }
 
