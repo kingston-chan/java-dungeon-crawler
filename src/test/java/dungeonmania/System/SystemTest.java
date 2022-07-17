@@ -25,19 +25,27 @@ public class SystemTest {
         //testing moving and building and battle
         assertThrows(InvalidActionException.class, () -> dmc.build("bow"));
         
+        assertEquals(":exit AND :enemies", dres.getGoals()); 
+
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.RIGHT);
         dmc.tick(Direction.RIGHT);
         dres = dmc.tick(Direction.RIGHT);
 
         assertDoesNotThrow(() -> dmc.build("bow"));
+        
+        dres = dmc.tick(Direction.RIGHT);
+        // should have fought now
+        // player should be alive
+        assertEquals(1, TestUtils.countEntityOfType(dres, "player"));
 
-        dmc.tick(Direction.RIGHT);
-        // should be fighting now
-    // player should be alive
-    assertEquals(1, TestUtils.countEntityOfType(dres, "player"));
+        // merc dies
+        assertEquals(0, TestUtils.countEntityOfType(dres, "mercenary"));
+        assertEquals(":exit", dres.getGoals()); 
 
-    // zombie dies
-    assertEquals(0, TestUtils.countEntityOfType(dres, "mercenary"));
+        //move to exit
+        dres = dmc.tick(Direction.RIGHT);
+        assertEquals("", dres.getGoals()); 
+
     }
 }

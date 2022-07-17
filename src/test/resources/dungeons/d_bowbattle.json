@@ -27,11 +27,24 @@
         },
         {
             "type": "mercenary",
-            "x": 9,
+            "x": 10,
+            "y": 1
+        }, 
+        {
+            "type": "exit",
+            "x": 7,
             "y": 1
         }
     ],
     "goal-condition": {
-        "goal": "enemies"
+        "goal": "AND",
+                "subgoals": [
+                    {
+                        "goal": "exit"
+                    },
+                    {
+                        "goal": "enemies"
+                    }
+                ]
     }
 }
