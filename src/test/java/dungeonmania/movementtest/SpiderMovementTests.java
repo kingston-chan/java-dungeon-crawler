@@ -12,7 +12,55 @@ import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
+import static dungeonmania.TestUtils.getEntities;
+
 public class SpiderMovementTests {
+    @Test
+    public void testSpiderNormalPath() {
+        DungeonManiaController controller = new DungeonManiaController();
+
+        DungeonResponse response = controller.newGame("d_test_spider_movement", "c_spider_spawn_rate_0");
+        Position current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(3, 3));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(3, 2));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(4, 2));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(4, 3));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(4, 4));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(3, 4));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(2, 4));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(2, 3));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(2, 2));
+
+        response = controller.tick(Direction.UP);
+        current_positoin = getEntities(response, "spider").get(0).getPosition();
+        assertEquals(current_positoin, new Position(3, 2));
+        // a loop here
+    }
+
     @Test
     public void testSpiderBoulderOnUpOfSpiderSpawn() {
         DungeonManiaController controller = new DungeonManiaController();
