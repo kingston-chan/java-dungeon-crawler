@@ -1,6 +1,7 @@
 package dungeonmania.entities.staticobject.door;
 
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
+import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Key;
 import dungeonmania.entities.staticobject.StaticObject;
