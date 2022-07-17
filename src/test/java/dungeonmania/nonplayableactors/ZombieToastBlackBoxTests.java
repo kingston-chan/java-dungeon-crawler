@@ -40,16 +40,6 @@ public class ZombieToastBlackBoxTests {
     }
 
     @Test
-    public void testZombiePortal() {
-        DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("zombietests/d_portalZombie", "c_noSpawns");
-        DungeonResponse dres = controller.tick(Direction.UP);
-        // zombie should move down since they can move on portals
-        assertEquals(TestUtils.getEntities(dres, "portal").get(0).getPosition(),
-                TestUtils.getEntities(dres, "zombie_toast").get(0).getPosition());
-    }
-
-    @Test
     public void testZombieSwitch() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("zombietests/d_switchZombie", "c_noSpawns");

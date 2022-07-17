@@ -1,4 +1,4 @@
-package dungeonmania.visiting;
+package dungeonmania.player;
 
 import org.junit.jupiter.api.Test;
 
@@ -67,7 +67,6 @@ public class PlayerInteractionTestBlackBox {
 
         assertEquals(new Position(2, 2), TestUtils.getEntities(res, "player").get(0).getPosition());
     }
-
 
     @Test
     public void playerVisitsWallTest() {
