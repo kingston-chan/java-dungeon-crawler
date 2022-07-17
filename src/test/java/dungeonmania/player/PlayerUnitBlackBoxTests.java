@@ -270,4 +270,5 @@ public class PlayerUnitBlackBoxTests {
         // no weapon
         assertThrows(InvalidActionException.class, () -> dmc.interact(zombieSpawner.getId()));
     }
+
 }
