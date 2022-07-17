@@ -2,6 +2,7 @@ package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 
 public class Spider extends NonPlayableActor {
@@ -31,4 +32,8 @@ public class Spider extends NonPlayableActor {
         return true;
     }
 
+    @Override
+    public boolean canVisitDoor(Door door) {
+        return true;
+    }
 }

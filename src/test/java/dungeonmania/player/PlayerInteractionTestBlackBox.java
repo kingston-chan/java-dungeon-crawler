@@ -1,4 +1,4 @@
-package dungeonmania.visiting;
+package dungeonmania.player;
 
 import org.junit.jupiter.api.Test;
 
@@ -51,6 +51,17 @@ public class PlayerInteractionTestBlackBox {
         DungeonManiaController dmc = new DungeonManiaController();
         dmc.newGame("d_unreachablePortalDestination",
                 "c_battleTests_basicMercenaryMercenaryDies");
+
+        DungeonResponse res = dmc.tick(Direction.DOWN);
+
+        assertEquals(new Position(2, 2), TestUtils.getEntities(res, "player").get(0).getPosition());
+    }
+
+    @Test
+    public void playBlockedAlonePortalBlackBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_alone_portal",
+                "simple");
 
         DungeonResponse res = dmc.tick(Direction.DOWN);
 
