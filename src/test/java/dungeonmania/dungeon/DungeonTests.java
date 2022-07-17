@@ -259,6 +259,29 @@ public class DungeonTests {
         }
 
         @Test
+        public void testDisjunctionInConjunctionGoal() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            DungeonResponse dres = dmc.newGame("d_halfComplexExitOrAndGoals",
+                    "c_complexGoalsTest_andAll");
+
+            assertEquals("(:exit OR :treasure) AND :boulders", dres.getGoals());
+
+            dmc.tick(Direction.DOWN);
+            dmc.tick(Direction.RIGHT);
+            dres = dmc.tick(Direction.RIGHT);
+
+            // treasure in disjunction goal and is achieved so exit is also achieved
+            assertEquals(":boulders", dres.getGoals());
+
+            dmc.tick(Direction.LEFT);
+            dmc.tick(Direction.UP);
+            dres = dmc.tick(Direction.RIGHT);
+
+            // boulder goal achieved, all goals achieved
+            assertEquals("", dres.getGoals());
+        }
+
+        @Test
         public void testPlayerExitDisjunctionInConjunctionGoal() {
             DungeonManiaController dmc = new DungeonManiaController();
             DungeonResponse dres = dmc.newGame("d_halfComplexExitOrAndGoals",
@@ -282,9 +305,7 @@ public class DungeonTests {
             // boulder goal achieved
             assertEquals(":exit OR :treasure", dres.getGoals());
 
-            dmc.tick(Direction.LEFT);
-            dmc.tick(Direction.DOWN);
-            dres = dmc.tick(Direction.RIGHT);
+            dres = dmc.tick(Direction.DOWN);
 
             // treasure goal achieved in disjunction goal so all goals achieved
             assertEquals("", dres.getGoals());
