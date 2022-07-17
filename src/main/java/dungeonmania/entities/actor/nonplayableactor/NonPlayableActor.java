@@ -3,6 +3,7 @@ package dungeonmania.entities.actor.nonplayableactor;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.Actor;
 import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 
 public abstract class NonPlayableActor extends Actor {
@@ -36,6 +37,8 @@ public abstract class NonPlayableActor extends Actor {
     public abstract boolean canVisitWall();
 
     public abstract boolean canVisitPortal(Portal portal);
+
+    public abstract boolean canVisitDoor(Door door);
 
     public abstract void update(MovementBehaviour movementBehaviour);
 

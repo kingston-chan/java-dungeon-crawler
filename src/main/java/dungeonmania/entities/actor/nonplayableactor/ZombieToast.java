@@ -1,6 +1,7 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 
@@ -32,4 +33,8 @@ public class ZombieToast extends NonPlayableActor {
         return true;
     }
 
+    @Override
+    public boolean canVisitDoor(Door door) {
+        return door.isOpened();
+    }
 }
