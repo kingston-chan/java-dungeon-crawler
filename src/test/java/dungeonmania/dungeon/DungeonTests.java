@@ -259,13 +259,6 @@ public class DungeonTests {
         }
 
         @Test
-        public void testPlayerDisjunctionInConjunctionGoal() {
-            DungeonManiaController dmc = new DungeonManiaController();
-            DungeonResponse dres = dmc.newGame("d_halfComplexAndOrGoals",
-                    "c_complexGoalsTest_andAll");
-        }
-
-        @Test
         public void testPlayerExitDisjunctionInConjunctionGoal() {
             DungeonManiaController dmc = new DungeonManiaController();
             DungeonResponse dres = dmc.newGame("d_halfComplexExitOrAndGoals",
