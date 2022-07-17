@@ -2,6 +2,7 @@ package dungeonmania.player;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -14,6 +15,7 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
 import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class PlayerUnitBlackBoxTests {
     @Test
@@ -196,11 +198,17 @@ public class PlayerUnitBlackBoxTests {
 
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
 
-        for (EntityResponse e : dres.getEntities()) {
-            if (e.getType().equals("mercenary")) {
-                assertDoesNotThrow(() -> dmc.interact(e.getId()));
-            }
-        }
+        EntityResponse merc = TestUtils.getEntities(dres, "mercenary").get(0);
+        Position playerPrevPos = TestUtils.getPlayer(dres).get().getPosition();
+
+        assertDoesNotThrow(() -> dmc.interact(merc.getId()));
+
+        // should follow player (move to player's prev pos) if ally and not interactable
+        dres = dmc.tick(Direction.RIGHT);
+
+        EntityResponse ally = TestUtils.getEntities(dres, "mercenary").get(0);
+        assertEquals(playerPrevPos, ally.getPosition());
+        assertFalse(ally.isInteractable());
     }
 
     @Test
@@ -221,44 +229,46 @@ public class PlayerUnitBlackBoxTests {
     }
 
     @Test
-    public void testInteractThrowsCorrectExceptions() {
+    public void testMercenaryInteractExceptions() {
         DungeonManiaController dmc = new DungeonManiaController();
-        DungeonResponse dres = dmc.newGame("d_mercenaryInteract",
-                "c_battleTests_basicMercenaryMercenaryDies");
 
-        for (EntityResponse e : dres.getEntities()) {
-            if (e.getType().equals("mercenary")) {
-                assertThrows(InvalidActionException.class, () -> dmc.interact(e.getId()));
-            }
-        }
-
-        dmc.tick(Direction.DOWN);
-        dmc.tick(Direction.RIGHT);
-
-        for (EntityResponse e : dres.getEntities()) {
-            if (e.getType().equals("mercenary")) {
-                assertThrows(InvalidActionException.class, () -> dmc.interact(e.getId()));
-            }
-        }
-
-        DungeonManiaController dmc2 = new DungeonManiaController();
-        DungeonResponse dres2 = dmc2.newGame("d_zombieSpawnerInteract",
-                "c_battleTests_basicMercenaryMercenaryDies");
-
-        for (EntityResponse e : dres2.getEntities()) {
-            if (e.getType().equals("zombie_toast_spawner")) {
-                assertThrows(InvalidActionException.class, () -> dmc.interact(e.getId()));
-            }
-        }
+        // not in range
+        assertThrows(InvalidActionException.class, () -> {
+            DungeonResponse dres = dmc.newGame("d_mercenaryInteract",
+                    "c_battleTests_basicMercenaryMercenaryDies");
+            EntityResponse merc = TestUtils.getEntities(dres, "mercenary").get(0);
+            dmc.interact(merc.getId());
+        });
 
         dmc.tick(Direction.DOWN);
-        dmc.tick(Direction.RIGHT);
-        dmc.tick(Direction.RIGHT);
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
 
-        for (EntityResponse e : dres2.getEntities()) {
-            if (e.getType().equals("zombie_toast_spawner")) {
-                assertThrows(InvalidActionException.class, () -> dmc.interact(e.getId()));
-            }
-        }
+        EntityResponse merc = TestUtils.getEntities(dres, "mercenary").get(0);
+        // not enough treasure to bribe
+        assertThrows(InvalidActionException.class, () -> dmc.interact(merc.getId()));
+
     }
+
+    @Test
+    public void testZombieSpawnInteractExceptions() {
+        DungeonManiaController dmc = new DungeonManiaController();
+
+        // not in range
+        assertThrows(InvalidActionException.class, () -> {
+            DungeonResponse dres = dmc.newGame("d_zombieSpawnerInteract",
+                    "c_battleTests_basicMercenaryMercenaryDies");
+
+            EntityResponse zombieSpawner = TestUtils.getEntities(dres, "zombie_toast_spawner").get(0);
+            dmc.interact(zombieSpawner.getId());
+        });
+
+        dmc.tick(Direction.DOWN);
+        dmc.tick(Direction.RIGHT);
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        EntityResponse zombieSpawner = TestUtils.getEntities(dres, "zombie_toast_spawner").get(0);
+        // no weapon
+        assertThrows(InvalidActionException.class, () -> dmc.interact(zombieSpawner.getId()));
+    }
+
 }
