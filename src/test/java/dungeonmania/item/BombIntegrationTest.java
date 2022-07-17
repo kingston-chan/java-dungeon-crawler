@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.ItemResponse;
@@ -136,5 +137,57 @@ public class BombIntegrationTest {
 
         count = countEntityOfType(current_state, "player");
         assertEquals(count, 1);
+    }
+
+    @Test
+    public void testExplodeTwoBombs() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse dres = controller.newGame("d_2bombs", "c_bombTest_placeBombRadius1");
+
+        // 3 walls total, 2 should be destroyed at when switch gets activate
+        // 1 is not in range of both bombs, 1 is in range of both bombs, 1 is only in
+        // range of one bomb
+        assertEquals(3, TestUtils.countEntityOfType(dres, "wall"));
+        // 2 treasure, 1 is not in range of both bombs, 1 is only in range of one bomb
+        assertEquals(2, TestUtils.countEntityOfType(dres, "treasure"));
+
+        controller.tick(Direction.DOWN);
+        // pick up bomb 1
+        controller.tick(Direction.RIGHT);
+
+        assertDoesNotThrow(() -> {
+            // sets bomb below switch
+            DungeonResponse res = controller.tick(Direction.RIGHT);
+            res = controller.tick(TestUtils.getInventory(res, "bomb").get(0).getId());
+            assertTrue(res.getInventory().isEmpty());
+        });
+
+        controller.tick(Direction.LEFT);
+        controller.tick(Direction.LEFT);
+
+        controller.tick(Direction.UP);
+        controller.tick(Direction.UP);
+
+        // pick up bomb2
+        controller.tick(Direction.RIGHT);
+
+        assertDoesNotThrow(() -> {
+            // sets bomb above switch
+            DungeonResponse res = controller.tick(Direction.RIGHT);
+            res = controller.tick(TestUtils.getInventory(res, "bomb").get(0).getId());
+            assertTrue(res.getInventory().isEmpty());
+        });
+
+        controller.tick(Direction.LEFT);
+        controller.tick(Direction.LEFT);
+        // adjacent to boulder
+        controller.tick(Direction.DOWN);
+        dres = controller.tick(Direction.RIGHT);
+
+        // 2 bombs exploded
+        assertEquals(1, TestUtils.countEntityOfType(dres, "wall"));
+        assertEquals(1, TestUtils.countEntityOfType(dres, "treasure"));
+        assertEquals(0, TestUtils.countEntityOfType(dres, "boulder"));
+        assertEquals(0, TestUtils.countEntityOfType(dres, "switch"));
     }
 }
