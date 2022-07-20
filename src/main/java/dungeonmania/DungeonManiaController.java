@@ -74,6 +74,8 @@ public class DungeonManiaController {
         Player player = currentDungeonInstance.getPlayer();
 
         if (!player.hasInInventory(itemUsedId)) {
+            player.consumeQueuedPotionEffect();
+            player.notifyAllObservers();
             throw new InvalidActionException(itemUsedId);
         }
 
@@ -145,7 +147,6 @@ public class DungeonManiaController {
         if (currentDungeonInstance.getDungeonObject(entityId) == null) {
             throw new IllegalArgumentException();
         }
-        
 
         if (!player.interact(entityId)) {
             throw new InvalidActionException(entityId);
