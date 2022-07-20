@@ -316,4 +316,5 @@ public class PlayerUnitBlackBoxTests {
         dres = dmc.tick(Direction.RIGHT);
         assertFalse(dres.getBattles().isEmpty());
     }
+
 }
