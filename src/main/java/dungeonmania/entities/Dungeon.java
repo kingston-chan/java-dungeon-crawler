@@ -86,7 +86,6 @@ public class Dungeon {
             initialiseAnySwitches();
             return this.dungeonId;
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }

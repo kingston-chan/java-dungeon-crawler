@@ -270,4 +270,50 @@ public class PlayerUnitBlackBoxTests {
         // no weapon
         assertThrows(InvalidActionException.class, () -> dmc.interact(zombieSpawner.getId()));
     }
+
+    @Test
+    public void testTickStillOccursWhenUsingItemNotInInventory() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse dres = dmc.newGame("d_invalidItemIdTick",
+                "c_spider_spawn_rate_0");
+        dres = dmc.tick(Direction.DOWN);
+        ItemResponse potion = dres.getInventory().get(0);
+        assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+        // tick should have occured, therefore battle should have occured
+        assertThrows(InvalidActionException.class, () -> dmc.tick(potion.getId()));
+        // moving out of spider movement path so should not encounter it, if tick didn't
+        // happen
+        dres = dmc.tick(Direction.RIGHT);
+        assertFalse(dres.getBattles().isEmpty());
+
+        double expectedInitialPlayerHealth = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("player_health", "c_spider_spawn_rate_0"));
+        double expectedInitialSpiderHealth = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("spider_health", "c_spider_spawn_rate_0"));
+
+        assertEquals(expectedInitialPlayerHealth, dres.getBattles().get(0).getInitialPlayerHealth());
+        assertEquals(expectedInitialSpiderHealth, dres.getBattles().get(0).getInitialEnemyHealth());
+        assertEquals("spider", dres.getBattles().get(0).getEnemy());
+        assertEquals(1, dres.getBattles().get(0).getRounds().size());
+
+        assertEquals(0.0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
+        assertEquals(-expectedInitialSpiderHealth, dres.getBattles().get(0).getRounds().get(0).getDeltaEnemyHealth());
+        assertEquals(potion.getId(), dres.getBattles().get(0).getRounds().get(0).getWeaponryUsed().get(0).getId());
+
+    }
+
+    @Test
+    public void testTickStillOccursWhenUsingUnusableItem() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse dres = dmc.newGame("d_unusableItemTick",
+                "c_spider_spawn_rate_0");
+        dres = dmc.tick(Direction.RIGHT);
+        ItemResponse sword = dres.getInventory().get(0);
+        // tick should have occured, therefore battle should have occured
+        assertThrows(IllegalArgumentException.class, () -> dmc.tick(sword.getId()));
+        // moving out of spider movement path so should not encounter it, if tick didn't
+        // happen
+        dres = dmc.tick(Direction.RIGHT);
+        assertFalse(dres.getBattles().isEmpty());
+    }
 }
