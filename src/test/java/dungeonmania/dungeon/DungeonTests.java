@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
@@ -355,6 +356,27 @@ public class DungeonTests {
 
             dres = dmc.tick(Direction.LEFT);
             assertTrue(dres.getEntities().size() == 11);
+        }
+
+        @Test
+        public void testEnemyGoalSpawner() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_2spawner",
+                    "c_noSpawns");
+            DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+            assertEquals(1, dres.getBattles().size());
+            // enemy goal is 1, but spawner stil alive
+            assertEquals(":enemies", dres.getGoals());
+
+            dres = dmc.tick(Direction.RIGHT);
+            EntityResponse spawner = TestUtils.getEntities(dres, "zombie_toast_spawner").get(0);
+
+            assertDoesNotThrow(() -> {
+                DungeonResponse res = dmc.interact(spawner.getId());
+                // Achieved because all zombie spawners killed and number of enemies defeated
+                assertEquals("", res.getGoals());
+            });
         }
     }
 }
