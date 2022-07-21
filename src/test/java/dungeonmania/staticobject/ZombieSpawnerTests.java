@@ -1,6 +1,7 @@
 package dungeonmania.staticobject;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import org.junit.jupiter.api.Test;
 
@@ -106,5 +107,17 @@ public class ZombieSpawnerTests {
 
         dres = controller.tick(Direction.LEFT);
         assertEquals(0, TestUtils.countEntityOfType(dres, "zombie_toast"));
+    }
+
+    @Test
+    public void testZombieSpawnsOnPlayerBattle() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse dres = controller.newGame("d_zombieSpawnerOnePosition", "c_zombieSpawnRate");
+        assertEquals(0, TestUtils.countEntityOfType(dres, "zombie_toast"));
+
+        // Player moves on to spawn tile and battle should occur
+        dres = controller.tick(Direction.RIGHT);
+
+        assertFalse(dres.getBattles().isEmpty());
     }
 }

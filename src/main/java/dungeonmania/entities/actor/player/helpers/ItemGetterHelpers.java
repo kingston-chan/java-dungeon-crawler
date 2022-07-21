@@ -4,6 +4,7 @@ import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.entities.item.collectables.Wood;
+import dungeonmania.entities.item.equipment.Sceptre;
 
 public class ItemGetterHelpers {
     public static long getNumTreasure(Player player) {
@@ -58,5 +59,12 @@ public class ItemGetterHelpers {
         for (int i = 0; i < numArrows; i++) {
             player.removeFromInventory(getSingleArrow(player));
         }
+    }
+
+    public static Sceptre getSceptreFromInventory(Player player) {
+        return player.getInventory().stream()
+                .filter(item -> item instanceof Sceptre)
+                .map(item -> (Sceptre) item)
+                .findFirst().get();
     }
 }

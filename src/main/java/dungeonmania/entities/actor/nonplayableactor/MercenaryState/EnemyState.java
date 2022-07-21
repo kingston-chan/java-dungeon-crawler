@@ -34,4 +34,10 @@ public class EnemyState implements MercenaryState {
         mercenary.setDefaultMovement(allyMovement);
         mercenary.setCurrentMovement(allyMovement);
     }
+
+    @Override
+    public void mindcontrol() {
+        // TODO Auto-generated method stub
+        
+    }
 }

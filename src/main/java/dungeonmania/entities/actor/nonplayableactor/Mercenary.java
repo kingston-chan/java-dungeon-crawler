@@ -62,6 +62,10 @@ public class Mercenary extends NonPlayableActor {
         this.currentState.recruit();
     }
 
+    public void mindcontrol() {
+        this.currentState.mindcontrol();
+    }
+
     @Override
     public void update(MovementBehaviour movementBehaviour) {
         this.currentState.updateMovement(movementBehaviour);
