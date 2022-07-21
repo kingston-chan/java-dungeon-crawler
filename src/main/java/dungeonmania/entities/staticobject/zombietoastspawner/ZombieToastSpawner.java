@@ -20,7 +20,7 @@ public class ZombieToastSpawner extends StaticObject {
         try {
             return getPosition().getAdjacentCardinalPositions().stream()
                     .filter(p -> !dungeon.getStaticObjectsAtPosition(p)
-                            .stream().anyMatch(o -> o instanceof Wall))
+                            .stream().anyMatch(o -> o instanceof Wall || o instanceof Boulder))
                     .findFirst().get();
         } catch (Exception e) {
             return null;
