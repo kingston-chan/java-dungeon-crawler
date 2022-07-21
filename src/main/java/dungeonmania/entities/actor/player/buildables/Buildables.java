@@ -9,6 +9,8 @@ public class Buildables {
     public Buildables() {
         blueprints.put("bow", new BowBlueprint());
         blueprints.put("shield", new ShieldBlueprint());
+        blueprints.put("midnight_armour", new MidnightArmourBlueprint());
+        blueprints.put("sceptre", new SceptreBlueprint());
     }
 
     public BuildableBlueprint getBlueprint(String itemType) {
