@@ -377,5 +377,26 @@ public class DungeonTests {
 
             assertEquals(0.0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
         }
+
+        @Test
+        public void testEnemyGoalSpawner() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_2spawner",
+                    "c_noSpawns");
+            DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+            assertEquals(1, dres.getBattles().size());
+            // enemy goal is 1, but spawner stil alive
+            assertEquals(":enemies", dres.getGoals());
+
+            dres = dmc.tick(Direction.RIGHT);
+            EntityResponse spawner = TestUtils.getEntities(dres, "zombie_toast_spawner").get(0);
+
+            assertDoesNotThrow(() -> {
+                DungeonResponse res = dmc.interact(spawner.getId());
+                // Achieved because all zombie spawners killed and number of enemies defeated
+                assertEquals("", res.getGoals());
+            });
+        }
     }
 }
