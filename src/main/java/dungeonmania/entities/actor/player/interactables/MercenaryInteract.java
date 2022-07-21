@@ -9,6 +9,7 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
+import dungeonmania.entities.item.equipment.Sceptre;
 import dungeonmania.util.BoxRadius;
 import dungeonmania.util.Position;
 
@@ -19,6 +20,18 @@ public class MercenaryInteract implements InteractBehaviour {
         Dungeon dungeon = DungeonManiaController.getDungeon();
 
         DungeonObject merc = dungeon.getDungeonObject(interactingWithId);
+
+        if (player.getInventory().stream().anyMatch(item -> item instanceof Sceptre)){
+            Sceptre sceptre = ItemGetterHelpers.getSceptreFromInventory(player);
+            sceptre.playerEquip(player);
+
+            dungeon.getDungeonObjects().stream()
+            .filter(dungeonObject -> dungeonObject.equals(merc))
+            .filter(dungeonObject -> dungeonObject instanceof Mercenary)
+            .forEach(dungeonObject -> ((Mercenary) dungeonObject).mindcontrol());
+
+            return true;
+        }
 
         int bribeRadius = dungeon.getConfig("bribe_radius");
 

@@ -33,7 +33,8 @@ import dungeonmania.util.Position;
 
 public class Dungeon {
     private final int MAX_SPIDER_SPAWN = 15;
-    private final int MIN_SPIDER_SPAWN = 0;
+    private final int MIN_SPIDER_SPAWN = -15;
+    private final int MAX_SPAWN_POS = Math.abs(MAX_SPIDER_SPAWN * MIN_SPIDER_SPAWN);
 
     private Map<String, DungeonObject> dungeonObjects = new HashMap<>();
     private List<Battle> battles = new ArrayList<>();
@@ -248,5 +249,7 @@ public class Dungeon {
         newSpider.setPosition(spiderPosition);
 
         addDungeonObject(newSpider.getUniqueId(), newSpider);
+
+        getObjectsAtPosition(spiderPosition).forEach(o -> o.doAccept(newSpider));
     }
 }
