@@ -13,7 +13,10 @@ public class Sceptre extends Equipment{
 
     @Override
     public Item playerEquip(Player player) {
+        if (reduceDurability(1)) {
+            player.removeFromInventory(this);
+        }
+
         return null;
     }
-    
 }
