@@ -6,6 +6,7 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
+import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MindControlState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
@@ -16,10 +17,12 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState enemyState;
     MercenaryState allyState;
     MercenaryState currentState;
+    MercenaryState mindcontrolState;
 
     public Mercenary() {
         this.enemyState = new EnemyState(this);
         this.allyState = new AllyState();
+        this.mindcontrolState = new MindControlState(this);
         this.currentState = enemyState;
     }
 
@@ -52,6 +55,10 @@ public class Mercenary extends NonPlayableActor {
 
     public MercenaryState getEnemyState() {
         return this.enemyState;
+    }
+
+    public MercenaryState getMindcontrolState() {
+        return this.mindcontrolState;
     }
 
     public boolean isAlly() {

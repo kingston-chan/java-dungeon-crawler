@@ -37,7 +37,9 @@ public class EnemyState implements MercenaryState {
 
     @Override
     public void mindcontrol() {
-        // TODO Auto-generated method stub
-        
+        mercenary.setMercenaryState(mercenary.getMindcontrolState());
+        MovementBehaviour mindcontrolMovement = new FollowPlayer();
+        mercenary.setDefaultMovement(mindcontrolMovement);
+        mercenary.setCurrentMovement(mindcontrolMovement);
     }
 }

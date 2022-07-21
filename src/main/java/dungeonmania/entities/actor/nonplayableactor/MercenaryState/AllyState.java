@@ -25,7 +25,5 @@ public class AllyState implements MercenaryState {
 
     @Override
     public void mindcontrol() {
-        // TODO Auto-generated method stub
-        
     }
 }

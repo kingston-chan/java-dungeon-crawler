@@ -19,4 +19,9 @@ public class Sceptre extends Equipment{
 
         return null;
     }
+
+    public int getMind_control_duration() {
+        return mind_control_duration;
+    }
+
 }
