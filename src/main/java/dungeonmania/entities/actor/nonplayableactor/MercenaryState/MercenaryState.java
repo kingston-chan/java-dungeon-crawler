@@ -11,4 +11,6 @@ public interface MercenaryState {
     public boolean isAlly();
 
     public void recruit();
+
+    public void mindcontrol();
 }
