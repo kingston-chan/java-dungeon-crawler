@@ -2,17 +2,18 @@ package dungeonmania.factory.staticobjectfactory;
 
 import java.util.UUID;
 
+import org.json.JSONObject;
+
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.zombietoastspawner.ZombieToastSpawner;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class ZombieSpawnerBuilder implements StaticObjectBuilder {
-
     @Override
-    public void buildStaticObject(Position position, String type, String portalColour, int key) {
+    public void buildStaticObject(JSONObject staticObject) {
         ZombieToastSpawner zombieToastSpawner = new ZombieToastSpawner();
-        zombieToastSpawner.setPosition(position);
-        zombieToastSpawner.setType(type);
+        zombieToastSpawner.setPosition(FactoryHelpers.extractPosition(staticObject));
+        zombieToastSpawner.setType(FactoryHelpers.extractType(staticObject));
         zombieToastSpawner.setUniqueId(UUID.randomUUID().toString());
         DungeonManiaController.getDungeon().addDungeonObject(zombieToastSpawner.getUniqueId(), zombieToastSpawner);
     }
