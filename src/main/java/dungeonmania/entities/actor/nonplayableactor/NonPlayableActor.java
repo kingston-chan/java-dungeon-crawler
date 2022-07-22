@@ -9,7 +9,7 @@ import dungeonmania.entities.staticobject.portal.Portal;
 public abstract class NonPlayableActor extends Actor {
     private MovementBehaviour defaultMovement;
     private MovementBehaviour currentMovement;
-    private int stuckTicks;
+    private int stuckTicks = 0;
 
     public boolean canAccept(Boulder boulder) {
         return false;
@@ -35,11 +35,16 @@ public abstract class NonPlayableActor extends Actor {
         this.currentMovement.move(npa);
     }
 
+    public void stuck(int stuckTicks) {
+        this.stuckTicks = stuckTicks;
+    }
+
     public int getStuckTicks() {
-        return 0;
+        return stuckTicks;
     }
 
     public void reduceStuckTick() {
+        stuckTicks--;
     }
 
     public abstract boolean canVisitWall();
