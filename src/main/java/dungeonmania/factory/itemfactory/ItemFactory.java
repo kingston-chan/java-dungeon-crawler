@@ -12,7 +12,7 @@ public class ItemFactory implements DungeonObjectFactory {
     public ItemFactory() {
         this.ItemBuilders.put("sword", new SwordBuilder());
         this.ItemBuilders.put("key", new KeyBuilder());
-        this.ItemBuilders.put("bribabletreasure", new BribableTreasureBuilder());
+        this.ItemBuilders.put("treasure", new BribableTreasureBuilder());
         this.ItemBuilders.put("sunstone", new SunStoneBuilder());
         this.ItemBuilders.put("arrow", new ArrowsBuilder());
         this.ItemBuilders.put("bomb", new BombBuilder());
