@@ -1,0 +1,174 @@
+{
+    "entities": [
+        {
+            "type": "wall",
+            "x": -3,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": -3,
+            "y": 0
+        },
+        {
+            "type": "wall",
+            "x": -3,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": -3,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": -3,
+            "y": 3
+        },
+        {
+            "type": "wall",
+            "x": -3,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": -2,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": -2,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": -1,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": -1,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": -1,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": -1,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": 0,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": 0,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": 0,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 0,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": 1,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": 1,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 1,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": 2,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": 2,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": -1
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 0
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 3
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 4
+        },
+        {
+            "type": "player",
+            "x": 0,
+            "y": 0
+        },
+        {
+            "type": "mercenary",
+            "x": 1,
+            "y": 3
+        },
+        {
+            "type": "portal",
+            "x": -2,
+            "y": 3,
+            "colour": "RED"
+        },
+        {
+            "type": "portal",
+            "x": -2,
+            "y": 0,
+            "colour": "RED"
+        },
+        {
+            "type": "wall",
+            "x": -2,
+            "y": 1
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}
