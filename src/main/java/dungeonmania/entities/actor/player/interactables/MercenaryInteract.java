@@ -43,7 +43,7 @@ public class MercenaryInteract implements InteractBehaviour {
             return false;
         }
 
-        if (ItemGetterHelpers.getNumTreasure(player) >= bribeAmount) {
+        if (ItemGetterHelpers.getNumBribableTreasure(player) >= bribeAmount) {
             ItemGetterHelpers.removeTreasuresFromInventory(bribeAmount, player);
             player.addAlly();
             // mercenary is now in ally state
