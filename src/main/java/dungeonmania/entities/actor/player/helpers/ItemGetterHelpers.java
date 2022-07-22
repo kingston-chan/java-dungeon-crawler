@@ -45,6 +45,14 @@ public class ItemGetterHelpers {
                 .findFirst().get();
     }
 
+    private static Treasure getSingleSunStone(Player player) {
+        return player.getInventory().stream()
+                .filter(item -> item instanceof Treasure)
+                .filter(treasure -> !((Treasure) treasure).isBribableCurrency())
+                .map(treasure -> (Treasure) treasure)
+                .findFirst().get();
+    }
+
     public static long getNumSunStone(Player player) {
         return player.getInventory().stream()
                 .filter(item -> item instanceof SunStone).count();
@@ -60,6 +68,12 @@ public class ItemGetterHelpers {
     public static void removeTreasuresFromInventory(int numTreasures, Player player) {
         for (int i = 0; i < numTreasures; i++) {
             player.removeFromInventory(getSingleBribableTreasure(player));
+        }
+    }
+
+    public static void removeSunStoneFromInventory(int numSunStones, Player player) {
+        for (int i = 0; i < numSunStones; i++) {
+            player.removeFromInventory(getSingleSunStone(player));
         }
     }
 
