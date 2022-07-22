@@ -12,6 +12,7 @@ public class SwampTile extends StaticObject {
 
     @Override
     public void doAccept(NonPlayableActor entity) {
+        entity.stuck(movementFactor);
     }
 
     @Override
