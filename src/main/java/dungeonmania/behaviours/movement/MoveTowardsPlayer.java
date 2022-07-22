@@ -96,57 +96,5 @@ public class MoveTowardsPlayer implements MovementBehaviour {
         if (npa.getPosition().equals(currPosition)) {
             npa.setPosition(newPosition);
         }
-
-        // // using BFS
-        // Position playerPosition = player.getPosition();
-        // Queue<Position> queue = new LinkedList<>();
-        // Map<Position, Position> visited = new HashMap<>(); // adjList
-        // boolean playerFound = false;
-
-        // visited.put(npa.getPosition(), null);
-        // queue.add(npa.getPosition());
-
-        // while (!(queue.isEmpty()) && !(playerFound)) {
-        // Position curr = queue.poll();
-
-        // if (curr.equals(playerPosition)) {
-        // playerFound = true;
-        // } else {
-        // // checks for all adjacent valid positions and adds to the queue and visited
-        // for (Position pos : curr.getAdjacentCardinalPositions()) {
-        // if (!(visited.containsKey(pos))) {
-        // // checking whether cardinally adj pos are valid or not
-        // List<DungeonObject> occupants = dungeon.getObjectsAtPosition(pos);
-        // if (occupants.stream().allMatch(obj -> obj.canAccept(npa))) {
-        // visited.put(pos, curr);
-        // queue.add(pos);
-
-        // // Checks for portal aswell
-        // try {
-        // Portal portal = occupants.stream().filter(o -> o instanceof Portal).map(o ->
-        // (Portal) o)
-        // .findFirst().get();
-        // Position destination = portal.getExitPosition(curr);
-        // if (!(visited.containsKey(destination))) {
-        // visited.put(destination, pos);
-        // queue.add(destination);
-        // }
-        // } catch (Exception e) {
-        // continue;
-        // }
-        // }
-
-        // }
-
-        // }
-        // }
-        // }
-
-        // // no path found
-        // if (!playerFound) {
-        // return;
-        // }
-
     }
-
 }
