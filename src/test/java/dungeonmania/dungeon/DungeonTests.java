@@ -24,6 +24,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
@@ -33,6 +34,7 @@ import dungeonmania.entities.staticobject.wall.Wall;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
+import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -355,6 +357,46 @@ public class DungeonTests {
 
             dres = dmc.tick(Direction.LEFT);
             assertTrue(dres.getEntities().size() == 11);
+        }
+
+        @Test
+        public void testSpiderSpawnValid() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_testSpiderSpawnInvinciblePotion",
+                    "c_spiderSpawnRate2");
+
+            // Pick up potion
+            DungeonResponse dres = dmc.tick(Direction.RIGHT);
+            ItemResponse potion = TestUtils.getInventory(dres, "invincibility_potion").get(0);
+            // spider should spawn either on player or left of player
+            assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+
+            dres = dmc.tick(Direction.LEFT);
+            // only invincible battles should have occured
+            assertFalse(dres.getBattles().isEmpty());
+
+            assertEquals(0.0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
+        }
+
+        @Test
+        public void testEnemyGoalSpawner() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_2spawner",
+                    "c_noSpawns");
+            DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+            assertEquals(1, dres.getBattles().size());
+            // enemy goal is 1, but spawner stil alive
+            assertEquals(":enemies", dres.getGoals());
+
+            dres = dmc.tick(Direction.RIGHT);
+            EntityResponse spawner = TestUtils.getEntities(dres, "zombie_toast_spawner").get(0);
+
+            assertDoesNotThrow(() -> {
+                DungeonResponse res = dmc.interact(spawner.getId());
+                // Achieved because all zombie spawners killed and number of enemies defeated
+                assertEquals("", res.getGoals());
+            });
         }
     }
 }
