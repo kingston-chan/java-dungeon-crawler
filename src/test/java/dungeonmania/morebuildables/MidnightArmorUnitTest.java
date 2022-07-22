@@ -70,10 +70,9 @@ public class MidnightArmorUnitTest {
     @Test
     public void testMidNightArmorInfinityDurability(){
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("d_mdarmorbattle", "c_mdarmor_simple");
+        controller.newGame("d_mdarmordurability", "c_mdarmor_simple");
         Dungeon current_dungeon = controller.getDungeon();
-
         DungeonResponse dres = controller.tick(Direction.RIGHT);
-
+        assertTrue(true);
     }
 }
