@@ -13,7 +13,8 @@
         {
             "type": "door",
             "x": 4,
-            "y": 2
+            "y": 2,
+            "key": 1
         },
         {
             "type": "sun_stone",
