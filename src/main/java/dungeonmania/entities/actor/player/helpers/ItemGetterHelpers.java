@@ -2,14 +2,21 @@ package dungeonmania.entities.actor.player.helpers;
 
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.collectables.Arrows;
-import dungeonmania.entities.item.collectables.Treasure;
 import dungeonmania.entities.item.collectables.Wood;
+import dungeonmania.entities.item.collectables.treasure.BribableTreasure;
+import dungeonmania.entities.item.collectables.treasure.SunStone;
+import dungeonmania.entities.item.collectables.treasure.Treasure;
 import dungeonmania.entities.item.equipment.Sceptre;
 
 public class ItemGetterHelpers {
     public static long getNumTreasure(Player player) {
         return player.getInventory().stream()
                 .filter(item -> item instanceof Treasure).count();
+    }
+
+    public static long getNumBribableTreasure(Player player) {
+        return player.getInventory().stream()
+                .filter(item -> item instanceof BribableTreasure).count();
     }
 
     public static long getNumWood(Player player) {
@@ -29,11 +36,16 @@ public class ItemGetterHelpers {
                 .findFirst().get();
     }
 
-    private static Treasure getSingleTreasure(Player player) {
+    private static Treasure getSingleBribableTreasure(Player player) {
         return player.getInventory().stream()
-                .filter(item -> item instanceof Treasure)
-                .map(treasure -> (Treasure) treasure)
+                .filter(item -> item instanceof BribableTreasure)
+                .map(treasure -> (BribableTreasure) treasure)
                 .findFirst().get();
+    }
+
+    public static long getNumSunStone(Player player) {
+        return player.getInventory().stream()
+                .filter(item -> item instanceof SunStone).count();
     }
 
     private static Arrows getSingleArrow(Player player) {
@@ -45,7 +57,7 @@ public class ItemGetterHelpers {
 
     public static void removeTreasuresFromInventory(int numTreasures, Player player) {
         for (int i = 0; i < numTreasures; i++) {
-            player.removeFromInventory(getSingleTreasure(player));
+            player.removeFromInventory(getSingleBribableTreasure(player));
         }
     }
 
