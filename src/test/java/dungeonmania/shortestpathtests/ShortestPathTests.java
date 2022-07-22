@@ -199,7 +199,7 @@ public class ShortestPathTests {
     @Test
     public void testChangeDirectionWhenDoorOpened() {
         DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("shortestpathtests/shortestPathDoor", "c_noSpawns");
+        dmc.newGame("shortestpathtests/d_shortestPathDoor", "c_noSpawns");
         // Player picks up key
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
         // merc should have moved up right because its currently the shortest path
@@ -232,7 +232,7 @@ public class ShortestPathTests {
     @Test
     public void testChangeDirectionWhenBoulderPushed() {
         DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("shortestpathtests/shortestPathBoulderPushed", "c_noSpawns");
+        dmc.newGame("shortestpathtests/d_shortestPathBoulderPushed", "c_noSpawns");
         DungeonResponse dres = dmc.tick(Direction.UP);
         // merc should have moved up right because its currently the shortest path
         // because boulder is blocking
