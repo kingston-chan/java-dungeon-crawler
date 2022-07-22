@@ -2,6 +2,7 @@ package dungeonmania.entities.actor.player.states;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
@@ -47,6 +48,12 @@ public class NormalState implements PlayerState {
     public void notifyNonPlayableActors() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         dungeon.getNonPlayableActors().stream().forEach(npa -> npa.update(npa.getDefaultMovement()));
+    }
+
+    @Override
+    public void visitHydra(Hydra hydra) {
+        Battle battle = new Battle(hydra.getType(), hydra.getHealthPoints(), player.getHealthPoints());
+        battle.simulateHydraBattle(player, hydra);
     }
 
 }

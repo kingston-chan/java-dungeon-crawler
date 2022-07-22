@@ -7,6 +7,7 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MoveAwayFromPlayer;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
@@ -54,6 +55,11 @@ public class InvinicibleState implements PlayerState {
     public void visitZombieToast(ZombieToast zombieToast) {
         doInvinicbleBattle(zombieToast);
     }
+    
+    @Override
+    public void visitHydra(Hydra hydra) {
+        doInvinicbleBattle(hydra);
+    }
 
     @Override
     public void acceptNonPlayableActor(NonPlayableActor npa) {
@@ -65,4 +71,6 @@ public class InvinicibleState implements PlayerState {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         dungeon.getNonPlayableActors().stream().forEach(npa -> npa.update(movementBehaviour));
     }
+
+    
 }
