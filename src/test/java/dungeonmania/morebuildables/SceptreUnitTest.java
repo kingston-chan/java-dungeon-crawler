@@ -1,40 +1,232 @@
 package dungeonmania.morebuildables;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import org.junit.jupiter.api.Test;
+
+import dungeonmania.DungeonManiaController;
+import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.util.Direction;
+import dungeonmania.util.Position;
 
 public class SceptreUnitTest {
     @Test
     public void testBuildSceptreWithWood_Key_SunStone(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
 
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertTrue(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
-    
+
     @Test
     public void testBuildSceptreWithWood_Treasure_SunStone(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre2", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertTrue(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
 
     }
 
     @Test
     public void testBuildSceptreWithArrows_Key_SunStone(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre3", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertTrue(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
 
     }
 
     @Test
     public void testBuildSceptreWithArrows_Treasure_SunStone(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre4", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertTrue(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
 
     }
 
     @Test
-    public void testFailedToBuildSceptre(){
+    public void testFailedToBuildSceptre_lack_wood(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
 
+        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testFailedToBuildSceptre_lack_sunstone(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.UP);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.DOWN);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+
+        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testFailedToBuildSceptre_lack_treasure(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre2", "c_scptre_simple");
+        controller.tick(Direction.UP);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.DOWN);
+        controller.tick(Direction.RIGHT);
+
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        res = controller.tick(Direction.UP);
+        assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testFailedToBuildSceptre_lack_1arrow(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre3", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        res = controller.tick(Direction.UP);
+        assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testFailedToBuildSceptre_lack_2arrows(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre3", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        res = controller.tick(Direction.UP);
+        assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testFailedToBuildSceptre_lack_key(){
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre3", "c_scptre_simple");
+        controller.tick(Direction.UP);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.DOWN);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        res = controller.tick(Direction.UP);
+        assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
 
     @Test
     public void testMindControlUsingSceptreSuccessInDuration(){
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse resp = controller.newGame("d_mindcontrol", "c_scptre_simple");
+        String mercenary_id = resp.getEntities().get(1).getId();
 
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        resp = controller.tick(Direction.RIGHT);
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        // Position mercenary_position = resp.getEntities().get(1).getPosition();
+        // Position player_position = resp.getEntities().get(0).getPosition();
+        // Position before_mindcontrol_distance = Position.calculatePositionBetween(mercenary_position, player_position);
+
+        assertDoesNotThrow(() -> controller.interact(mercenary_id));
+        resp = controller.tick(Direction.RIGHT);
+        // merceanry still alive beacsue mind control is in an ally state
+        assertTrue(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
+
+        controller.tick(Direction.RIGHT);
+        resp = controller.tick(Direction.LEFT);
+        assertFalse(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
     }
 
     @Test
     public void testSceptreLimitedDurability(){
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse resp = controller.newGame("d_mindcontrol", "c_scptre_simple");
+        String mercenary_id = resp.getEntities().get(1).getId();
+
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        resp = controller.tick(Direction.RIGHT);
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        // Position mercenary_position = resp.getEntities().get(1).getPosition();
+        // Position player_position = resp.getEntities().get(0).getPosition();
+        // Position before_mindcontrol_distance = Position.calculatePositionBetween(mercenary_position, player_position);
+        for (int times = 0; times < 3; times++){
+            assertDoesNotThrow(() -> controller.interact(mercenary_id));
+            resp = controller.tick(Direction.RIGHT);
+            // merceanry still alive beacsue mind control is in an ally state
+            assertTrue(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
+
+            controller.tick(Direction.RIGHT);
+            resp = controller.tick(Direction.LEFT);
+            assertTrue(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
+        }
+
+        controller.tick(Direction.RIGHT);
+        resp = controller.tick(Direction.LEFT);
+        assertFalse(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
 
     }
 
