@@ -2,11 +2,13 @@ package dungeonmania.entities.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
@@ -75,6 +77,53 @@ public class Battle {
 
         if (npa.getHealthPoints() <= 0) {
             dungeon.removeDungeonObject(npa.getUniqueId());
+            player.defeatedEnemy();
+        }
+
+        if (player.getHealthPoints() <= 0) {
+            dungeon.removeDungeonObject(player.getUniqueId());
+        }
+
+        dungeon.addToBattles(this);
+    }
+
+    public void simulateHydraBattle(Player player, Hydra hydra) {
+        player.resetBonusStats();
+
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+        List<Item> equipmentUsed = player.getInventory().stream()
+                .filter(item -> item instanceof Equipment)
+                .collect(Collectors.toList());
+        equipmentUsed.forEach(item -> ((Equipment) item).playerEquip(player));
+
+        int allyAttack = dungeon.getConfig("ally_attack");
+        int allyDefence = dungeon.getConfig("ally_defence");
+
+        int totalBonusAttack = player.getBonusMultiplicativeAttack()
+                * (player.getAttackPoints() + player.getBonusAdditiveAttack() + (player.getNumAllies() * allyAttack));
+
+        double playerDamage = (totalBonusAttack / 5.0);
+
+        int totalBonusDefence = player.getBonusAdditiveDefence() + (player.getNumAllies() * allyDefence);
+
+        double hydraDamage = (hydra.getAttackPoints() - totalBonusDefence) / 10.0;
+
+        hydraDamage = hydraDamage < 0 ? 0 : hydraDamage;
+
+        while (player.getHealthPoints() > 0 && hydra.getHealthPoints() > 0) {
+            player.takeDamage(hydraDamage);
+
+            Random rand = new Random();
+            if (rand.nextInt() % 2 == 0) {
+                hydra.heal(playerDamage);
+            } else {
+                hydra.takeDamage(playerDamage);
+            }
+            this.addRound(new Round(-(hydraDamage), -(playerDamage), equipmentUsed));
+        }
+
+        if (hydra.getHealthPoints() <= 0) {
+            dungeon.removeDungeonObject(hydra.getUniqueId());
             player.defeatedEnemy();
         }
 
