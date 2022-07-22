@@ -16,7 +16,8 @@ public class ItemGetterHelpers {
 
     public static long getNumBribableTreasure(Player player) {
         return player.getInventory().stream()
-                .filter(item -> item instanceof BribableTreasure).count();
+                .filter(item -> item instanceof Treasure)
+                .filter(treasure -> ((Treasure) treasure).isBribableCurrency()).count();
     }
 
     public static long getNumWood(Player player) {
@@ -38,8 +39,9 @@ public class ItemGetterHelpers {
 
     private static Treasure getSingleBribableTreasure(Player player) {
         return player.getInventory().stream()
-                .filter(item -> item instanceof BribableTreasure)
-                .map(treasure -> (BribableTreasure) treasure)
+                .filter(item -> item instanceof Treasure)
+                .filter(treasure -> ((Treasure) treasure).isBribableCurrency())
+                .map(treasure -> (Treasure) treasure)
                 .findFirst().get();
     }
 
