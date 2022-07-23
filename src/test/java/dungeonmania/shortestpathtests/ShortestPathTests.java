@@ -162,17 +162,12 @@ public class ShortestPathTests {
         assertEquals(new Position(-2, 2), currentMercPos);
 
         dres = dmc.tick(Direction.UP);
-        // merc is stuck for 3 ticks
-        currentMercPos = TestUtils.getEntities(dres, "mercenary").get(0).getPosition();
-        assertEquals(new Position(-2, 2), currentMercPos);
-
-        dres = dmc.tick(Direction.UP);
         // merc is stuck for 2 ticks
         currentMercPos = TestUtils.getEntities(dres, "mercenary").get(0).getPosition();
         assertEquals(new Position(-2, 2), currentMercPos);
 
         dres = dmc.tick(Direction.UP);
-        // merc is stuck for 1 tick
+        // merc is stuck for 1 ticks
         currentMercPos = TestUtils.getEntities(dres, "mercenary").get(0).getPosition();
         assertEquals(new Position(-2, 2), currentMercPos);
 

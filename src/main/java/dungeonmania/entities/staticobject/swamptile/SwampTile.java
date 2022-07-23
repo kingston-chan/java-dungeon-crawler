@@ -4,20 +4,20 @@ import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.staticobject.StaticObject;
 
 public class SwampTile extends StaticObject {
-    private int movementFactor;
+    private int ticksStuckOnTile;
 
     public SwampTile(int movementFactor) {
-        this.movementFactor = movementFactor;
+        this.ticksStuckOnTile = (movementFactor * 2) - 2;
     }
 
     @Override
     public void doAccept(NonPlayableActor entity) {
-        entity.stuck(movementFactor);
+        entity.stuck(ticksStuckOnTile);
     }
 
     @Override
     public int tickCost() {
-        return movementFactor;
+        return ticksStuckOnTile;
     }
 
     @Override

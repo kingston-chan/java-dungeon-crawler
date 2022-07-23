@@ -23,6 +23,14 @@ public class SwampTileTests {
         Position mercPos = TestUtils.getEntities(dres, "mercenary").get(0).getPosition();
 
         dres = dmc.tick(Direction.UP);
+        // mercenary is stuck for 5 more ticks
+        assertEquals(mercPos, TestUtils.getEntities(dres, "mercenary").get(0).getPosition());
+
+        dres = dmc.tick(Direction.UP);
+        // mercenary is stuck for 4 more ticks
+        assertEquals(mercPos, TestUtils.getEntities(dres, "mercenary").get(0).getPosition());
+
+        dres = dmc.tick(Direction.UP);
         // mercenary is stuck for 3 more ticks
         assertEquals(mercPos, TestUtils.getEntities(dres, "mercenary").get(0).getPosition());
 
@@ -52,6 +60,14 @@ public class SwampTileTests {
 
         // zombie should have moved onto swamp tile because it can only move left
         Position zombiePos = TestUtils.getEntities(dres, "zombie_toast").get(0).getPosition();
+
+        dres = dmc.tick(Direction.UP);
+        // zombie is stuck for 5 more ticks
+        assertEquals(zombiePos, TestUtils.getEntities(dres, "zombie_toast").get(0).getPosition());
+
+        dres = dmc.tick(Direction.UP);
+        // zombie is stuck for 4 more ticks
+        assertEquals(zombiePos, TestUtils.getEntities(dres, "zombie_toast").get(0).getPosition());
 
         dres = dmc.tick(Direction.UP);
         // zombie is stuck for 3 more ticks
@@ -85,6 +101,14 @@ public class SwampTileTests {
         Position spiderPos = TestUtils.getEntities(dres, "spider").get(0).getPosition();
 
         dres = dmc.tick(Direction.UP);
+        // spider is stuck for 5 more ticks
+        assertEquals(spiderPos, TestUtils.getEntities(dres, "spider").get(0).getPosition());
+
+        dres = dmc.tick(Direction.UP);
+        // spider is stuck for 4 more ticks
+        assertEquals(spiderPos, TestUtils.getEntities(dres, "spider").get(0).getPosition());
+
+        dres = dmc.tick(Direction.UP);
         // spider is stuck for 3 more ticks
         assertEquals(spiderPos, TestUtils.getEntities(dres, "spider").get(0).getPosition());
 
@@ -115,6 +139,16 @@ public class SwampTileTests {
         // // hydra should have moved onto swamp tile because it can only move left
         // Position hydraPos = TestUtils.getEntities(dres,
         // "hydra").get(0).getPosition();
+
+        // dres = dmc.tick(Direction.UP);
+        // // hydra is stuck for 5 more ticks
+        // assertEquals(hydraPos, TestUtils.getEntities(dres,
+        // "hydra").get(0).getPosition());
+
+        // dres = dmc.tick(Direction.UP);
+        // // hydra is stuck for 4 more ticks
+        // assertEquals(hydraPos, TestUtils.getEntities(dres,
+        // "hydra").get(0).getPosition());
 
         // dres = dmc.tick(Direction.UP);
         // // hydra is stuck for 3 more ticks
@@ -152,6 +186,16 @@ public class SwampTileTests {
         // // assassin should have moved onto swamp tile because it can only move left
         // Position assassinPos = TestUtils.getEntities(dres,
         // "assassin").get(0).getPosition();
+
+        // dres = dmc.tick(Direction.UP);
+        // // assassin is stuck for 5 more ticks
+        // assertEquals(assassinPos, TestUtils.getEntities(dres,
+        // "assassin").get(0).getPosition());
+
+        // dres = dmc.tick(Direction.UP);
+        // // assassin is stuck for 4 more ticks
+        // assertEquals(assassinPos, TestUtils.getEntities(dres,
+        // "assassin").get(0).getPosition());
 
         // dres = dmc.tick(Direction.UP);
         // // assassin is stuck for 3 more ticks

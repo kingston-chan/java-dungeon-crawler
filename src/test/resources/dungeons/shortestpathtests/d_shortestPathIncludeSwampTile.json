@@ -154,7 +154,7 @@
             "type": "swamp_tile",
             "x": -2,
             "y": 2,
-            "movement_factor": 3
+            "movement_factor": 2
         }
     ],
     "goal-condition": {
