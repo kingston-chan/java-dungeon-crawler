@@ -2,19 +2,20 @@ package dungeonmania.factory.staticobjectfactory;
 
 import java.util.UUID;
 
+import org.json.JSONObject;
+
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.boulder.Boulder;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class BoulderBuilder implements StaticObjectBuilder {
 
     @Override
-    public void buildStaticObject(Position position, String type, String portalColour, int key) {
+    public void buildStaticObject(JSONObject staticObject) {
         Boulder boulder = new Boulder();
-        boulder.setPosition(position);
+        boulder.setPosition(FactoryHelpers.extractPosition(staticObject));
         boulder.setUniqueId(UUID.randomUUID().toString());
-        boulder.setType(type);
+        boulder.setType(FactoryHelpers.extractType(staticObject));
         DungeonManiaController.getDungeon().addDungeonObject(boulder.getUniqueId(), boulder);
     }
-
 }

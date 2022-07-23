@@ -2,10 +2,13 @@ package dungeonmania.factory.actorfactory;
 
 import java.util.UUID;
 
+import org.json.JSONObject;
+
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MoveRandomly;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
+import dungeonmania.factory.FactoryHelpers;
 import dungeonmania.util.Position;
 
 public class ZombieToastBuilder implements ActorBuilder {
@@ -25,7 +28,7 @@ public class ZombieToastBuilder implements ActorBuilder {
     }
 
     @Override
-    public void buildActor(Position position, String type) {
-        buildZombie(position);
+    public void buildActor(JSONObject actor) {
+        buildZombie(FactoryHelpers.extractPosition(actor));
     }
 }
