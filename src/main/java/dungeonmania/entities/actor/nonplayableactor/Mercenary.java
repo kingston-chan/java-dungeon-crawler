@@ -68,6 +68,10 @@ public class Mercenary extends NonPlayableActor {
 
     @Override
     public void update(MovementBehaviour movementBehaviour) {
+        if (getStuckTicks() > 0) {
+            reduceStuckTick();
+            return;
+        }
         this.currentState.updateMovement(movementBehaviour);
         this.doMove(this);
     }

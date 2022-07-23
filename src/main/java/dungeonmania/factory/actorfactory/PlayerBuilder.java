@@ -2,22 +2,25 @@ package dungeonmania.factory.actorfactory;
 
 import java.util.UUID;
 
+import org.json.JSONObject;
+
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class PlayerBuilder implements ActorBuilder {
+
     @Override
-    public void buildActor(Position position, String type) {
+    public void buildActor(JSONObject actor) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = new Player();
         player.setUniqueId(UUID.randomUUID().toString());
-        player.setPosition(position);
-        player.setType(type);
+        player.setPosition(FactoryHelpers.extractPosition(actor));
+        player.setType(FactoryHelpers.extractType(actor));
         player.setAttackPoints(dungeon.getConfig("player_attack"));
         player.setHealthPoints(dungeon.getConfig("player_health"));
-        player.setPreviousPosition(position);
+        player.setPreviousPosition(player.getPosition());
         dungeon.setPlayer(player);
         dungeon.addDungeonObject(player.getUniqueId(), player);
     }

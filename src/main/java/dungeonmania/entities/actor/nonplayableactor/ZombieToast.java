@@ -14,6 +14,10 @@ public class ZombieToast extends NonPlayableActor {
 
     @Override
     public void update(MovementBehaviour movementBehaviour) {
+        if (getStuckTicks() > 0) {
+            reduceStuckTick();
+            return;
+        }
         this.setCurrentMovement(movementBehaviour);
         this.doMove(this);
     }
