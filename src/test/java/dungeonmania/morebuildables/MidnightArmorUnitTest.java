@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.entities.Dungeon;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 
@@ -17,7 +17,7 @@ public class MidnightArmorUnitTest {
     @Test
     public void testSuccessfullyBuildsMidnightArmour(){
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("d_build_mdarmor", "c_mercenaryBribeRadiusTwo");
+        controller.newGame("d_build_mdarmor", "c_mdarmor_simple");
 
         controller.tick(Direction.RIGHT);
         DungeonResponse dres = controller.tick(Direction.RIGHT);
@@ -31,10 +31,10 @@ public class MidnightArmorUnitTest {
     @Test
     public void testFailedToBuildMidnightArmour1(){
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("d_build_mdarmor", "c_mercenaryBribeRadiusTwo");
+        controller.newGame("d_build_mdarmor", "c_mdarmor_simple");
 
         controller.tick(Direction.RIGHT);
-        assertThrows(IllegalArgumentException.class, () -> controller.build("midnight_armour"));
+        assertThrows(InvalidActionException.class, () -> controller.build("midnight_armour"));
         DungeonResponse dres = controller.tick(Direction.UP);
         assertFalse(dres.getInventory().stream().anyMatch(item -> item.getType().equals("midnight_armour")));
     }
@@ -42,14 +42,14 @@ public class MidnightArmorUnitTest {
     @Test
     public void testFailedToBuildMidnightArmour2(){
         DungeonManiaController controller = new DungeonManiaController();
-        controller.newGame("d_build_mdarmor", "c_mercenaryBribeRadiusTwo");
+        controller.newGame("d_build_mdarmor", "c_mdarmor_simple");
 
         controller.tick(Direction.UP);
         controller.tick(Direction.RIGHT);
         controller.tick(Direction.RIGHT);
         controller.tick(Direction.DOWN);
 
-        assertThrows(IllegalArgumentException.class, () -> controller.build("midnight_armour"));
+        assertThrows(InvalidActionException.class, () -> controller.build("midnight_armour"));
         DungeonResponse dres = controller.tick(Direction.UP);
         assertFalse(dres.getInventory().stream().anyMatch(item -> item.getType().equals("midnight_armour")));
     }
@@ -61,18 +61,27 @@ public class MidnightArmorUnitTest {
 
         controller.tick(Direction.RIGHT);
         controller.tick(Direction.RIGHT);
-
+        assertDoesNotThrow(() -> controller.build("midnight_armour"));
         DungeonResponse dres = controller.tick(Direction.RIGHT);
-        assertEquals(0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
-        assertEquals(4, dres.getBattles().get(0).getRounds().get(0).getDeltaEnemyHealth());
+        assertEquals(-0.0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
+        assertEquals(-4.0, dres.getBattles().get(0).getRounds().get(0).getDeltaEnemyHealth());
     }
 
     @Test
     public void testMidNightArmorInfinityDurability(){
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_mdarmordurability", "c_mdarmor_simple");
-        Dungeon current_dungeon = controller.getDungeon();
-        DungeonResponse dres = controller.tick(Direction.RIGHT);
-        assertTrue(true);
+
+        controller.tick(Direction.DOWN);
+        controller.tick(Direction.DOWN);
+        assertDoesNotThrow(() -> controller.build("midnight_armour"));
+
+        for (int i = 0; i < 100; i++){
+            controller.tick(Direction.UP);
+            controller.tick(Direction.DOWN);
+        }
+        DungeonResponse dres = controller.tick(Direction.DOWN);
+
+        assertTrue(dres.getBattles().stream().allMatch(round -> round.getRounds().get(0).getDeltaCharacterHealth() == -0.0));
     }
 }

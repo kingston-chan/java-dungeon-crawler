@@ -38,7 +38,7 @@ public class MidnightArmourBlueprint implements BuildableBlueprint{
 
     @Override
     public boolean canPlayerBuild(Player player) {
-        return (ItemGetterHelpers.getNumArrows(player) >= NUM_SWORD)
+        return (ItemGetterHelpers.getNumSword(player) >= NUM_SWORD)
         && (ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE)
         && (!check_zombies_existence());
     }

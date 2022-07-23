@@ -5,12 +5,17 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
+import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
+import static dungeonmania.TestUtils.getEntities;
 
 public class SceptreUnitTest {
     @Test
@@ -86,10 +91,11 @@ public class SceptreUnitTest {
         DungeonResponse res = controller.tick(Direction.RIGHT);
         assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
 
-        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
 
         res = controller.tick(Direction.UP);
         assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+
     }
 
     @Test
@@ -104,7 +110,7 @@ public class SceptreUnitTest {
         DungeonResponse res = controller.tick(Direction.RIGHT);
         assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
 
-        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
 
         res = controller.tick(Direction.UP);
         assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
@@ -122,7 +128,7 @@ public class SceptreUnitTest {
 
         DungeonResponse res = controller.tick(Direction.RIGHT);
         assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
-        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
         res = controller.tick(Direction.UP);
         assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
@@ -133,11 +139,10 @@ public class SceptreUnitTest {
         controller.newGame("d_build_sceptre3", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
         controller.tick(Direction.RIGHT);
-        controller.tick(Direction.RIGHT);
 
         DungeonResponse res = controller.tick(Direction.RIGHT);
         assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
-        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
         res = controller.tick(Direction.UP);
         assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
@@ -147,11 +152,10 @@ public class SceptreUnitTest {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre3", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
-        controller.tick(Direction.RIGHT);
 
         DungeonResponse res = controller.tick(Direction.RIGHT);
         assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
-        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
         res = controller.tick(Direction.UP);
         assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
@@ -169,7 +173,7 @@ public class SceptreUnitTest {
 
         DungeonResponse res = controller.tick(Direction.RIGHT);
         assertFalse(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
-        assertThrows(IllegalArgumentException.class, () -> controller.build("sceptre"));
+        assertThrows(InvalidActionException.class, () -> controller.build("sceptre"));
         res = controller.tick(Direction.UP);
         assertFalse(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
@@ -178,8 +182,7 @@ public class SceptreUnitTest {
     public void testMindControlUsingSceptreSuccessInDuration(){
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse resp = controller.newGame("d_mindcontrol", "c_scptre_simple");
-        String mercenary_id = resp.getEntities().get(1).getId();
-
+        String mercenary_id = getEntities(resp, "mercenary").get(0).getId();
         controller.tick(Direction.RIGHT);
         controller.tick(Direction.RIGHT);
         resp = controller.tick(Direction.RIGHT);
@@ -188,13 +191,14 @@ public class SceptreUnitTest {
         // Position mercenary_position = resp.getEntities().get(1).getPosition();
         // Position player_position = resp.getEntities().get(0).getPosition();
         // Position before_mindcontrol_distance = Position.calculatePositionBetween(mercenary_position, player_position);
-
         assertDoesNotThrow(() -> controller.interact(mercenary_id));
         resp = controller.tick(Direction.RIGHT);
         // merceanry still alive beacsue mind control is in an ally state
         assertTrue(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
 
         controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+
         resp = controller.tick(Direction.LEFT);
         assertFalse(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
     }
@@ -203,7 +207,7 @@ public class SceptreUnitTest {
     public void testSceptreLimitedDurability(){
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse resp = controller.newGame("d_mindcontrol", "c_scptre_simple");
-        String mercenary_id = resp.getEntities().get(1).getId();
+        String mercenary_id = getEntities(resp, "mercenary").get(0).getId();
 
         controller.tick(Direction.RIGHT);
         controller.tick(Direction.RIGHT);
@@ -227,7 +231,7 @@ public class SceptreUnitTest {
         controller.tick(Direction.RIGHT);
         resp = controller.tick(Direction.LEFT);
         assertFalse(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
-
+        assertFalse(resp.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
     }
 
     @Test

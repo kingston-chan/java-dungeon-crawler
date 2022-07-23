@@ -59,7 +59,7 @@ public class SceptreBlueprint implements BuildableBlueprint{
 
     @Override
     public boolean canPlayerBuild(Player player) {
-        return (player.getKey() != null || ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES)
+        return (player.getKey() != null || ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES)
         && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD || ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
         && (ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE);
     }
@@ -68,11 +68,11 @@ public class SceptreBlueprint implements BuildableBlueprint{
     public void playerBuild(Player player) {
         boolean check_key_wood = (player.getKey() != null
                                 && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD);
-        boolean check_treasure_wood = ((ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES)
+        boolean check_treasure_wood = ((ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES)
                                 && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD));
         boolean check_key_arrows = (player.getKey() != null
                                     && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
-        boolean check_treasure_arrows = (ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES
+        boolean check_treasure_arrows = (ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES
                                         && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
 
         if (check_key_wood) {

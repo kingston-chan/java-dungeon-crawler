@@ -37,11 +37,6 @@ public class ItemGetterHelpers {
                 .filter(item -> item instanceof Sword).count();
     }
 
-    public static long getNumSunStone(Player player) {
-        // waiting for sunstone
-        return 0;
-    }
-
     private static Wood getSingleWood(Player player) {
         return player.getInventory().stream()
                 .filter(item -> item instanceof Wood)
@@ -83,24 +78,10 @@ public class ItemGetterHelpers {
                 .map(sword -> (Sword) sword)
                 .findFirst().get();
     }
-    // this should be the Sunstone one
-    private static Item getSingleSunstone(Player player) {
-        // return player.getInventory().stream()
-        //         .filter(item -> item instanceof SunStone)
-        //         .map(sunstone -> (SunStone) sunstone)
-        //         .findFirst.get();
-        return null;
-    }
 
     public static void removeTreasuresFromInventory(int numTreasures, Player player) {
         for (int i = 0; i < numTreasures; i++) {
             player.removeFromInventory(getSingleBribableTreasure(player));
-        }
-    }
-
-    public static void removeSunStoneFromInventory(int numSunStones, Player player) {
-        for (int i = 0; i < numSunStones; i++) {
-            player.removeFromInventory(getSingleSunStone(player));
         }
     }
 
@@ -124,7 +105,7 @@ public class ItemGetterHelpers {
 
     public static void removeSunStoneFromInventory(int numSunstone, Player player) {
         for (int i = 0; i < numSunstone; i++) {
-            player.removeFromInventory(getSingleSunstone(player));
+            player.removeFromInventory(getSingleSunStone(player));
         }
     }
 
