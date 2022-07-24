@@ -30,7 +30,8 @@ public class AssassinTest {
 
         // teleports into recon range
         DungeonResponse res = dmc.tick(Direction.RIGHT);
-        // in at most 3 ticks it should have encountered player and battled (assumption)
+        // in at most 4 ticks it should have encountered player and battled (assumption)
+        assertThrows(InvalidActionException.class, () -> dmc.tick(dres.getInventory().get(0).getId()));
         assertThrows(InvalidActionException.class, () -> dmc.tick(dres.getInventory().get(0).getId()));
         assertThrows(InvalidActionException.class, () -> dmc.tick(dres.getInventory().get(0).getId()));
         assertThrows(InvalidActionException.class, () -> dmc.tick(dres.getInventory().get(0).getId()));
@@ -43,7 +44,7 @@ public class AssassinTest {
     @Test
     public void testPlayerLeavesAssassinReconRadius() {
         DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_leaveAssassinRecon", "c_assassinReconFive");
+        dmc.newGame("d_leaveAssassinRecon", "c_assassinReconFour");
         // pick up invisibility potion
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
         // use invisibility potion
@@ -66,25 +67,18 @@ public class AssassinTest {
         long seed = (System.currentTimeMillis() / 100) * 100;
         Random rng = new Random(seed);
         res = dmc.tick(Direction.LEFT);
-        // the assassin then moves in either left (1) or right (0)
+        // the assassin then moves in either left (1) or right (0) direction
         int expectedXLeaveRecon = rng.nextInt(2) == 1 ? posInRange.getX() - 1 : posInRange.getX() + 1;
         Position expectedPosAfterPot = new Position(expectedXLeaveRecon, posInRange.getY());
         Position actualPosAfterPot = TestUtils.getEntities(res, "assassin").get(0).getPosition();
         assertEquals(expectedPosAfterPot, actualPosAfterPot);
-        // in at most 3 ticks it should have encountered player and battled (assumption)
-
-        try {
-            Thread.sleep(100);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
         seed = (System.currentTimeMillis() / 100) * 100;
         rng = new Random(seed);
         res = dmc.tick(Direction.LEFT);
-        // the assassin then moves in either left (1) or right (0)
-        int expectedX = rng.nextInt(2) == 1 ? actualPosAfterPot.getX() - 1 : actualPosAfterPot.getX() + 1;
-        Position expectedPos = new Position(expectedX, actualPosAfterPot.getY());
+        // the assassin then moves in either left (1) or right (0) direction
+        int expectedX = rng.nextInt(2) == 1 ? expectedPosAfterPot.getX() - 1 : expectedPosAfterPot.getX() + 1;
+        Position expectedPos = new Position(expectedX, expectedPosAfterPot.getY());
         Position actualPos = TestUtils.getEntities(res, "assassin").get(0).getPosition();
         assertEquals(expectedPos, actualPos);
     }
@@ -101,9 +95,9 @@ public class AssassinTest {
             long seed = (System.currentTimeMillis() / 100) * 100;
             Random rng = new Random(seed);
             dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId());
-            int bribe_fail_rate = (int) Double.parseDouble(
-                    TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinReconFive")) * 100;
-            int numAllies = rng.nextInt(100) < bribe_fail_rate ? 0 : 1;
+            double bribe_fail_rate = Double.parseDouble(
+                    TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinReconFive"));
+            int numAllies = rng.nextDouble() < bribe_fail_rate ? 0 : 1;
             Player player = DungeonManiaController.getDungeon().getPlayer();
             assertEquals(numAllies, player.getNumAllies());
         });

@@ -24,16 +24,19 @@ public class HydraTests {
         BattleResponse hydraBattle = dres.getBattles().get(0);
 
         double hydraHealAmount = Integer
-                .parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount", "c_hydraTest")) * 1.0;
+                .parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount",
+                        "c_hydraTest"))
+                * 1.0;
 
-        int hydraHealRate = (int) Double
-                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate", "c_hydraTest")) * 100;
+        double hydraHealRate = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate",
+                        "c_hydraTest"));
 
         double playerDamage = Integer
                 .parseInt(TestUtils.getValueFromConfigFile("player_attack", "c_hydraTest")) / 5.0;
 
         for (RoundResponse r : hydraBattle.getRounds()) {
-            double hydraDeltaHealth = rng.nextInt(100) < hydraHealRate ? hydraHealAmount : -(playerDamage);
+            double hydraDeltaHealth = rng.nextDouble() < hydraHealRate ? hydraHealAmount : -(playerDamage);
             assertEquals(hydraDeltaHealth, r.getDeltaEnemyHealth());
         }
     }
@@ -47,16 +50,19 @@ public class HydraTests {
         DungeonResponse dres = dmc.tick(Direction.UP);
         BattleResponse hydraBattle = dres.getBattles().get(0);
         double hydraHealAmount = Integer
-                .parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount", "c_hydraTest")) * 1.0;
+                .parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount",
+                        "c_hydraTest"))
+                * 1.0;
 
-        int hydraHealRate = (int) Double
-                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate", "c_hydraTest")) * 100;
+        double hydraHealRate = Double
+                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate",
+                        "c_hydraTest"));
 
         double playerDamage = Integer
                 .parseInt(TestUtils.getValueFromConfigFile("player_attack", "c_hydraTest")) / 5.0;
 
         for (RoundResponse r : hydraBattle.getRounds()) {
-            double hydraDeltaHealth = rng.nextInt(100) < hydraHealRate ? hydraHealAmount : -(playerDamage);
+            double hydraDeltaHealth = rng.nextDouble() < hydraHealRate ? hydraHealAmount : -(playerDamage);
             assertEquals(hydraDeltaHealth, r.getDeltaEnemyHealth());
         }
     }
