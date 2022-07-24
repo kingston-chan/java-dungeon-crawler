@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.TestUtils;
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
@@ -86,5 +87,25 @@ public class AssassinTest {
         Position expectedPos = new Position(expectedX, actualPosAfterPot.getY());
         Position actualPos = TestUtils.getEntities(res, "assassin").get(0).getPosition();
         assertEquals(expectedPos, actualPos);
+    }
+
+    @Test
+    public void testAssassinInteractionWhiteBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_assassinInteract", "c_assassinReconFive");
+
+        // pick up treasure
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        assertDoesNotThrow(() -> {
+            long seed = (System.currentTimeMillis() / 100) * 100;
+            Random rng = new Random(seed);
+            dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId());
+            int bribe_fail_rate = (int) Double.parseDouble(
+                    TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinReconFive")) * 100;
+            int numAllies = rng.nextInt(100) < bribe_fail_rate ? 0 : 1;
+            Player player = DungeonManiaController.getDungeon().getPlayer();
+            assertEquals(numAllies, player.getNumAllies());
+        });
     }
 }

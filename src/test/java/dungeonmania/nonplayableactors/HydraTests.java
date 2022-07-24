@@ -26,8 +26,8 @@ public class HydraTests {
         double hydraHealAmount = Integer
                 .parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount", "c_hydraTest")) * 1.0;
 
-        double hydraHealRate = Double
-                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate", "c_hydraTest")) * 10;
+        int hydraHealRate = (int) Double
+                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate", "c_hydraTest")) * 100;
 
         double playerDamage = Integer
                 .parseInt(TestUtils.getValueFromConfigFile("player_attack", "c_hydraTest")) / 5.0;
@@ -49,8 +49,8 @@ public class HydraTests {
         double hydraHealAmount = Integer
                 .parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount", "c_hydraTest")) * 1.0;
 
-        double hydraHealRate = Double
-                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate", "c_hydraTest")) * 10;
+        int hydraHealRate = (int) Double
+                .parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate", "c_hydraTest")) * 100;
 
         double playerDamage = Integer
                 .parseInt(TestUtils.getValueFromConfigFile("player_attack", "c_hydraTest")) / 5.0;
