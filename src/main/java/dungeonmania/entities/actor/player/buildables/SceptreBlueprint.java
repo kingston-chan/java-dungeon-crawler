@@ -2,7 +2,7 @@ package dungeonmania.entities.actor.player.buildables;
 
 import dungeonmania.entities.actor.player.Player;
 
-public class SceptreBlueprint implements BuildableBlueprint{
+public class SceptreBlueprint implements BuildableBlueprint {
     private static final int NUM_WOOD = 1;
     private static final int NUM_ARROW = 1;
 

@@ -2,7 +2,7 @@ package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
 
-public interface MercenaryState {
+public interface MercenaryState extends  java.io.Serializable {
 
     public boolean canInteract();
 

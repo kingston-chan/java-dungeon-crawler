@@ -8,10 +8,20 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 
 public class DungeonManiaController {
     private static Map<String, Dungeon> dungeons = new HashMap<>();
@@ -157,21 +167,55 @@ public class DungeonManiaController {
      * /game/save
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        return null;
+        try {
+            FileOutputStream fileOut = new FileOutputStream("src/main/resources/dungeonSaves/" + name + ".ser");
+            ObjectOutputStream out = new ObjectOutputStream(fileOut);
+            out.writeObject(getDungeon());
+            out.close();
+            fileOut.close();
+         } catch (IllegalArgumentException i) {
+            System.out.println("NOT EXIST");
+         } catch (IOException i) {
+            System.out.println("ERROR");
+            i.printStackTrace();
+         }
+
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
+        Dungeon loadedDungeon = null;
+        try {
+            FileInputStream fileIn = new FileInputStream("src/main/resources/dungeonSaves/" + name + ".ser");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            loadedDungeon = (Dungeon) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch (FileNotFoundException e) {
+            throw new IllegalArgumentException();
+        } catch (IOException i) {
+            i.printStackTrace();
+        } catch (ClassNotFoundException c) {
+            c.printStackTrace();
+        }  
+
+        currentDungeonInstance = loadedDungeon;
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /games/all
      */
     public List<String> allGames() {
-        return new ArrayList<>();
+        Reflections reflections = new Reflections("dungeonSaves", Scanners.Resources);
+        return reflections.getResources(".*\\.ser")
+                .stream()
+                .map(s -> s.replace("dungeonSaves/", "").replace(".ser", ""))
+                .collect(Collectors.toList());
+
     }
 
 }

@@ -31,8 +31,9 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import java.io.Serializable; 
 
-public class Dungeon {
+public class Dungeon implements Serializable {
     private final int MAX_SPIDER_SPAWN = 15;
     private final int MIN_SPIDER_SPAWN = -15;
 

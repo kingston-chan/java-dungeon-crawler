@@ -3,7 +3,7 @@ package dungeonmania.entities.actor.player.interactables;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Interactables {
+public class Interactables implements  java.io.Serializable {
     private Map<String, InteractBehaviour> interactions = new HashMap<>();
 
     public Interactables() {

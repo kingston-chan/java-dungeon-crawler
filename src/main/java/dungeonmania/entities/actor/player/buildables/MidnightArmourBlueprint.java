@@ -4,7 +4,7 @@ import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 
 
-public class MidnightArmourBlueprint implements BuildableBlueprint{
+public class MidnightArmourBlueprint implements BuildableBlueprint {
     private static final int NUM_SWORD = 1;
     private static final int NUM_SUNSTONE = 1;
     private static final String ITEM_TYPE = "midnight_armour";
