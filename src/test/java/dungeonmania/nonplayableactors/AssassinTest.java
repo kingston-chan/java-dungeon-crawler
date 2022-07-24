@@ -86,7 +86,7 @@ public class AssassinTest {
     @Test
     public void testAssassinInteractionWhiteBox() {
         DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_assassinInteract", "c_assassinReconFive");
+        dmc.newGame("d_assassinInteract", "c_assassinRecon");
 
         // pick up treasure
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
@@ -96,7 +96,7 @@ public class AssassinTest {
             Random rng = new Random(seed);
             dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId());
             double bribe_fail_rate = Double.parseDouble(
-                    TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinReconFive"));
+                    TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinRecon"));
             int numAllies = rng.nextDouble() < bribe_fail_rate ? 0 : 1;
             Player player = DungeonManiaController.getDungeon().getPlayer();
             assertEquals(numAllies, player.getNumAllies());
