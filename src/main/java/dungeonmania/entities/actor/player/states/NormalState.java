@@ -40,8 +40,7 @@ public class NormalState implements PlayerState {
 
     @Override
     public void acceptNonPlayableActor(NonPlayableActor npa) {
-        Battle battle = new Battle(npa.getType(), npa.getHealthPoints(), player.getHealthPoints());
-        battle.simulateNormalBattle(player, npa);
+        npa.visit(player);
     }
 
     @Override
@@ -54,6 +53,11 @@ public class NormalState implements PlayerState {
     public void visitHydra(Hydra hydra) {
         Battle battle = new Battle(hydra.getType(), hydra.getHealthPoints(), player.getHealthPoints());
         battle.simulateHydraBattle(player, hydra);
+    }
+
+    @Override
+    public boolean isInvisible() {
+        return false;
     }
 
 }

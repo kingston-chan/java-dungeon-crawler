@@ -29,7 +29,7 @@ public class InvisibleState implements PlayerState {
     @Override
     public void visitMercenary(Mercenary mercenary) {
         // check if mercenary is assassin or not
-        if (mercenary.getCurrentState() instanceof AssassinState) {
+        if (mercenary.isAssassin()) {
             Battle battle = new Battle(mercenary.getType(), mercenary.getHealthPoints(), player.getHealthPoints());
             battle.simulateNormalBattle(player, mercenary);
         }
@@ -41,6 +41,7 @@ public class InvisibleState implements PlayerState {
 
     @Override
     public void acceptNonPlayableActor(NonPlayableActor npa) {
+        npa.visitInvisiblePlayer(player);
     }
 
     @Override
@@ -51,6 +52,11 @@ public class InvisibleState implements PlayerState {
 
     @Override
     public void visitHydra(Hydra hydra) {
+    }
+
+    @Override
+    public boolean isInvisible() {
+        return true;
     }
 
 }

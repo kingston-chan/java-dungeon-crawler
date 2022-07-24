@@ -55,7 +55,7 @@ public class InvinicibleState implements PlayerState {
     public void visitZombieToast(ZombieToast zombieToast) {
         doInvinicbleBattle(zombieToast);
     }
-    
+
     @Override
     public void visitHydra(Hydra hydra) {
         doInvinicbleBattle(hydra);
@@ -72,5 +72,9 @@ public class InvinicibleState implements PlayerState {
         dungeon.getNonPlayableActors().stream().forEach(npa -> npa.update(movementBehaviour));
     }
 
-    
+    @Override
+    public boolean isInvisible() {
+        return false;
+    }
+
 }

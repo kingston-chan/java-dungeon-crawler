@@ -247,6 +247,10 @@ public class Player extends Actor {
         return this.previousPosition;
     }
 
+    public boolean isInvisible() {
+        return this.currentState.isInvisible();
+    }
+
     @Override
     public void doAccept(NonPlayableActor npa) {
         this.currentState.acceptNonPlayableActor(npa);

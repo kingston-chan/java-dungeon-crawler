@@ -12,10 +12,12 @@ public interface PlayerState {
     public void visitMercenary(Mercenary mercenary);
 
     public void visitZombieToast(ZombieToast zombieToast);
-    
+
     public void visitHydra(Hydra hydra);
 
     public void acceptNonPlayableActor(NonPlayableActor npa);
 
     public void notifyNonPlayableActors();
+
+    public boolean isInvisible();
 }
