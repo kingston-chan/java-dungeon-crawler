@@ -55,8 +55,8 @@ public class Battle {
                 .collect(Collectors.toList());
         equipmentUsed.forEach(item -> ((Equipment) item).playerEquip(player));
 
-        int allyAttack = dungeon.getConfig("ally_attack");
-        int allyDefence = dungeon.getConfig("ally_defence");
+        int allyAttack = dungeon.getIntConfig("ally_attack");
+        int allyDefence = dungeon.getIntConfig("ally_defence");
 
         int totalBonusAttack = player.getBonusMultiplicativeAttack()
                 * (player.getAttackPoints() + player.getBonusAdditiveAttack() + (player.getNumAllies() * allyAttack));
@@ -96,8 +96,8 @@ public class Battle {
                 .collect(Collectors.toList());
         equipmentUsed.forEach(item -> ((Equipment) item).playerEquip(player));
 
-        int allyAttack = dungeon.getConfig("ally_attack");
-        int allyDefence = dungeon.getConfig("ally_defence");
+        int allyAttack = dungeon.getIntConfig("ally_attack");
+        int allyDefence = dungeon.getIntConfig("ally_defence");
 
         int totalBonusAttack = player.getBonusMultiplicativeAttack()
                 * (player.getAttackPoints() + player.getBonusAdditiveAttack() + (player.getNumAllies() * allyAttack));
@@ -110,16 +110,22 @@ public class Battle {
 
         hydraDamage = hydraDamage < 0 ? 0 : hydraDamage;
 
+        int hydraHealAmount = dungeon.getIntConfig("hydra_health_increase_amount");
+        double hydraHealRate = dungeon.getDoubleConfig("hydra_health_increase_rate");
+
+        long seed = (System.currentTimeMillis() / 100) * 100;
+        Random rand = new Random(seed);
+
         while (player.getHealthPoints() > 0 && hydra.getHealthPoints() > 0) {
             player.takeDamage(hydraDamage);
 
-            Random rand = new Random();
-            if (rand.nextInt() % 2 == 0) {
-                hydra.heal(playerDamage);
+            if (rand.nextDouble() < hydraHealRate) {
+                hydra.heal(hydraHealAmount);
+                this.addRound(new Round(-(hydraDamage), hydraHealAmount, equipmentUsed));
             } else {
                 hydra.takeDamage(playerDamage);
+                this.addRound(new Round(-(hydraDamage), -(playerDamage), equipmentUsed));
             }
-            this.addRound(new Round(-(hydraDamage), -(playerDamage), equipmentUsed));
         }
 
         if (hydra.getHealthPoints() <= 0) {

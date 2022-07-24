@@ -7,7 +7,7 @@ import dungeonmania.entities.actor.player.Player;
 
 public class BombHelper {
     public static void explode(Dungeon dungeon, Position currentPosition) {
-        int radius = dungeon.getConfig("bomb_radius");
+        int radius = dungeon.getIntConfig("bomb_radius");
 
         List<Position> explosionRadius = BoxRadius.getBoxRadiusPositions(radius, currentPosition);
 
