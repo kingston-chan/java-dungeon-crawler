@@ -102,4 +102,31 @@ public class AssassinTest {
             assertEquals(numAllies, player.getNumAllies());
         });
     }
+
+    @Test
+    public void testAssassinAlwaysSuccessfulInteractionWhiteBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_assassinInteract", "c_assassinAlwaysSucceedBribe");
+
+        // pick up treasure
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        assertDoesNotThrow(() -> dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId()));
+        Player player = DungeonManiaController.getDungeon().getPlayer();
+        assertEquals(1, player.getNumAllies());
+    }
+
+    @Test
+    public void testAssassinAlwaysUnsuccessfulInteractionWhiteBox() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_assassinInteract", "c_assassinAlwaysFailBribe");
+
+        // pick up treasure
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+        assertDoesNotThrow(() -> dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId()));
+
+        Player player = DungeonManiaController.getDungeon().getPlayer();
+        assertEquals(0, player.getNumAllies());
+    }
 }
