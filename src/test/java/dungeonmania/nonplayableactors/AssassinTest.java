@@ -44,7 +44,7 @@ public class AssassinTest {
     @Test
     public void testPlayerLeavesAssassinReconRadius() {
         DungeonManiaController dmc = new DungeonManiaController();
-        dmc.newGame("d_leaveAssassinRecon", "c_assassinReconFour");
+        dmc.newGame("d_leaveAssassinRecon", "c_assassinReconFive");
         // pick up invisibility potion
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
         // use invisibility potion

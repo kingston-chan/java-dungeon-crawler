@@ -2,7 +2,7 @@
     "entities": [
         {
             "type": "player",
-            "x": 6,
+            "x": 5,
             "y": 3
         },
         {
@@ -167,28 +167,28 @@
         },
         {
             "type": "assassin",
-            "x": 16,
+            "x": 15,
             "y": 3
         },
         {
             "type": "invisibility_potion",
-            "x": 7,
+            "x": 6,
             "y": 3
         },
         {
             "type": "wall",
-            "x": 9,
+            "x": 8,
             "y": 3
         },
         {
             "type": "portal",
-            "x": 8,
+            "x": 7,
             "y": 3,
             "colour": "RED"
         },
         {
             "type": "portal",
-            "x": 10,
+            "x": 9,
             "y": 3,
             "colour": "RED"
         }
