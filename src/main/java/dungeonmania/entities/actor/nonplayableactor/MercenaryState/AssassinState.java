@@ -1,20 +1,26 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
+import java.util.Random;
+
+import dungeonmania.DungeonManiaController;
+import dungeonmania.behaviours.movement.FollowPlayer;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
+import dungeonmania.entities.actor.player.Player;
+import dungeonmania.util.BoxRadius;
 
-public class AssassinState implements MercenaryState{
+public class AssassinState implements MercenaryState {
 
-    private Mercenary assasin;
+    private Mercenary assassin;
     private int reconRadius;
 
-    public AssassinState(Mercenary merc, int reconRadius) {
-        this.assasin = merc;
+    public AssassinState(Mercenary assassin, int reconRadius) {
+        this.assassin = assassin;
         this.reconRadius = reconRadius;
     }
 
-    public boolean checkSurrounding() {
-        return true;
+    private boolean checkIfPlayerInRadius(Player player) {
+        return BoxRadius.getBoxRadiusPositions(reconRadius, assassin.getPosition()).contains(player.getPosition());
     }
 
     @Override
@@ -24,20 +30,49 @@ public class AssassinState implements MercenaryState{
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-        // TODO Auto-generated method stub
-        
+        Player player = DungeonManiaController.getDungeon().getPlayer();
+        if (player.isInvisible() && checkIfPlayerInRadius(player)) {
+            assassin.setCurrentMovement(assassin.getDefaultMovement());
+        } else {
+            assassin.setCurrentMovement(movementBehaviour);
+        }
     }
 
     @Override
     public boolean isAlly() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
-    public void recruit() {
-        // TODO Auto-generated method stub
-        
+    public void recruitedBy(Player player) {
+        long seed = (System.currentTimeMillis() / 100) * 100;
+        Random rng = new Random(seed);
+        double fail_rate = DungeonManiaController.getDungeon().getDoubleConfig("assassin_bribe_fail_rate");
+        if (rng.nextDouble() >= fail_rate) {
+            player.addAlly();
+            assassin.setMercenaryState(assassin.getAllyState());
+            MovementBehaviour allyMovement = new FollowPlayer();
+            assassin.setCurrentMovement(allyMovement);
+        }
     }
-    
+
+    @Override
+    public void mindcontrol() {
+
+    }
+
+    @Override
+    public int bribeAmount() {
+        return DungeonManiaController.getDungeon().getIntConfig("assassin_bribe_amount");
+    }
+
+    @Override
+    public void visitInvisiblePlayer(Player player) {
+        assassin.visit(player);
+    }
+
+    @Override
+    public boolean isAssassin() {
+        return true;
+    }
 }
