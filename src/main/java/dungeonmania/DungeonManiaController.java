@@ -8,9 +8,7 @@ import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +72,8 @@ public class DungeonManiaController {
         Player player = currentDungeonInstance.getPlayer();
 
         if (!player.hasInInventory(itemUsedId)) {
+            player.consumeQueuedPotionEffect();
+            player.notifyAllObservers();
             throw new InvalidActionException(itemUsedId);
         }
 
@@ -145,7 +145,6 @@ public class DungeonManiaController {
         if (currentDungeonInstance.getDungeonObject(entityId) == null) {
             throw new IllegalArgumentException();
         }
-        
 
         if (!player.interact(entityId)) {
             throw new InvalidActionException(entityId);

@@ -8,7 +8,8 @@
         {
             "type": "portal",
             "x": 4,
-            "y": 1
+            "y": 1,
+            "colour": "RED"
         },
         {
             "type": "spider",

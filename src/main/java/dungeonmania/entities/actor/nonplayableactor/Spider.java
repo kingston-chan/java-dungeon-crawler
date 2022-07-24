@@ -14,6 +14,10 @@ public class Spider extends NonPlayableActor {
 
     @Override
     public void update(MovementBehaviour movementBehaviour) {
+        if (getStuckTicks() > 0) {
+            reduceStuckTick();
+            return;
+        }
         this.doMove(this);
     }
 

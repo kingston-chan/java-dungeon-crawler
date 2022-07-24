@@ -2,17 +2,18 @@ package dungeonmania.factory.staticobjectfactory;
 
 import java.util.UUID;
 
+import org.json.JSONObject;
+
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.portal.Portal;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class PortalBuilder implements StaticObjectBuilder {
-
     @Override
-    public void buildStaticObject(Position position, String type, String portalColour, int key) {
-        Portal portal = new Portal(portalColour);
-        portal.setPosition(position);
-        portal.setType(type);
+    public void buildStaticObject(JSONObject staticObject) {
+        Portal portal = new Portal(FactoryHelpers.extractPortalColour(staticObject));
+        portal.setPosition(FactoryHelpers.extractPosition(staticObject));
+        portal.setType(FactoryHelpers.extractType(staticObject));
         portal.setUniqueId(UUID.randomUUID().toString());
         DungeonManiaController.getDungeon().addDungeonObject(portal.getUniqueId(), portal);
     }

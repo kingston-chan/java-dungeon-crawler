@@ -1,7 +1,7 @@
 package dungeonmania.factory.staticobjectfactory;
 
-import dungeonmania.util.Position;
+import org.json.JSONObject;
 
 public interface StaticObjectBuilder {
-    public void buildStaticObject(Position position, String type, String portalColour, int key);
+    public void buildStaticObject(JSONObject staticObject);
 }

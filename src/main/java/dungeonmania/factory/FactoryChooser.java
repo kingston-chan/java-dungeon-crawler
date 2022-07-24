@@ -22,7 +22,9 @@ public class FactoryChooser {
         this.factoryChooser.put("door", new StaticObjectFactory());
         this.factoryChooser.put("portal", new StaticObjectFactory());
         this.factoryChooser.put("zombie_toast_spawner", new StaticObjectFactory());
+        this.factoryChooser.put("swamp_tile", new StaticObjectFactory());
         this.factoryChooser.put("treasure", new ItemFactory());
+        this.factoryChooser.put("sun_stone", new ItemFactory());
         this.factoryChooser.put("key", new ItemFactory());
         this.factoryChooser.put("invincibility_potion", new ItemFactory());
         this.factoryChooser.put("invisibility_potion", new ItemFactory());

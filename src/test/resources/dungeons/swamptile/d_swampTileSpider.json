@@ -1,0 +1,23 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 4,
+            "y": 3
+        },
+        {
+            "type": "spider",
+            "x": 7,
+            "y": 3
+        },
+        {
+            "type": "swamp_tile",
+            "x": 7,
+            "y": 2,
+            "movement_factor": 4
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

@@ -2,13 +2,18 @@
     "entities": [
         {
             "type": "player",
-            "x": 1,
+            "x": 3,
             "y": 1
         },
         {
             "type": "spider",
+            "x": 2,
+            "y": 2
+        },
+        {
+            "type": "invincibility_potion",
             "x": 3,
-            "y": 3
+            "y": 2
         }
     ],
     "goal-condition": {

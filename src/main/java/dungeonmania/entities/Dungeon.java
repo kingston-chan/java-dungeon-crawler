@@ -23,6 +23,7 @@ import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
+import dungeonmania.factory.FactoryHelpers;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -33,7 +34,7 @@ import dungeonmania.util.Position;
 
 public class Dungeon {
     private final int MAX_SPIDER_SPAWN = 15;
-    private final int MIN_SPIDER_SPAWN = 0;
+    private final int MIN_SPIDER_SPAWN = -15;
 
     private Map<String, DungeonObject> dungeonObjects = new HashMap<>();
     private List<Battle> battles = new ArrayList<>();
@@ -67,26 +68,15 @@ public class Dungeon {
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject a = array.getJSONObject(i);
-                int x = a.getInt("x");
-                int y = a.getInt("y");
-                String type = a.getString("type");
-                String portalColour = "";
-                int key = -1;
-                if (a.has("colour")) {
-                    portalColour = a.getString("colour");
-                }
-                if (a.has("key")) {
-                    key = a.getInt("key");
-                }
-                DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
+                DungeonObjectFactory dungeonObjectFactory = this.factoryChooser
+                        .getFactory(FactoryHelpers.extractType(a));
+                dungeonObjectFactory.create(a);
             }
 
             this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
             initialiseAnySwitches();
             return this.dungeonId;
         } catch (Exception e) {
-            e.printStackTrace();
             return null;
         }
     }
@@ -249,5 +239,7 @@ public class Dungeon {
         newSpider.setPosition(spiderPosition);
 
         addDungeonObject(newSpider.getUniqueId(), newSpider);
+
+        getObjectsAtPosition(spiderPosition).forEach(o -> o.doAccept(newSpider));
     }
 }

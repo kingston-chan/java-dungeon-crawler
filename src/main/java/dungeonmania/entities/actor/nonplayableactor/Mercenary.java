@@ -3,8 +3,6 @@ package dungeonmania.entities.actor.nonplayableactor;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
-import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.door.Door;
@@ -17,10 +15,12 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState allyState;
     MercenaryState currentState;
 
-    public Mercenary() {
-        this.enemyState = new EnemyState(this);
-        this.allyState = new AllyState();
-        this.currentState = enemyState;
+    public void setEnemyState(MercenaryState enemyState) {
+        this.enemyState = enemyState;
+    }
+
+    public void setAllyState(MercenaryState allyState) {
+        this.allyState = allyState;
     }
 
     public void doAccept(Player player) {
@@ -66,8 +66,16 @@ public class Mercenary extends NonPlayableActor {
         return this.currentState;
     }
 
+    public void mindcontrol() {
+        this.currentState.mindcontrol();
+    }
+
     @Override
     public void update(MovementBehaviour movementBehaviour) {
+        if (getStuckTicks() > 0) {
+            reduceStuckTick();
+            return;
+        }
         this.currentState.updateMovement(movementBehaviour);
         this.doMove(this);
     }
