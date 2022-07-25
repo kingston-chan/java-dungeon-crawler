@@ -1,6 +1,7 @@
 package dungeonmania.dungeon;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -27,5 +28,11 @@ public class MazeTests {
         assertEquals(new Position(0, 0), TestUtils.getPlayer(dres).get().getPosition());
         assertEquals(new Position(50, 50), TestUtils.getEntities(dres, "exit").get(0).getPosition());
         assertTrue(MazeTestHelper.hasPath(DungeonManiaController.getDungeon()));
+    }
+
+    @Test
+    public void testInvalidConfig() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        assertThrows(IllegalArgumentException.class, () -> dmc.generateDungeon(0, 0, 50, 50, "invalid_config"));
     }
 }
