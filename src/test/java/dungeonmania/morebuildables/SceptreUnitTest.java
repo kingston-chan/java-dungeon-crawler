@@ -19,7 +19,7 @@ import static dungeonmania.TestUtils.getEntities;
 
 public class SceptreUnitTest {
     @Test
-    public void testBuildSceptreWithWood_Key_SunStone(){
+    public void testBuildSceptreWithWood_Key_SunStone() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -34,7 +34,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testBuildSceptreWithWood_Treasure_SunStone(){
+    public void testBuildSceptreWithWood_Treasure_SunStone() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre2", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -50,7 +50,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testBuildSceptreWithArrows_Key_SunStone(){
+    public void testBuildSceptreWithArrows_Key_SunStone() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre3", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -67,7 +67,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testBuildSceptreWithArrows_Treasure_SunStone(){
+    public void testBuildSceptreWithArrows_Treasure_SunStone() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre4", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -84,7 +84,38 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testFailedToBuildSceptre_lack_wood(){
+    public void testBuild_with_2_sunstones_arrows() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre5", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertTrue(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testBuild_with_2_sunstones_wood() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_sceptre6", "c_scptre_simple");
+        controller.tick(Direction.RIGHT);
+        controller.tick(Direction.RIGHT);
+        DungeonResponse res = controller.tick(Direction.RIGHT);
+        assertTrue(res.getBuildables().stream().anyMatch(item -> item.equals("sceptre")));
+
+        assertDoesNotThrow(() -> controller.build("sceptre"));
+
+        res = controller.tick(Direction.UP);
+        assertTrue(res.getInventory().stream().anyMatch(item -> item.getType().equals("sceptre")));
+    }
+
+    @Test
+    public void testFailedToBuildSceptre_lack_wood() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -99,7 +130,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testFailedToBuildSceptre_lack_sunstone(){
+    public void testFailedToBuildSceptre_lack_sunstone() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -117,7 +148,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testFailedToBuildSceptre_lack_treasure(){
+    public void testFailedToBuildSceptre_lack_treasure() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre2", "c_scptre_simple");
         controller.tick(Direction.UP);
@@ -134,7 +165,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testFailedToBuildSceptre_lack_1arrow(){
+    public void testFailedToBuildSceptre_lack_1arrow() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre3", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -148,7 +179,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testFailedToBuildSceptre_lack_2arrows(){
+    public void testFailedToBuildSceptre_lack_2arrows() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre3", "c_scptre_simple");
         controller.tick(Direction.RIGHT);
@@ -161,7 +192,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testFailedToBuildSceptre_lack_key(){
+    public void testFailedToBuildSceptre_lack_key() {
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_build_sceptre3", "c_scptre_simple");
         controller.tick(Direction.UP);
@@ -179,7 +210,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testMindControlUsingSceptreSuccessInDuration(){
+    public void testMindControlUsingSceptreSuccessInDuration() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse resp = controller.newGame("d_mindcontrol", "c_scptre_simple");
         String mercenary_id = getEntities(resp, "mercenary").get(0).getId();
@@ -204,7 +235,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testSceptreLimitedDurability(){
+    public void testSceptreLimitedDurability() {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse resp = controller.newGame("d_mindcontrol", "c_scptre_simple");
         String mercenary_id = getEntities(resp, "mercenary").get(0).getId();
@@ -235,7 +266,7 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testMindControlInvalidObject(){
+    public void testMindControlInvalidObject() {
 
     }
 

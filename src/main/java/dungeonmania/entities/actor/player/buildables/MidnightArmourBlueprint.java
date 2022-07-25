@@ -18,8 +18,8 @@ public class MidnightArmourBlueprint implements BuildableBlueprint{
     private Item CreateNewMidnightArmour() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         MidnightArmor midnightArmor = new MidnightArmor(
-            dungeon.getConfig("midnight_armour_attack"),
-            dungeon.getConfig("midnight_armour_defence"),
+            dungeon.getIntConfig("midnight_armour_attack"),
+            dungeon.getIntConfig("midnight_armour_defence"),
             -1);
             midnightArmor.setPosition(null);
             midnightArmor.setType(ITEM_TYPE);

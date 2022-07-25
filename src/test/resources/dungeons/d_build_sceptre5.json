@@ -6,10 +6,9 @@
             "y": 1
         },
         {
-            "type": "key",
+            "type": "sun_stone",
             "x": 2,
-            "y": 1,
-            "key": 1
+            "y": 1
         },
         {
             "type": "sun_stone",
@@ -17,8 +16,13 @@
             "y": 1
         },
         {
-            "type": "wood",
+            "type": "arrow",
             "x": 4,
+            "y": 1
+        },
+        {
+            "type": "arrow",
+            "x": 5,
             "y": 1
         },
         {

@@ -1,7 +1,6 @@
-package dungeonmania.entities.item.equipment;
+package dungeonmania.entities.item;
 
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.Item;
 
 public class Sceptre extends Item{
     private int mind_control_duration;

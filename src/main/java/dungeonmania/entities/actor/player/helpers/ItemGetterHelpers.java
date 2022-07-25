@@ -2,12 +2,12 @@ package dungeonmania.entities.actor.player.helpers;
 
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
+import dungeonmania.entities.item.Sceptre;
 import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.entities.item.collectables.Wood;
 import dungeonmania.entities.item.collectables.treasure.BribableTreasure;
 import dungeonmania.entities.item.collectables.treasure.SunStone;
 import dungeonmania.entities.item.collectables.treasure.Treasure;
-import dungeonmania.entities.item.equipment.Sceptre;
 import dungeonmania.entities.item.equipment.Sword;
 
 public class ItemGetterHelpers {
@@ -41,6 +41,13 @@ public class ItemGetterHelpers {
         return player.getInventory().stream()
                 .filter(item -> item instanceof Wood)
                 .map(wood -> (Wood) wood)
+                .findFirst().get();
+    }
+
+    private static Treasure getSingleTreasure(Player player) {
+        return player.getInventory().stream()
+                .filter(item -> item instanceof Treasure)
+                .map(treasure -> (Treasure) treasure)
                 .findFirst().get();
     }
 
@@ -80,6 +87,12 @@ public class ItemGetterHelpers {
     }
 
     public static void removeTreasuresFromInventory(int numTreasures, Player player) {
+        for (int i = 0; i < numTreasures; i++) {
+            player.removeFromInventory(getSingleTreasure(player));
+        }
+    }
+
+    public static void removeBribableTreasuresFromInventory(int numTreasures, Player player) {
         for (int i = 0; i < numTreasures; i++) {
             player.removeFromInventory(getSingleBribableTreasure(player));
         }

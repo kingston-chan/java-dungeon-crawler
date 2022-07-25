@@ -27,6 +27,8 @@ public class MindControlState implements MercenaryState {
             mercenary.setMercenaryState(mercenary.getEnemyState());
             mercenary.setCurrentMovement(movementBehaviour);
             counter = 0;
+            Player player = DungeonManiaController.getDungeon().getPlayer();
+            player.reduceAlly();
         }
     }
 
