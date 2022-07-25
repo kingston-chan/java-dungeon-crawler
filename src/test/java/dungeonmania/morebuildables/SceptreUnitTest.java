@@ -10,6 +10,7 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -219,9 +220,6 @@ public class SceptreUnitTest {
         resp = controller.tick(Direction.RIGHT);
         assertDoesNotThrow(() -> controller.build("sceptre"));
 
-        // Position mercenary_position = resp.getEntities().get(1).getPosition();
-        // Position player_position = resp.getEntities().get(0).getPosition();
-        // Position before_mindcontrol_distance = Position.calculatePositionBetween(mercenary_position, player_position);
         assertDoesNotThrow(() -> controller.interact(mercenary_id));
         resp = controller.tick(Direction.RIGHT);
         // merceanry still alive beacsue mind control is in an ally state
@@ -245,10 +243,7 @@ public class SceptreUnitTest {
         resp = controller.tick(Direction.RIGHT);
         assertDoesNotThrow(() -> controller.build("sceptre"));
 
-        // Position mercenary_position = resp.getEntities().get(1).getPosition();
-        // Position player_position = resp.getEntities().get(0).getPosition();
-        // Position before_mindcontrol_distance = Position.calculatePositionBetween(mercenary_position, player_position);
-        for (int times = 0; times < 3; times++){
+        for (int times = 0; times < 3; times++) {
             assertDoesNotThrow(() -> controller.interact(mercenary_id));
             resp = controller.tick(Direction.RIGHT);
             // merceanry still alive beacsue mind control is in an ally state
@@ -266,8 +261,19 @@ public class SceptreUnitTest {
     }
 
     @Test
-    public void testMindControlInvalidObject() {
-
+    public void testMindControlAssassin() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        DungeonResponse res = dmc.newGame("d_mindcontrolAssassin", "c_assassinRecon");
+        String assassinId = TestUtils.getEntities(res, "assassin").get(0).getId();
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        // should have all the materials to build a sceptre
+        assertDoesNotThrow(() -> dmc.build("sceptre"));
+        assertDoesNotThrow(() -> dmc.interact(assassinId));
+        res = dmc.tick(Direction.RIGHT);
+        // assassin is ally therefore should not be interactable
+        assertFalse(TestUtils.getEntities(res, "assassin").get(0).isInteractable());
     }
 
 }
