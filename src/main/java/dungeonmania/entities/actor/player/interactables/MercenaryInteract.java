@@ -23,8 +23,8 @@ public class MercenaryInteract implements InteractBehaviour {
 
         if (player.getInventory().stream().anyMatch(item -> item instanceof Sceptre)){
             Sceptre sceptre = ItemGetterHelpers.getSceptreFromInventory(player);
-            sceptre.playerEquip(player);
-
+            sceptre.playerUse(player);
+            player.addAlly();
             dungeon.getDungeonObjects().stream()
             .filter(dungeonObject -> dungeonObject.equals(merc))
             .filter(dungeonObject -> dungeonObject instanceof Mercenary)
