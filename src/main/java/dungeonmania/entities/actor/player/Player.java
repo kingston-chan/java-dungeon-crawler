@@ -11,6 +11,7 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
@@ -218,6 +219,10 @@ public class Player extends Actor {
         this.bonusAdditiveDefence = 0;
     }
 
+    public PlayerState getCurrentPlayerState() {
+        return this.currentState;
+    }
+
     public void setPlayerState(PlayerState playerState) {
         this.currentState = playerState;
     }
@@ -240,6 +245,10 @@ public class Player extends Actor {
 
     public Position getPreviousPosition() {
         return this.previousPosition;
+    }
+
+    public boolean isInvisible() {
+        return this.currentState.isInvisible();
     }
 
     @Override
@@ -282,6 +291,11 @@ public class Player extends Actor {
     @Override
     public void visit(Spider spider) {
         this.currentState.visitSpider(spider);
+    }
+
+    @Override
+    public void visit(Hydra hydra) {
+        this.currentState.visitHydra(hydra);
     }
 
     @Override

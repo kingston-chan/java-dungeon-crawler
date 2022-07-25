@@ -1,30 +1,17 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.movement.MovementBehaviour;
-import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
+import dungeonmania.behaviours.movement.MovementBehaviour;
 
-public class Spider extends NonPlayableActor {
-
-    @Override
-    public void doAccept(Player player) {
-        player.visit(this);
-    }
-
-    @Override
-    public void visit(Player player) {
-        Battle battle = new Battle(this.getType(), this.getHealthPoints(), player.getHealthPoints());
-        battle.simulateNormalBattle(player, this);
-    }
-
+public abstract class SpecialCreature extends NonPlayableActor {
     @Override
     public void update(MovementBehaviour movementBehaviour) {
         if (getStuckTicks() > 0) {
             reduceStuckTick();
             return;
         }
+        this.setCurrentMovement(movementBehaviour);
         this.doMove(this);
     }
 
@@ -35,7 +22,7 @@ public class Spider extends NonPlayableActor {
 
     @Override
     public boolean canVisitWall() {
-        return true;
+        return false;
     }
 
     @Override
@@ -45,10 +32,6 @@ public class Spider extends NonPlayableActor {
 
     @Override
     public boolean canVisitDoor(Door door) {
-        return true;
-    }
-
-    @Override
-    public void visitInvisiblePlayer(Player player) {
+        return door.isOpened();
     }
 }

@@ -19,8 +19,8 @@ public class SpiderBuilder implements ActorBuilder {
         spider.setUniqueId(UUID.randomUUID().toString());
         spider.setPosition(FactoryHelpers.extractPosition(actor));
         spider.setType(FactoryHelpers.extractType(actor));
-        spider.setAttackPoints(dungeon.getConfig("spider_attack"));
-        spider.setHealthPoints(dungeon.getConfig("spider_health"));
+        spider.setAttackPoints(dungeon.getIntConfig("spider_attack"));
+        spider.setHealthPoints(dungeon.getIntConfig("spider_health"));
         spider.setDefaultMovement(new SpiderMovement(spider.getPosition()));
         spider.setCurrentMovement(new SpiderMovement(spider.getPosition()));
         dungeon.addDungeonObject(spider.getUniqueId(), spider);

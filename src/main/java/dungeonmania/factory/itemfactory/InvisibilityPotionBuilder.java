@@ -14,7 +14,7 @@ public class InvisibilityPotionBuilder implements ItemBuilder {
     public void buildItem(JSONObject item) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         InvisibilityPotion invisibilityPotion = new InvisibilityPotion(
-                dungeon.getConfig("invisibility_potion_duration"));
+                dungeon.getIntConfig("invisibility_potion_duration"));
         invisibilityPotion.setPosition(FactoryHelpers.extractPosition(item));
         invisibilityPotion.setType(FactoryHelpers.extractType(item));
         invisibilityPotion.setUniqueId(UUID.randomUUID().toString());
