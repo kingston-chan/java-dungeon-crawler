@@ -17,8 +17,28 @@
         },
         {
             "type": "wall",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 0
+        },
+        {
+            "type": "wall",
             "x": 1,
             "y": 1
+        },
+        {
+            "type": "wall",
+            "x": 1,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 1,
+            "y": 0
         },
         {
             "type": "wall",

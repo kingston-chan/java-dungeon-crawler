@@ -1,6 +1,8 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
+import dungeonmania.entities.actor.player.Player;
+import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.FollowPlayer;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 
@@ -28,10 +30,10 @@ public class EnemyState implements MercenaryState {
     }
 
     @Override
-    public void recruit() {
+    public void recruitedBy(Player player) {
+        player.addAlly();
         mercenary.setMercenaryState(mercenary.getAllyState());
         MovementBehaviour allyMovement = new FollowPlayer();
-        mercenary.setDefaultMovement(allyMovement);
         mercenary.setCurrentMovement(allyMovement);
     }
 
@@ -39,7 +41,20 @@ public class EnemyState implements MercenaryState {
     public void mindcontrol() {
         mercenary.setMercenaryState(mercenary.getMindcontrolState());
         MovementBehaviour mindcontrolMovement = new FollowPlayer();
-        mercenary.setDefaultMovement(mindcontrolMovement);
         mercenary.setCurrentMovement(mindcontrolMovement);
+    }
+
+    @Override
+    public int bribeAmount() {
+        return DungeonManiaController.getDungeon().getIntConfig("bribe_amount");
+    }
+
+    @Override
+    public void visitInvisiblePlayer(Player player) {
+    }
+
+    @Override
+    public boolean isAssassin() {
+        return false;
     }
 }

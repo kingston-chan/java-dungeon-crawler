@@ -21,21 +21,19 @@ public class MercenaryInteract implements InteractBehaviour {
 
         DungeonObject merc = dungeon.getDungeonObject(interactingWithId);
 
-        if (player.getInventory().stream().anyMatch(item -> item instanceof Sceptre)){
+        if (player.getInventory().stream().anyMatch(item -> item instanceof Sceptre)) {
             Sceptre sceptre = ItemGetterHelpers.getSceptreFromInventory(player);
             sceptre.playerUse(player);
             player.addAlly();
             dungeon.getDungeonObjects().stream()
-            .filter(dungeonObject -> dungeonObject.equals(merc))
-            .filter(dungeonObject -> dungeonObject instanceof Mercenary)
-            .forEach(dungeonObject -> ((Mercenary) dungeonObject).mindcontrol());
+                    .filter(dungeonObject -> dungeonObject.equals(merc))
+                    .filter(dungeonObject -> dungeonObject instanceof Mercenary)
+                    .forEach(dungeonObject -> ((Mercenary) dungeonObject).mindcontrol());
 
             return true;
         }
 
-        int bribeRadius = dungeon.getConfig("bribe_radius");
-
-        int bribeAmount = dungeon.getConfig("bribe_amount");
+        int bribeRadius = dungeon.getIntConfig("bribe_radius");
 
         List<Position> inRangePositions = BoxRadius.getBoxRadiusPositions(bribeRadius, merc.getPosition());
 
@@ -43,14 +41,19 @@ public class MercenaryInteract implements InteractBehaviour {
             return false;
         }
 
+        int bribeAmount = dungeon.getDungeonObjects().stream()
+                .filter(dungeonObject -> dungeonObject.equals(merc))
+                .filter(dungeonObject -> dungeonObject instanceof Mercenary)
+                .map(dungeonObject -> ((Mercenary) dungeonObject).getBribeAmount())
+                .findFirst().get();
+
         if (ItemGetterHelpers.getNumBribableTreasure(player) >= bribeAmount) {
             ItemGetterHelpers.removeTreasuresFromInventory(bribeAmount, player);
-            player.addAlly();
             // mercenary is now in ally state
             dungeon.getDungeonObjects().stream()
                     .filter(dungeonObject -> dungeonObject.equals(merc))
                     .filter(dungeonObject -> dungeonObject instanceof Mercenary)
-                    .forEach(dungeonObject -> ((Mercenary) dungeonObject).recruitMercenary());
+                    .forEach(dungeonObject -> ((Mercenary) dungeonObject).recruitedBy(player));
             return true;
         }
 

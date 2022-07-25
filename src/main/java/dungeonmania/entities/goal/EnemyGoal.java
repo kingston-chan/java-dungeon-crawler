@@ -11,7 +11,7 @@ public class EnemyGoal implements Goal {
     public boolean hasAchieved() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = dungeon.getPlayer();
-        return player.getEnemiesDefeated() >= dungeon.getConfig("enemy_goal")
+        return player.getEnemiesDefeated() >= dungeon.getIntConfig("enemy_goal")
                 && dungeon.getStaticObjects().stream().filter(o -> o instanceof ZombieToastSpawner).count() == 0;
     }
 

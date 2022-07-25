@@ -23,6 +23,7 @@ import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
+import dungeonmania.factory.FactoryHelpers;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -34,7 +35,6 @@ import dungeonmania.util.Position;
 public class Dungeon {
     private final int MAX_SPIDER_SPAWN = 15;
     private final int MIN_SPIDER_SPAWN = -15;
-    private final int MAX_SPAWN_POS = Math.abs(MAX_SPIDER_SPAWN * MIN_SPIDER_SPAWN);
 
     private Map<String, DungeonObject> dungeonObjects = new HashMap<>();
     private List<Battle> battles = new ArrayList<>();
@@ -68,19 +68,9 @@ public class Dungeon {
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject a = array.getJSONObject(i);
-                int x = a.getInt("x");
-                int y = a.getInt("y");
-                String type = a.getString("type");
-                String portalColour = "";
-                int key = -1;
-                if (a.has("colour")) {
-                    portalColour = a.getString("colour");
-                }
-                if (a.has("key")) {
-                    key = a.getInt("key");
-                }
-                DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
+                DungeonObjectFactory dungeonObjectFactory = this.factoryChooser
+                        .getFactory(FactoryHelpers.extractType(a));
+                dungeonObjectFactory.create(a);
             }
 
             this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
@@ -136,10 +126,20 @@ public class Dungeon {
         return this.player;
     }
 
-    public int getConfig(String configKey) {
+    public int getIntConfig(String configKey) {
         try {
             JSONObject resource = new JSONObject(this.config);
             return resource.getInt(configKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public double getDoubleConfig(String configKey) {
+        try {
+            JSONObject resource = new JSONObject(this.config);
+            return resource.getDouble(configKey);
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -209,13 +209,13 @@ public class Dungeon {
     }
 
     public void updateSpawnSpider() {
-        int spiderSpawnRate = getConfig("spider_spawn_rate");
+        tickCounter++;
+
+        int spiderSpawnRate = getIntConfig("spider_spawn_rate");
 
         if (spiderSpawnRate == 0) {
             return;
         }
-
-        tickCounter++;
 
         if (tickCounter % spiderSpawnRate != 0) {
             return;
@@ -230,8 +230,8 @@ public class Dungeon {
         Position spiderPosition = new Position(spider_x, spider_y);
 
         Spider newSpider = new Spider();
-        newSpider.setAttackPoints(getConfig("spider_attack"));
-        newSpider.setHealthPoints(getConfig("spider_health"));
+        newSpider.setAttackPoints(getIntConfig("spider_attack"));
+        newSpider.setHealthPoints(getIntConfig("spider_health"));
         newSpider.setType("spider");
         newSpider.setUniqueId(UUID.randomUUID().toString());
 

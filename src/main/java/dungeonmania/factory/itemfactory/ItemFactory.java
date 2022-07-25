@@ -3,27 +3,29 @@ package dungeonmania.factory.itemfactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import dungeonmania.factory.DungeonObjectFactory;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class ItemFactory implements DungeonObjectFactory {
-    private Map<String, ItemBuilder> ItemBuilders = new HashMap<>();
+    private Map<String, ItemBuilder> itemBuilders = new HashMap<>();
 
     public ItemFactory() {
-        this.ItemBuilders.put("sword", new SwordBuilder());
-        this.ItemBuilders.put("key", new KeyBuilder());
-        this.ItemBuilders.put("treasure", new BribableTreasureBuilder());
-        this.ItemBuilders.put("sun_stone", new SunStoneBuilder());
-        this.ItemBuilders.put("arrow", new ArrowsBuilder());
-        this.ItemBuilders.put("bomb", new BombBuilder());
-        this.ItemBuilders.put("invincibility_potion", new InvincibilityPotionBuilder());
-        this.ItemBuilders.put("invisibility_potion", new InvisibilityPotionBuilder());
-        this.ItemBuilders.put("wood", new WoodBuilder());
+        this.itemBuilders.put("sword", new SwordBuilder());
+        this.itemBuilders.put("key", new KeyBuilder());
+        this.itemBuilders.put("treasure", new BribableTreasureBuilder());
+        this.itemBuilders.put("sun_stone", new SunStoneBuilder());
+        this.itemBuilders.put("arrow", new ArrowsBuilder());
+        this.itemBuilders.put("bomb", new BombBuilder());
+        this.itemBuilders.put("invincibility_potion", new InvincibilityPotionBuilder());
+        this.itemBuilders.put("invisibility_potion", new InvisibilityPotionBuilder());
+        this.itemBuilders.put("wood", new WoodBuilder());
     }
 
     @Override
-    public void create(Position position, String type, String portalColour, int key) {
-        ItemBuilder itemBuilder = this.ItemBuilders.get(type);
-        itemBuilder.buildItem(position, type, key);
+    public void create(JSONObject dungeonObject) {
+        ItemBuilder itemBuilder = this.itemBuilders.get(FactoryHelpers.extractType(dungeonObject));
+        itemBuilder.buildItem(dungeonObject);
     }
 }
