@@ -18,8 +18,8 @@ public class PlayerBuilder implements ActorBuilder {
         player.setUniqueId(UUID.randomUUID().toString());
         player.setPosition(FactoryHelpers.extractPosition(actor));
         player.setType(FactoryHelpers.extractType(actor));
-        player.setAttackPoints(dungeon.getConfig("player_attack"));
-        player.setHealthPoints(dungeon.getConfig("player_health"));
+        player.setAttackPoints(dungeon.getIntConfig("player_attack"));
+        player.setHealthPoints(dungeon.getIntConfig("player_health"));
         player.setPreviousPosition(player.getPosition());
         dungeon.setPlayer(player);
         dungeon.addDungeonObject(player.getUniqueId(), player);

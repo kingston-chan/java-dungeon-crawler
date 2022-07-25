@@ -8,6 +8,7 @@ public class Interactables {
 
     public Interactables() {
         interactions.put("mercenary", new MercenaryInteract());
+        interactions.put("assassin", new MercenaryInteract());
         interactions.put("zombie_toast_spawner", new ZombieSpawnerInteract());
     }
 

@@ -16,6 +16,8 @@ public class ActorFactory implements DungeonObjectFactory {
         this.actorBuilders.put("mercenary", new MercenaryBuilder());
         this.actorBuilders.put("zombie_toast", new ZombieToastBuilder());
         this.actorBuilders.put("spider", new SpiderBuilder());
+        this.actorBuilders.put("assassin", new AssassinBuilder());
+        this.actorBuilders.put("hydra", new HydraBuilder());
     }
 
     @Override

@@ -13,7 +13,7 @@ public class SwordBuilder implements ItemBuilder {
     @Override
     public void buildItem(JSONObject item) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        Sword sword = new Sword(dungeon.getConfig("sword_attack"), dungeon.getConfig("sword_durability"));
+        Sword sword = new Sword(dungeon.getIntConfig("sword_attack"), dungeon.getIntConfig("sword_durability"));
         sword.setPosition(FactoryHelpers.extractPosition(item));
         sword.setType(FactoryHelpers.extractType(item));
         sword.setUniqueId(UUID.randomUUID().toString());

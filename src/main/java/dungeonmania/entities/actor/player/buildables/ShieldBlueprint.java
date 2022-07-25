@@ -17,8 +17,8 @@ public class ShieldBlueprint implements BuildableBlueprint {
     private Item createNewShield() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Shield shield = new Shield(
-                dungeon.getConfig("shield_defence"),
-                dungeon.getConfig("shield_durability"));
+                dungeon.getIntConfig("shield_defence"),
+                dungeon.getIntConfig("shield_durability"));
         shield.setPosition(null);
         shield.setType(ITEM_TYPE);
         shield.setUniqueId(UUID.randomUUID().toString());
