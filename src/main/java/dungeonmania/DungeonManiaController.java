@@ -9,14 +9,9 @@ import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
 import dungeonmania.util.MapStoring;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
-
-import org.reflections.Reflections;
-import org.reflections.scanners.Scanners;
 
 public class DungeonManiaController {
     private static Map<String, Dungeon> dungeons = new HashMap<>();
