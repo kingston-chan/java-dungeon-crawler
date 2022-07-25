@@ -317,4 +317,8 @@ public class Player extends Actor {
     public boolean isInteractable() {
         return false;
     }
+
+    public void reduceAlly() {
+        this.numAllies--;
+    }
 }

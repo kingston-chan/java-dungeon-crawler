@@ -17,8 +17,7 @@ public class MercenaryBuilder implements ActorBuilder {
     public void buildActor(JSONObject actor) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Mercenary mercenary = new Mercenary();
-        mercenary.setEnemyState(new EnemyState(mercenary));
-        mercenary.setAllyState(new AllyState());
+        mercenary.setStates(new EnemyState(mercenary));
         mercenary.setUniqueId(UUID.randomUUID().toString());
         mercenary.setPosition(FactoryHelpers.extractPosition(actor));
         mercenary.setType(FactoryHelpers.extractType(actor));
