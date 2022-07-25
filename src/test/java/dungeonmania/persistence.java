@@ -1,5 +1,6 @@
 package dungeonmania;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import dungeonmania.util.Position;
 import static dungeonmania.TestUtils.getEntities;
 import static dungeonmania.TestUtils.getPlayer;
 import static dungeonmania.TestUtils.assertListAreEqualIgnoringOrder;
+import static dungeonmania.TestUtils.getGoals;
 
 
 public class persistence {
@@ -97,11 +99,25 @@ public class persistence {
     List<String> inventory = p.getInventory().stream().map(Item::getType).collect(Collectors.toList());
     assertListAreEqualIgnoringOrder(Arrays.asList("wood", "treasure"), inventory);
 
+    // Goal 
+    assertEquals(":exit", getGoals(dmc));
+
     List<DungeonObject> o = dungeon.getDungeonObjects();
 
     for (DungeonObject f : o) {
       System.out.println(f.getType());
     }
+  }
+
+  @Test 
+  public void switchDungeonTest() {
+    DungeonManiaController controller = new DungeonManiaController();
+    controller.newGame("d_positionsPersistence", "simple");
+    Dungeon prevDungeon = controller.getDungeon();
+    controller.loadGame("midwayTest");
+    Dungeon newDungeon = controller.getDungeon();
+    assertNotEquals(prevDungeon, newDungeon);
+
   }
 }
 

@@ -7,13 +7,8 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import dungeonmania.util.MapStoring;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -167,19 +162,7 @@ public class DungeonManiaController {
      * /game/save
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        try {
-            FileOutputStream fileOut = new FileOutputStream("src/main/resources/dungeonSaves/" + name + ".ser");
-            ObjectOutputStream out = new ObjectOutputStream(fileOut);
-            out.writeObject(getDungeon());
-            out.close();
-            fileOut.close();
-         } catch (IllegalArgumentException i) {
-            System.out.println("NOT EXIST");
-         } catch (IOException i) {
-            System.out.println("ERROR");
-            i.printStackTrace();
-         }
-
+        MapStoring.saveDungeon(name, getDungeon());
         return currentDungeonInstance.getDungeonResponse();
     }
 
@@ -187,22 +170,7 @@ public class DungeonManiaController {
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        Dungeon loadedDungeon = null;
-        try {
-            FileInputStream fileIn = new FileInputStream("src/main/resources/dungeonSaves/" + name + ".ser");
-            ObjectInputStream in = new ObjectInputStream(fileIn);
-            loadedDungeon = (Dungeon) in.readObject();
-            in.close();
-            fileIn.close();
-        } catch (FileNotFoundException e) {
-            throw new IllegalArgumentException();
-        } catch (IOException i) {
-            i.printStackTrace();
-        } catch (ClassNotFoundException c) {
-            c.printStackTrace();
-        }  
-
-        currentDungeonInstance = loadedDungeon;
+        currentDungeonInstance = MapStoring.loadDungeon(name);
         return currentDungeonInstance.getDungeonResponse();
     }
 
@@ -210,12 +178,7 @@ public class DungeonManiaController {
      * /games/all
      */
     public List<String> allGames() {
-        Reflections reflections = new Reflections("dungeonSaves", Scanners.Resources);
-        return reflections.getResources(".*\\.ser")
-                .stream()
-                .map(s -> s.replace("dungeonSaves/", "").replace(".ser", ""))
-                .collect(Collectors.toList());
-
+        return MapStoring.getAllGames();
     }
 
 }
