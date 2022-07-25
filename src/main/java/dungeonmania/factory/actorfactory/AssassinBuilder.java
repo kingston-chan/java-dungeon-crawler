@@ -17,8 +17,7 @@ public class AssassinBuilder implements ActorBuilder {
     public void buildActor(JSONObject actor) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Mercenary assassin = new Mercenary();
-        assassin.setEnemyState(new AssassinState(assassin, dungeon.getIntConfig("assassin_recon_radius")));
-        assassin.setAllyState(new AllyState());
+        assassin.setStates(new AssassinState(assassin, dungeon.getIntConfig("assassin_recon_radius")));
         assassin.setUniqueId(UUID.randomUUID().toString());
         assassin.setPosition(FactoryHelpers.extractPosition(actor));
         assassin.setType(FactoryHelpers.extractType(actor));

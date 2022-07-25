@@ -9,7 +9,7 @@ import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
-import dungeonmania.entities.item.equipment.Sceptre;
+import dungeonmania.entities.item.Sceptre;
 import dungeonmania.util.BoxRadius;
 import dungeonmania.util.Position;
 
@@ -23,8 +23,8 @@ public class MercenaryInteract implements InteractBehaviour {
 
         if (player.getInventory().stream().anyMatch(item -> item instanceof Sceptre)) {
             Sceptre sceptre = ItemGetterHelpers.getSceptreFromInventory(player);
-            sceptre.playerEquip(player);
-
+            sceptre.playerUse(player);
+            player.addAlly();
             dungeon.getDungeonObjects().stream()
                     .filter(dungeonObject -> dungeonObject.equals(merc))
                     .filter(dungeonObject -> dungeonObject instanceof Mercenary)
@@ -48,7 +48,7 @@ public class MercenaryInteract implements InteractBehaviour {
                 .findFirst().get();
 
         if (ItemGetterHelpers.getNumBribableTreasure(player) >= bribeAmount) {
-            ItemGetterHelpers.removeTreasuresFromInventory(bribeAmount, player);
+            ItemGetterHelpers.removeBribableTreasuresFromInventory(bribeAmount, player);
             // mercenary is now in ally state
             dungeon.getDungeonObjects().stream()
                     .filter(dungeonObject -> dungeonObject.equals(merc))
