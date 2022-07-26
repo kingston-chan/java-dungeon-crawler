@@ -6,8 +6,8 @@
   "bribe_amount": 1,
   "bribe_radius": 1,
   "enemy_goal": 1,
-  "invincibility_potion_duration": 1,
-  "invisibility_potion_duration": 1,
+  "invincibility_potion_duration": 3,
+  "invisibility_potion_duration": 2,
   "mercenary_attack": 1,
   "mercenary_health": 5,
   "player_attack": 1,
@@ -32,5 +32,6 @@
   "assassin_bribe_amount": 1,
   "assassin_bribe_fail_rate": 0.0,
   "assassin_health": 10,
-  "assassin_recon_radius": 3
+  "assassin_recon_radius": 3,
+  "mind_control_duration": 2
 }
