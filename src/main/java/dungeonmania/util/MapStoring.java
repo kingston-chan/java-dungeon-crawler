@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.util.List;
 
 import dungeonmania.entities.Dungeon;
-import dungeonmania.response.models.DungeonResponse;
 
 public class MapStoring {
   public static Dungeon loadDungeon(String name) throws IllegalArgumentException {

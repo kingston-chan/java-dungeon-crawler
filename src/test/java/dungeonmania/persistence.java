@@ -9,18 +9,15 @@ import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.Test;
 
-import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
 import static dungeonmania.TestUtils.getEntities;
-import static dungeonmania.TestUtils.getPlayer;
 import static dungeonmania.TestUtils.assertListAreEqualIgnoringOrder;
 import static dungeonmania.TestUtils.getGoals;
 
