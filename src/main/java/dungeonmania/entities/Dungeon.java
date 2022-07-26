@@ -78,6 +78,7 @@ public class Dungeon implements Serializable {
             initialiseAnySwitches();
             return this.dungeonId;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
