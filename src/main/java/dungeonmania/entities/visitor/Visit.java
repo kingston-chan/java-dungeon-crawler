@@ -1,5 +1,6 @@
 package dungeonmania.entities.visitor;
 
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
@@ -33,6 +34,9 @@ public interface Visit {
     default void visit(Spider spider) {
     }
 
+    default void visit(Hydra hydra1) {
+    }
+    
     default void visit(Mercenary mercenary) {
     }
 

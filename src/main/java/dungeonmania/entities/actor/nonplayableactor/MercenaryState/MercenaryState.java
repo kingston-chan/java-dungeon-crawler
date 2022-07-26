@@ -1,6 +1,7 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
+import dungeonmania.entities.actor.player.Player;
 
 public interface MercenaryState extends  java.io.Serializable {
 
@@ -10,7 +11,13 @@ public interface MercenaryState extends  java.io.Serializable {
 
     public boolean isAlly();
 
-    public void recruit();
+    public void recruitedBy(Player player);
 
     public void mindcontrol();
+
+    public int bribeAmount();
+
+    public void visitInvisiblePlayer(Player player);
+
+    public boolean isAssassin();
 }

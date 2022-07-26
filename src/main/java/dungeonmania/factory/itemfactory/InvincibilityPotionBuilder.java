@@ -15,7 +15,7 @@ public class InvincibilityPotionBuilder implements ItemBuilder {
     public void buildItem(JSONObject item) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         InvincibilityPotion invincibilityPotion = new InvincibilityPotion(
-                dungeon.getConfig("invincibility_potion_duration"));
+                dungeon.getIntConfig("invincibility_potion_duration"));
         invincibilityPotion.setPosition(FactoryHelpers.extractPosition(item));
         invincibilityPotion.setType(FactoryHelpers.extractType(item));
         invincibilityPotion.setUniqueId(UUID.randomUUID().toString());

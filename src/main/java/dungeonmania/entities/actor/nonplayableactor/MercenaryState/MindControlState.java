@@ -1,38 +1,62 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MovementBehaviour;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
+import dungeonmania.entities.actor.player.Player;
 
 public class MindControlState implements MercenaryState {
-    private int counter;
+
+    private Mercenary mercenary;
+    private int counter = 0;
+
+    public MindControlState(Mercenary mercenary) {
+        this.mercenary = mercenary;
+    }
 
     @Override
     public boolean canInteract() {
-        // TODO Auto-generated method stub
         return false;
     }
 
     @Override
     public void updateMovement(MovementBehaviour movementBehaviour) {
-        // TODO Auto-generated method stub
-        
+        if (counter < DungeonManiaController.getDungeon().getIntConfig("mind_control_duration")){
+            counter++;
+        } else {
+            mercenary.setMercenaryState(mercenary.getEnemyState());
+            mercenary.setCurrentMovement(movementBehaviour);
+            counter = 0;
+            Player player = DungeonManiaController.getDungeon().getPlayer();
+            player.reduceAlly();
+        }
     }
 
     @Override
     public boolean isAlly() {
-        // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
-    public void recruit() {
-        // TODO Auto-generated method stub
-        
+    public void recruitedBy(Player player) {
     }
 
     @Override
     public void mindcontrol() {
-        // TODO Auto-generated method stub
-        
+    }
+
+    @Override
+    public int bribeAmount() {
+        return 0;
+    }
+
+    @Override
+    public void visitInvisiblePlayer(Player player) {
+    }
+
+    @Override
+    public boolean isAssassin() {
+        return false;
     }
 
 }

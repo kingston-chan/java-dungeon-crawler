@@ -8,6 +8,7 @@ public class Interactables implements  java.io.Serializable {
 
     public Interactables() {
         interactions.put("mercenary", new MercenaryInteract());
+        interactions.put("assassin", new MercenaryInteract());
         interactions.put("zombie_toast_spawner", new ZombieSpawnerInteract());
     }
 

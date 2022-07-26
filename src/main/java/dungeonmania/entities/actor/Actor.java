@@ -26,4 +26,8 @@ public abstract class Actor extends DungeonObject implements Visit {
     public void takeDamage(double damage) {
         this.healthPoints -= damage;
     }
+
+    public void heal(double health) {
+        this.healthPoints += health;
+    }
 }

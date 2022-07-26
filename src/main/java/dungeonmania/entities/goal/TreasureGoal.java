@@ -11,7 +11,7 @@ public class TreasureGoal implements Goal {
     public boolean hasAchieved() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Player player = dungeon.getPlayer();
-        return ItemGetterHelpers.getNumTreasure(player) >= dungeon.getConfig("treasure_goal");
+        return ItemGetterHelpers.getNumTreasure(player) >= dungeon.getIntConfig("treasure_goal");
     }
 
     @Override

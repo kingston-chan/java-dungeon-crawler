@@ -44,7 +44,7 @@ public class Dungeon implements Serializable {
     private String config = "";
     private Goal goals = null;
     private FactoryChooser factoryChooser = new FactoryChooser();
-    private String[] buildableItems = { "bow", "shield" };
+    private String[] buildableItems = { "bow", "shield", "sceptre", "midnight_armour" };
     private int tickCounter = 0;
     private Player player = null;
 
@@ -127,10 +127,20 @@ public class Dungeon implements Serializable {
         return this.player;
     }
 
-    public int getConfig(String configKey) {
+    public int getIntConfig(String configKey) {
         try {
             JSONObject resource = new JSONObject(this.config);
             return resource.getInt(configKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public double getDoubleConfig(String configKey) {
+        try {
+            JSONObject resource = new JSONObject(this.config);
+            return resource.getDouble(configKey);
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -200,13 +210,13 @@ public class Dungeon implements Serializable {
     }
 
     public void updateSpawnSpider() {
-        int spiderSpawnRate = getConfig("spider_spawn_rate");
+        tickCounter++;
+
+        int spiderSpawnRate = getIntConfig("spider_spawn_rate");
 
         if (spiderSpawnRate == 0) {
             return;
         }
-
-        tickCounter++;
 
         if (tickCounter % spiderSpawnRate != 0) {
             return;
@@ -221,8 +231,8 @@ public class Dungeon implements Serializable {
         Position spiderPosition = new Position(spider_x, spider_y);
 
         Spider newSpider = new Spider();
-        newSpider.setAttackPoints(getConfig("spider_attack"));
-        newSpider.setHealthPoints(getConfig("spider_health"));
+        newSpider.setAttackPoints(getIntConfig("spider_attack"));
+        newSpider.setHealthPoints(getIntConfig("spider_health"));
         newSpider.setType("spider");
         newSpider.setUniqueId(UUID.randomUUID().toString());
 

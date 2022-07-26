@@ -2,6 +2,7 @@ package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 
@@ -10,6 +11,12 @@ public class Spider extends NonPlayableActor {
     @Override
     public void doAccept(Player player) {
         player.visit(this);
+    }
+
+    @Override
+    public void visit(Player player) {
+        Battle battle = new Battle(this.getType(), this.getHealthPoints(), player.getHealthPoints());
+        battle.simulateNormalBattle(player, this);
     }
 
     @Override
@@ -39,5 +46,9 @@ public class Spider extends NonPlayableActor {
     @Override
     public boolean canVisitDoor(Door door) {
         return true;
+    }
+
+    @Override
+    public void visitInvisiblePlayer(Player player) {
     }
 }

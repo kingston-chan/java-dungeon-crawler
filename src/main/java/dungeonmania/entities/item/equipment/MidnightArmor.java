@@ -13,7 +13,9 @@ public class MidnightArmor extends Protection{
 
     @Override
     public Item playerEquip(Player player) {
-        return null;
+        player.increaseAdditiveAttack(attack);
+        player.increaseAdditiveDefence(this.getDefence());
+        return this;
     }
 
 }

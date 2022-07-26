@@ -29,7 +29,7 @@ public class ZombieToastSpawner extends StaticObject {
 
     public void updateSpawnRate() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        int spawnrate = dungeon.getConfig("zombie_spawn_rate");
+        int spawnrate = dungeon.getIntConfig("zombie_spawn_rate");
 
         if (spawnrate == 0) {
             return;
