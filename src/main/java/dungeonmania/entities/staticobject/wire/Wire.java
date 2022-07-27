@@ -5,27 +5,16 @@ import java.util.List;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
 import dungeonmania.entities.staticobject.floorswitch.CircuitSubject;
 import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.util.Position;
 
-public class Wire extends StaticObject implements CircuitObserver, CircuitSubject {
+public class Wire extends StaticObject implements CircuitObserver, CircuitSubject, ActivatedEntities {
 
     private int tickActivated = 0;
     private boolean isActivated = false;
     private List<CircuitObserver> circuitObservers = new ArrayList<CircuitObserver>();
-
-    public void activate() {
-        if (!isActivated) {
-            this.tickActivated = DungeonManiaController.getDungeon().getTick();
-            this.isActivated = true;
-        }
-    }
-
-    public void deactivate() {
-        if (isActivated)
-            this.isActivated = false;
-    }
 
     public boolean isActivated() {
         return this.isActivated;
@@ -59,20 +48,29 @@ public class Wire extends StaticObject implements CircuitObserver, CircuitSubjec
 
     @Override
     public void updateActivate() {
-        activate();
-        notifyActivate();
+        if (!isActivated) {
+            this.tickActivated = DungeonManiaController.getDungeon().getTick();
+            this.isActivated = true;
+            notifyActivate();
+        }
     }
 
     @Override
     public void updateDeactivate() {
-        deactivate();
-        notifyDeactivate();
+        if (isActivated) {
+            this.isActivated = false;
+            notifyDeactivate();
+        }
     }
 
     @Override
     public Position getCircuitObserverPosition() {
-        // TODO Auto-generated method stub
         return getPosition();
+    }
+
+    @Override
+    public int getActivatedTick() {
+        return this.tickActivated;
     }
 
 }

@@ -48,7 +48,7 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         // if deactivated by logic rule notifyDeactivate();
         isActive = logicRules.canActivate(this);
         if (!isActive)
-            notifyActivate();
+            notifyDeactivate();
     }
 
     @Override

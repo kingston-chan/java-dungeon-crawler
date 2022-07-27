@@ -90,6 +90,7 @@ public class Dungeon {
             connectCircuits();
             return this.dungeonId;
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

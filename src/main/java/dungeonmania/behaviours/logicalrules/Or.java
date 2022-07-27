@@ -8,7 +8,6 @@ import java.util.List;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
-import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.util.Position;
 
 public class Or implements LogicRules {
@@ -24,6 +23,7 @@ public class Or implements LogicRules {
                     .map(o -> (ActivatedEntities) o).filter(ActivatedEntities::isActivated)
                     .forEach(o -> activatedEntities.add(o));
         });
+
         return activatedEntities.size() >= 1;
     }
 
