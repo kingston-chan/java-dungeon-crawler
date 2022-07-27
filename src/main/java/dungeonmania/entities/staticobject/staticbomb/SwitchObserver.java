@@ -1,8 +1,5 @@
 package dungeonmania.entities.staticobject.staticbomb;
 
-import java.io.Serializable;
-
-public interface SwitchObserver extends Serializable {
-
+public interface SwitchObserver {
     public void update();
 }
