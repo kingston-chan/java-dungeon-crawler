@@ -4,11 +4,11 @@ import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.util.Position;
 
-public class LogicLightbulb extends StaticObject implements CircuitObserver {
+public class Lightbulb extends StaticObject implements CircuitObserver {
     private LogicRules logicRule;
     private boolean isActive = false;
 
-    public LogicLightbulb(LogicRules logicRule) {
+    public Lightbulb(LogicRules logicRule) {
         this.logicRule = logicRule;
     }
 

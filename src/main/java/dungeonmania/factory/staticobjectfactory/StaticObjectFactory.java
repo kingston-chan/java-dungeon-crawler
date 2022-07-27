@@ -21,7 +21,7 @@ public class StaticObjectFactory implements DungeonObjectFactory {
         this.staticObjectFactory.put("swamp_tile", new SwampTileBuilder());
         this.staticObjectFactory.put("wire", new WireBuilder());
         this.staticObjectFactory.put("switch_door", new SwitchDoorBuilder());
-
+        this.staticObjectFactory.put("light_bulb_off", new LightbulbBuilder());
     }
 
     @Override

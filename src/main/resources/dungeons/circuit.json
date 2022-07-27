@@ -27,15 +27,20 @@
         },
         {
             "type": "wire",
-            "x": 5,
-            "y": 1
+            "x": 4,
+            "y": 2
         },
         {
-            "type": "switch_door",
-            "x": 6,
+            "type": "wire",
+            "x": 5,
+            "y": 2
+        },
+        {
+            "type": "light_bulb_off",
+            "x": 5,
             "y": 1,
             "key": 1,
-            "logic": "or"
+            "logic": "and"
         }
     ],
     "goal-condition": {
