@@ -137,4 +137,18 @@ public class LightBulbTest {
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
     }
+
+    @Test
+    public void onlyCardinal() {
+        DungeonManiaController controller = new DungeonManiaController();
+        DungeonResponse currentDungeon = controller.newGame("d_light", "simple");
+
+        //there is one off lightbulb
+        assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
+
+        //push a bolder onto a switch
+        currentDungeon = controller.tick(Direction.RIGHT);
+
+        assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
+    }
 }
