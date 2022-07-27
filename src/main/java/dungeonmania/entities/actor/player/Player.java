@@ -310,7 +310,7 @@ public class Player extends Actor {
 
     @Override
     public void visit(FloorSwitch fswitch) {
-        fswitch.doDeactivate();
+        fswitch.playerDeactivate();
     }
 
     @Override

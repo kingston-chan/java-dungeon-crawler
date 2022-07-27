@@ -15,6 +15,7 @@ public class ActivatedState implements SwitchState {
     @Override
     public boolean deactivate() {
         this.floorSwitch.setState(this.floorSwitch.getDeactivatedState());
+        this.floorSwitch.notifyDeactivate();
         return true;
     }
 
