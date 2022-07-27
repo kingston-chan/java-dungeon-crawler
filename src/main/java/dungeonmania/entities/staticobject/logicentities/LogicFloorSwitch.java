@@ -5,6 +5,13 @@ import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
 
     @Override
+    public boolean isActivated() {
+        // If super.isActivated is true return true
+        // return logic behaviour rule
+        return super.isActivated();
+    }
+
+    @Override
     public void updateActivate() {
         // if super.isActivated, return
         // if already activated, return
