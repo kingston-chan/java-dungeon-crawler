@@ -6,6 +6,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.reflections.Reflections;
+import org.reflections.scanners.Scanners;
 
 import dungeonmania.entities.Dungeon;
 
@@ -43,6 +47,10 @@ public class MapStoring {
   }
 
   public static List<String> getAllGames() {
-    return FileLoader.listFileNamesInResourceDirectory("dungeonSaves");
+    Reflections reflections = new Reflections("dungeonSaves", Scanners.Resources);
+    return reflections.getResources(".*\\.ser")
+            .stream()
+            .map(s -> s.replace("dungeonSaves/", "").replace(".ser", ""))
+            .collect(Collectors.toList());
   }
 }
