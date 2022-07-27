@@ -36,8 +36,6 @@ public class MapStoring {
         out.writeObject(dungeon);
         out.close();
         fileOut.close();
-     } catch (IllegalArgumentException i) {
-        System.out.println("NOT EXIST");
      } catch (IOException i) {
         System.out.println("ERROR");
         i.printStackTrace();
