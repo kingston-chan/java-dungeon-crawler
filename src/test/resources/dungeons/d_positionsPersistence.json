@@ -1,0 +1,120 @@
+{
+  "entities": [
+      {
+          "type": "player",
+          "x": 0,
+          "y": 1
+      },
+      {
+          "type": "mercenary",
+          "x": 1,
+          "y": 1
+      },
+      {
+          "type": "spider",
+          "x": 2,
+          "y": 1
+      },
+      {
+          "type": "zombie_toast",
+          "x": 3,
+          "y": 1
+      },
+      {
+          "type": "zombie_toast_spawner",
+          "x": 4,
+          "y": 1
+      },
+      {
+        "type": "assassin",
+        "x": 5,
+        "y": 1
+      },
+      {
+        "type": "hydra",
+        "x": 6,
+        "y": 1
+      },
+      {
+        "type": "wall",
+        "x": 0,
+        "y": 2
+      },
+      {
+        "type": "exit",
+        "x": 1,
+        "y": 2
+      },
+      {
+        "type": "boulder",
+        "x": 2,
+        "y": 2
+      },
+      {
+        "type": "switch",
+        "x": 3,
+        "y": 2
+      },
+      {
+        "type": "door",
+        "x": 4,
+        "y": 2,
+        "key": 1
+      },
+      {
+        "type": "portal",
+        "x": 5,
+        "y": 2,
+        "colour": "RED"
+      },
+      {
+        "type": "treasure",
+        "x": 6,
+        "y": 2
+      },
+      {
+        "type": "wood",
+        "x": 7,
+        "y": 2
+      },
+      {
+        "type": "arrow",
+        "x": 8,
+        "y": 2
+      },
+      {
+        "type": "bomb",
+        "x": 9,
+        "y": 2
+      },
+      {
+        "type": "sword",
+        "x": 10,
+        "y": 2
+      },
+      {
+        "type": "invincibility_potion",
+        "x": 11,
+        "y": 2
+      },
+      {
+        "type": "invisibility_potion",
+        "x": 12,
+        "y": 2
+      },
+      {
+        "type": "sun_stone",
+        "x": 13,
+        "y": 2
+      },
+      {
+        "type": "swamp_tile",
+        "x": 14,
+        "y": 2,
+        "movement_factor": 2
+      }     
+  ],
+  "goal-condition": {
+      "goal": "exit"
+  }
+}

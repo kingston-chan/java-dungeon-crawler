@@ -1,6 +1,6 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
-public interface SwitchState {
+public interface SwitchState extends java.io.Serializable {
 
     public boolean activate();
 
