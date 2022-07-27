@@ -22,9 +22,9 @@ public class BombBuilder implements ItemBuilder {
         } catch (Exception e) {
             bomb = new Bomb();
         }
-            bomb.setPosition(FactoryHelpers.extractPosition(item));
-            bomb.setType(FactoryHelpers.extractType(item));
-            bomb.setUniqueId(UUID.randomUUID().toString());
-            dungeon.addDungeonObject(bomb.getUniqueId(), bomb);
+        bomb.setPosition(FactoryHelpers.extractPosition(item));
+        bomb.setType(FactoryHelpers.extractType(item));
+        bomb.setUniqueId(UUID.randomUUID().toString());
+        dungeon.addDungeonObject(bomb.getUniqueId(), bomb);
     }
 }
