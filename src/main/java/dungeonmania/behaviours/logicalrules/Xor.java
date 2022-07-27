@@ -24,6 +24,8 @@ public class Xor implements LogicRules {
                     .map(o -> (ActivatedEntities) o).filter(ActivatedEntities::isActivated)
                     .forEach(o -> activatedEntities.add(o));
         });
+
+        System.out.println(activatedEntities.size());
         return activatedEntities.size() == 1;
     }
 
