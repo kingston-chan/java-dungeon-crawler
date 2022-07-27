@@ -24,4 +24,8 @@ public class FactoryHelpers {
     public static int extractMovementFactor(JSONObject jsonObject) {
         return jsonObject.getInt("movement_factor");
     }
+
+    public static int extractLogic(JSONObject jsonObject) {
+        return jsonObject.getInt("logic");
+    }
 }
