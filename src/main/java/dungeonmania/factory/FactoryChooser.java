@@ -17,6 +17,8 @@ public class FactoryChooser {
         this.factoryChooser.put("zombie_toast", new ActorFactory());
         this.factoryChooser.put("assassin", new ActorFactory());
         this.factoryChooser.put("hydra", new ActorFactory());
+        this.factoryChooser.put("wire", new StaticObjectFactory());
+        this.factoryChooser.put("switch_door", new StaticObjectFactory());
         this.factoryChooser.put("wall", new StaticObjectFactory());
         this.factoryChooser.put("exit", new StaticObjectFactory());
         this.factoryChooser.put("boulder", new StaticObjectFactory());
