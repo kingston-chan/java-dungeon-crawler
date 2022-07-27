@@ -1,5 +1,6 @@
 package dungeonmania.entities.staticobject.logicentities;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 import dungeonmania.util.Position;
@@ -32,6 +33,7 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         isActive = logicRules.canActivate(this);
         if (isActive) {
             notifyActivate();
+            setTickActivated(DungeonManiaController.getDungeon().getTick());
         } else {
             notifyDeactivate();
         }
@@ -48,6 +50,7 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         isActive = logicRules.canActivate(this);
         if (isActive) {
             notifyActivate();
+            setTickActivated(DungeonManiaController.getDungeon().getTick());
         } else {
             notifyDeactivate();
         }

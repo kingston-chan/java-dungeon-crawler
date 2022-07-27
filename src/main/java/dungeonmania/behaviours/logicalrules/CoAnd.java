@@ -16,6 +16,7 @@ public class CoAnd implements LogicRules {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Position pos = circuitObserver.getCircuitObserverPosition();
         List<ActivatedEntities> activatedEntities = new ArrayList<>();
+
         pos.getAdjacentCardinalPositions().forEach(p -> {
             dungeon.getObjectsAtPosition(p).stream().filter(o -> o instanceof ActivatedEntities)
                     .map(o -> (ActivatedEntities) o).filter(ActivatedEntities::isActivated)
@@ -23,7 +24,7 @@ public class CoAnd implements LogicRules {
         });
 
         return activatedEntities.size() >= 2 && activatedEntities.stream().allMatch(o -> activatedEntities.stream()
-                .map(ActivatedEntities::getActivatedTick).allMatch(t -> t == o.getActivatedTick()));
+                .filter(o2 -> !o2.equals(o)).map(ActivatedEntities::getActivatedTick).allMatch(t -> t == o.getActivatedTick()));
     }
 
 }

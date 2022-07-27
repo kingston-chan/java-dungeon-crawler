@@ -17,7 +17,7 @@
         },
         {
             "type": "switch",
-            "logic": "xor",
+            "logic": "co_and",
             "x": 5,
             "y": 2
         },
