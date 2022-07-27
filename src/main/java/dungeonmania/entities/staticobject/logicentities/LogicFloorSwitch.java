@@ -27,13 +27,14 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         if (super.isActivated())
             return;
         // if already activated, return
-        if (isActive)
-            return;
         // check using behaviour and do function
         // if activated by logic rule notifyActivate();
         isActive = logicRules.canActivate(this);
-        if (isActive)
+        if (isActive) {
             notifyActivate();
+        } else {
+            notifyDeactivate();
+        }
     }
 
     @Override
@@ -42,13 +43,14 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         if (super.isActivated())
             return;
         // if already deactivated, return
-        if (!isActive)
-            return;
         // check using behaviour and do function
         // if deactivated by logic rule notifyDeactivate();
         isActive = logicRules.canActivate(this);
-        if (!isActive)
+        if (isActive) {
+            notifyActivate();
+        } else {
             notifyDeactivate();
+        }
     }
 
     @Override
