@@ -252,4 +252,8 @@ public class Dungeon {
 
         getObjectsAtPosition(spiderPosition).forEach(o -> o.doAccept(newSpider));
     }
+
+    public int getTick() {
+        return this.tickCounter;
+    }
 }

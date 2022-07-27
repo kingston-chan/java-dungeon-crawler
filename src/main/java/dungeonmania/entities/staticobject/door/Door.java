@@ -23,6 +23,14 @@ public class Door extends StaticObject {
         return this.isOpened;
     }
 
+    public void setOpened() {
+        this.isOpened = true;
+    }
+
+    public void setClosed() {
+        this.isOpened = false;
+    }
+
     @Override
     public boolean canAccept(Player player) {
         if (this.isOpened) {

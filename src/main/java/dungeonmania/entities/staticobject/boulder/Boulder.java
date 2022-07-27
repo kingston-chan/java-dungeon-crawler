@@ -15,7 +15,7 @@ import dungeonmania.entities.Dungeon;
 public class Boulder extends StaticObject implements Visit {
     @Override
     public void visit(FloorSwitch floorSwitch) {
-        floorSwitch.doActivate();
+        floorSwitch.boulderActivate();
     }
 
     @Override

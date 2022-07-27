@@ -1,5 +1,7 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
+import dungeonmania.DungeonManiaController;
+
 public class DeactivatedState implements SwitchState {
     private FloorSwitch floorSwitch;
 
@@ -10,7 +12,9 @@ public class DeactivatedState implements SwitchState {
     @Override
     public boolean activate() {
         this.floorSwitch.notifySwitchObservers();
+        this.floorSwitch.notifyActivate();
         this.floorSwitch.setState(this.floorSwitch.getActivatedState());
+        this.floorSwitch.setTickActivated(DungeonManiaController.getDungeon().getTick());
         return true;
     }
 
