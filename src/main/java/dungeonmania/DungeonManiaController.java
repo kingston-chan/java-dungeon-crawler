@@ -176,4 +176,15 @@ public class DungeonManiaController {
         return MapStoring.getAllGames();
     }
 
+    public DungeonResponse generateDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName) {
+        Dungeon newDungeon = new Dungeon();
+        currentDungeonInstance = newDungeon;
+        String newDungeonId = newDungeon.initMazeDungeon(xStart, yStart, xEnd, yEnd, configName);
+        if (newDungeonId == null) {
+            currentDungeonInstance = null;
+            throw new IllegalArgumentException();
+        }
+        dungeons.put(newDungeonId, newDungeon);
+        return newDungeon.getDungeonResponse();
+    }
 }
