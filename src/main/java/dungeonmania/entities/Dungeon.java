@@ -21,6 +21,8 @@ import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.floorswitch.CircuitSubject;
+import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
 import dungeonmania.factory.FactoryHelpers;
@@ -59,6 +61,16 @@ public class Dungeon {
         });
     }
 
+    private void connectCircuits() {
+        getStaticObjects().stream().filter(o1 -> o1 instanceof CircuitSubject).forEach(o1 -> {
+            o1.getPosition().getAdjacentCardinalPositions().stream().forEach(p -> {
+                getObjectsAtPosition(p).stream().filter(o2 -> o2 instanceof CircuitObserver).forEach(o2 -> {
+                    ((CircuitSubject) o1).add((CircuitObserver) o2);
+                });
+            });
+        });
+    }
+
     public String initDungeon(String dungeonName, String configName) {
         this.dungeonName = dungeonName;
         try {
@@ -75,6 +87,7 @@ public class Dungeon {
 
             this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
             initialiseAnySwitches();
+            connectCircuits();
             return this.dungeonId;
         } catch (Exception e) {
             return null;
