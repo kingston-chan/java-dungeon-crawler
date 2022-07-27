@@ -36,11 +36,17 @@
             "y": 2
         },
         {
-            "type": "light_bulb_off",
+            "type": "switch",
             "x": 5,
             "y": 1,
-            "key": 1,
             "logic": "and"
+        },
+        {
+            "type": "light_bulb_off",
+            "x": 6,
+            "y": 1,
+            "key": 1,
+            "logic": "or"
         }
     ],
     "goal-condition": {
