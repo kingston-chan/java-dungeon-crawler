@@ -52,8 +52,8 @@ public class Wire extends StaticObject implements CircuitObserver, CircuitSubjec
 
     @Override
     public void notifyDeactivate() {
-        this.circuitObservers.stream().filter(c -> c instanceof Wire).forEach(w -> w.updateActivate());
-        this.circuitObservers.stream().filter(c -> !(c instanceof Wire)).forEach(c -> c.updateActivate());
+        this.circuitObservers.stream().filter(c -> c instanceof Wire).forEach(w -> w.updateDeactivate());
+        this.circuitObservers.stream().filter(c -> !(c instanceof Wire)).forEach(c -> c.updateDeactivate());
     }
 
     @Override
