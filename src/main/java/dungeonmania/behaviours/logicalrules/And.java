@@ -8,7 +8,6 @@ import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
 import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
-import dungeonmania.entities.staticobject.wire.Wire;
 import dungeonmania.util.Position;
 
 public class And implements LogicRules {
@@ -27,8 +26,9 @@ public class And implements LogicRules {
 
         return (activatedEntities.stream().filter(e -> e instanceof FloorSwitch).count() >= 2
                 && activatedEntities.stream().filter(e -> e instanceof FloorSwitch)
-                .allMatch(e -> e.isActivated()))
-               || activatedEntities.stream().filter(e -> e instanceof Wire).count() >= 2 ;
+                        .allMatch(e -> e.isActivated()))
+                || (activatedEntities.size() >= 2
+                        && activatedEntities.stream().filter(e -> e instanceof FloorSwitch).count() <= 1);
     }
 
 }
