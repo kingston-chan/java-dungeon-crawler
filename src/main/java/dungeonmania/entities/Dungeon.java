@@ -266,7 +266,7 @@ public class Dungeon {
             return null;
         }
 
-        this.dungeonName = "maze-" + this.dungeonId;
+        this.dungeonName = "maze";
 
         Maze maze = new Maze();
 
