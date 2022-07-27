@@ -3,16 +3,20 @@ package dungeonmania.entities.staticobject.floorswitch;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.entities.staticobject.staticbomb.SwitchObserver;
+import dungeonmania.entities.staticobject.wire.Wire;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FloorSwitch extends StaticObject implements SwitchSubject {
+public class FloorSwitch extends StaticObject implements SwitchSubject, CircuitSubject, ActivatedEntities {
     private SwitchState activatedState;
     private SwitchState deactivatedState;
     private SwitchState currentState;
     private List<SwitchObserver> switchObservers = new ArrayList<SwitchObserver>();
+    private List<CircuitObserver> circuitObservers = new ArrayList<CircuitObserver>();
+    private int tickActivated = 0;
 
     public FloorSwitch() {
         this.activatedState = new ActivatedState(this);
@@ -20,15 +24,20 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
         this.currentState = deactivatedState;
     }
 
+    @Override
     public boolean isActivated() {
         return this.currentState.isSwitchActivated();
     }
 
-    public boolean doActivate() {
+    public void setTickActivated(int tick) {
+        this.tickActivated = tick;
+    }
+
+    public boolean boulderActivate() {
         return this.currentState.activate();
     }
 
-    public boolean doDeactivate() {
+    public boolean playerDeactivate() {
         return this.currentState.deactivate();
     }
 
@@ -72,6 +81,28 @@ public class FloorSwitch extends StaticObject implements SwitchSubject {
     @Override
     public boolean isInteractable() {
         return false;
+    }
+
+    @Override
+    public void add(CircuitObserver circuitObserver) {
+        this.circuitObservers.add(circuitObserver);
+    }
+
+    @Override
+    public void notifyActivate() {
+        this.circuitObservers.stream().filter(c -> c instanceof Wire).forEach(w -> w.updateActivate());
+        this.circuitObservers.stream().filter(c -> !(c instanceof Wire)).forEach(c -> c.updateActivate());
+    }
+
+    @Override
+    public void notifyDeactivate() {
+        this.circuitObservers.stream().filter(c -> c instanceof Wire).forEach(w -> w.updateDeactivate());
+        this.circuitObservers.stream().filter(c -> !(c instanceof Wire)).forEach(c -> c.updateDeactivate());
+    }
+
+    @Override
+    public int getActivatedTick() {
+        return this.tickActivated;
     }
 
 }
