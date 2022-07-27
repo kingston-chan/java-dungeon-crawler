@@ -4,7 +4,7 @@ import java.util.List;
 
 import dungeonmania.entities.item.Item;
 
-public class Round {
+public class Round implements java.io.Serializable {
     private double playerHealthChange;
     private double enemyHealthChange;
     private List<Item> playerWeaponsUsed;

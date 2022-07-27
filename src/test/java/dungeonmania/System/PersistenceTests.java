@@ -272,5 +272,20 @@ public class PersistenceTests {
     dmc = controller.tick(Direction.RIGHT);
     assertTrue(getEntities(dmc, "assassin").get(0).isInteractable());
   }
+
+  @Test 
+  public void battlePersistsTest() {
+    DungeonManiaController controller = new DungeonManiaController();
+    controller.newGame("d_playerBattlesZombie","c_playerDefeatsZombie");
+    DungeonResponse resp = controller.tick(Direction.RIGHT);
+    assertFalse(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("zombie_toast")));
+    controller.saveGame("battledZombie");
+
+    DungeonManiaController controller2 = new DungeonManiaController();
+    DungeonResponse dmc = controller2.loadGame("battledZombie");
+    assertEquals(1, dmc.getBattles().size());
+    assertEquals("zombie_toast", dmc.getBattles().get(0).getEnemy());
+
+  }
 }
 
