@@ -45,9 +45,7 @@ public class WiresTest {
         EntityResponse player = getPlayer(currentDungeon).get();
 
         assertEquals(new Position(3, 1), player.getPosition());
-        //switch door should be open so we can move to 3,1
-
-        
+        //switch door should be open so we can move to 3,1   
     }
 
 
