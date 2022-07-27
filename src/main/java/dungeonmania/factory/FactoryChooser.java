@@ -21,6 +21,8 @@ public class FactoryChooser {
         this.factoryChooser.put("exit", new StaticObjectFactory());
         this.factoryChooser.put("boulder", new StaticObjectFactory());
         this.factoryChooser.put("switch", new StaticObjectFactory());
+        this.factoryChooser.put("switch_door", new StaticObjectFactory());
+        this.factoryChooser.put("light_bulb_off", new StaticObjectFactory());
         this.factoryChooser.put("door", new StaticObjectFactory());
         this.factoryChooser.put("portal", new StaticObjectFactory());
         this.factoryChooser.put("zombie_toast_spawner", new StaticObjectFactory());

@@ -7,8 +7,11 @@ import dungeonmania.util.Position;
 public class SwitchDoor extends Door implements CircuitObserver {
     private LogicRules logicRules;
 
-    public SwitchDoor(int key, LogicRules logicRules) {
+    public SwitchDoor(int key) {
         super(key);
+    }
+
+    public void setLogicRules(LogicRules logicRules) {
         this.logicRules = logicRules;
     }
 

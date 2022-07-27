@@ -9,6 +9,12 @@ public class Lightbulb extends StaticObject implements SwitchObserver {
     @Override
     public void update() {
         isActive = !isActive;
+
+        if (isActive) {
+            setType("light_bulb_on");
+        } else {
+            setType("light_bulb_off");
+        }
     }
 
     @Override

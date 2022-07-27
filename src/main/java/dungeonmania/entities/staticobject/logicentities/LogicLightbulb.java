@@ -12,14 +12,24 @@ public class LogicLightbulb extends StaticObject implements CircuitObserver {
         this.logicRule = logicRule;
     }
 
+    private void updateType() {
+        if (isActive) {
+            setType("light_bulb_on");
+        } else {
+            setType("light_bulb_off");
+        }
+    }
+
     @Override
     public void updateActivate() {
         isActive = logicRule.canActivate(this);
+        updateType();
     }
 
     @Override
     public void updateDeactivate() {
         isActive = logicRule.canActivate(this);
+        updateType();
     }
 
     @Override
