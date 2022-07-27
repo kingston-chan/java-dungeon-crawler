@@ -2,8 +2,10 @@ package dungeonmania.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Queue;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -16,6 +18,7 @@ import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
+import dungeonmania.entities.goal.ExitGoal;
 import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
@@ -26,6 +29,9 @@ import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
 import dungeonmania.factory.FactoryHelpers;
+import dungeonmania.factory.actorfactory.PlayerBuilder;
+import dungeonmania.factory.staticobjectfactory.ExitBuilder;
+import dungeonmania.factory.staticobjectfactory.WallBuilder;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -270,4 +276,22 @@ public class Dungeon {
     public int getTick() {
         return this.tickCounter;
     }
+    public String initMazeDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName) {
+        try {
+            this.config = FileLoader.loadResourceFile("/configs/" + configName + ".json");
+        } catch (Exception e) {
+            return null;
+        }
+
+        this.dungeonName = "maze";
+
+        Maze maze = new Maze();
+
+        maze.createNewRandomMaze(xStart, yStart, xEnd, yEnd);
+
+        this.goals = new ExitGoal();
+
+        return this.dungeonId;
+    }
+
 }
