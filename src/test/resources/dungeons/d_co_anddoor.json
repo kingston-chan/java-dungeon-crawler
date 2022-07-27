@@ -1,0 +1,44 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 2,
+            "y": 2
+        },
+        {
+            "type": "boulder",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "type": "switch",
+            "x": 4,
+            "y": 2
+        },
+        {
+            "type": "wire",
+            "x": 4,
+            "y": 1
+        },
+        {
+            "type": "wire",
+            "x": 4,
+            "y": 0
+        },
+        {
+            "type": "wire",
+            "x": 3,
+            "y": 0
+        },
+        {
+            "type": "switch_door",
+            "key": 1,
+            "logic": "co_and",
+            "x": 3,
+            "y": 1
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

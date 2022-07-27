@@ -2,16 +2,25 @@ package dungeonmania.factory.staticobjectfactory;
 
 import java.util.UUID;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
+import dungeonmania.entities.staticobject.logicentities.LogicFloorSwitch;
 import dungeonmania.factory.FactoryHelpers;
+import dungeonmania.factory.LogicFactory;
 
 public class FloorSwitchBuilder implements StaticObjectBuilder {
     @Override
     public void buildStaticObject(JSONObject staticObject) {
-        FloorSwitch floorSwitch = new FloorSwitch();
+        FloorSwitch floorSwitch;
+        try {
+            String logicType = FactoryHelpers.extractLogic(staticObject);
+            floorSwitch = new LogicFloorSwitch(LogicFactory.getLogicType(logicType));
+        } catch (JSONException e) {
+            floorSwitch = new FloorSwitch();
+        }
         floorSwitch.setPosition(FactoryHelpers.extractPosition(staticObject));
         floorSwitch.setUniqueId(UUID.randomUUID().toString());
         floorSwitch.setType(FactoryHelpers.extractType(staticObject));
