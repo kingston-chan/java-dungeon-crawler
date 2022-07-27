@@ -49,7 +49,7 @@ public class Dungeon {
     private String config = "";
     private Goal goals = null;
     private FactoryChooser factoryChooser = new FactoryChooser();
-    private String[] buildableItems = { "bow", "shield" };
+    private String[] buildableItems = { "bow", "shield", "sceptre", "midnight_armour" };
     private int tickCounter = 0;
     private Player player = null;
 
