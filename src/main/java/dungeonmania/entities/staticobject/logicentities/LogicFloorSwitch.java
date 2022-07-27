@@ -1,6 +1,7 @@
 package dungeonmania.entities.staticobject.logicentities;
 
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
+import dungeonmania.util.Position;
 
 public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
 
@@ -25,6 +26,12 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         // if already deactivated, return
         // check using behaviour and do function
         // if deactivated by logic rule notifyDeactivate();
+    }
+
+    @Override
+    public Position getCircuitObserverPosition() {
+        // TODO Auto-generated method stub
+        return getPosition();
     }
 
 }

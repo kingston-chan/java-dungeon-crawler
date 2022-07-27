@@ -1,6 +1,7 @@
 package dungeonmania.entities.staticobject.logicentities;
 
 import dungeonmania.entities.staticobject.StaticObject;
+import dungeonmania.util.Position;
 
 public class LogicStaticBomb extends StaticObject implements CircuitObserver {
 
@@ -17,6 +18,11 @@ public class LogicStaticBomb extends StaticObject implements CircuitObserver {
     @Override
     public boolean isInteractable() {
         return false;
+    }
+
+    @Override
+    public Position getCircuitObserverPosition() {
+        return getPosition();
     }
 
 }

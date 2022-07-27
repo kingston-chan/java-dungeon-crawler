@@ -7,6 +7,7 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.floorswitch.CircuitSubject;
 import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
+import dungeonmania.util.Position;
 
 public class Wire extends StaticObject implements CircuitObserver, CircuitSubject {
 
@@ -66,6 +67,12 @@ public class Wire extends StaticObject implements CircuitObserver, CircuitSubjec
     public void updateDeactivate() {
         deactivate();
         notifyDeactivate();
+    }
+
+    @Override
+    public Position getCircuitObserverPosition() {
+        // TODO Auto-generated method stub
+        return getPosition();
     }
 
 }
