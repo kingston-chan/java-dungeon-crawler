@@ -46,7 +46,7 @@ public class NormalState implements PlayerState {
     @Override
     public void notifyNonPlayableActors() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        dungeon.getNonPlayableActors().stream().forEach(npa -> npa.update(npa.getDefaultMovement()));
+        dungeon.getNonPlayableActors().stream().forEach(npa -> npa.movePlayerIsNormal());
     }
 
     @Override
@@ -55,10 +55,4 @@ public class NormalState implements PlayerState {
         hydra.setRandomHeal();
         battle.simulateNormalBattle(player, hydra);
     }
-
-    @Override
-    public boolean isInvisible() {
-        return false;
-    }
-
 }

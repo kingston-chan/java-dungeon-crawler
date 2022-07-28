@@ -247,10 +247,6 @@ public class Player extends Actor {
         return this.previousPosition;
     }
 
-    public boolean isInvisible() {
-        return this.currentState.isInvisible();
-    }
-
     public double attackedBy(NonPlayableActor npa) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
 
