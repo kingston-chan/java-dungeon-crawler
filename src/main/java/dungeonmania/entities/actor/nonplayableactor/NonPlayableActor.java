@@ -35,20 +35,20 @@ public abstract class NonPlayableActor extends Actor {
         this.currentMovement = movementBehaviour;
     }
 
-    public void doMove(NonPlayableActor npa) {
-        this.currentMovement.move(npa);
+    public void doMove() {
+        this.currentMovement.move(this);
     }
 
     public void stuck(int stuckTicks) {
         this.stuckTicks = stuckTicks;
     }
 
-    public int getStuckTicks() {
-        return stuckTicks;
-    }
-
-    public void reduceStuckTick() {
-        stuckTicks--;
+    public boolean isStuck() {
+        if (this.stuckTicks > 0) {
+            this.stuckTicks--;
+            return true;
+        }
+        return false;
     }
 
     public double attackedBy(Player player) {
@@ -78,7 +78,11 @@ public abstract class NonPlayableActor extends Actor {
 
     public abstract boolean canVisitDoor(Door door);
 
-    public abstract void update(MovementBehaviour movementBehaviour);
+    public abstract void movePlayerIsNormal();
+
+    public abstract void movePlayerIsInvisible();
+
+    public abstract void movePlayerIsInvincible();
 
     public abstract void visitInvisiblePlayer(Player player);
 }

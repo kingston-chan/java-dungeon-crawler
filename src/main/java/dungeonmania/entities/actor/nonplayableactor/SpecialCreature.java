@@ -1,19 +1,10 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
+import dungeonmania.behaviours.movement.MoveAwayFromPlayer;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
-import dungeonmania.behaviours.movement.MovementBehaviour;
 
 public abstract class SpecialCreature extends NonPlayableActor {
-    @Override
-    public void update(MovementBehaviour movementBehaviour) {
-        if (getStuckTicks() > 0) {
-            reduceStuckTick();
-            return;
-        }
-        this.setCurrentMovement(movementBehaviour);
-        this.doMove(this);
-    }
 
     @Override
     public boolean isInteractable() {
@@ -33,5 +24,26 @@ public abstract class SpecialCreature extends NonPlayableActor {
     @Override
     public boolean canVisitDoor(Door door) {
         return door.isOpened();
+    }
+
+    @Override
+    public void movePlayerIsInvincible() {
+        setCurrentMovement(new MoveAwayFromPlayer());
+        if (isStuck())
+            return;
+        doMove();
+    }
+
+    @Override
+    public void movePlayerIsNormal() {
+        setCurrentMovement(getDefaultMovement());
+        if (isStuck())
+            return;
+        doMove();
+    }
+
+    @Override
+    public void movePlayerIsInvisible() {
+        movePlayerIsNormal();
     }
 }

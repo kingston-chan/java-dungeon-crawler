@@ -1,6 +1,5 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
@@ -10,15 +9,6 @@ public class Spider extends NonPlayableActor {
     @Override
     public void doAccept(Player player) {
         player.visit(this);
-    }
-
-    @Override
-    public void update(MovementBehaviour movementBehaviour) {
-        if (getStuckTicks() > 0) {
-            reduceStuckTick();
-            return;
-        }
-        this.doMove(this);
     }
 
     @Override
@@ -43,5 +33,26 @@ public class Spider extends NonPlayableActor {
 
     @Override
     public void visitInvisiblePlayer(Player player) {
+    }
+
+    private void move() {
+        if (isStuck())
+            return;
+        doMove();
+    }
+
+    @Override
+    public void movePlayerIsNormal() {
+        move();
+    }
+
+    @Override
+    public void movePlayerIsInvisible() {
+        move();
+    }
+
+    @Override
+    public void movePlayerIsInvincible() {
+        move();
     }
 }
