@@ -3,10 +3,6 @@ package dungeonmania.entities.battle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-<<<<<<< HEAD
-import java.util.stream.Collector;
-=======
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
 import java.util.stream.Collectors;
 
 import dungeonmania.DungeonManiaController;

@@ -3,10 +3,7 @@ package dungeonmania.entities.actor.nonplayableactor;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
-<<<<<<< HEAD
-=======
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MindControlState;
 import dungeonmania.entities.actor.player.Player;

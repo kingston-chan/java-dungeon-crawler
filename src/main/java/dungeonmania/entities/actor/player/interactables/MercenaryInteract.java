@@ -48,11 +48,7 @@ public class MercenaryInteract implements InteractBehaviour {
                 .findFirst().get();
 
         if (ItemGetterHelpers.getNumBribableTreasure(player) >= bribeAmount) {
-<<<<<<< HEAD
-            ItemGetterHelpers.removeTreasuresFromInventory(bribeAmount, player);
-=======
             ItemGetterHelpers.removeBribableTreasuresFromInventory(bribeAmount, player);
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
             // mercenary is now in ally state
             dungeon.getDungeonObjects().stream()
                     .filter(dungeonObject -> dungeonObject.equals(merc))
