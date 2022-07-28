@@ -1,62 +1,60 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 
-public class MindControlState implements MercenaryState {
-
-    private Mercenary mercenary;
+public class MindControlState extends AllyState {
     private int counter = 0;
 
     public MindControlState(Mercenary mercenary) {
-        this.mercenary = mercenary;
+        super(mercenary);
     }
 
-    @Override
-    public boolean canInteract() {
+    private boolean isUnderControl() {
+        if (counter < DungeonManiaController.getDungeon().getIntConfig("mind_control_duration")) {
+            counter++;
+            return true;
+        }
         return false;
     }
 
+    private void mindControlEnds() {
+        counter = 0;
+        Player player = DungeonManiaController.getDungeon().getPlayer();
+        player.reduceAlly();
+        getMercenary().setMercenaryState(getMercenary().getEnemyState());
+    }
+
     @Override
-    public void updateMovement(MovementBehaviour movementBehaviour) {
-        if (counter < DungeonManiaController.getDungeon().getIntConfig("mind_control_duration")){
-            counter++;
+    public void movePlayerIsNormal() {
+        if (isUnderControl()) {
+            super.movePlayerIsNormal();
         } else {
-            mercenary.setMercenaryState(mercenary.getEnemyState());
-            mercenary.setCurrentMovement(movementBehaviour);
-            counter = 0;
-            Player player = DungeonManiaController.getDungeon().getPlayer();
-            player.reduceAlly();
+            mindControlEnds();
+            getMercenary().movePlayerIsNormal();
         }
     }
 
     @Override
-    public boolean isAlly() {
-        return true;
+    public void movePlayerIsInvincible() {
+        if (isUnderControl()) {
+            super.movePlayerIsInvincible();
+        } else {
+            mindControlEnds();
+            getMercenary().movePlayerIsInvincible();
+        }
     }
 
     @Override
-    public void recruitedBy(Player player) {
-    }
-
-    @Override
-    public void mindcontrol() {
-    }
-
-    @Override
-    public int bribeAmount() {
-        return 0;
-    }
-
-    @Override
-    public void visitInvisiblePlayer(Player player) {
-    }
-
-    @Override
-    public boolean isAssassin() {
-        return false;
+    public void movePlayerIsInvisible() {
+        if (isUnderControl()) {
+            super.movePlayerIsInvisible();
+            return;
+        } else {
+            mindControlEnds();
+            getMercenary().movePlayerIsInvisible();
+        }
     }
 
 }

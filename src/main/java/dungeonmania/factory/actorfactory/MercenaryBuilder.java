@@ -8,7 +8,6 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MoveTowardsPlayer;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
-import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.EnemyState;
 import dungeonmania.factory.FactoryHelpers;
 

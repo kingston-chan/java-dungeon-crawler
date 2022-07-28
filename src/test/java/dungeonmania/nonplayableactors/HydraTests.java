@@ -1,8 +1,7 @@
 package dungeonmania.nonplayableactors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.Random;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
 
@@ -18,8 +17,6 @@ public class HydraTests {
 	public void testHydraBattlePlayerInitiates() {
 		DungeonManiaController dmc = new DungeonManiaController();
 		dmc.newGame("d_hydraTest", "c_hydraTest");
-		long seed = (System.currentTimeMillis() / 100) * 100;
-		Random rng = new Random(seed);
 		DungeonResponse dres = dmc.tick(Direction.RIGHT);
 		BattleResponse hydraBattle = dres.getBattles().get(0);
 
@@ -32,23 +29,27 @@ public class HydraTests {
 				.parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate",
 						"c_hydraTest"));
 
-		double playerDamage = Integer
-				.parseInt(TestUtils.getValueFromConfigFile("player_attack", "c_hydraTest")) / 5.0;
+		int numHeals = 0;
 
 		for (RoundResponse r : hydraBattle.getRounds()) {
-			double hydraDeltaHealth = rng.nextDouble() < hydraHealRate ? hydraHealAmount : -(playerDamage);
-			assertEquals(hydraDeltaHealth, r.getDeltaEnemyHealth());
+			numHeals += r.getDeltaEnemyHealth() == hydraHealAmount ? 1 : 0;
 		}
+
+		int numRounds = hydraBattle.getRounds().size();
+
+		// buffer for fail rate of 0.001
+		assertTrue((hydraHealRate * numRounds) >= (numHeals / 1000) * 1000.0);
 	}
 
 	@Test
 	public void testHydraBattleHydraInitiates() {
 		DungeonManiaController dmc = new DungeonManiaController();
 		dmc.newGame("d_hydraInitiatesBattle", "c_hydraTest");
-		long seed = (System.currentTimeMillis() / 100) * 100;
-		Random rng = new Random(seed);
+
 		DungeonResponse dres = dmc.tick(Direction.UP);
+
 		BattleResponse hydraBattle = dres.getBattles().get(0);
+
 		double hydraHealAmount = Integer
 				.parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount",
 						"c_hydraTest"))
@@ -58,13 +59,16 @@ public class HydraTests {
 				.parseDouble(TestUtils.getValueFromConfigFile("hydra_health_increase_rate",
 						"c_hydraTest"));
 
-		double playerDamage = Integer
-				.parseInt(TestUtils.getValueFromConfigFile("player_attack", "c_hydraTest")) / 5.0;
+		int numHeals = 0;
 
 		for (RoundResponse r : hydraBattle.getRounds()) {
-			double hydraDeltaHealth = rng.nextDouble() < hydraHealRate ? hydraHealAmount : -(playerDamage);
-			assertEquals(hydraDeltaHealth, r.getDeltaEnemyHealth());
+			numHeals += r.getDeltaEnemyHealth() == hydraHealAmount ? 1 : 0;
 		}
+
+		int numRounds = hydraBattle.getRounds().size();
+
+		// buffer for fail rate of 0.001
+		assertTrue((hydraHealRate * numRounds) >= (numHeals / 1000) * 1000.0);
 	}
 
 	@Test

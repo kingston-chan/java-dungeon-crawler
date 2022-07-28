@@ -1,17 +1,25 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
+import dungeonmania.behaviours.movement.FollowPlayer;
 import dungeonmania.behaviours.movement.MovementBehaviour;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 
 public class AllyState implements MercenaryState {
-    @Override
-    public boolean canInteract() {
-        return false;
+    private Mercenary mercenary;
+    private MovementBehaviour allyMovement = new FollowPlayer();
+
+    public AllyState(Mercenary mercenary) {
+        this.mercenary = mercenary;
+    }
+
+    public Mercenary getMercenary() {
+        return this.mercenary;
     }
 
     @Override
-    public void updateMovement(MovementBehaviour movementBehaviour) {
-        // do nothing
+    public boolean canInteract() {
+        return false;
     }
 
     @Override
@@ -21,12 +29,10 @@ public class AllyState implements MercenaryState {
 
     @Override
     public void recruitedBy(Player player) {
-
     }
 
     @Override
     public void mindcontrol() {
-        // TODO Auto-generated method stub
     }
 
     @Override
@@ -41,5 +47,25 @@ public class AllyState implements MercenaryState {
     @Override
     public boolean isAssassin() {
         return false;
+    }
+
+    private void move() {
+        mercenary.setCurrentMovement(allyMovement);
+        mercenary.doMove();
+    }
+
+    @Override
+    public void movePlayerIsNormal() {
+        move();
+    }
+
+    @Override
+    public void movePlayerIsInvincible() {
+        move();
+    }
+
+    @Override
+    public void movePlayerIsInvisible() {
+        move();
     }
 }

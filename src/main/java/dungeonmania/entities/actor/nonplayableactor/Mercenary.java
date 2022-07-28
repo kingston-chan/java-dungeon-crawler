@@ -1,13 +1,11 @@
 package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MindControlState;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.util.Position;
@@ -20,7 +18,7 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState mindcontrolState;
 
     public void setStates(MercenaryState enemyState) {
-        this.allyState = new AllyState();
+        this.allyState = new AllyState(this);
         this.mindcontrolState = new MindControlState(this);
         this.enemyState = enemyState;
         this.currentState = enemyState;
@@ -57,7 +55,7 @@ public class Mercenary extends NonPlayableActor {
         return this.enemyState;
     }
 
-    public MercenaryState getMindcontrolState() {
+    public MercenaryState getMindControlState() {
         return this.mindcontrolState;
     }
 
@@ -67,10 +65,6 @@ public class Mercenary extends NonPlayableActor {
 
     public void recruitedBy(Player player) {
         this.currentState.recruitedBy(player);
-    }
-
-    public MercenaryState getCurrentState() {
-        return this.currentState;
     }
 
     public void mindcontrol() {
@@ -83,16 +77,6 @@ public class Mercenary extends NonPlayableActor {
 
     public boolean isAssassin() {
         return this.currentState.isAssassin();
-    }
-
-    @Override
-    public void update(MovementBehaviour movementBehaviour) {
-        if (getStuckTicks() > 0) {
-            reduceStuckTick();
-            return;
-        }
-        this.currentState.updateMovement(movementBehaviour);
-        this.doMove(this);
     }
 
     @Override
@@ -116,13 +100,22 @@ public class Mercenary extends NonPlayableActor {
     }
 
     @Override
-    public void visit(Player player) {
-        Battle battle = new Battle(this.getType(), this.getHealthPoints(), player.getHealthPoints());
-        battle.simulateNormalBattle(player, this);
+    public void visitInvisiblePlayer(Player player) {
+        this.currentState.visitInvisiblePlayer(player);
     }
 
     @Override
-    public void visitInvisiblePlayer(Player player) {
-        this.currentState.visitInvisiblePlayer(player);
+    public void movePlayerIsNormal() {
+        this.currentState.movePlayerIsNormal();
+    }
+
+    @Override
+    public void movePlayerIsInvisible() {
+        this.currentState.movePlayerIsInvisible();
+    }
+
+    @Override
+    public void movePlayerIsInvincible() {
+        this.currentState.movePlayerIsInvincible();
     }
 }

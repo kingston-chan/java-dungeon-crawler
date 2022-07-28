@@ -1,22 +1,17 @@
 package dungeonmania.entities.actor.player.states;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.movement.MoveRandomly;
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
-import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AssassinState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 
 public class InvisibleState implements PlayerState {
-
     private Player player;
-    private MovementBehaviour movementBehaviour = new MoveRandomly();
 
     public InvisibleState(Player player) {
         this.player = player;
@@ -47,16 +42,10 @@ public class InvisibleState implements PlayerState {
     @Override
     public void notifyNonPlayableActors() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        dungeon.getNonPlayableActors().stream().forEach(npa -> npa.update(movementBehaviour));
+        dungeon.getNonPlayableActors().stream().forEach(npa -> npa.movePlayerIsInvisible());
     }
 
     @Override
     public void visitHydra(Hydra hydra) {
     }
-
-    @Override
-    public boolean isInvisible() {
-        return true;
-    }
-
 }
