@@ -18,7 +18,7 @@ public class Hydra extends SpecialCreature {
     }
 
     public void setRandomHeal() {
-        battleHealRandom = new Random((System.currentTimeMillis() / 100) * 100);
+        battleHealRandom = new Random();
     }
 
     @Override

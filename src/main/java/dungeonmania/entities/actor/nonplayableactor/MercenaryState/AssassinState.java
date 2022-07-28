@@ -21,8 +21,7 @@ public class AssassinState extends EnemyState {
 
     @Override
     public void recruitedBy(Player player) {
-        long seed = (System.currentTimeMillis() / 100) * 100;
-        Random rng = new Random(seed);
+        Random rng = new Random();
         double fail_rate = DungeonManiaController.getDungeon().getDoubleConfig("assassin_bribe_fail_rate");
         if (rng.nextDouble() >= fail_rate) {
             super.recruitedBy(player);
