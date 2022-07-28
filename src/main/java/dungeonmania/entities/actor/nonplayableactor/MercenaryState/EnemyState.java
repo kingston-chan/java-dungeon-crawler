@@ -52,27 +52,26 @@ public class EnemyState implements MercenaryState {
         return false;
     }
 
+    private void tryMove() {
+        if (!mercenary.isStuck())
+            mercenary.doMove();
+    }
+
     @Override
     public void movePlayerIsNormal() {
         mercenary.setCurrentMovement(mercenary.getDefaultMovement());
-        if (mercenary.isStuck())
-            return;
-        mercenary.doMove();
+        tryMove();
     }
 
     @Override
     public void movePlayerIsInvincible() {
         mercenary.setCurrentMovement(new MoveAwayFromPlayer());
-        if (mercenary.isStuck())
-            return;
-        mercenary.doMove();
+        tryMove();
     }
 
     @Override
     public void movePlayerIsInvisible() {
         mercenary.setCurrentMovement(new MoveRandomly());
-        if (mercenary.isStuck())
-            return;
-        mercenary.doMove();
+        tryMove();
     }
 }

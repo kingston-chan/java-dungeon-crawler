@@ -35,24 +35,23 @@ public class Spider extends NonPlayableActor {
     public void visitInvisiblePlayer(Player player) {
     }
 
-    private void move() {
-        if (isStuck())
-            return;
-        doMove();
+    private void tryMove() {
+        if (!isStuck())
+            doMove();
     }
 
     @Override
     public void movePlayerIsNormal() {
-        move();
+        tryMove();
     }
 
     @Override
     public void movePlayerIsInvisible() {
-        move();
+        tryMove();
     }
 
     @Override
     public void movePlayerIsInvincible() {
-        move();
+        tryMove();
     }
 }

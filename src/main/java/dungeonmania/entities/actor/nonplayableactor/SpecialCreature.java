@@ -26,20 +26,21 @@ public abstract class SpecialCreature extends NonPlayableActor {
         return door.isOpened();
     }
 
+    private void tryMove() {
+        if (!isStuck())
+            doMove();
+    }
+
     @Override
     public void movePlayerIsInvincible() {
         setCurrentMovement(new MoveAwayFromPlayer());
-        if (isStuck())
-            return;
-        doMove();
+        tryMove();
     }
 
     @Override
     public void movePlayerIsNormal() {
         setCurrentMovement(getDefaultMovement());
-        if (isStuck())
-            return;
-        doMove();
+        tryMove();
     }
 
     @Override
