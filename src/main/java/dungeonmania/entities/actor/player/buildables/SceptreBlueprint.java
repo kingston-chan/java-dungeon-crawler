@@ -23,6 +23,9 @@ public class SceptreBlueprint implements BuildableBlueprint {
 
     private HashMap<Boolean, Runnable> buildSceptres = new HashMap<>();
 
+    public SceptreBlueprint() {
+    }
+
     private Item createNewSceptre() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Sceptre sceptre = new Sceptre(
@@ -64,30 +67,29 @@ public class SceptreBlueprint implements BuildableBlueprint {
 
     @Override
     public boolean canPlayerBuild(Player player) {
-        return ((player.getKey() != null || ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES)
-        || ItemGetterHelpers.getNumSunStone(player) >= 2)
-        && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD || ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
-        && (ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE);
-    }
-
-    @Override
-    public void playerBuild(Player player) {
         boolean check_key_wood = (player.getKey() != null
-                                && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD);
+                                    && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD)
+                                    && ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE;;
         boolean check_treasure_wood = ((ItemGetterHelpers.getNumTreasure(player) >= 2)
-                                && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD))
-                                && ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE;
+                                    && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD))
+                                    && ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE;
         boolean check_key_arrows = (player.getKey() != null
-                                    && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
+                                    && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
+                                    && ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE;;
         boolean check_treasure_arrows = (ItemGetterHelpers.getNumTreasure(player) >= 2
-                                        && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
-                                        && ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE;
+                                    && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
+                                    && ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE;
 
         buildSceptres.put(check_key_wood, (Runnable & Serializable) () -> build_with_key_Wood(player, createNewSceptre()));
         buildSceptres.put(check_treasure_wood, (Runnable & Serializable) () -> build_with_treasure_Wood(player, createNewSceptre()));
         buildSceptres.put(check_key_arrows, (Runnable & Serializable) () -> build_with_key_arrows(player, createNewSceptre()));
         buildSceptres.put(check_treasure_arrows, (Runnable & Serializable) () -> build_with_treasure_arrows(player, createNewSceptre()));
 
+        return check_key_wood || check_treasure_wood || check_key_arrows || check_treasure_arrows;
+    }
+
+    @Override
+    public void playerBuild(Player player) {
         buildSceptres.get(true).run();
     }
 }
