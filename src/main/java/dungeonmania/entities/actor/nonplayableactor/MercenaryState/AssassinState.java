@@ -58,13 +58,9 @@ public class AssassinState implements MercenaryState {
 
     @Override
     public void mindcontrol() {
-<<<<<<< HEAD
-
-=======
         assassin.setMercenaryState(assassin.getMindcontrolState());
         MovementBehaviour mindcontrolMovement = new FollowPlayer();
         assassin.setCurrentMovement(mindcontrolMovement);
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
     }
 
     @Override

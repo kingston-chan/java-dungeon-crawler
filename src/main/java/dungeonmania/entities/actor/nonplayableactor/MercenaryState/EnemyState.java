@@ -39,14 +39,9 @@ public class EnemyState implements MercenaryState {
 
     @Override
     public void mindcontrol() {
-<<<<<<< HEAD
-        // TODO Auto-generated method stub
-
-=======
         mercenary.setMercenaryState(mercenary.getMindcontrolState());
         MovementBehaviour mindcontrolMovement = new FollowPlayer();
         mercenary.setCurrentMovement(mindcontrolMovement);
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
     }
 
     @Override
@@ -56,11 +51,6 @@ public class EnemyState implements MercenaryState {
 
     @Override
     public void visitInvisiblePlayer(Player player) {
-<<<<<<< HEAD
-        // TODO Auto-generated method stub
-
-=======
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
     }
 
     @Override
