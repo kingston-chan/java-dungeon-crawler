@@ -57,18 +57,6 @@ public class SceptreBlueprint implements BuildableBlueprint {
         ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROW, player);
     }
 
-    private void build_with_sunstones_wood(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(2, player);
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
-    }
-
-    private void build_with_sunstones_arrows(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(2, player);
-        ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROW, player);
-    }
-
     @Override
     public boolean canPlayerBuild(Player player) {
         return ((player.getKey() != null || ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES)
@@ -87,10 +75,6 @@ public class SceptreBlueprint implements BuildableBlueprint {
                                     && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
         boolean check_treasure_arrows = (ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES
                                         && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
-        boolean check_two_sunstone_wood = (ItemGetterHelpers.getNumSunStone(player) >= 2)
-                                        && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD);
-        boolean check_two_sunstone_arrows = (ItemGetterHelpers.getNumSunStone(player) >= 2)
-                                        && (ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
 
         if (check_key_wood) {
             build_with_key_Wood(player, createNewSceptre());
@@ -100,10 +84,6 @@ public class SceptreBlueprint implements BuildableBlueprint {
             build_with_key_arrows(player, createNewSceptre());
         } else if (check_treasure_arrows) {
             build_with_treasure_arrows(player, createNewSceptre());
-        } else if (check_two_sunstone_wood) {
-            build_with_sunstones_wood(player, createNewSceptre());
-        } else if (check_two_sunstone_arrows) {
-            build_with_sunstones_arrows(player, createNewSceptre());
         }
     }
 }
