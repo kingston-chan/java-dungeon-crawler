@@ -1,8 +1,8 @@
 package dungeonmania.entities.staticobject.door;
 
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
-import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.entities.item.Key;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
@@ -10,6 +10,7 @@ import dungeonmania.entities.staticobject.boulder.Boulder;
 public class Door extends StaticObject {
     private int keyNum;
     private boolean isOpened = false;
+    private boolean isUnlocked = false;
 
     public Door(int key) {
         this.keyNum = key;
@@ -23,9 +24,26 @@ public class Door extends StaticObject {
         return this.isOpened;
     }
 
+    public void setOpened() {
+        this.isOpened = true;
+    }
+
+    public void setClosed() {
+        this.isOpened = false;
+    }
+
+    public boolean isUnlocked() {
+        return this.isUnlocked;
+    }
+
     @Override
     public boolean canAccept(Player player) {
         if (this.isOpened) {
+            return true;
+        }
+
+        if (ItemGetterHelpers.getNumSunStone(player) >= 1) {
+            this.isOpened = true;
             return true;
         }
 
@@ -36,6 +54,7 @@ public class Door extends StaticObject {
 
         if (key.canOpenDoor(this)) {
             player.removeFromInventory(key);
+            this.isUnlocked = true;
             this.isOpened = true;
         }
 

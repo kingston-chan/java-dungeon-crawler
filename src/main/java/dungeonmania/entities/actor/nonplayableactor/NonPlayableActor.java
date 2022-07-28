@@ -2,6 +2,7 @@ package dungeonmania.entities.actor.nonplayableactor;
 
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.Actor;
+import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.boulder.Boulder;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
@@ -9,6 +10,7 @@ import dungeonmania.entities.staticobject.portal.Portal;
 public abstract class NonPlayableActor extends Actor {
     private MovementBehaviour defaultMovement;
     private MovementBehaviour currentMovement;
+    private int stuckTicks = 0;
 
     public boolean canAccept(Boulder boulder) {
         return false;
@@ -34,6 +36,18 @@ public abstract class NonPlayableActor extends Actor {
         this.currentMovement.move(npa);
     }
 
+    public void stuck(int stuckTicks) {
+        this.stuckTicks = stuckTicks;
+    }
+
+    public int getStuckTicks() {
+        return stuckTicks;
+    }
+
+    public void reduceStuckTick() {
+        stuckTicks--;
+    }
+
     public abstract boolean canVisitWall();
 
     public abstract boolean canVisitPortal(Portal portal);
@@ -42,4 +56,5 @@ public abstract class NonPlayableActor extends Actor {
 
     public abstract void update(MovementBehaviour movementBehaviour);
 
+    public abstract void visitInvisiblePlayer(Player player);
 }

@@ -3,7 +3,7 @@ package dungeonmania.entities.actor.player.buildables;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Buildables {
+public class Buildables implements java.io.Serializable {
     private Map<String, BuildableBlueprint> blueprints = new HashMap<>();
 
     public Buildables() {

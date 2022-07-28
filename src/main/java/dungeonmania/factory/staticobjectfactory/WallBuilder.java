@@ -2,19 +2,19 @@ package dungeonmania.factory.staticobjectfactory;
 
 import java.util.UUID;
 
+import org.json.JSONObject;
+
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.staticobject.wall.Wall;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class WallBuilder implements StaticObjectBuilder {
-
     @Override
-    public void buildStaticObject(Position position, String type, String portalColour, int key) {
+    public void buildStaticObject(JSONObject staticObject) {
         Wall wall = new Wall();
-        wall.setPosition(position);
-        wall.setType(type);
+        wall.setPosition(FactoryHelpers.extractPosition(staticObject));
+        wall.setType(FactoryHelpers.extractType(staticObject));
         wall.setUniqueId(UUID.randomUUID().toString());
         DungeonManiaController.getDungeon().addDungeonObject(wall.getUniqueId(), wall);
     }
-
 }

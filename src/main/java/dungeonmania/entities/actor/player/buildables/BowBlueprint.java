@@ -16,7 +16,7 @@ public class BowBlueprint implements BuildableBlueprint {
     private Item createNewBow() {
         Bow bow = new Bow(
                 2,
-                DungeonManiaController.getDungeon().getConfig("bow_durability"));
+                DungeonManiaController.getDungeon().getIntConfig("bow_durability"));
         bow.setUniqueId(UUID.randomUUID().toString());
         bow.setPosition(null);
         bow.setType(ITEM_TYPE);

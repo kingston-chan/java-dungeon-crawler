@@ -1,7 +1,7 @@
 package dungeonmania.factory.actorfactory;
 
-import dungeonmania.util.Position;
+import org.json.JSONObject;
 
-public interface ActorBuilder {
-    public void buildActor(Position position, String type);
+public interface ActorBuilder extends java.io.Serializable {
+    public void buildActor(JSONObject actor);
 }
