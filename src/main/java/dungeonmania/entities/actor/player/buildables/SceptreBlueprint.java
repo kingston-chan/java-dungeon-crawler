@@ -23,9 +23,6 @@ public class SceptreBlueprint implements BuildableBlueprint {
 
     private HashMap<Boolean, Runnable> buildSceptres = new HashMap<>();
 
-    public SceptreBlueprint() {
-    }
-
     private Item createNewSceptre() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
         Sceptre sceptre = new Sceptre(
@@ -67,7 +64,7 @@ public class SceptreBlueprint implements BuildableBlueprint {
 
     @Override
     public boolean canPlayerBuild(Player player) {
-        
+
         return ((player.getKey() != null || ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES)
         || ItemGetterHelpers.getNumSunStone(player) >= 2)
         && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD || ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
