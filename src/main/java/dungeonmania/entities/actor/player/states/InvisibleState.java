@@ -9,7 +9,6 @@ import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
-import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AssassinState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 

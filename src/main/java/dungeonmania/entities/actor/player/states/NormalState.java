@@ -52,7 +52,8 @@ public class NormalState implements PlayerState {
     @Override
     public void visitHydra(Hydra hydra) {
         Battle battle = new Battle(hydra.getType(), hydra.getHealthPoints(), player.getHealthPoints());
-        battle.simulateHydraBattle(player, hydra);
+        hydra.setRandomHeal();
+        battle.simulateNormalBattle(player, hydra);
     }
 
     @Override

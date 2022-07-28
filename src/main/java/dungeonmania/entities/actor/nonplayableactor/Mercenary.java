@@ -7,7 +7,6 @@ import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MindControlState;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.staticobject.door.Door;
 import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.util.Position;
@@ -117,12 +116,6 @@ public class Mercenary extends NonPlayableActor {
     @Override
     public boolean canVisitDoor(Door door) {
         return door.isOpened();
-    }
-
-    @Override
-    public void visit(Player player) {
-        Battle battle = new Battle(this.getType(), this.getHealthPoints(), player.getHealthPoints());
-        battle.simulateNormalBattle(player, this);
     }
 
     @Override

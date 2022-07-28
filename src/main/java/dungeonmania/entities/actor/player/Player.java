@@ -251,6 +251,22 @@ public class Player extends Actor {
         return this.currentState.isInvisible();
     }
 
+    public double attackedBy(NonPlayableActor npa) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+
+        int allyDefence = dungeon.getIntConfig("ally_defence");
+
+        int totalBonusDefence = getBonusAdditiveDefence() + (getNumAllies() * allyDefence);
+
+        double npaDamage = (npa.getAttackPoints() - totalBonusDefence) / 10.0;
+
+        npaDamage = npaDamage < 0 ? 0 : npaDamage;
+
+        takeDamage(npaDamage);
+
+        return -npaDamage;
+    }
+
     @Override
     public void doAccept(NonPlayableActor npa) {
         this.currentState.acceptNonPlayableActor(npa);

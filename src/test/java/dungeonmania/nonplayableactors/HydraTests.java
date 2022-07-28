@@ -45,9 +45,12 @@ public class HydraTests {
 	public void testHydraBattleHydraInitiates() {
 		DungeonManiaController dmc = new DungeonManiaController();
 		dmc.newGame("d_hydraInitiatesBattle", "c_hydraTest");
+
 		long seed = (System.currentTimeMillis() / 100) * 100;
 		Random rng = new Random(seed);
+
 		DungeonResponse dres = dmc.tick(Direction.UP);
+
 		BattleResponse hydraBattle = dres.getBattles().get(0);
 		double hydraHealAmount = Integer
 				.parseInt(TestUtils.getValueFromConfigFile("hydra_health_increase_amount",
