@@ -3,7 +3,12 @@ package dungeonmania.entities.actor.nonplayableactor;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
+<<<<<<< HEAD
+=======
+import dungeonmania.entities.actor.nonplayableactor.MercenaryState.AllyState;
+>>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
 import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MercenaryState;
+import dungeonmania.entities.actor.nonplayableactor.MercenaryState.MindControlState;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
 import dungeonmania.entities.staticobject.door.Door;
@@ -15,8 +20,15 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState enemyState;
     MercenaryState allyState;
     MercenaryState currentState;
+    MercenaryState mindcontrolState;
 
+<<<<<<< HEAD
     public void setEnemyState(MercenaryState enemyState) {
+=======
+    public void setStates(MercenaryState enemyState) {
+        this.allyState = new AllyState();
+        this.mindcontrolState = new MindControlState(this);
+>>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
         this.enemyState = enemyState;
         this.currentState = enemyState;
     }
@@ -54,6 +66,10 @@ public class Mercenary extends NonPlayableActor {
 
     public MercenaryState getEnemyState() {
         return this.enemyState;
+    }
+
+    public MercenaryState getMindcontrolState() {
+        return this.mindcontrolState;
     }
 
     public boolean isAlly() {

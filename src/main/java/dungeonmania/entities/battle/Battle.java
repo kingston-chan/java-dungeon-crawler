@@ -3,7 +3,10 @@ package dungeonmania.entities.battle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+<<<<<<< HEAD
 import java.util.stream.Collector;
+=======
+>>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
 import java.util.stream.Collectors;
 
 import dungeonmania.DungeonManiaController;
@@ -14,7 +17,7 @@ import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.equipment.Equipment;
 
-public class Battle {
+public class Battle implements java.io.Serializable {
     private List<Round> rounds = new ArrayList<>();
     private String enemyType;
     private double initialEnemyHealth;

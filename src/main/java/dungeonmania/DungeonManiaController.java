@@ -7,8 +7,8 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import dungeonmania.util.MapStoring;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -157,21 +157,34 @@ public class DungeonManiaController {
      * /game/save
      */
     public DungeonResponse saveGame(String name) throws IllegalArgumentException {
-        return null;
+        MapStoring.saveDungeon(name, getDungeon());
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /game/load
      */
     public DungeonResponse loadGame(String name) throws IllegalArgumentException {
-        return null;
+        currentDungeonInstance = MapStoring.loadDungeon(name);
+        return currentDungeonInstance.getDungeonResponse();
     }
 
     /**
      * /games/all
      */
     public List<String> allGames() {
-        return new ArrayList<>();
+        return MapStoring.getAllGames();
     }
 
+    public DungeonResponse generateDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName) {
+        Dungeon newDungeon = new Dungeon();
+        currentDungeonInstance = newDungeon;
+        String newDungeonId = newDungeon.initMazeDungeon(xStart, yStart, xEnd, yEnd, configName);
+        if (newDungeonId == null) {
+            currentDungeonInstance = null;
+            throw new IllegalArgumentException();
+        }
+        dungeons.put(newDungeonId, newDungeon);
+        return newDungeon.getDungeonResponse();
+    }
 }
