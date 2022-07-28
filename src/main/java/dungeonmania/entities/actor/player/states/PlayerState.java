@@ -18,6 +18,4 @@ public interface PlayerState extends java.io.Serializable {
     public void acceptNonPlayableActor(NonPlayableActor npa);
 
     public void notifyNonPlayableActors();
-
-    public boolean isInvisible();
 }

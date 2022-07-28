@@ -3,64 +3,29 @@ package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 import java.util.Random;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.movement.FollowPlayer;
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.util.BoxRadius;
 
-public class AssassinState implements MercenaryState {
-
-    private Mercenary assassin;
+public class AssassinState extends EnemyState {
     private int reconRadius;
 
     public AssassinState(Mercenary assassin, int reconRadius) {
-        this.assassin = assassin;
+        super(assassin);
         this.reconRadius = reconRadius;
     }
 
     private boolean checkIfPlayerInRadius(Player player) {
-        return BoxRadius.getBoxRadiusPositions(reconRadius, assassin.getPosition()).contains(player.getPosition());
-    }
-
-    @Override
-    public boolean canInteract() {
-        return true;
-    }
-
-    @Override
-    public void updateMovement(MovementBehaviour movementBehaviour) {
-        Player player = DungeonManiaController.getDungeon().getPlayer();
-        if (player.isInvisible() && checkIfPlayerInRadius(player)) {
-            assassin.setCurrentMovement(assassin.getDefaultMovement());
-        } else {
-            assassin.setCurrentMovement(movementBehaviour);
-        }
-    }
-
-    @Override
-    public boolean isAlly() {
-        return false;
+        return BoxRadius.getBoxRadiusPositions(reconRadius, getEnemy().getPosition()).contains(player.getPosition());
     }
 
     @Override
     public void recruitedBy(Player player) {
-        long seed = (System.currentTimeMillis() / 100) * 100;
-        Random rng = new Random(seed);
+        Random rng = new Random();
         double fail_rate = DungeonManiaController.getDungeon().getDoubleConfig("assassin_bribe_fail_rate");
         if (rng.nextDouble() >= fail_rate) {
-            player.addAlly();
-            assassin.setMercenaryState(assassin.getAllyState());
-            MovementBehaviour allyMovement = new FollowPlayer();
-            assassin.setCurrentMovement(allyMovement);
+            super.recruitedBy(player);
         }
-    }
-
-    @Override
-    public void mindcontrol() {
-        assassin.setMercenaryState(assassin.getMindcontrolState());
-        MovementBehaviour mindcontrolMovement = new FollowPlayer();
-        assassin.setCurrentMovement(mindcontrolMovement);
     }
 
     @Override
@@ -70,11 +35,21 @@ public class AssassinState implements MercenaryState {
 
     @Override
     public void visitInvisiblePlayer(Player player) {
-        assassin.visit(player);
+        getEnemy().visit(player);
     }
 
     @Override
     public boolean isAssassin() {
         return true;
+    }
+
+    @Override
+    public void movePlayerIsInvisible() {
+        Player player = DungeonManiaController.getDungeon().getPlayer();
+        if (checkIfPlayerInRadius(player)) {
+            super.movePlayerIsNormal();
+        } else {
+            super.movePlayerIsInvisible();
+        }
     }
 }
