@@ -25,10 +25,6 @@ public class Mercenary extends NonPlayableActor {
         this.currentState = enemyState;
     }
 
-    public void setAllyState(MercenaryState allyState) {
-        this.allyState = allyState;
-    }
-
     public void doAccept(Player player) {
         player.visit(this);
     }
@@ -70,10 +66,6 @@ public class Mercenary extends NonPlayableActor {
 
     public void recruitedBy(Player player) {
         this.currentState.recruitedBy(player);
-    }
-
-    public MercenaryState getCurrentState() {
-        return this.currentState;
     }
 
     public void mindcontrol() {
