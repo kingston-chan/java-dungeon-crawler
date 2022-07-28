@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.TestUtils;
+import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
@@ -43,21 +44,18 @@ public class AssassinTest {
     public void testAssassinInteractionWhiteBox() {
         DungeonManiaController dmc = new DungeonManiaController();
 
-        dmc.newGame("d_assassinInteract20000", "c_assassinRecon");
+        dmc.newGame("d_assassinInteract150000", "c_assassinRecon");
 
-        int numTrials = 20000;
+        int numTrials = 150000;
 
         double bribe_fail_rate = Double.parseDouble(
                 TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinRecon"));
 
         Player player = DungeonManiaController.getDungeon().getPlayer();
+        DungeonManiaController.getDungeon().getNonPlayableActors().forEach(o -> ((Mercenary) o).recruitedBy(player));
 
-        DungeonManiaController.getDungeon().getItems().forEach(i -> i.doAccept(player));
-        DungeonManiaController.getDungeon().getNonPlayableActors().forEach(o -> {
-            assertTrue(player.interact(o.getUniqueId()));
-        });
-
-        assertTrue((bribe_fail_rate * numTrials) >= (numTrials - player.getNumAllies()) * 1.0);
+        // buffer for fail rate of 0.001
+        assertTrue((bribe_fail_rate * numTrials) >= ((numTrials - player.getNumAllies()) / 150) * 150.0);
     }
 
     @Test
