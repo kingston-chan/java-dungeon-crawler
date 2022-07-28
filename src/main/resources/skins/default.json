@@ -48,6 +48,7 @@
         "sun_stone": "images/tileset/entities/sun_stone.png",
         "hydra": "images/tileset/entities/hydra.png",
         "sceptre": "images/tileset/entities/sceptre.png",
-        "swamp_tile": "images/tileset/entities/swamp_tile.png"
+        "swamp_tile": "images/tileset/entities/swamp_tile.png",
+        "switch_door": "images/tileset/walls/wooden//door_unlocked.png"
     }
 }

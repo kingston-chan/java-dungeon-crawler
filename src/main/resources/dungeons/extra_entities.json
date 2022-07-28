@@ -1,0 +1,80 @@
+{
+    "entities": [
+        {
+            "type" : "player",
+            "x" : 1,
+            "y" : 1
+        },
+        {
+            "type" : "boulder",
+            "x" : 2,
+            "y" : 1
+        },
+        {
+            "type" : "switch",
+            "x" : 3,
+            "y" : 1
+        },
+        {
+            "type" : "wire",
+            "x" : 4,
+            "y" : 1,
+            "logic": "xor"
+        },
+        {
+            "type" : "light_bulb_off",
+            "x" : 5,
+            "y" : 1,
+            "logic": "xor"
+        },
+        {
+            "type" : "sun_stone",
+            "x" : 6,
+            "y" : 1
+        },
+        {
+            "type": "swamp_tile",
+            "x": 7,
+            "y": 1,
+            "movement_factor": 2
+        },
+        {
+            "type": "sun_stone",
+            "x": 8,
+            "y": 1
+        },
+        {
+            "type": "sun_stone",
+            "x": 9,
+            "y": 1
+        },
+        {
+            "type": "wood",
+            "x": 10,
+            "y": 1
+        },
+        {
+            "type": "sword",
+            "x": 11,
+            "y": 1
+        },
+        {
+            "type": "hydra",
+            "x": 13,
+            "y": 13
+        },
+        {
+            "type": "assassin",
+            "x": 16,
+            "y": 16
+        },
+        {
+            "type" : "switch_door",
+            "x" : 12,
+            "y" : 1,
+            "key": 1,
+            "logic": "xor"
+        }
+    ],
+    "goal-condition": {"goal": "exit"}
+}
