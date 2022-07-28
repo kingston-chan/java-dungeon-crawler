@@ -22,13 +22,9 @@ public class Mercenary extends NonPlayableActor {
     MercenaryState currentState;
     MercenaryState mindcontrolState;
 
-<<<<<<< HEAD
-    public void setEnemyState(MercenaryState enemyState) {
-=======
     public void setStates(MercenaryState enemyState) {
         this.allyState = new AllyState();
         this.mindcontrolState = new MindControlState(this);
->>>>>>> e5ce0254cca0a742955f4177de29731bb2367a9a
         this.enemyState = enemyState;
         this.currentState = enemyState;
     }
