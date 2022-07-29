@@ -26,8 +26,8 @@ public class MoveRandomly implements MovementBehaviour {
             return;
         }
 
-        long seed = (System.currentTimeMillis() / 100) * 100;
-        Random rand = new Random(seed);
+        Random rand = new Random();
+
         Position randPos = possibleMoves.get(rand.nextInt(possibleMoves.size()));
         Position oldPos = npa.getPosition();
         dungeon.getObjectsAtPosition(randPos).forEach(o -> o.doAccept(npa));
@@ -36,5 +36,6 @@ public class MoveRandomly implements MovementBehaviour {
         if (npa.getPosition().equals(oldPos)) {
             npa.setPosition(randPos);
         }
+
     }
 }

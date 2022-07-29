@@ -3,25 +3,23 @@ package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.movement.FollowPlayer;
-import dungeonmania.behaviours.movement.MovementBehaviour;
+import dungeonmania.behaviours.movement.MoveAwayFromPlayer;
+import dungeonmania.behaviours.movement.MoveRandomly;
 
 public class EnemyState implements MercenaryState {
-
     private Mercenary mercenary;
 
     public EnemyState(Mercenary mercenary) {
         this.mercenary = mercenary;
     }
 
-    @Override
-    public boolean canInteract() {
-        return true;
+    public Mercenary getEnemy() {
+        return this.mercenary;
     }
 
     @Override
-    public void updateMovement(MovementBehaviour movementBehaviour) {
-        mercenary.setCurrentMovement(movementBehaviour);
+    public boolean canInteract() {
+        return true;
     }
 
     @Override
@@ -33,15 +31,11 @@ public class EnemyState implements MercenaryState {
     public void recruitedBy(Player player) {
         player.addAlly();
         mercenary.setMercenaryState(mercenary.getAllyState());
-        MovementBehaviour allyMovement = new FollowPlayer();
-        mercenary.setCurrentMovement(allyMovement);
     }
 
     @Override
     public void mindcontrol() {
-        mercenary.setMercenaryState(mercenary.getMindcontrolState());
-        MovementBehaviour mindcontrolMovement = new FollowPlayer();
-        mercenary.setCurrentMovement(mindcontrolMovement);
+        mercenary.setMercenaryState(mercenary.getMindControlState());
     }
 
     @Override
@@ -56,5 +50,28 @@ public class EnemyState implements MercenaryState {
     @Override
     public boolean isAssassin() {
         return false;
+    }
+
+    private void tryMove() {
+        if (!mercenary.isStuck())
+            mercenary.doMove();
+    }
+
+    @Override
+    public void movePlayerIsNormal() {
+        mercenary.setCurrentMovement(mercenary.getDefaultMovement());
+        tryMove();
+    }
+
+    @Override
+    public void movePlayerIsInvincible() {
+        mercenary.setCurrentMovement(new MoveAwayFromPlayer());
+        tryMove();
+    }
+
+    @Override
+    public void movePlayerIsInvisible() {
+        mercenary.setCurrentMovement(new MoveRandomly());
+        tryMove();
     }
 }

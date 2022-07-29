@@ -9,7 +9,7 @@
     "bomb_radius": 1,
     "bow_durability": 2,
     "bribe_amount": 1,
-    "bribe_radius": 1,
+    "bribe_radius": 2,
     "enemy_goal": 1,
     "hydra_attack": 2,
     "hydra_health": 10,
