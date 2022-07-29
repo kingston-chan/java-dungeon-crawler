@@ -59,9 +59,6 @@ public class AssassinTest {
             numSuccess += player.getNumAllies();
         }
 
-        System.out.println(bribe_fail_rate * numTrials);
-        System.out.println((numTrials - numSuccess) / 500 * 500.0);
-
         // buffer for fail rate of 0.001
         assertTrue((bribe_fail_rate * numTrials) >= ((numTrials - numSuccess) / 500) * 500.0);
     }
