@@ -4,8 +4,11 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
+import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
+import dungeonmania.entities.staticobject.floorswitch.CircuitSubject;
 import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.entities.staticobject.logicentities.LogicStaticBomb;
+import dungeonmania.entities.staticobject.wire.Wire;
 import dungeonmania.util.BombHelper;
 import dungeonmania.util.Position;
 
@@ -38,6 +41,7 @@ public class LogicBomb extends Bomb implements CircuitObserver {
             dungeon.removeDungeonObject(this.getUniqueId());
             LogicStaticBomb lsb = setLogicStaticBomb(player.getPosition());
             dungeon.addDungeonObject(lsb.getUniqueId(), lsb);
+            dungeon.connectCircuits();
         }
         return true;
     }

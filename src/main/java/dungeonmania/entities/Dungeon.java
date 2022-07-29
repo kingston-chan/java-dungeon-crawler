@@ -68,7 +68,7 @@ public class Dungeon implements Serializable {
         });
     }
 
-    private void connectCircuits() {
+    public void connectCircuits() {
         getStaticObjects().stream().filter(o1 -> o1 instanceof CircuitSubject).forEach(o1 -> {
             o1.getPosition().getAdjacentCardinalPositions().stream().forEach(p -> {
                 getObjectsAtPosition(p).stream().filter(o2 -> o2 instanceof CircuitObserver).forEach(o2 -> {
