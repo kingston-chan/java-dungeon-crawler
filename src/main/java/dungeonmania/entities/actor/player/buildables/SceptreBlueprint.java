@@ -9,7 +9,7 @@ import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.Sceptre;
 
-public class SceptreBlueprint implements BuildableBlueprint{
+public class SceptreBlueprint implements BuildableBlueprint {
     private static final int NUM_WOOD = 1;
     private static final int NUM_ARROW = 2;
 

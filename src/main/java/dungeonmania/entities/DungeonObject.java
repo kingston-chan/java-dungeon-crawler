@@ -3,7 +3,7 @@ package dungeonmania.entities;
 import dungeonmania.entities.host.Host;
 import dungeonmania.util.Position;
 
-public abstract class DungeonObject implements Host, TickCost {
+public abstract class DungeonObject implements Host, TickCost, java.io.Serializable {
     private Position position;
     private String uniqueId;
     private String type;

@@ -1,13 +1,9 @@
 package dungeonmania.entities.actor.nonplayableactor.MercenaryState;
 
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.actor.player.Player;
 
-public interface MercenaryState {
-
+public interface MercenaryState extends java.io.Serializable {
     public boolean canInteract();
-
-    public void updateMovement(MovementBehaviour movementBehaviour);
 
     public boolean isAlly();
 
@@ -20,4 +16,10 @@ public interface MercenaryState {
     public void visitInvisiblePlayer(Player player);
 
     public boolean isAssassin();
+
+    public void movePlayerIsNormal();
+
+    public void movePlayerIsInvincible();
+
+    public void movePlayerIsInvisible();
 }

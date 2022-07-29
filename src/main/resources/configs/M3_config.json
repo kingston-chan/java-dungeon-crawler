@@ -17,7 +17,7 @@
     "hydra_health_increase_rate": 0.5,
     "hydra_spawn_rate": 0,
     "invincibility_potion_duration": 1,
-    "invisibility_potion_duration": 1,
+    "invisibility_potion_duration": 10,
     "mercenary_attack": 5,
     "mercenary_health": 5,
     "midnight_armour_attack": 2,

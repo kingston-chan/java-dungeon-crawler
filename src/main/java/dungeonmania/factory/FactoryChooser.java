@@ -7,7 +7,7 @@ import dungeonmania.factory.actorfactory.ActorFactory;
 import dungeonmania.factory.itemfactory.ItemFactory;
 import dungeonmania.factory.staticobjectfactory.StaticObjectFactory;
 
-public class FactoryChooser {
+public class FactoryChooser implements java.io.Serializable {
     private Map<String, DungeonObjectFactory> factoryChooser = new HashMap<>();
 
     public FactoryChooser() {

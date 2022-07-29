@@ -17,7 +17,11 @@
         },
         {
             "type": "switch",
+<<<<<<< HEAD
             "logic": "co_and",
+=======
+            "logic": "or",
+>>>>>>> cd89a8b7c79ed54d850c07bc3236c602de069dac
             "x": 5,
             "y": 2
         },

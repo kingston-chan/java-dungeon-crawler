@@ -6,7 +6,7 @@ import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.nonplayableactor.ZombieToast;
 
-public interface PlayerState {
+public interface PlayerState extends java.io.Serializable {
     public void visitSpider(Spider spider);
 
     public void visitMercenary(Mercenary mercenary);
@@ -18,6 +18,4 @@ public interface PlayerState {
     public void acceptNonPlayableActor(NonPlayableActor npa);
 
     public void notifyNonPlayableActors();
-
-    public boolean isInvisible();
 }
