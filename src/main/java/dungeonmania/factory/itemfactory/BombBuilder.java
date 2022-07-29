@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.item.Bomb;
+import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.LogicBomb;
 import dungeonmania.factory.FactoryHelpers;
 import dungeonmania.factory.LogicFactory;
@@ -15,7 +16,7 @@ public class BombBuilder implements ItemBuilder {
     @Override
     public void buildItem(JSONObject item) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        Bomb bomb;
+        Item bomb;
         try {
             String logic = FactoryHelpers.extractLogic(item);
             bomb = new LogicBomb(LogicFactory.getLogicType(logic));

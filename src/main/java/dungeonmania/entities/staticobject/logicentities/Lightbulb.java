@@ -2,7 +2,6 @@ package dungeonmania.entities.staticobject.logicentities;
 
 import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.staticobject.StaticObject;
-import dungeonmania.util.Position;
 
 public class Lightbulb extends StaticObject implements CircuitObserver {
     private LogicRules logicRule;
@@ -12,34 +11,19 @@ public class Lightbulb extends StaticObject implements CircuitObserver {
         this.logicRule = logicRule;
     }
 
-    private void updateType() {
+    @Override
+    public boolean isInteractable() {
+        return false;
+    }
+
+    @Override
+    public void updateLogic() {
+        isActive = logicRule.canActivate(this);
         if (isActive) {
             setType("light_bulb_on");
         } else {
             setType("light_bulb_off");
         }
-    }
-
-    @Override
-    public void updateActivate() {
-        isActive = logicRule.canActivate(this);
-        updateType();
-    }
-
-    @Override
-    public void updateDeactivate() {
-        isActive = logicRule.canActivate(this);
-        updateType();
-    }
-
-    @Override
-    public Position getCircuitObserverPosition() {
-        return getPosition();
-    }
-
-    @Override
-    public boolean isInteractable() {
-        return false;
     }
 
 }
