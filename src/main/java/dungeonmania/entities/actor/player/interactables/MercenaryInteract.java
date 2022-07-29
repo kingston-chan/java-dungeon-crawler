@@ -4,7 +4,6 @@ import java.util.List;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
