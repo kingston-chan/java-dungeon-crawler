@@ -19,7 +19,8 @@ public class Mercenary extends NonPlayableActor {
 
     public void setStates(MercenaryState enemyState) {
         this.allyState = new AllyState(this);
-        this.mindcontrolState = new MindControlState(this);
+        int duration = DungeonManiaController.getDungeon().getIntConfig("mind_control_duration");
+        this.mindcontrolState = new MindControlState(this, duration);
         this.enemyState = enemyState;
         this.currentState = enemyState;
     }

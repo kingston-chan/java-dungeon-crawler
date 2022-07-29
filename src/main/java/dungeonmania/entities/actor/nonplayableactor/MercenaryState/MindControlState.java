@@ -5,18 +5,19 @@ import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.player.Player;
 
 public class MindControlState extends AllyState {
-    private int counter = 0;
+    private int counter = 1;
+    private int duration;
 
-    public MindControlState(Mercenary mercenary) {
+    public MindControlState(Mercenary mercenary, int duration) {
         super(mercenary);
     }
 
-    private boolean isUnderControl() {
-        if (counter < DungeonManiaController.getDungeon().getIntConfig("mind_control_duration")) {
+    private void checkIsStillUnderControl() {
+        if (counter < duration) {
             counter++;
-            return true;
+        } else {
+            mindControlEnds();
         }
-        return false;
     }
 
     private void mindControlEnds() {
@@ -28,33 +29,19 @@ public class MindControlState extends AllyState {
 
     @Override
     public void movePlayerIsNormal() {
-        if (isUnderControl()) {
-            super.movePlayerIsNormal();
-        } else {
-            mindControlEnds();
-            getMercenary().movePlayerIsNormal();
-        }
+        super.movePlayerIsNormal();
+        checkIsStillUnderControl();
     }
 
     @Override
     public void movePlayerIsInvincible() {
-        if (isUnderControl()) {
-            super.movePlayerIsInvincible();
-        } else {
-            mindControlEnds();
-            getMercenary().movePlayerIsInvincible();
-        }
+        super.movePlayerIsInvincible();
+        checkIsStillUnderControl();
     }
 
     @Override
     public void movePlayerIsInvisible() {
-        if (isUnderControl()) {
-            super.movePlayerIsInvisible();
-            return;
-        } else {
-            mindControlEnds();
-            getMercenary().movePlayerIsInvisible();
-        }
+        super.movePlayerIsInvisible();
+        checkIsStillUnderControl();
     }
-
 }
