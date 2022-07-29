@@ -15,6 +15,7 @@ import dungeonmania.util.BoxRadius;
 import dungeonmania.util.Position;
 
 import java.util.Queue;
+import java.util.stream.Collectors;
 
 public class MoveTowardsPlayer implements MovementBehaviour {
     private final int MAX_SEARCHABLE_RADIUS = 60;
@@ -47,6 +48,7 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                 if (!dist.containsKey(pos)) {
                     continue;
                 }
+
                 List<DungeonObject> posOccupants = dungeon.getObjectsAtPosition(pos);
                 if (posOccupants.stream().allMatch(obj -> obj.canAccept(npa))) {
                     int costToAdj = dist.get(curr)
@@ -54,19 +56,22 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                             + 1;
                     if (costToAdj < dist.get(pos) || dist.get(pos) == -1) {
                         dist.replace(pos, costToAdj);
-                        prev.replace(pos, curr);
                         moveablePositions.add(pos);
                         try {
-                            Portal portal = posOccupants.stream().filter(o -> o instanceof Portal).map(o -> (Portal) o)
-                                    .findFirst().get();
-                            Position destination = portal.getExitPosition(curr);
-                            // check if shortest path to portal
-                            if (costToAdj < dist.get(destination) || dist.get(destination) == -1) {
-                                dist.replace(destination, costToAdj);
-                                prev.replace(destination, pos);
-                                moveablePositions.add(destination);
-                            }
+                            Position exitPortalPosition = posOccupants.stream().filter(o -> o instanceof Portal)
+                                    .map(o -> (Portal) o)
+                                    .findFirst().get().getDestination();
+                            exitPortalPosition.getAdjacentCardinalPositions().stream()
+                                    .filter(p -> Portal.checkIfNoWallBoulder(p)).forEach(p -> {
+                                        if (costToAdj < dist.get(p) || dist.get(p) == -1) {
+                                            dist.replace(p, costToAdj);
+                                            prev.replace(p, curr);
+                                            moveablePositions.add(p);
+                                        }
+                                    });
+
                         } catch (Exception e) {
+                            prev.replace(pos, curr);
                         }
                     }
                 }
