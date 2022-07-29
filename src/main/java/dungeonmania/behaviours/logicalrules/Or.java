@@ -1,30 +1,15 @@
 package dungeonmania.behaviours.logicalrules;
 
-import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
+import dungeonmania.entities.staticobject.floorswitch.ActivatedEntity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import dungeonmania.DungeonManiaController;
-import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
-import dungeonmania.util.Position;
+import dungeonmania.entities.DungeonObject;
 
 public class Or implements LogicRules {
 
     @Override
-    public boolean canActivate(CircuitObserver circuitObserver) {
-        Dungeon dungeon = DungeonManiaController.getDungeon();
-        Position pos = circuitObserver.getCircuitObserverPosition();
-        List<ActivatedEntities> activatedEntities = new ArrayList<>();
-
-        pos.getAdjacentCardinalPositions().forEach(p -> {
-            dungeon.getObjectsAtPosition(p).stream().filter(o -> o instanceof ActivatedEntities)
-                    .map(o -> (ActivatedEntities) o).filter(ActivatedEntities::isActivated)
-                    .forEach(o -> activatedEntities.add(o));
-        });
-
-        return activatedEntities.size() >= 1;
+    public boolean canActivate(DungeonObject dungeonObject) {
+        return LogicHelpers.getAdjacentActivatedEntities(dungeonObject.getPosition()).stream()
+                .anyMatch(ActivatedEntity::isActivated);
     }
 
 }

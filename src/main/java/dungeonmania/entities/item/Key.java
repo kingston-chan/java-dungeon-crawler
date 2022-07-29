@@ -1,7 +1,6 @@
 package dungeonmania.entities.item;
 
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.collectables.Collectable;
 import dungeonmania.entities.staticobject.door.Door;
 
 public class Key extends Item {

@@ -3,11 +3,11 @@ package dungeonmania.entities.staticobject.logicentities;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
-import dungeonmania.util.Position;
+import dungeonmania.entities.staticobject.wire.Wire;
 
-public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
+public class LogicFloorSwitch extends FloorSwitch {
     private LogicRules logicRules;
-    private boolean isActive = false;
+    private boolean circuitActivated = false;
 
     public LogicFloorSwitch(LogicRules logicRules) {
         this.logicRules = logicRules;
@@ -19,46 +19,33 @@ public class LogicFloorSwitch extends FloorSwitch implements CircuitObserver {
         if (super.isActivated())
             return true;
         // return logic behaviour rule
-        return logicRules.canActivate(this);
+        return circuitActivated;
     }
 
     @Override
-    public void updateActivate() {
-        // if super.isActivated, return
+    public void updateAdjacent(boolean doActivate) {
+        // if we are mechanically activated don't do anything
         if (super.isActivated())
             return;
-        // if already activated, return
-        // check using behaviour and do function
-        // if activated by logic rule notifyActivate();
-        isActive = logicRules.canActivate(this);
-        if (isActive) {
-            notifyActivate();
-            setTickActivated(DungeonManiaController.getDungeon().getTick());
-        } else {
-            notifyDeactivate();
-        }
-    }
 
-    @Override
-    public void updateDeactivate() {
-        // if super.isActivated, return because boulder ontop
-        if (super.isActivated())
-            return;
-        // if already deactivated, return
-        // check using behaviour and do function
-        // if deactivated by logic rule notifyDeactivate();
-        isActive = logicRules.canActivate(this);
-        if (isActive) {
-            notifyActivate();
-            setTickActivated(DungeonManiaController.getDungeon().getTick());
-        } else {
-            notifyDeactivate();
-        }
-    }
+        // update circuitActivated
+        boolean oldCircuitActivated = circuitActivated;
+        circuitActivated = logicRules.canActivate(this);
+        if (oldCircuitActivated != circuitActivated) {
+            // this means that it was not activated before
+            if (circuitActivated) {
+                setTickActivated(DungeonManiaController.getDungeon().getTick());
+            }
 
-    @Override
-    public Position getCircuitObserverPosition() {
-        return getPosition();
+            // update wires
+            listActivatedEntities().stream().filter(o -> o instanceof Wire)
+                    .forEach(o -> o.updateAdjacent(circuitActivated));
+            // update logic switches
+            listActivatedEntities().stream().filter(o -> o instanceof LogicFloorSwitch)
+                    .forEach(o -> o.updateAdjacent(circuitActivated));
+            // update observers
+            listCircuitObservers().stream().forEach(o -> o.updateLogic());
+        }
     }
 
 }

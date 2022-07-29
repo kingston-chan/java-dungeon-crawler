@@ -1,30 +1,21 @@
 package dungeonmania.behaviours.logicalrules;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import dungeonmania.DungeonManiaController;
-import dungeonmania.entities.Dungeon;
-import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
-import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
-import dungeonmania.util.Position;
+import dungeonmania.entities.DungeonObject;
+import dungeonmania.entities.staticobject.floorswitch.ActivatedEntity;
 
 public class CoAnd implements LogicRules {
 
     @Override
-    public boolean canActivate(CircuitObserver circuitObserver) {
-        Dungeon dungeon = DungeonManiaController.getDungeon();
-        Position pos = circuitObserver.getCircuitObserverPosition();
-        List<ActivatedEntities> activatedEntities = new ArrayList<>();
+    public boolean canActivate(DungeonObject dungeonObject) {
+        List<ActivatedEntity> adjActivatedEntities = LogicHelpers
+                .getAdjacentActivatedEntities(dungeonObject.getPosition()).stream().filter(ActivatedEntity::isActivated)
+                .collect(Collectors.toList());
 
-        pos.getAdjacentCardinalPositions().forEach(p -> {
-            dungeon.getObjectsAtPosition(p).stream().filter(o -> o instanceof ActivatedEntities)
-                    .map(o -> (ActivatedEntities) o).filter(ActivatedEntities::isActivated)
-                    .forEach(o -> activatedEntities.add(o));
-        });
-
-        return activatedEntities.size() >= 2 && activatedEntities.stream().allMatch(o -> activatedEntities.stream()
-                .filter(o2 -> !o2.equals(o)).map(ActivatedEntities::getActivatedTick).allMatch(t -> t == o.getActivatedTick()));
+        return adjActivatedEntities.size() >= 2 && adjActivatedEntities.stream().allMatch(a1 -> adjActivatedEntities
+                .stream().allMatch(a2 -> a1.getActivatedTick() == a2.getActivatedTick()));
     }
 
 }

@@ -2,10 +2,8 @@ package dungeonmania.entities;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -24,14 +22,11 @@ import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
-import dungeonmania.entities.staticobject.floorswitch.CircuitSubject;
+import dungeonmania.entities.staticobject.floorswitch.ActivatedEntity;
 import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
 import dungeonmania.factory.FactoryHelpers;
-import dungeonmania.factory.actorfactory.PlayerBuilder;
-import dungeonmania.factory.staticobjectfactory.ExitBuilder;
-import dungeonmania.factory.staticobjectfactory.WallBuilder;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -39,7 +34,7 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
-import java.io.Serializable; 
+import java.io.Serializable;
 
 public class Dungeon implements Serializable {
     private final int MAX_SPIDER_SPAWN = 15;
@@ -69,10 +64,13 @@ public class Dungeon implements Serializable {
     }
 
     private void connectCircuits() {
-        getStaticObjects().stream().filter(o1 -> o1 instanceof CircuitSubject).forEach(o1 -> {
+        getStaticObjects().stream().filter(o1 -> o1 instanceof ActivatedEntity).forEach(o1 -> {
             o1.getPosition().getAdjacentCardinalPositions().stream().forEach(p -> {
+                getObjectsAtPosition(p).stream().filter(o2 -> o2 instanceof ActivatedEntity).forEach(o2 -> {
+                    ((ActivatedEntity) o1).add((ActivatedEntity) o2);
+                });
                 getObjectsAtPosition(p).stream().filter(o2 -> o2 instanceof CircuitObserver).forEach(o2 -> {
-                    ((CircuitSubject) o1).add((CircuitObserver) o2);
+                    ((ActivatedEntity) o1).add((CircuitObserver) o2);
                 });
             });
         });
@@ -277,6 +275,7 @@ public class Dungeon implements Serializable {
     public int getTick() {
         return this.tickCounter;
     }
+
     public String initMazeDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName) {
         try {
             this.config = FileLoader.loadResourceFile("/configs/" + configName + ".json");
