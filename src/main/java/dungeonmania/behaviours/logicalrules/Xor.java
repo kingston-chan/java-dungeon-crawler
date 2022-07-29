@@ -8,10 +8,6 @@ import java.util.List;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.staticobject.floorswitch.ActivatedEntities;
-<<<<<<< HEAD
-import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
-=======
->>>>>>> cd89a8b7c79ed54d850c07bc3236c602de069dac
 import dungeonmania.util.Position;
 
 public class Xor implements LogicRules {
@@ -28,10 +24,6 @@ public class Xor implements LogicRules {
                     .forEach(o -> activatedEntities.add(o));
         });
 
-<<<<<<< HEAD
-        System.out.println(activatedEntities.size());
-=======
->>>>>>> cd89a8b7c79ed54d850c07bc3236c602de069dac
         return activatedEntities.size() == 1;
     }
 
