@@ -10,6 +10,7 @@ public class MindControlState extends AllyState {
 
     public MindControlState(Mercenary mercenary, int duration) {
         super(mercenary);
+        this.duration = duration;
     }
 
     private void checkIsStillUnderControl() {

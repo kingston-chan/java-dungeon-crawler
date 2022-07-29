@@ -1,4 +1,5 @@
 package dungeonmania.System;
+
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -31,16 +32,15 @@ import static dungeonmania.TestUtils.getGoals;
 import static dungeonmania.TestUtils.getPlayer;
 import static dungeonmania.TestUtils.getInventory;
 
-
 public class PersistenceTests {
 
   @Test
   public void errorTests() {
     DungeonManiaController dmc = new DungeonManiaController();
-    assertThrows(IllegalArgumentException.class, () ->  dmc.loadGame("doesnt_exist"));
+    assertThrows(IllegalArgumentException.class, () -> dmc.loadGame("doesnt_exist"));
   }
 
-  @Test 
+  @Test
   public void savingTest() {
     DungeonManiaController controller = new DungeonManiaController();
 
@@ -53,32 +53,35 @@ public class PersistenceTests {
     DungeonManiaController controller = new DungeonManiaController();
     DungeonResponse dmc = controller.loadGame("positionsTest");
 
-    List<String> mobNames = Arrays.asList("player", "mercenary", "spider", "zombie_toast","zombie_toast_spawner", "assassin", "hydra");
+    List<String> mobNames = Arrays.asList("player", "mercenary", "spider", "zombie_toast", "zombie_toast_spawner",
+        "assassin", "hydra");
 
     for (String entity : mobNames) {
       assertEquals(new Position(mobNames.indexOf(entity), 1), getEntities(dmc, entity).get(0).getPosition());
     }
 
-    List<String> staticNames = Arrays.asList("wall", "exit", "boulder", "switch", "door", "portal", "treasure", "wood", "arrow", "bomb", "sword","invincibility_potion", "invisibility_potion", "sun_stone", "swamp_tile");
+    List<String> staticNames = Arrays.asList("wall", "exit", "boulder", "switch", "door", "portal", "treasure", "wood",
+        "arrow", "bomb", "sword", "invincibility_potion", "invisibility_potion", "sun_stone", "swamp_tile");
 
     for (String entity : staticNames) {
       assertEquals(new Position(staticNames.indexOf(entity), 2), getEntities(dmc, entity).get(0).getPosition());
     }
   }
 
-  @Test 
+  @Test
   public void ListDirectorysTest() {
     DungeonManiaController controller = new DungeonManiaController();
 
     List<String> results = controller.allGames();
-    List<String> expectedfileNames = Arrays.asList("midwayTest", "invisibleState", "positionsTest", "test_saving", "bribedMercenary", "invincibleState", "onSwampTile", "merceneryUnderMindControl", "assassinUnderMindControl");
+    List<String> expectedfileNames = Arrays.asList("midwayTest", "invisibleState", "positionsTest", "test_saving",
+        "bribedMercenary", "invincibleState", "onSwampTile", "merceneryUnderMindControl", "assassinUnderMindControl");
 
     for (String fileName : expectedfileNames) {
       assertTrue(results.contains(fileName));
     }
   }
 
-  @Test 
+  @Test
   public void savePlayerTest() {
     DungeonManiaController controller = new DungeonManiaController();
     controller.newGame("d_midwayPersistence", "simple");
@@ -93,7 +96,7 @@ public class PersistenceTests {
 
   }
 
-  @Test 
+  @Test
   public void loadPlayerTest() {
     DungeonManiaController controller = new DungeonManiaController();
     DungeonResponse dmc = controller.loadGame("midwayTest");
@@ -103,18 +106,18 @@ public class PersistenceTests {
     // Player position
     assertEquals(new Position(6, 1), p.getPosition());
 
-    //Player inventory 
+    // Player inventory
     List<String> inventory = p.getInventory().stream().map(Item::getType).collect(Collectors.toList());
     assertListAreEqualIgnoringOrder(Arrays.asList("bow", "treasure", "arrow"), inventory);
 
-    // Goal 
+    // Goal
     assertEquals(":exit", getGoals(dmc));
 
-    //State 
+    // State
     assertTrue(DungeonManiaController.getDungeon().getPlayer().getCurrentPlayerState() instanceof NormalState);
   }
 
-  @Test 
+  @Test
   public void switchDungeonTest() {
     DungeonManiaController controller = new DungeonManiaController();
     DungeonResponse dmc = controller.newGame("d_positionsPersistence", "c_persistence");
@@ -128,7 +131,7 @@ public class PersistenceTests {
 
   }
 
-  @Test 
+  @Test
   public void swampTilePersistenceTest() {
     DungeonManiaController controller = new DungeonManiaController();
     controller.newGame("d_swampPersistence", "c_persistence");
@@ -144,18 +147,18 @@ public class PersistenceTests {
     assertEquals(new Position(2, 1), getEntities(dmc, "spider").get(0).getPosition());
     assertEquals(new Position(3, 2), getEntities(dmc, "mercenary").get(0).getPosition());
     dmc = controller.tick((Direction.DOWN));
-    assertEquals(new Position(2, 2), getEntities(dmc, "spider").get(0).getPosition()); 
-    assertEquals(new Position(3, 2), getEntities(dmc, "mercenary").get(0).getPosition()); 
+    assertEquals(new Position(2, 2), getEntities(dmc, "spider").get(0).getPosition());
+    assertEquals(new Position(3, 2), getEntities(dmc, "mercenary").get(0).getPosition());
     dmc = controller.tick((Direction.DOWN));
-    assertEquals(new Position(2, 3), getEntities(dmc, "spider").get(0).getPosition()); 
-    assertEquals(new Position(3, 3), getEntities(dmc, "mercenary").get(0).getPosition());   
+    assertEquals(new Position(2, 3), getEntities(dmc, "spider").get(0).getPosition());
+    assertEquals(new Position(3, 3), getEntities(dmc, "mercenary").get(0).getPosition());
   }
 
   @Test
   public void mercancyAllyPersistsTest() {
     DungeonManiaController controller = new DungeonManiaController();
     controller.newGame("d_mercenaryInteract",
-            "c_battleTests_basicMercenaryMercenaryDies");
+        "c_battleTests_basicMercenaryMercenaryDies");
 
     DungeonResponse dres = controller.tick(Direction.RIGHT);
 
@@ -268,15 +271,17 @@ public class PersistenceTests {
     DungeonResponse dmc = controller2.loadGame("assassinUnderMindControl");
     assertFalse(getEntities(dmc, "assassin").get(0).isInteractable());
     dmc = controller.tick(Direction.RIGHT);
-    assertFalse(getEntities(dmc, "assassin").get(0).isInteractable());
+    // should be interactable i.e. no longer ally/under mind control since duration
+    // is 3
+    assertTrue(getEntities(dmc, "assassin").get(0).isInteractable());
     dmc = controller.tick(Direction.RIGHT);
     assertTrue(getEntities(dmc, "assassin").get(0).isInteractable());
   }
 
-  @Test 
+  @Test
   public void battlePersistsTest() {
     DungeonManiaController controller = new DungeonManiaController();
-    controller.newGame("d_playerBattlesZombie","c_playerDefeatsZombie");
+    controller.newGame("d_playerBattlesZombie", "c_playerDefeatsZombie");
     DungeonResponse resp = controller.tick(Direction.RIGHT);
     assertFalse(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("zombie_toast")));
     controller.saveGame("battledZombie");
@@ -288,4 +293,3 @@ public class PersistenceTests {
 
   }
 }
-
