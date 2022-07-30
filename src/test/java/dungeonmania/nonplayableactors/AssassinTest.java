@@ -84,7 +84,10 @@ public class AssassinTest {
         // pick up treasure
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
 
-        assertDoesNotThrow(() -> dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId()));
+        assertDoesNotThrow(() -> {
+            DungeonResponse res = dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId());
+            assertTrue(res.getInventory().isEmpty());
+        });
 
         Player player = DungeonManiaController.getDungeon().getPlayer();
         assertEquals(0, player.getNumAllies());
