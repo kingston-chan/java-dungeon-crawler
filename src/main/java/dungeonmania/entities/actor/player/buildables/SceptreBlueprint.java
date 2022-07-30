@@ -1,22 +1,34 @@
 package dungeonmania.entities.actor.player.buildables;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartA;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartB;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartC;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartD;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartE;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartF;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.Sceptre;
 
 public class SceptreBlueprint implements BuildableBlueprint {
-    private static final int NUM_WOOD = 1;
-    private static final int NUM_ARROW = 2;
-
-    private static final int NUM_TREASURES = 1;
-
-    private static final int NUM_SUNSTONE = 1;
+    private List<BuildableBlueprint> parts = new ArrayList<>();
+    private List<BuildableBlueprint> AvailableForBuild = new ArrayList<>();
     private static final String ITEM_TYPE = "sceptre";
+
+    public SceptreBlueprint() {
+        parts.add(new SceptrePartA());
+        parts.add(new SceptrePartB());
+        parts.add(new SceptrePartC());
+        parts.add(new SceptrePartD());
+        parts.add(new SceptrePartE());
+        parts.add(new SceptrePartF());
+    }
 
     private Item createNewSceptre() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
@@ -29,81 +41,16 @@ public class SceptreBlueprint implements BuildableBlueprint {
         return sceptre;
     }
 
-    private void build_with_key_Wood(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(NUM_SUNSTONE, player);
-        player.removeFromInventory(player.getKey());
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
-    }
-
-    private void build_with_treasure_Wood(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(NUM_SUNSTONE, player);
-        ItemGetterHelpers.removeTreasuresFromInventory(NUM_TREASURES, player);
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
-    }
-
-    private void build_with_key_arrows(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(NUM_SUNSTONE, player);
-        player.removeFromInventory(player.getKey());
-        ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROW, player);
-    }
-
-    private void build_with_treasure_arrows(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(NUM_SUNSTONE, player);
-        ItemGetterHelpers.removeTreasuresFromInventory(NUM_TREASURES, player);
-        ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROW, player);
-    }
-
-    private void build_with_sunstones_wood(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(2, player);
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
-    }
-
-    private void build_with_sunstones_arrows(Player player, Item sceptre){
-        player.addToInventory(sceptre);
-        ItemGetterHelpers.removeSunStoneFromInventory(2, player);
-        ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROW, player);
-    }
-
     @Override
     public boolean canPlayerBuild(Player player) {
-        return ((player.getKey() != null || ItemGetterHelpers.getNumBribableTreasure(player) >= NUM_TREASURES)
-        || ItemGetterHelpers.getNumSunStone(player) >= 2)
-        && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD || ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW)
-        && (ItemGetterHelpers.getNumSunStone(player) >= NUM_SUNSTONE);
+        parts.stream().filter(part -> part.canPlayerBuild(player))
+                    .forEach(part -> AvailableForBuild.add(part));
+        return !AvailableForBuild.isEmpty();
     }
 
     @Override
     public void playerBuild(Player player) {
-        boolean check_key_wood = (player.getKey() != null
-                                && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD);
-        boolean check_treasure_wood = ((ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES)
-                                && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD));
-        boolean check_key_arrows = (player.getKey() != null
-                                    && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
-        boolean check_treasure_arrows = (ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES
-                                        && ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
-        boolean check_two_sunstone_wood = (ItemGetterHelpers.getNumSunStone(player) >= 2)
-                                        && (ItemGetterHelpers.getNumWood(player) >= NUM_WOOD);
-        boolean check_two_sunstone_arrows = (ItemGetterHelpers.getNumSunStone(player) >= 2)
-                                        && (ItemGetterHelpers.getNumArrows(player) >= NUM_ARROW);
-
-        if (check_key_wood) {
-            build_with_key_Wood(player, createNewSceptre());
-        } else if (check_treasure_wood) {
-            build_with_treasure_Wood(player, createNewSceptre());
-        } else if (check_key_arrows) {
-            build_with_key_arrows(player, createNewSceptre());
-        } else if (check_treasure_arrows) {
-            build_with_treasure_arrows(player, createNewSceptre());
-        } else if (check_two_sunstone_wood) {
-            build_with_sunstones_wood(player, createNewSceptre());
-        } else if (check_two_sunstone_arrows) {
-            build_with_sunstones_arrows(player, createNewSceptre());
-        }
+        AvailableForBuild.get(0).playerBuild(player);
+        player.addToInventory(createNewSceptre());
     }
 }
