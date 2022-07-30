@@ -1,17 +1,23 @@
 package dungeonmania.entities.actor.player.buildables;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
+import dungeonmania.entities.actor.player.buildables.bowparts.BowPartA;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.equipment.Bow;
 
 public class BowBlueprint implements BuildableBlueprint {
-    private static final int NUM_ARROWS = 3;
-    private static final int NUM_WOOD = 1;
+    private List<BuildableBlueprint> parts = new ArrayList<>();
+    private List<BuildableBlueprint> AvailableForBuild = new ArrayList<>();
     private static final String ITEM_TYPE = "bow";
+
+    public BowBlueprint() {
+        parts.add(new BowPartA());
+    }
 
     private Item createNewBow() {
         Bow bow = new Bow(
@@ -25,13 +31,14 @@ public class BowBlueprint implements BuildableBlueprint {
 
     @Override
     public boolean canPlayerBuild(Player player) {
-        return ItemGetterHelpers.getNumArrows(player) >= NUM_ARROWS && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD;
+        parts.stream().filter(part -> part.canPlayerBuild(player))
+                    .forEach(part -> AvailableForBuild.add(part));
+        return !AvailableForBuild.isEmpty();
     }
 
     @Override
     public void playerBuild(Player player) {
+        AvailableForBuild.get(0).playerBuild(player);
         player.addToInventory(createNewBow());
-        ItemGetterHelpers.removeArrowsFromInventory(NUM_ARROWS, player);
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
     }
 }
