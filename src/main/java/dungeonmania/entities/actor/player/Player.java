@@ -295,9 +295,12 @@ public class Player extends Actor {
     @Override
     public void visit(Boulder boulder) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
+        Position oldBoulderPos = boulder.getPosition();
         dungeon.getObjectsAtPosition(BoulderHelper.getBoulderPushedPostion(boulder, this)).stream()
                 .forEach(dungeonObject -> dungeonObject.doAccept(boulder));
-        boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+        if (boulder.getPosition() == oldBoulderPos) {
+            boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+        }
     }
 
     @Override

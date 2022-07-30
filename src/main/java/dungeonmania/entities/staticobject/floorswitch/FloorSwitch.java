@@ -26,8 +26,7 @@ public class FloorSwitch extends StaticObject implements SwitchSubject, Activate
         this.currentState = deactivatedState;
     }
 
-    @Override
-    public boolean isActivated() {
+    public boolean isMechanicallyActivated() {
         return this.currentState.isSwitchActivated();
     }
 
@@ -109,14 +108,20 @@ public class FloorSwitch extends StaticObject implements SwitchSubject, Activate
     }
 
     @Override
-    public void updateAdjacent(boolean doActivate) {
+    public boolean updateAdjacent(boolean doActivate, ActivatedEntity notifier) {
         // update wires
-        this.activatedEntities.stream().filter(o -> o instanceof Wire).forEach(o -> o.updateAdjacent(doActivate));
+        this.activatedEntities.stream().filter(o -> o instanceof Wire).forEach(o -> o.updateAdjacent(doActivate, this));
         // update logic switches
         this.activatedEntities.stream().filter(o -> o instanceof LogicFloorSwitch)
-                .forEach(o -> o.updateAdjacent(doActivate));
+                .forEach(o -> o.updateAdjacent(doActivate, this));
         // update observers
         this.circuitObservers.stream().forEach(o -> o.updateLogic());
+
+        return doActivate;
     }
 
+    @Override
+    public boolean isActivated() {
+        return this.isMechanicallyActivated();
+    }
 }

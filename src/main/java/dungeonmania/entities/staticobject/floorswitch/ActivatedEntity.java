@@ -7,7 +7,7 @@ public interface ActivatedEntity {
 
     public void add(ActivatedEntity activatedEntity);
 
-    public void updateAdjacent(boolean doActivate);
+    public boolean updateAdjacent(boolean doActivate, ActivatedEntity notifier);
 
     public int getActivatedTick();
 

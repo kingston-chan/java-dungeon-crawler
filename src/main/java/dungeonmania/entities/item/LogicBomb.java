@@ -9,7 +9,7 @@ import dungeonmania.entities.staticobject.logicentities.LogicStaticBomb;
 import dungeonmania.util.BombHelper;
 import dungeonmania.util.Position;
 
-public class LogicBomb extends Item {
+public class LogicBomb extends Bomb {
     // logic behaviour
     private LogicRules logicRules;
 

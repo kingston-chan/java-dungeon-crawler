@@ -2,9 +2,9 @@ package dungeonmania.entities.staticobject.wire;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.logicalrules.LogicHelpers;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.floorswitch.ActivatedEntity;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
@@ -47,36 +47,72 @@ public class Wire extends StaticObject implements ActivatedEntity {
     }
 
     @Override
-    public void updateAdjacent(boolean doActivate) {
+    public boolean updateAdjacent(boolean doActivate, ActivatedEntity notifier) {
         if (doActivate == isActivated)
-            return;
+            return doActivate;
 
-        boolean hasAdjacentMechActivatedSwitch = LogicHelpers.getAdjacentActivatedEntities(getPosition()).stream()
-                .filter(o -> o instanceof FloorSwitch).filter(o -> ((FloorSwitch) o).isActivated()).count() >= 1;
+        boolean hasAdjacentMechActivatedSwitch = this.activatedEntities.stream()
+                .filter(o -> o instanceof FloorSwitch).filter(o -> ((FloorSwitch) o).isMechanicallyActivated())
+                .count() >= 1;
 
         if (!doActivate && hasAdjacentMechActivatedSwitch) {
+            return true;
+            // case when there is still a mechanically activated switch in circuit
             // update wires
-            activatedEntities.stream().filter(o -> o instanceof Wire).forEach(o -> o.updateAdjacent(true));
+        }
+
+        if (!doActivate) {
+            List<ActivatedEntity> updatees = this.activatedEntities.stream().filter(a -> !a.equals(notifier))
+                    .collect(Collectors.toList());
+
+            isActivated = doActivate;
+
+            // update wires
+            boolean stillActive = updatees.stream().filter(o -> o instanceof Wire)
+                    .anyMatch(o -> o.updateAdjacent(isActivated, this));
+
+            if (stillActive) {
+                // adjacent wire can still be activated
+                isActivated = true;
+                return true;
+            }
+
             // update logic switches
-            activatedEntities.stream().filter(o -> o instanceof LogicFloorSwitch)
-                    .forEach(o -> o.updateAdjacent(true));
+            stillActive = updatees.stream().filter(o -> o instanceof LogicFloorSwitch)
+                    .anyMatch(o -> o.updateAdjacent(isActivated, this));
+
+            if (stillActive) {
+                // adjacent switch can still be activated
+                isActivated = true;
+                return true;
+            }
+
             // update observers
             circuitObservers.stream().forEach(o -> o.updateLogic());
-        }
 
-        isActivated = doActivate;
+            return isActivated;
+        } else {
+            // if deactivate need to ensure that there is no more mechanically active switch
+            List<ActivatedEntity> updatees = this.activatedEntities.stream().filter(a -> !a.equals(notifier))
+                    .collect(Collectors.toList());
 
-        if (isActivated) {
             this.tickActivated = DungeonManiaController.getDungeon().getTick();
-        }
 
-        // update wires
-        activatedEntities.stream().filter(o -> o instanceof Wire).forEach(o -> o.updateAdjacent(isActivated));
-        // update logic switches
-        activatedEntities.stream().filter(o -> o instanceof LogicFloorSwitch)
-                .forEach(o -> o.updateAdjacent(isActivated));
-        // update observers
-        circuitObservers.stream().forEach(o -> o.updateLogic());
+            isActivated = doActivate;
+
+            // update wires
+            updatees.stream().filter(o -> o instanceof Wire)
+                    .forEach(o -> o.updateAdjacent(isActivated, this));
+
+            // update logic switches
+            updatees.stream().filter(o -> o instanceof LogicFloorSwitch)
+                    .forEach(o -> o.updateAdjacent(isActivated, this));
+
+            // update observers
+            circuitObservers.stream().forEach(o -> o.updateLogic());
+
+            return isActivated;
+        }
     }
 
 }

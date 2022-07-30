@@ -16,7 +16,7 @@ public class AndLogic implements LogicRules {
 		return (adjActivatedEntities.stream().filter(e -> e instanceof FloorSwitch).count() >= 2
 				&& adjActivatedEntities.stream().filter(e -> e instanceof FloorSwitch)
 						.allMatch(e -> e.isActivated()))
-				|| (adjActivatedEntities.size() >= 2
+				|| (adjActivatedEntities.stream().filter(ActivatedEntity::isActivated).count() >= 2
 						&& adjActivatedEntities.stream().filter(e -> e instanceof FloorSwitch)
 								.count() <= 1);
 	}
