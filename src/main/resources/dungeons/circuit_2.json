@@ -11,11 +11,22 @@
             "y": 2
         },
         {
+            "type": "boulder",
+            "x": 7,
+            "y": 2
+        },
+        {
             "type": "switch",
             "x": 4,
             "y": 2
         },
         {
+            "type": "bomb",
+            "logic": "co_and",
+            "x": 4,
+            "y": 3
+        },
+        {
             "type": "switch",
             "logic": "or",
             "x": 6,
@@ -29,17 +40,18 @@
         {
             "type": "wire",
             "x": 5,
-            "y": 3
-        },
-        {
-            "type": "wire",
-            "x": 6,
-            "y": 3
+            "y": 1
         },
         {
             "type": "light_bulb_off",
-            "logic": "or",
+            "logic": "co_and",
             "x": 6,
+            "y": 1
+        },
+        {
+            "type": "light_bulb_off",
+            "logic": "co_and",
+            "x": 4,
             "y": 1
         }
     ],

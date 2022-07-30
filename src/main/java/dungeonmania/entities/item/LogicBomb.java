@@ -6,7 +6,6 @@ import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.logicentities.LogicStaticBomb;
-import dungeonmania.util.BombHelper;
 import dungeonmania.util.Position;
 
 public class LogicBomb extends Bomb {
@@ -33,7 +32,7 @@ public class LogicBomb extends Bomb {
         player.removeFromInventory(this);
 
         if (logicRules.canActivate(this)) {
-            BombHelper.explode(dungeon, player.getPosition());
+            doExplode(dungeon, player);
         } else {
             dungeon.removeDungeonObject(this.getUniqueId());
             LogicStaticBomb lsb = setLogicStaticBomb(player.getPosition());

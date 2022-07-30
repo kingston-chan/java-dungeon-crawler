@@ -26,6 +26,10 @@ public class Wire extends StaticObject implements ActivatedEntity {
         return this.tickActivated;
     }
 
+    public boolean isRemoved() {
+        return DungeonManiaController.getDungeon().getDungeonObject(getUniqueId()) == null;
+    }
+
     @Override
     public boolean isInteractable() {
         return false;
@@ -55,7 +59,7 @@ public class Wire extends StaticObject implements ActivatedEntity {
                 .filter(o -> o instanceof FloorSwitch).filter(o -> ((FloorSwitch) o).isMechanicallyActivated())
                 .count() >= 1;
 
-        if (!doActivate && hasAdjacentMechActivatedSwitch) {
+        if (!doActivate && hasAdjacentMechActivatedSwitch && !isRemoved()) {
             return true;
             // case when there is still a mechanically activated switch in circuit
             // update wires

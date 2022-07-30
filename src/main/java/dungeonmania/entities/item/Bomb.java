@@ -12,11 +12,18 @@ import dungeonmania.util.BombHelper;
 import dungeonmania.util.Position;
 
 public class Bomb extends Item {
-    private List<FloorSwitch> getAdjacentSwitches(Dungeon dungeon, Position currentPosition) {
+    public static List<FloorSwitch> getAdjacentSwitches(Dungeon dungeon, Position currentPosition) {
         return dungeon.getDungeonObjects().stream().filter(dungeonObject -> dungeonObject instanceof FloorSwitch)
                 .map(floorSwitch -> (FloorSwitch) floorSwitch)
                 .filter(floorSwitch -> Position.isAdjacent(currentPosition, floorSwitch.getPosition()))
                 .collect(Collectors.toList());
+    }
+
+    public void doExplode(Dungeon dungeon, Player player) {
+        List<FloorSwitch> floorSwitches = getAdjacentSwitches(dungeon, player.getPosition());
+        BombHelper.explode(dungeon, player.getPosition());
+        floorSwitches.stream().filter(FloorSwitch::isActivated)
+                .forEach(o -> o.updateAdjacent(false, o));
     }
 
     private boolean checkActiveSwitches(Dungeon dungeon, Position currentPosition) {
@@ -40,12 +47,12 @@ public class Bomb extends Item {
         player.removeFromInventory(this);
 
         if (checkActiveSwitches(dungeon, player.getPosition())) {
-            BombHelper.explode(dungeon, player.getPosition());
-            return true;
+            doExplode(dungeon, player);
+        } else {
+            StaticBomb newStaticBomb = createNewStaticBomb(dungeon, this, player.getPosition());
+            dungeon.removeDungeonObject(this.getUniqueId());
+            dungeon.addDungeonObject(newStaticBomb.getUniqueId(), newStaticBomb);
         }
-        StaticBomb newStaticBomb = createNewStaticBomb(dungeon, this, player.getPosition());
-        dungeon.removeDungeonObject(this.getUniqueId());
-        dungeon.addDungeonObject(newStaticBomb.getUniqueId(), newStaticBomb);
         return true;
     }
 

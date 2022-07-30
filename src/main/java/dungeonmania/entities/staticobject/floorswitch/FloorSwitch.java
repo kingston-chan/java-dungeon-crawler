@@ -1,5 +1,6 @@
 package dungeonmania.entities.staticobject.floorswitch;
 
+import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class FloorSwitch extends StaticObject implements SwitchSubject, ActivatedEntity {
     private SwitchState activatedState;
-    private SwitchState deactivatedState;
+    private SwitchState deactivatedState = null;
     private SwitchState currentState;
     private List<SwitchObserver> switchObservers = new ArrayList<SwitchObserver>();
     private List<CircuitObserver> circuitObservers = new ArrayList<CircuitObserver>();
@@ -22,8 +23,15 @@ public class FloorSwitch extends StaticObject implements SwitchSubject, Activate
 
     public FloorSwitch() {
         this.activatedState = new ActivatedState(this);
-        this.deactivatedState = new DeactivatedState(this);
+    }
+
+    public void setDeactivatedState(SwitchState deactivatedState) {
+        this.deactivatedState = deactivatedState;
         this.currentState = deactivatedState;
+    }
+
+    public boolean isRemoved() {
+        return DungeonManiaController.getDungeon().getDungeonObject(getUniqueId()) == null;
     }
 
     public boolean isMechanicallyActivated() {
@@ -110,10 +118,11 @@ public class FloorSwitch extends StaticObject implements SwitchSubject, Activate
     @Override
     public boolean updateAdjacent(boolean doActivate, ActivatedEntity notifier) {
         // update wires
-        this.activatedEntities.stream().filter(o -> o instanceof Wire).forEach(o -> o.updateAdjacent(doActivate, this));
+        this.activatedEntities.stream().filter(o -> o instanceof Wire)
+                .forEach(o -> o.updateAdjacent(doActivate, notifier));
         // update logic switches
         this.activatedEntities.stream().filter(o -> o instanceof LogicFloorSwitch)
-                .forEach(o -> o.updateAdjacent(doActivate, this));
+                .forEach(o -> o.updateAdjacent(doActivate, notifier));
         // update observers
         this.circuitObservers.stream().forEach(o -> o.updateLogic());
 
