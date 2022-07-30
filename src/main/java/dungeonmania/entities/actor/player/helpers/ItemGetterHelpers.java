@@ -2,6 +2,7 @@ package dungeonmania.entities.actor.player.helpers;
 
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
+import dungeonmania.entities.item.Key;
 import dungeonmania.entities.item.Sceptre;
 import dungeonmania.entities.item.collectables.Arrows;
 import dungeonmania.entities.item.collectables.Wood;
@@ -14,6 +15,11 @@ public class ItemGetterHelpers {
     public static long getNumTreasure(Player player) {
         return player.getInventory().stream()
                 .filter(item -> item instanceof Treasure).count();
+    }
+
+    public static long getNumKeys(Player player) {
+        return player.getInventory().stream()
+        .filter(item -> item instanceof Key).count();
     }
 
     public static long getNumBribableTreasure(Player player) {
@@ -49,6 +55,13 @@ public class ItemGetterHelpers {
                 .filter(item -> item instanceof Treasure)
                 .map(treasure -> (Treasure) treasure)
                 .findFirst().get();
+    }
+
+    private static Key getSingleKey(Player player) {
+        return player.getInventory().stream()
+                .filter(item -> item instanceof Key)
+                .map(key -> (Key) key).
+                findFirst().get();
     }
 
     private static Treasure getSingleBribableTreasure(Player player) {
@@ -89,6 +102,12 @@ public class ItemGetterHelpers {
     public static void removeTreasuresFromInventory(int numTreasures, Player player) {
         for (int i = 0; i < numTreasures; i++) {
             player.removeFromInventory(getSingleTreasure(player));
+        }
+    }
+
+    public static void removeKeysFromInventory(int numKeys, Player player) {
+        for (int i = 0; i < numKeys; i++) {
+            player.removeFromInventory(getSingleKey(player));
         }
     }
 
