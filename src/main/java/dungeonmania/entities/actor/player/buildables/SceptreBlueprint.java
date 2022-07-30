@@ -7,12 +7,12 @@ import java.util.UUID;
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.actor.player.buildables.sceptrepart.SceptrePartA;
-import dungeonmania.entities.actor.player.buildables.sceptrepart.SceptrePartB;
-import dungeonmania.entities.actor.player.buildables.sceptrepart.SceptrePartC;
-import dungeonmania.entities.actor.player.buildables.sceptrepart.SceptrePartD;
-import dungeonmania.entities.actor.player.buildables.sceptrepart.SceptrePartE;
-import dungeonmania.entities.actor.player.buildables.sceptrepart.SceptrePartF;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartA;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartB;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartC;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartD;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartE;
+import dungeonmania.entities.actor.player.buildables.sceptreparts.SceptrePartF;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.Sceptre;
 
