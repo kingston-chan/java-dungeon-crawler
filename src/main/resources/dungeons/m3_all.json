@@ -21,12 +21,12 @@
             "y": 2
         },
         {
-            "type": "sword",
+            "type": "treasure",
             "x": 6,
             "y": 2
         },
         {
-            "type": "sun_stone",
+            "type": "treasure",
             "x": 7,
             "y": 2
         },
@@ -37,7 +37,7 @@
             "movement_factor": 2
         },
         {
-            "type": "mercenary",
+            "type": "assassin",
             "x": 18,
             "y": 3
         },
