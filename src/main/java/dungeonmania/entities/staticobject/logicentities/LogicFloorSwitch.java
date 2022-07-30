@@ -32,6 +32,7 @@ public class LogicFloorSwitch extends FloorSwitch {
         }
 
         List<ActivatedEntity> updatees = listActivatedEntities().stream().filter(a -> !a.equals(notifier))
+                .filter(o -> o instanceof LogicFloorSwitch || o instanceof Wire)
                 .collect(Collectors.toList());
         if (!doActivate) {
             circuitActivated = doActivate;
@@ -39,12 +40,12 @@ public class LogicFloorSwitch extends FloorSwitch {
             List<ActivatedEntity> notifyAgain = new ArrayList<>();
 
             for (ActivatedEntity a : updatees) {
-                if (a.updateAdjacent(doActivate, this)) {
-                    circuitActivated = logicRules.canActivate(this);
-                } else {
+                if (!a.updateAdjacent(doActivate, this)) {
                     notifyAgain.add(a);
                 }
             }
+
+            circuitActivated = logicRules.canActivate(this);
 
             if (circuitActivated) {
                 notifyAgain.stream().filter(o -> o instanceof Wire)
