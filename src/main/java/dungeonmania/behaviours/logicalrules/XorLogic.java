@@ -16,7 +16,7 @@ public class XorLogic implements LogicRules {
 
         if (dungeonObject instanceof ActivatedEntity) {
             return adjActivateEntities.stream().filter(o -> o instanceof LogicFloorSwitch || o instanceof Wire)
-                    .count() == 0
+                    .count() < 2
                     && adjActivateEntities.stream().filter(ActivatedEntity::isActivated).count() == 1;
         }
 
