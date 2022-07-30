@@ -115,4 +115,24 @@ public class SwitchDoorTest {
         //entities not actiavted at the same times
         assertEquals(new Position(3, 3), player.getPosition());
     }
+
+    @Test
+    public void testDoorCloses() {
+        DungeonManiaController controller = new DungeonManiaController();
+            DungeonResponse currentDungeon = controller.newGame("d_andDoorpass", "simple");
+    
+            //push a bolder onto a switch
+            currentDungeon = controller.tick(Direction.RIGHT);
+
+            // door should be open now
+            // push boulder away from switch, circuit should turn off
+            currentDungeon = controller.tick(Direction.RIGHT);
+            currentDungeon = controller.tick(Direction.LEFT);
+            currentDungeon = controller.tick(Direction.UP);
+
+            EntityResponse player = getPlayer(currentDungeon).get();
+            
+            //door should be closed
+            assertEquals(new Position(3, 2), player.getPosition());
+    }
 }

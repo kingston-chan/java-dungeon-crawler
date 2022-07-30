@@ -37,6 +37,21 @@ public class SwitchTest {
         currentDungeon = controller.tick(Direction.RIGHT);
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
+
+        currentDungeon = controller.tick(Direction.DOWN);
+        currentDungeon = controller.tick(Direction.RIGHT);
+        currentDungeon = controller.tick(Direction.UP);
+        currentDungeon = controller.tick(Direction.UP);
+
+        // bulb should still be on
+        assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
+
+        currentDungeon = controller.tick(Direction.RIGHT);
+        currentDungeon = controller.tick(Direction.RIGHT);
+        currentDungeon = controller.tick(Direction.DOWN);
+
+        // circuit should be deactivated after boulder is pushed away from switch
+        assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 0);
     }
 
 
@@ -44,12 +59,21 @@ public class SwitchTest {
     @Test
         public void andSwitch() {
         DungeonManiaController controller = new DungeonManiaController();
-        DungeonResponse currentDungeon = controller.newGame("d_orswitch", "simple");
+        DungeonResponse currentDungeon = controller.newGame("d_andswitch", "simple");
+
+        assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 0);
 
         //now two entities
         currentDungeon = controller.tick(Direction.RIGHT);
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
+        currentDungeon = controller.tick(Direction.DOWN);
+        currentDungeon = controller.tick(Direction.RIGHT);
+        currentDungeon = controller.tick(Direction.UP);
+        currentDungeon = controller.tick(Direction.UP);
+
+        // circuit should be deactivated after boulder is pushed away from switch
+        assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 0);
     }
 
     @Test
@@ -95,4 +119,5 @@ public class SwitchTest {
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
 
     }
+    
 }
