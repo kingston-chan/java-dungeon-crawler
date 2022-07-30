@@ -55,6 +55,20 @@ public class MidnightArmorUnitTest {
     }
 
     @Test
+    public void testMidNightArmourCantBuildIfThereExistZombie() {
+        DungeonManiaController controller = new DungeonManiaController();
+        controller.newGame("d_build_mdarmour_zombie_exist", "c_mdarmor_simple");
+
+        controller.tick(Direction.RIGHT);
+        DungeonResponse dres = controller.tick(Direction.RIGHT);
+        assertFalse(dres.getBuildables().stream().anyMatch(buildbale -> buildbale.equals("midnight_armour")));
+
+        assertThrows(InvalidActionException.class, () -> controller.build("midnight_armour"));
+        dres = controller.tick(Direction.RIGHT);
+        assertFalse(dres.getInventory().stream().anyMatch(item -> item.getType().equals("midnight_armour")));
+    }
+
+    @Test
     public void testMidNightArmorProvideBothDefenseAndAttack(){
         DungeonManiaController controller = new DungeonManiaController();
         controller.newGame("d_mdarmorbattle", "c_mdarmor_simple");
