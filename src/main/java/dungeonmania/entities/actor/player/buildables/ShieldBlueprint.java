@@ -1,18 +1,26 @@
 package dungeonmania.entities.actor.player.buildables;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.actor.player.helpers.ItemGetterHelpers;
+import dungeonmania.entities.actor.player.buildables.shieldparts.ShieldPartA;
+import dungeonmania.entities.actor.player.buildables.shieldparts.ShieldPratB;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.equipment.Shield;
 
 public class ShieldBlueprint implements BuildableBlueprint {
-    private static final int NUM_WOOD = 2;
-    private static final int NUM_TREASURES = 1;
+    private List<BuildableBlueprint> parts = new ArrayList<>();
+    private List<BuildableBlueprint> AvailableForBuild = new ArrayList<>();
     private static final String ITEM_TYPE = "shield";
+
+    public ShieldBlueprint() {
+        parts.add(new ShieldPartA());
+        parts.add(new ShieldPratB());
+    }
 
     private Item createNewShield() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
@@ -26,30 +34,17 @@ public class ShieldBlueprint implements BuildableBlueprint {
         return shield;
     }
 
-    private void buildWithTreasure(Player player, Item shield) {
-        player.addToInventory(shield);
-        ItemGetterHelpers.removeTreasuresFromInventory(NUM_TREASURES, player);
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
-    }
-
-    private void buildWithKey(Player player, Item shield) {
-        player.addToInventory(shield);
-        ItemGetterHelpers.removeWoodFromInventory(NUM_WOOD, player);
-        player.removeFromInventory(player.getKey());
-    }
-
     @Override
     public boolean canPlayerBuild(Player player) {
-        return (player.getKey() != null || ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES)
-                && ItemGetterHelpers.getNumWood(player) >= NUM_WOOD;
+        parts.stream().filter(part -> part.canPlayerBuild(player))
+                    .forEach(part -> AvailableForBuild.add(part));
+        return !AvailableForBuild.isEmpty();
     }
 
     @Override
     public void playerBuild(Player player) {
-        if (ItemGetterHelpers.getNumTreasure(player) >= NUM_TREASURES) {
-            buildWithTreasure(player, createNewShield());
-        } else {
-            buildWithKey(player, createNewShield());
-        }
+        AvailableForBuild.get(0).playerBuild(player);
+        player.addToInventory(createNewShield());
     }
+
 }
