@@ -42,7 +42,7 @@ public class MovementTowardPlayer {
         mercenary = getEntities(current_dungeon, "mercenary").get(0);
         // since it moved left into entry portal it should move out left of destination
         // portal
-        assertEquals(new Position(1, 1), mercenary.getPosition());
+        assertEquals(new Position(2, 0), mercenary.getPosition());
     }
 
     @Test
