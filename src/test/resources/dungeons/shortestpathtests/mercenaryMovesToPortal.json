@@ -1,0 +1,59 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 3,
+            "y": 5
+        },
+        {
+            "type": "portal",
+            "x": 2,
+            "y": 1,
+            "colour": "BLUE"
+        },
+        {
+            "type": "portal",
+            "x": 3,
+            "y": 3,
+            "colour": "BLUE"
+        },
+        {
+            "type": "wall",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 2,
+            "y": 3
+        },
+        {
+            "type": "wall",
+            "x": 4,
+            "y": 2
+        },
+        {
+            "type": "wall",
+            "x": 5,
+            "y": 3
+        },
+        {
+            "type": "wall",
+            "x": 4,
+            "y": 4
+        },
+        {
+            "type": "wall",
+            "x": 4,
+            "y": 5
+        },
+        {
+            "type": "mercenary",
+            "x": 4,
+            "y": 0
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

@@ -250,7 +250,6 @@ public class SceptreUnitTest {
             assertTrue(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
 
             controller.tick(Direction.RIGHT);
-            resp = controller.tick(Direction.LEFT);
             assertTrue(resp.getEntities().stream().anyMatch(entity -> entity.getType().equals("mercenary")));
         }
 
