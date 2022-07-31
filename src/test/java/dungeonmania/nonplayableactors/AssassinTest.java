@@ -44,18 +44,23 @@ public class AssassinTest {
     public void testAssassinInteractionWhiteBox() {
         DungeonManiaController dmc = new DungeonManiaController();
 
-        dmc.newGame("d_assassinInteract150000", "c_assassinRecon");
-
-        int numTrials = 150000;
+        int numSuccess = 0;
+        int numTrials = 500000;
 
         double bribe_fail_rate = Double.parseDouble(
                 TestUtils.getValueFromConfigFile("assassin_bribe_fail_rate", "c_assassinRecon"));
 
-        Player player = DungeonManiaController.getDungeon().getPlayer();
-        DungeonManiaController.getDungeon().getNonPlayableActors().forEach(o -> ((Mercenary) o).recruitedBy(player));
+        for (int i = 0; i < numTrials; i++) {
+            dmc.newGame("d_assassinInteract", "c_assassinRecon");
+
+            Player player = DungeonManiaController.getDungeon().getPlayer();
+            DungeonManiaController.getDungeon().getNonPlayableActors()
+                    .forEach(o -> ((Mercenary) o).recruitedBy(player));
+            numSuccess += player.getNumAllies();
+        }
 
         // buffer for fail rate of 0.001
-        assertTrue((bribe_fail_rate * numTrials) >= ((numTrials - player.getNumAllies()) / 150) * 150.0);
+        assertTrue((bribe_fail_rate * numTrials) >= ((numTrials - numSuccess) / 500) * 500.0);
     }
 
     @Test
@@ -79,7 +84,10 @@ public class AssassinTest {
         // pick up treasure
         DungeonResponse dres = dmc.tick(Direction.RIGHT);
 
-        assertDoesNotThrow(() -> dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId()));
+        assertDoesNotThrow(() -> {
+            DungeonResponse res = dmc.interact(TestUtils.getEntities(dres, "assassin").get(0).getId());
+            assertTrue(res.getInventory().isEmpty());
+        });
 
         Player player = DungeonManiaController.getDungeon().getPlayer();
         assertEquals(0, player.getNumAllies());
