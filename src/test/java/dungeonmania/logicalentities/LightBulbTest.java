@@ -1,19 +1,13 @@
 package dungeonmania.logicalentities;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static dungeonmania.TestUtils.getPlayer;
 import static dungeonmania.TestUtils.countEntityOfType;
 
 import org.junit.jupiter.api.Test;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.TestUtils;
 import dungeonmania.response.models.DungeonResponse;
-import dungeonmania.response.models.EntityResponse;
 import dungeonmania.util.Direction;
-import dungeonmania.util.Position;
 
 public class LightBulbTest {
 
@@ -22,13 +16,13 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_lightswitch", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //now lightswitch on
+        // now lightswitch on
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 0);
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
     }
@@ -38,13 +32,13 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_wireslightbulb", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //now lightswitch on
+        // now lightswitch on
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 0);
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
     }
@@ -54,13 +48,13 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_ormultilogic", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //now lightswitch on
+        // now lightswitch on
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 0);
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
     }
@@ -70,13 +64,13 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_andmultilogic", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //now lightswitch on
+        // now lightswitch on
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
     }
 
@@ -85,19 +79,19 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_xorlightbulb", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //now lightswitch on
+        // now lightswitch on
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
         currentDungeon = controller.tick(Direction.DOWN);
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //two entities nearby so off
+        // two entities nearby so off
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
     }
 
@@ -106,19 +100,19 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_co_andlightbulb", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //not on
+        // not on
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 0);
         currentDungeon = controller.tick(Direction.DOWN);
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //two entities now nearby, but not on same tick
+        // two entities now nearby, but not on same tick
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 0);
     }
 
@@ -127,13 +121,13 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_co_andlightbulbworks", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
-        //Wires now active on same tick
+        // Wires now active on same tick
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_on"), 1);
     }
@@ -143,10 +137,10 @@ public class LightBulbTest {
         DungeonManiaController controller = new DungeonManiaController();
         DungeonResponse currentDungeon = controller.newGame("d_light", "simple");
 
-        //there is one off lightbulb
+        // there is one off lightbulb
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);
 
-        //push a bolder onto a switch
+        // push a bolder onto a switch
         currentDungeon = controller.tick(Direction.RIGHT);
 
         assertEquals(countEntityOfType(currentDungeon, "light_bulb_off"), 1);

@@ -16,16 +16,6 @@
             "y": 2
         },
         {
-            "type": "boulder",
-            "x": 6,
-            "y": -1
-        },
-        {
-            "type": "switch",
-            "x": 6,
-            "y": 0
-        },
-        {
             "type": "switch",
             "logic": "xor",
             "x": 6,
@@ -37,21 +27,10 @@
             "y": 2
         },
         {
-            "type": "light_bulb_off",
-            "logic": "or",
-            "x": 5,
-            "y": 3
-        },
-        {
-            "type": "wire",
-            "x": 6,
-            "y": 1
-        },
-        {
-            "type": "light_bulb_off",
-            "logic": "or",
+            "type": "bomb",
+            "logic": "xor",
             "x": 7,
-            "y": 1
+            "y": 2
         }
     ],
     "goal-condition": {

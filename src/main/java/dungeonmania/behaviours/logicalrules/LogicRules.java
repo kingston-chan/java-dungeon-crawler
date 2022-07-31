@@ -2,8 +2,8 @@ package dungeonmania.behaviours.logicalrules;
 
 import java.io.Serializable;
 
-import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
+import dungeonmania.entities.DungeonObject;
 
 public interface LogicRules extends Serializable {
-    public boolean canActivate(CircuitObserver circuitObserver);
+    public boolean canActivate(DungeonObject dungeonObject);
 }

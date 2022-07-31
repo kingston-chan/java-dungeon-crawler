@@ -295,9 +295,15 @@ public class Player extends Actor {
     @Override
     public void visit(Boulder boulder) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
+        Position oldBoulderPos = boulder.getPosition();
+        // deactivated switches on old boulder pos
+        dungeon.getObjectsAtPosition(oldBoulderPos).stream().filter(o -> o instanceof FloorSwitch)
+                .forEach(o -> ((FloorSwitch) o).playerDeactivate());
         dungeon.getObjectsAtPosition(BoulderHelper.getBoulderPushedPostion(boulder, this)).stream()
                 .forEach(dungeonObject -> dungeonObject.doAccept(boulder));
-        boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+        if (boulder.getPosition() == oldBoulderPos) {
+            boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+        }
     }
 
     @Override
@@ -318,11 +324,6 @@ public class Player extends Actor {
     @Override
     public void visit(ZombieToast zombieToast) {
         this.currentState.visitZombieToast(zombieToast);
-    }
-
-    @Override
-    public void visit(FloorSwitch fswitch) {
-        fswitch.playerDeactivate();
     }
 
     @Override
