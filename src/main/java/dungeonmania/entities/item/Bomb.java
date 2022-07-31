@@ -27,7 +27,7 @@ public class Bomb extends Item {
     }
 
     private boolean checkActiveSwitches(Dungeon dungeon, Position currentPosition) {
-        return getAdjacentSwitches(dungeon, currentPosition).stream().anyMatch(FloorSwitch::isActivated);
+        return getAdjacentSwitches(dungeon, currentPosition).stream().anyMatch(FloorSwitch::isMechanicallyActivated);
     }
 
     private StaticBomb createNewStaticBomb(Dungeon dungeon, Bomb itemBomb, Position currentPosition) {
