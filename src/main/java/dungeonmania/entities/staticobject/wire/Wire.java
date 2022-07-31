@@ -22,10 +22,6 @@ public class Wire extends StaticObject implements ActivatedEntity {
         return this.isActivated;
     }
 
-    public int activatedTick() {
-        return this.tickActivated;
-    }
-
     public boolean isRemoved() {
         return DungeonManiaController.getDungeon().getDungeonObject(getUniqueId()) == null;
     }
