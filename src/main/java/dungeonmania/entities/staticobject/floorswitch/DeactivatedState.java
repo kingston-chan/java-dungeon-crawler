@@ -9,6 +9,10 @@ public class DeactivatedState implements SwitchState {
         this.floorSwitch = floorSwitch;
     }
 
+    public FloorSwitch getFloorSwitch() {
+        return this.floorSwitch;
+    }
+
     @Override
     public boolean activate() {
         this.floorSwitch.setState(this.floorSwitch.getActivatedState());
