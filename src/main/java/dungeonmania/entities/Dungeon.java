@@ -16,13 +16,17 @@ import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.battle.Battle;
+import dungeonmania.entities.goal.ExitGoal;
 import dungeonmania.entities.goal.Goal;
 import dungeonmania.entities.goal.GoalFactory;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
 import dungeonmania.entities.staticobject.boulder.Boulder;
+import dungeonmania.entities.staticobject.floorswitch.ActivatedEntity;
+import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.factory.DungeonObjectFactory;
 import dungeonmania.factory.FactoryChooser;
+import dungeonmania.factory.FactoryHelpers;
 import dungeonmania.response.models.BattleResponse;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
@@ -30,10 +34,11 @@ import dungeonmania.response.models.ItemResponse;
 import dungeonmania.response.models.RoundResponse;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import java.io.Serializable;
 
-public class Dungeon {
+public class Dungeon implements Serializable {
     private final int MAX_SPIDER_SPAWN = 15;
-    private final int MIN_SPIDER_SPAWN = 0;
+    private final int MIN_SPIDER_SPAWN = -15;
 
     private Map<String, DungeonObject> dungeonObjects = new HashMap<>();
     private List<Battle> battles = new ArrayList<>();
@@ -42,7 +47,7 @@ public class Dungeon {
     private String config = "";
     private Goal goals = null;
     private FactoryChooser factoryChooser = new FactoryChooser();
-    private String[] buildableItems = { "bow", "shield" };
+    private String[] buildableItems = { "bow", "shield", "sceptre", "midnight_armour" };
     private int tickCounter = 0;
     private Player player = null;
 
@@ -58,6 +63,19 @@ public class Dungeon {
         });
     }
 
+    private void connectCircuits() {
+        getStaticObjects().stream().filter(o1 -> o1 instanceof ActivatedEntity).forEach(o1 -> {
+            o1.getPosition().getAdjacentCardinalPositions().stream().forEach(p -> {
+                getObjectsAtPosition(p).stream().filter(o2 -> o2 instanceof ActivatedEntity).forEach(o2 -> {
+                    ((ActivatedEntity) o1).add((ActivatedEntity) o2);
+                });
+                getObjectsAtPosition(p).stream().filter(o2 -> o2 instanceof CircuitObserver).forEach(o2 -> {
+                    ((ActivatedEntity) o1).add((CircuitObserver) o2);
+                });
+            });
+        });
+    }
+
     public String initDungeon(String dungeonName, String configName) {
         this.dungeonName = dungeonName;
         try {
@@ -67,23 +85,14 @@ public class Dungeon {
 
             for (int i = 0; i < array.length(); i++) {
                 JSONObject a = array.getJSONObject(i);
-                int x = a.getInt("x");
-                int y = a.getInt("y");
-                String type = a.getString("type");
-                String portalColour = "";
-                int key = -1;
-                if (a.has("colour")) {
-                    portalColour = a.getString("colour");
-                }
-                if (a.has("key")) {
-                    key = a.getInt("key");
-                }
-                DungeonObjectFactory dungeonObjectFactory = this.factoryChooser.getFactory(type);
-                dungeonObjectFactory.create(new Position(x, y), type, portalColour, key);
+                DungeonObjectFactory dungeonObjectFactory = this.factoryChooser
+                        .getFactory(FactoryHelpers.extractType(a));
+                dungeonObjectFactory.create(a);
             }
 
             this.goals = GoalFactory.parseJsonToGoals(resource.getJSONObject("goal-condition"));
             initialiseAnySwitches();
+            connectCircuits();
             return this.dungeonId;
         } catch (Exception e) {
             e.printStackTrace();
@@ -136,10 +145,20 @@ public class Dungeon {
         return this.player;
     }
 
-    public int getConfig(String configKey) {
+    public int getIntConfig(String configKey) {
         try {
             JSONObject resource = new JSONObject(this.config);
             return resource.getInt(configKey);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public double getDoubleConfig(String configKey) {
+        try {
+            JSONObject resource = new JSONObject(this.config);
+            return resource.getDouble(configKey);
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
@@ -209,13 +228,13 @@ public class Dungeon {
     }
 
     public void updateSpawnSpider() {
-        int spiderSpawnRate = getConfig("spider_spawn_rate");
+        tickCounter++;
+
+        int spiderSpawnRate = getIntConfig("spider_spawn_rate");
 
         if (spiderSpawnRate == 0) {
             return;
         }
-
-        tickCounter++;
 
         if (tickCounter % spiderSpawnRate != 0) {
             return;
@@ -230,8 +249,8 @@ public class Dungeon {
         Position spiderPosition = new Position(spider_x, spider_y);
 
         Spider newSpider = new Spider();
-        newSpider.setAttackPoints(getConfig("spider_attack"));
-        newSpider.setHealthPoints(getConfig("spider_health"));
+        newSpider.setAttackPoints(getIntConfig("spider_attack"));
+        newSpider.setHealthPoints(getIntConfig("spider_health"));
         newSpider.setType("spider");
         newSpider.setUniqueId(UUID.randomUUID().toString());
 
@@ -249,5 +268,30 @@ public class Dungeon {
         newSpider.setPosition(spiderPosition);
 
         addDungeonObject(newSpider.getUniqueId(), newSpider);
+
+        getObjectsAtPosition(spiderPosition).forEach(o -> o.doAccept(newSpider));
     }
+
+    public int getTick() {
+        return this.tickCounter;
+    }
+
+    public String initMazeDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName) {
+        try {
+            this.config = FileLoader.loadResourceFile("/configs/" + configName + ".json");
+        } catch (Exception e) {
+            return null;
+        }
+
+        this.dungeonName = "maze";
+
+        Maze maze = new Maze();
+
+        maze.createNewRandomMaze(xStart, yStart, xEnd, yEnd);
+
+        this.goals = new ExitGoal();
+
+        return this.dungeonId;
+    }
+
 }

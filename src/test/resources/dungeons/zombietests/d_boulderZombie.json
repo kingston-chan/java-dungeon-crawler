@@ -1,0 +1,57 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 2,
+            "y": -5
+        },
+        {
+            "type": "zombie_toast",
+            "x": 2,
+            "y": 1
+        },
+        {
+            "type": "boulder",
+            "x": 3,
+            "y": 1
+        },
+        {
+            "type": "boulder",
+            "x": 3,
+            "y": 2
+        },
+        {
+            "type": "boulder",
+            "x": 3,
+            "y": 0
+        },
+        {
+            "type": "boulder",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "type": "boulder",
+            "x": 1,
+            "y": 2
+        },
+        {
+            "type": "boulder",
+            "x": 1,
+            "y": 0
+        },
+        {
+            "type": "boulder",
+            "x": 2,
+            "y": 0
+        },
+        {
+            "type": "boulder",
+            "x": 2,
+            "y": 2
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

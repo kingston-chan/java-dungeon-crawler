@@ -2,6 +2,7 @@ package dungeonmania.behaviours.movement;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
@@ -17,7 +18,9 @@ public class MoveRandomly implements MovementBehaviour {
         Dungeon dungeon = DungeonManiaController.getDungeon();
 
         // collect a list of moves to adjacent positions that is valid
-        List<Position> possibleMoves = MovementHelper.getMovableAdjacentPositions(npa);
+        List<Position> possibleMoves = npa.getPosition().getAdjacentPositions().stream()
+                .filter(pos -> dungeon.getObjectsAtPosition(pos).stream().allMatch(o -> o.canAccept(npa)))
+                .collect(Collectors.toList());
 
         if (possibleMoves.isEmpty()) {
             return;
@@ -33,5 +36,6 @@ public class MoveRandomly implements MovementBehaviour {
         if (npa.getPosition().equals(oldPos)) {
             npa.setPosition(randPos);
         }
+
     }
 }

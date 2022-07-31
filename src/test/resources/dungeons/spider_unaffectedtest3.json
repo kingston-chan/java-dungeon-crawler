@@ -1,0 +1,23 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 1,
+            "y": 1
+        },
+        {
+            "type": "portal",
+            "x": 4,
+            "y": 1,
+            "colour": "RED"
+        },
+        {
+            "type": "spider",
+            "x": 3,
+            "y": 3
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

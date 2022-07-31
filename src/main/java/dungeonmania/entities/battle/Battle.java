@@ -2,7 +2,6 @@ package dungeonmania.entities.battle;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import dungeonmania.DungeonManiaController;
@@ -12,7 +11,7 @@ import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.item.Item;
 import dungeonmania.entities.item.equipment.Equipment;
 
-public class Battle {
+public class Battle implements java.io.Serializable {
     private List<Round> rounds = new ArrayList<>();
     private String enemyType;
     private double initialEnemyHealth;
@@ -53,24 +52,8 @@ public class Battle {
                 .collect(Collectors.toList());
         equipmentUsed.forEach(item -> ((Equipment) item).playerEquip(player));
 
-        int allyAttack = dungeon.getConfig("ally_attack");
-        int allyDefence = dungeon.getConfig("ally_defence");
-
-        int totalBonusAttack = player.getBonusMultiplicativeAttack()
-                * (player.getAttackPoints() + player.getBonusAdditiveAttack() + (player.getNumAllies() * allyAttack));
-
-        double playerDamage = (totalBonusAttack / 5.0);
-
-        int totalBonusDefence = player.getBonusAdditiveDefence() + (player.getNumAllies() * allyDefence);
-
-        double npaDamage = (npa.getAttackPoints() - totalBonusDefence) / 10.0;
-
-        npaDamage = npaDamage < 0 ? 0 : npaDamage;
-
         while (player.getHealthPoints() > 0 && npa.getHealthPoints() > 0) {
-            player.takeDamage(npaDamage);
-            npa.takeDamage(playerDamage);
-            this.addRound(new Round(-(npaDamage), -(playerDamage), equipmentUsed));
+            this.addRound(new Round(player.attackedBy(npa), npa.attackedBy(player), equipmentUsed));
         }
 
         if (npa.getHealthPoints() <= 0) {

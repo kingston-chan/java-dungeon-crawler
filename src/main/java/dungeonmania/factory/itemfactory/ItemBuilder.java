@@ -1,7 +1,7 @@
 package dungeonmania.factory.itemfactory;
 
-import dungeonmania.util.Position;
+import org.json.JSONObject;
 
-public interface ItemBuilder {
-    public void buildItem(Position position, String type, int keyNum);
+public interface ItemBuilder extends java.io.Serializable {
+    public void buildItem(JSONObject item);
 }

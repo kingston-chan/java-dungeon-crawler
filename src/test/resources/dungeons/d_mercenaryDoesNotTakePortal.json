@@ -1,0 +1,29 @@
+{
+    "entities": [
+        {
+            "type": "player",
+            "x": 1,
+            "y": 0
+        },
+        {
+            "type": "portal",
+            "x": 2,
+            "y": 1,
+            "colour": "BLUE"
+        },
+        {
+            "type": "portal",
+            "x": 3,
+            "y": 3,
+            "colour": "BLUE"
+        },
+        {
+            "type": "mercenary",
+            "x": 2,
+            "y": 0
+        }
+    ],
+    "goal-condition": {
+        "goal": "enemies"
+    }
+}

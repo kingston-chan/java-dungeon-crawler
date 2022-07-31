@@ -1,7 +1,7 @@
 package dungeonmania.factory;
 
-import dungeonmania.util.Position;
+import org.json.JSONObject;
 
-public interface DungeonObjectFactory {
-    public void create(Position position, String type, String portalColour, int key);
+public interface DungeonObjectFactory extends java.io.Serializable {
+    public void create(JSONObject dungeonObject);
 }

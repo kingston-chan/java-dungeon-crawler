@@ -3,8 +3,9 @@ package dungeonmania.factory.staticobjectfactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import dungeonmania.factory.DungeonObjectFactory;
-import dungeonmania.util.Position;
 
 public class StaticObjectFactory implements DungeonObjectFactory {
     private Map<String, StaticObjectBuilder> staticObjectFactory = new HashMap<>();
@@ -17,12 +18,15 @@ public class StaticObjectFactory implements DungeonObjectFactory {
         this.staticObjectFactory.put("boulder", new BoulderBuilder());
         this.staticObjectFactory.put("switch", new FloorSwitchBuilder());
         this.staticObjectFactory.put("zombie_toast_spawner", new ZombieSpawnerBuilder());
-
+        this.staticObjectFactory.put("swamp_tile", new SwampTileBuilder());
+        this.staticObjectFactory.put("wire", new WireBuilder());
+        this.staticObjectFactory.put("switch_door", new SwitchDoorBuilder());
+        this.staticObjectFactory.put("light_bulb_off", new LightbulbBuilder());
     }
 
     @Override
-    public void create(Position position, String type, String portalColour, int key) {
-        StaticObjectBuilder staticObjectBuilder = this.staticObjectFactory.get(type);
-        staticObjectBuilder.buildStaticObject(position, type, portalColour, key);
+    public void create(JSONObject dungeonObject) {
+        StaticObjectBuilder staticObjectBuilder = this.staticObjectFactory.get(dungeonObject.getString("type"));
+        staticObjectBuilder.buildStaticObject(dungeonObject);
     }
 }

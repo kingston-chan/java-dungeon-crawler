@@ -3,8 +3,10 @@ package dungeonmania.factory.actorfactory;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import dungeonmania.factory.DungeonObjectFactory;
-import dungeonmania.util.Position;
+import dungeonmania.factory.FactoryHelpers;
 
 public class ActorFactory implements DungeonObjectFactory {
     private Map<String, ActorBuilder> actorBuilders = new HashMap<>();
@@ -14,11 +16,13 @@ public class ActorFactory implements DungeonObjectFactory {
         this.actorBuilders.put("mercenary", new MercenaryBuilder());
         this.actorBuilders.put("zombie_toast", new ZombieToastBuilder());
         this.actorBuilders.put("spider", new SpiderBuilder());
+        this.actorBuilders.put("assassin", new AssassinBuilder());
+        this.actorBuilders.put("hydra", new HydraBuilder());
     }
 
     @Override
-    public void create(Position position, String type, String portalColour, int key) {
-        ActorBuilder actorBuilder = this.actorBuilders.get(type);
-        actorBuilder.buildActor(position, type);
+    public void create(JSONObject actor) {
+        ActorBuilder actorBuilder = this.actorBuilders.get(FactoryHelpers.extractType(actor));
+        actorBuilder.buildActor(actor);
     }
 }

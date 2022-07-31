@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dungeonmania.DungeonManiaController;
-import dungeonmania.behaviours.movement.MoveAwayFromPlayer;
-import dungeonmania.behaviours.movement.MovementBehaviour;
 import dungeonmania.entities.Dungeon;
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
@@ -17,8 +16,6 @@ import dungeonmania.entities.battle.Round;
 import dungeonmania.entities.item.Item;
 
 public class InvinicibleState implements PlayerState {
-
-    private MovementBehaviour movementBehaviour = new MoveAwayFromPlayer();
     private Player player;
 
     public InvinicibleState(Player player) {
@@ -56,6 +53,11 @@ public class InvinicibleState implements PlayerState {
     }
 
     @Override
+    public void visitHydra(Hydra hydra) {
+        doInvinicbleBattle(hydra);
+    }
+
+    @Override
     public void acceptNonPlayableActor(NonPlayableActor npa) {
         doInvinicbleBattle(npa);
     }
@@ -63,6 +65,6 @@ public class InvinicibleState implements PlayerState {
     @Override
     public void notifyNonPlayableActors() {
         Dungeon dungeon = DungeonManiaController.getDungeon();
-        dungeon.getNonPlayableActors().stream().forEach(npa -> npa.update(movementBehaviour));
+        dungeon.getNonPlayableActors().stream().forEach(npa -> npa.movePlayerIsInvincible());
     }
 }

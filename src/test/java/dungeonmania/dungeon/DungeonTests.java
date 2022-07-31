@@ -1,6 +1,7 @@
 package dungeonmania.dungeon;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -23,14 +24,17 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.TestUtils;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
 import dungeonmania.entities.staticobject.exit.Exit;
 import dungeonmania.entities.staticobject.wall.Wall;
+import dungeonmania.exceptions.InvalidActionException;
 import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.response.models.EntityResponse;
+import dungeonmania.response.models.ItemResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.Position;
 
@@ -121,29 +125,29 @@ public class DungeonTests {
             DungeonManiaController dmc = new DungeonManiaController();
             dmc.newGame("d_battleTest_basicMercenary", "c_battleTests_basicMercenaryMercenaryDies");
             Dungeon testDungeon = DungeonManiaController.getDungeon();
-            assertEquals(testDungeon.getConfig("ally_attack"), 3);
-            assertEquals(testDungeon.getConfig("ally_defence"), 3);
-            assertEquals(testDungeon.getConfig("bomb_radius"), 1);
-            assertEquals(testDungeon.getConfig("bow_durability"), 1);
-            assertEquals(testDungeon.getConfig("bribe_amount"), 1);
-            assertEquals(testDungeon.getConfig("bribe_radius"), 1);
-            assertEquals(testDungeon.getConfig("enemy_goal"), 1);
-            assertEquals(testDungeon.getConfig("invincibility_potion_duration"), 1);
-            assertEquals(testDungeon.getConfig("invisibility_potion_duration"), 1);
-            assertEquals(testDungeon.getConfig("mercenary_attack"), 5);
-            assertEquals(testDungeon.getConfig("mercenary_health"), 5);
-            assertEquals(testDungeon.getConfig("player_attack"), 10);
-            assertEquals(testDungeon.getConfig("player_health"), 10);
-            assertEquals(testDungeon.getConfig("shield_defence"), 1);
-            assertEquals(testDungeon.getConfig("shield_durability"), 1);
-            assertEquals(testDungeon.getConfig("spider_attack"), 5);
-            assertEquals(testDungeon.getConfig("spider_spawn_rate"), 0);
-            assertEquals(testDungeon.getConfig("sword_attack"), 2);
-            assertEquals(testDungeon.getConfig("sword_durability"), 1);
-            assertEquals(testDungeon.getConfig("treasure_goal"), 1);
-            assertEquals(testDungeon.getConfig("zombie_attack"), 5);
-            assertEquals(testDungeon.getConfig("zombie_health"), 5);
-            assertEquals(testDungeon.getConfig("zombie_spawn_rate"), 0);
+            assertEquals(testDungeon.getIntConfig("ally_attack"), 3);
+            assertEquals(testDungeon.getIntConfig("ally_defence"), 3);
+            assertEquals(testDungeon.getIntConfig("bomb_radius"), 1);
+            assertEquals(testDungeon.getIntConfig("bow_durability"), 1);
+            assertEquals(testDungeon.getIntConfig("bribe_amount"), 1);
+            assertEquals(testDungeon.getIntConfig("bribe_radius"), 1);
+            assertEquals(testDungeon.getIntConfig("enemy_goal"), 1);
+            assertEquals(testDungeon.getIntConfig("invincibility_potion_duration"), 1);
+            assertEquals(testDungeon.getIntConfig("invisibility_potion_duration"), 1);
+            assertEquals(testDungeon.getIntConfig("mercenary_attack"), 5);
+            assertEquals(testDungeon.getIntConfig("mercenary_health"), 5);
+            assertEquals(testDungeon.getIntConfig("player_attack"), 10);
+            assertEquals(testDungeon.getIntConfig("player_health"), 10);
+            assertEquals(testDungeon.getIntConfig("shield_defence"), 1);
+            assertEquals(testDungeon.getIntConfig("shield_durability"), 1);
+            assertEquals(testDungeon.getIntConfig("spider_attack"), 5);
+            assertEquals(testDungeon.getIntConfig("spider_spawn_rate"), 0);
+            assertEquals(testDungeon.getIntConfig("sword_attack"), 2);
+            assertEquals(testDungeon.getIntConfig("sword_durability"), 1);
+            assertEquals(testDungeon.getIntConfig("treasure_goal"), 1);
+            assertEquals(testDungeon.getIntConfig("zombie_attack"), 5);
+            assertEquals(testDungeon.getIntConfig("zombie_health"), 5);
+            assertEquals(testDungeon.getIntConfig("zombie_spawn_rate"), 0);
         }
 
         @Test
@@ -259,19 +263,72 @@ public class DungeonTests {
         }
 
         @Test
+        public void testDisjunctionInConjunctionGoal() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            DungeonResponse dres = dmc.newGame("d_halfComplexExitOrAndGoals",
+                    "c_complexGoalsTest_andAll");
+
+            assertEquals("(:exit OR :treasure) AND :boulders", dres.getGoals());
+
+            dmc.tick(Direction.DOWN);
+            dmc.tick(Direction.RIGHT);
+            dres = dmc.tick(Direction.RIGHT);
+
+            // treasure in disjunction goal and is achieved so exit is also achieved
+            assertEquals(":boulders", dres.getGoals());
+
+            dmc.tick(Direction.LEFT);
+            dmc.tick(Direction.UP);
+            dres = dmc.tick(Direction.RIGHT);
+
+            // boulder goal achieved, all goals achieved
+            assertEquals("", dres.getGoals());
+        }
+
+        @Test
+        public void testPlayerExitDisjunctionInConjunctionGoal() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            DungeonResponse dres = dmc.newGame("d_halfComplexExitOrAndGoals",
+                    "c_complexGoalsTest_andAll");
+
+            assertEquals("(:exit OR :treasure) AND :boulders", dres.getGoals());
+
+            dmc.tick(Direction.DOWN);
+            dmc.tick(Direction.DOWN);
+            dmc.tick(Direction.RIGHT);
+            dres = dmc.tick(Direction.RIGHT);
+
+            // exit is in a disjunction but encapsulated by a conjunction
+            assertEquals("(:exit OR :treasure) AND :boulders", dres.getGoals());
+
+            dmc.tick(Direction.LEFT);
+            dmc.tick(Direction.UP);
+            dmc.tick(Direction.UP);
+            dres = dmc.tick(Direction.RIGHT);
+
+            // boulder goal achieved
+            assertEquals(":exit OR :treasure", dres.getGoals());
+
+            dres = dmc.tick(Direction.DOWN);
+
+            // treasure goal achieved in disjunction goal so all goals achieved
+            assertEquals("", dres.getGoals());
+        }
+
+        @Test
         public void checkExitGoalLast() {
             DungeonManiaController dmc = new DungeonManiaController();
             DungeonResponse dres = dmc.newGame("d_exitLast", "simple");
 
             assertEquals(":exit AND :boulders", dres.getGoals());
-        
+
             // now on exit, but exit must be done last
             dres = dmc.tick(Direction.DOWN);
             assertEquals(":exit AND :boulders", dres.getGoals());
 
             dmc.tick(Direction.UP);
             dres = dmc.tick(Direction.RIGHT);
-            //boulder in positon 
+            // boulder in positon
             assertEquals(":exit", dres.getGoals());
             dmc.tick(Direction.LEFT);
             dres = dmc.tick(Direction.DOWN);
@@ -300,6 +357,46 @@ public class DungeonTests {
 
             dres = dmc.tick(Direction.LEFT);
             assertTrue(dres.getEntities().size() == 11);
+        }
+
+        @Test
+        public void testSpiderSpawnValid() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_testSpiderSpawnInvinciblePotion",
+                    "c_spiderSpawnRate2");
+
+            // Pick up potion
+            DungeonResponse dres = dmc.tick(Direction.RIGHT);
+            ItemResponse potion = TestUtils.getInventory(dres, "invincibility_potion").get(0);
+            // spider should spawn either on player or left of player
+            assertDoesNotThrow(() -> dmc.tick(potion.getId()));
+
+            dres = dmc.tick(Direction.LEFT);
+            // only invincible battles should have occured
+            assertFalse(dres.getBattles().isEmpty());
+
+            assertEquals(0.0, dres.getBattles().get(0).getRounds().get(0).getDeltaCharacterHealth());
+        }
+
+        @Test
+        public void testEnemyGoalSpawner() {
+            DungeonManiaController dmc = new DungeonManiaController();
+            dmc.newGame("d_2spawner",
+                    "c_noSpawns");
+            DungeonResponse dres = dmc.tick(Direction.RIGHT);
+
+            assertEquals(1, dres.getBattles().size());
+            // enemy goal is 1, but spawner stil alive
+            assertEquals(":enemies", dres.getGoals());
+
+            dres = dmc.tick(Direction.RIGHT);
+            EntityResponse spawner = TestUtils.getEntities(dres, "zombie_toast_spawner").get(0);
+
+            assertDoesNotThrow(() -> {
+                DungeonResponse res = dmc.interact(spawner.getId());
+                // Achieved because all zombie spawners killed and number of enemies defeated
+                assertEquals("", res.getGoals());
+            });
         }
     }
 }

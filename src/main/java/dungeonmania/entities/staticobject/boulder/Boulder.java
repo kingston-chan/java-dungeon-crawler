@@ -2,11 +2,8 @@ package dungeonmania.entities.staticobject.boulder;
 
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.item.Item;
 import dungeonmania.entities.staticobject.StaticObject;
-import dungeonmania.entities.staticobject.exit.Exit;
 import dungeonmania.entities.staticobject.floorswitch.FloorSwitch;
-import dungeonmania.entities.staticobject.portal.Portal;
 import dungeonmania.entities.visitor.Visit;
 
 import dungeonmania.DungeonManiaController;
@@ -15,7 +12,8 @@ import dungeonmania.entities.Dungeon;
 public class Boulder extends StaticObject implements Visit {
     @Override
     public void visit(FloorSwitch floorSwitch) {
-        floorSwitch.doActivate();
+        setPosition(floorSwitch.getPosition());
+        floorSwitch.boulderActivate();
     }
 
     @Override

@@ -21,7 +21,7 @@ public class Portal extends StaticObject {
         this.colour = colour;
     }
 
-    private static boolean checkIfNoWallBoulder(Position position) {
+    public static boolean checkIfNoWallBoulder(Position position) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
 
         List<DungeonObject> walls = dungeon.getObjectsAtPosition(position).stream().filter(o -> o instanceof Wall)

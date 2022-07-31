@@ -7,16 +7,11 @@ import dungeonmania.response.models.DungeonResponse;
 import dungeonmania.util.Direction;
 import dungeonmania.util.FileLoader;
 import dungeonmania.util.Position;
+import dungeonmania.util.MapStoring;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DungeonManiaController {
-    private static Map<String, Dungeon> dungeons = new HashMap<>();
     private static Dungeon currentDungeonInstance = null;
 
     public static Dungeon getDungeon() {
@@ -56,7 +51,6 @@ public class DungeonManiaController {
             currentDungeonInstance = null;
             throw new IllegalArgumentException();
         }
-        dungeons.put(newDungeonId, newDungeon);
         return newDungeon.getDungeonResponse();
     }
 
@@ -74,6 +68,8 @@ public class DungeonManiaController {
         Player player = currentDungeonInstance.getPlayer();
 
         if (!player.hasInInventory(itemUsedId)) {
+            player.consumeQueuedPotionEffect();
+            player.notifyAllObservers();
             throw new InvalidActionException(itemUsedId);
         }
 
@@ -82,7 +78,7 @@ public class DungeonManiaController {
             player.notifyAllObservers();
             throw new IllegalArgumentException();
         }
-        
+
         player.consumeQueuedPotionEffect();
         player.notifyAllObservers();
 
@@ -151,5 +147,39 @@ public class DungeonManiaController {
         }
 
         return currentDungeonInstance.getDungeonResponse();
+    }
+
+    /**
+     * /game/save
+     */
+    public DungeonResponse saveGame(String name) throws IllegalArgumentException {
+        MapStoring.saveDungeon(name, getDungeon());
+        return currentDungeonInstance.getDungeonResponse();
+    }
+
+    /**
+     * /game/load
+     */
+    public DungeonResponse loadGame(String name) throws IllegalArgumentException {
+        currentDungeonInstance = MapStoring.loadDungeon(name);
+        return currentDungeonInstance.getDungeonResponse();
+    }
+
+    /**
+     * /games/all
+     */
+    public List<String> allGames() {
+        return MapStoring.getAllGames();
+    }
+
+    public DungeonResponse generateDungeon(int xStart, int yStart, int xEnd, int yEnd, String configName) {
+        Dungeon newDungeon = new Dungeon();
+        currentDungeonInstance = newDungeon;
+        String newDungeonId = newDungeon.initMazeDungeon(xStart, yStart, xEnd, yEnd, configName);
+        if (newDungeonId == null) {
+            currentDungeonInstance = null;
+            throw new IllegalArgumentException();
+        }
+        return newDungeon.getDungeonResponse();
     }
 }

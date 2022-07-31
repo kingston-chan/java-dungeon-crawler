@@ -11,6 +11,7 @@ import dungeonmania.DungeonManiaController;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.DungeonObject;
 import dungeonmania.entities.actor.Actor;
+import dungeonmania.entities.actor.nonplayableactor.Hydra;
 import dungeonmania.entities.actor.nonplayableactor.Mercenary;
 import dungeonmania.entities.actor.nonplayableactor.NonPlayableActor;
 import dungeonmania.entities.actor.nonplayableactor.Spider;
@@ -218,6 +219,10 @@ public class Player extends Actor {
         this.bonusAdditiveDefence = 0;
     }
 
+    public PlayerState getCurrentPlayerState() {
+        return this.currentState;
+    }
+
     public void setPlayerState(PlayerState playerState) {
         this.currentState = playerState;
     }
@@ -240,6 +245,22 @@ public class Player extends Actor {
 
     public Position getPreviousPosition() {
         return this.previousPosition;
+    }
+
+    public double attackedBy(NonPlayableActor npa) {
+        Dungeon dungeon = DungeonManiaController.getDungeon();
+
+        int allyDefence = dungeon.getIntConfig("ally_defence");
+
+        int totalBonusDefence = getBonusAdditiveDefence() + (getNumAllies() * allyDefence);
+
+        double npaDamage = (npa.getAttackPoints() - totalBonusDefence) / 10.0;
+
+        npaDamage = npaDamage < 0 ? 0 : npaDamage;
+
+        takeDamage(npaDamage);
+
+        return -npaDamage;
     }
 
     @Override
@@ -274,14 +295,25 @@ public class Player extends Actor {
     @Override
     public void visit(Boulder boulder) {
         Dungeon dungeon = DungeonManiaController.getDungeon();
+        Position oldBoulderPos = boulder.getPosition();
+        // deactivated switches on old boulder pos
+        dungeon.getObjectsAtPosition(oldBoulderPos).stream().filter(o -> o instanceof FloorSwitch)
+                .forEach(o -> ((FloorSwitch) o).playerDeactivate());
         dungeon.getObjectsAtPosition(BoulderHelper.getBoulderPushedPostion(boulder, this)).stream()
                 .forEach(dungeonObject -> dungeonObject.doAccept(boulder));
-        boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+        if (boulder.getPosition() == oldBoulderPos) {
+            boulder.setPosition(BoulderHelper.getBoulderPushedPostion(boulder, this));
+        }
     }
 
     @Override
     public void visit(Spider spider) {
         this.currentState.visitSpider(spider);
+    }
+
+    @Override
+    public void visit(Hydra hydra) {
+        this.currentState.visitHydra(hydra);
     }
 
     @Override
@@ -295,12 +327,11 @@ public class Player extends Actor {
     }
 
     @Override
-    public void visit(FloorSwitch fswitch) {
-        fswitch.doDeactivate();
-    }
-
-    @Override
     public boolean isInteractable() {
         return false;
+    }
+
+    public void reduceAlly() {
+        this.numAllies--;
     }
 }
