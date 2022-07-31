@@ -20,7 +20,6 @@ public class M3SystemTest {
         DungeonManiaController dmc = new DungeonManiaController();
         DungeonResponse dr = dmc.newGame("d_m3SystemTest", "c_m3SystemTestConfig");
         String mercId = TestUtils.getEntities(dr, "mercenary").get(0).getId();
-        String assassinId = TestUtils.getEntities(dr, "assassin").get(0).getId();
         // try to build sceptre but fail
         assertThrows(InvalidActionException.class, () -> dmc.build("sceptre"));
 
