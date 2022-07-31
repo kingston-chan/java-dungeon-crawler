@@ -15,10 +15,13 @@ import dungeonmania.util.BoxRadius;
 import dungeonmania.util.Position;
 
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 public class MoveTowardsPlayer implements MovementBehaviour {
     private final int MAX_SEARCHABLE_RADIUS = 60;
+
+    private double calculateDist(Position a, Position b) {
+        return Math.sqrt(Math.pow((a.getX() - b.getX()) * 1.0, 2) + Math.pow((a.getY() - b.getY()) * 1.0, 2));
+    }
 
     @Override
     public void move(NonPlayableActor npa) {
@@ -54,9 +57,11 @@ public class MoveTowardsPlayer implements MovementBehaviour {
                     int costToAdj = dist.get(curr)
                             + dungeon.getStaticObjectsAtPosition(curr).stream().mapToInt(o -> o.tickCost()).sum()
                             + 1;
-                    if (costToAdj < dist.get(pos) || dist.get(pos) == -1) {
+                    if (costToAdj < dist.get(pos) || dist.get(pos) == -1
+                            || (costToAdj == dist.get(pos) && prev.get(pos) != null
+                                    && calculateDist(pos, curr) < calculateDist(pos, prev.get(pos)))) {
+                        // check distance from player
                         dist.replace(pos, costToAdj);
-                        moveablePositions.add(pos);
                         try {
                             Position exitPortalPosition = posOccupants.stream().filter(o -> o instanceof Portal)
                                     .map(o -> (Portal) o)
@@ -72,6 +77,7 @@ public class MoveTowardsPlayer implements MovementBehaviour {
 
                         } catch (Exception e) {
                             prev.replace(pos, curr);
+                            moveablePositions.add(pos);
                         }
                     }
                 }
