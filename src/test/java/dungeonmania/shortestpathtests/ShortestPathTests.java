@@ -253,4 +253,25 @@ public class ShortestPathTests {
         // merc should have moved up into player and battle
         assertFalse(dres.getBattles().isEmpty());
     }
+
+    @Test
+    public void testExitsPortalClosestToPlayer() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("shortestpathtests/mercenaryMovesToPortal", "c_noSpawns");
+        dmc.tick(Direction.RIGHT);
+        dmc.tick(Direction.RIGHT);
+        DungeonResponse dres = dmc.tick(Direction.RIGHT);
+        // should be at right above player/below portal, not right of portal
+        assertEquals(new Position(3, 4), TestUtils.getEntities(dres, "mercenary").get(0).getPosition());
+    }
+
+    @Test
+    void testDoesNotTakePortal() {
+        DungeonManiaController dmc = new DungeonManiaController();
+        dmc.newGame("d_mercenaryDoesNotTakePortal", "c_noSpawns");
+        DungeonResponse res = dmc.tick(Direction.DOWN);
+        int playerX = TestUtils.getPlayer(res).get().getPosition().getX();
+        int playerY = TestUtils.getPlayer(res).get().getPosition().getY();
+        assertEquals(new Position(playerX, playerY - 1), TestUtils.getEntities(res, "mercenary").get(0).getPosition());
+    }
 }
