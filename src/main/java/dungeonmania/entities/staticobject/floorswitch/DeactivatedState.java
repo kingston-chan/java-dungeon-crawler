@@ -13,8 +13,12 @@ public class DeactivatedState implements SwitchState {
     public boolean activate() {
         this.floorSwitch.setState(this.floorSwitch.getActivatedState());
         this.floorSwitch.setTickActivated(DungeonManiaController.getDungeon().getTick());
-        this.floorSwitch.notifySwitchObservers();
-        this.floorSwitch.notifyActivate();
+        this.floorSwitch.notifySwitchObservers(); // bombs
+        // recheck list
+        if (this.floorSwitch.isRemoved()) {
+            return true;
+        }
+        this.floorSwitch.updateAdjacent(true, this.floorSwitch);
         return true;
     }
 

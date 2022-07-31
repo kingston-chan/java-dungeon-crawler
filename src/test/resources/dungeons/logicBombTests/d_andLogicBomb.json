@@ -2,13 +2,19 @@
     "entities": [
         {
             "type": "player",
-            "x": 2,
+            "x": 4,
+            "y": 4
+        },
+        {
+            "type": "wire",
+            "x": 3,
             "y": 2
         },
         {
-            "type": "boulder",
+            "type": "switch",
+            "logic": "xor",
             "x": 3,
-            "y": 2
+            "y": 1
         },
         {
             "type": "switch",
@@ -17,40 +23,24 @@
         },
         {
             "type": "boulder",
-            "x": 6,
-            "y": -1
-        },
-        {
-            "type": "switch",
-            "x": 6,
-            "y": 0
+            "x": 4,
+            "y": 3
         },
         {
             "type": "switch",
             "logic": "xor",
-            "x": 6,
-            "y": 2
-        },
-        {
-            "type": "wire",
             "x": 5,
-            "y": 2
-        },
-        {
-            "type": "light_bulb_off",
-            "logic": "or",
-            "x": 5,
-            "y": 3
-        },
-        {
-            "type": "wire",
-            "x": 6,
             "y": 1
         },
         {
-            "type": "light_bulb_off",
-            "logic": "or",
-            "x": 7,
+            "type": "wire",
+            "x": 5,
+            "y": 2
+        },
+        {
+            "type": "bomb",
+            "logic": "and",
+            "x": 4,
             "y": 1
         }
     ],

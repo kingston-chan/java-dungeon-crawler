@@ -1,15 +1,14 @@
 package dungeonmania.entities.item;
 
 import dungeonmania.DungeonManiaController;
+import dungeonmania.behaviours.logicalrules.LogicHelpers;
 import dungeonmania.behaviours.logicalrules.LogicRules;
 import dungeonmania.entities.Dungeon;
 import dungeonmania.entities.actor.player.Player;
-import dungeonmania.entities.staticobject.logicentities.CircuitObserver;
 import dungeonmania.entities.staticobject.logicentities.LogicStaticBomb;
-import dungeonmania.util.BombHelper;
 import dungeonmania.util.Position;
 
-public class LogicBomb extends Bomb implements CircuitObserver {
+public class LogicBomb extends Bomb {
     // logic behaviour
     private LogicRules logicRules;
 
@@ -33,25 +32,14 @@ public class LogicBomb extends Bomb implements CircuitObserver {
         player.removeFromInventory(this);
 
         if (logicRules.canActivate(this)) {
-            BombHelper.explode(dungeon, player.getPosition());
+            doExplode(dungeon, player);
         } else {
             dungeon.removeDungeonObject(this.getUniqueId());
             LogicStaticBomb lsb = setLogicStaticBomb(player.getPosition());
             dungeon.addDungeonObject(lsb.getUniqueId(), lsb);
+            // adjacent activated entities should add this
+            LogicHelpers.getAdjacentActivatedEntities(player.getPosition()).forEach(a -> a.add(lsb));
         }
         return true;
-    }
-
-    @Override
-    public void updateActivate() {
-    }
-
-    @Override
-    public void updateDeactivate() {
-    }
-
-    @Override
-    public Position getCircuitObserverPosition() {
-        return getPosition();
     }
 }

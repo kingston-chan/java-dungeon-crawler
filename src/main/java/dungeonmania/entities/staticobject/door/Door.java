@@ -43,6 +43,7 @@ public class Door extends StaticObject {
         }
 
         if (ItemGetterHelpers.getNumSunStone(player) >= 1) {
+            this.isUnlocked = true;
             this.isOpened = true;
             return true;
         }

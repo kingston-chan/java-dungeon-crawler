@@ -1,22 +1,22 @@
 package dungeonmania.factory;
 
-import dungeonmania.behaviours.logicalrules.And;
-import dungeonmania.behaviours.logicalrules.CoAnd;
+import dungeonmania.behaviours.logicalrules.AndLogic;
+import dungeonmania.behaviours.logicalrules.CoAndLogic;
 import dungeonmania.behaviours.logicalrules.LogicRules;
-import dungeonmania.behaviours.logicalrules.Or;
-import dungeonmania.behaviours.logicalrules.Xor;
+import dungeonmania.behaviours.logicalrules.OrLogic;
+import dungeonmania.behaviours.logicalrules.XorLogic;
 
 public class LogicFactory {
     public static LogicRules getLogicType(String logicType) {
         switch (logicType) {
             case "or":
-                return new Or();
+                return new OrLogic();
             case "and":
-                return new And();
+                return new AndLogic();
             case "co_and":
-                return new CoAnd();
+                return new CoAndLogic();
             case "xor":
-                return new Xor();
+                return new XorLogic();
             default:
                 return null;
         }
